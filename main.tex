@@ -66,21 +66,25 @@
 \begin{titlepage}
 
    \begin{center}
-       \vspace*{1cm}
+       \vspace*{2in}
 
-       \textbf{\Large{Forcing a meaninful future: Brain-spine-muscle interfaces\\
-       \smallskip }}
+       \textbf{\Huge Forcing a meaninful future: \\ Brain-spine-muscle interfaces\\
+       \smallskip }
 
        \vspace{0.5in}
 
        \textbf{\large By Jackson Powell \\ \small For future Jackson}
 
+    \vspace{1cm}
+
     \begin{center}
-    ``All truly strong people are kind." - Vagabond
+        Once you know the way broadly, you can see it in all things.\\
+        -- The Book of Five Rings by Miyamoto Musashi
+    
     \end{center}
 
 
-\vspace{1.5cm}
+\vspace{0.5cm}
         
 \centerline{\rule{13cm}{0.4pt}}
 \tableofcontents
@@ -110,7 +114,11 @@
 
 \section{Overview}
 
-It is true that total recovery from spinal cord injury, in sever cases, will require both therapeutic and electronic intervention. 
+\subsection{Purpose}
+The purpose of this book is to aggregate all of the content and tools I will need in forging the future I desire: building better brain-spine-muscle interfaces. 
+
+\subsection{Content}
+It is true that total recovery from spinal cord injury, in sever cases, will require both therapeutic and electronic intervention. One must therefore learn of physiology and electronics to be able to solve these problems.  
 
 \vfill\pagebreak
 
@@ -159,7 +167,7 @@ Voltage is measured using a voltmeter, a device in parallel with the load you ar
 \end{circuitikz}
 \end{center}
 
-\subsection{Thevenin Circuit} A Thevenin Circuit simplifies the circuit to have a single resistance, $\mathrm{R}_{th}$, and a single voltage, $\mathrm{V}_{th}$. $\mathrm{R}_{th}$ can be calculated via replacing all of the voltage sources with a wire, and disconnecting all of the current sources. This ``short circuits" your circuit and leaves you with only resistors, which can be used to calculate R$_{th}$ using the familiar resistor rules. One can also short circuit the terminals, and determine the current flow, giving us R$_{th} = \mathrm{V}_{th}/\mathrm{I}_{sc}$.\newline
+\subsection{Thevenin and Ideality} A Thevenin Circuit simplifies the circuit to have a single resistance, $\mathrm{R}_{th}$, and a single voltage, $\mathrm{V}_{th}$. $\mathrm{R}_{th}$ can be calculated via replacing all of the voltage sources with a wire, and disconnecting all of the current sources. This ``short circuits" your circuit and leaves you with only resistors, which can be used to calculate R$_{th}$ using the familiar resistor rules. One can also short circuit the terminals, and determine the current flow, giving us R$_{th} = \mathrm{V}_{th}/\mathrm{I}_{sc}$.\newline
 
 R$_{th}$ can be measured in a circuit by varying the R$_{load}$ added to a circuit. In this case, you will see the voltage supplied (and corresponding current) change. The slope of this change $(\Delta \mathrm{V} / \Delta \mathrm{I})$ will equal R$_{th}$. If you vary the load through the two terminals and measure the voltage across it, you will get a graph that looks something like this:\newline  
 
@@ -211,7 +219,10 @@ Again, the slope is what gives you R$_{th}$. I$_{sc}$ is an important value whic
 \end{center}
 \end{multicols}
 
+\subsubsection{The ideality of sources.}
+This coaxes us lightly into the topic of source ideality. Imagine all voltage or current sources as having a resistor in parallel with it, but inside of the component itself. An ideal battery, or voltage source, would be able to drive the same voltage, irrespective of the resistor/current. This would be like having a battery whose internal resistance is 0, causing the entirety of the voltage drop to occur on the circuit fragments outside of the battery. In the real world, batteries are not ideal. The canonical illustration of a batteries ideality is in trying to use a 9V battery to start your car. Naturally, the voltage dwindles as the current supplied increases. You can calculate the internal resistance of a battery by adding increasingly large loads to it, thereby giving you the batteries IV curve. It is worth considering this, as if your R$_{load}$ is only $\approx 10 \times$ R$_{th}$, then you may see drooping in the voltage supplied. Another way to state this is to make sure that the \textit{input resistance} of your voltage source is much smaller than the \textit{output resistance} of the upcoming circuit fragment you are attempting to drive. \newline
 
+This contrasts to a current source, whose desired internal resistance is $\infty$, as you will want no current to flow through it, and to flow entirely through the circuit fragments outside of the component. Once again, as the real world is not ideal, your goal in this case will be to have downstream circuit components whose input resistance is much smaller than the components output resistance.\newline
 
 Building this kind of circuit only works when the IV curve of the circuit is linear. When isn't it?
 
@@ -232,10 +243,10 @@ The IV curve across a light emitting diode (LED) should look something like this
     ytick={0, 10,...,50}
             ]
 % can add points by inserting ,mark=* into the specifications
-\addplot[smooth,mark=*,color=red]
+\addplot[smooth,color=red]
     plot coordinates {
-        (1, 0) 
-(1.7, 1.5)
+(1, 0) 
+(1.63, 1.5)
 (1.72, 2) 
 (1.77, 4)
 (1.81, 6)
@@ -273,7 +284,7 @@ The IV curve for a diode, like an LED, is exponential in that the current slowly
             \end{minipage}
             \end{center}}
 
-            
+\chapter{Moving Through States}
 \subsection{Markov-chains} Markov chains are useful in predicting the next state desired. 
 
 \begin{center}
@@ -339,14 +350,19 @@ Defining the central pattern generator is still somewhat contested. Computationa
 
 
 
-\part[Brain-Spine Interfaces]{Brain-Spine Interfaces
+\part[Brain-Spine-Muscle Interfaces]{Brain-Spine Interfaces
             \vspace{0.2in}
             \begin{center}
             \begin{minipage}[l]{10cm}\small
-                Once you know the way broadly, you can see it in all things. \newline
-                -- The Book of Five Rings by Miyamoto Musashi
+                ??
+                -- ??
             \end{minipage}
             \end{center}}
+
+\chapter{Biochemistry}
+\section{Therapeutic Approaches} While one may find it odd to begin an electronics discussion with a chapter on biochemistry, the fact of the matter is an integrated approach is the only way. 
+
+
 
 \section{Historical Dealings}
 
@@ -363,7 +379,7 @@ The ability to generate walking-like movements from electrical stimulation of th
 
 \subsection{Shortcomings} The three shortcomings explicitly mentioned in the \textbf{Introduction} are that \textbf{(1)} one using this BSI must have motion sensors on in order to compensate (a sort of PID controller, perhaps),  \textbf{(2)} that the patient's movement was not perceived as natural, and \textbf{(3)} that there was still considerable hurdles in traversing variable terrain. Many more shortcomings exist than this, and we will go through them below.\newline
 
-\subsubsection{Motion Sensors}, I suppose it is obvious why one would use a motion sensor rather than an EMG---as it would be too difficult to discern whether the motion itself, or strength of contraction, is too high using an EMG alone. Still, though, I wonder if this is a feasible alternative. Perhaps one can simply predict motion based on EMG patterns.\newline
+\subsubsection{Motion Sensors} I suppose it is obvious why one would use a motion sensor rather than an EMG---as it would be too difficult to discern whether the motion itself, or strength of contraction, is too high using an EMG alone. Still, though, I wonder if this is a feasible alternative. Perhaps one can simply predict motion based on EMG patterns.\newline
 
 The largest drawback, in my opinion, is their desire to make it quickly programmed/calibrated. As with DBS, one would actually prefer longer calibration time. That is, one would be happy to wait a few extra hours or days if it makes their ability to walk improve.\newline
 
