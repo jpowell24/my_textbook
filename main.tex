@@ -42,6 +42,44 @@
 
 \pagestyle{plain}
 
+\usepackage{listings}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{backcolour2}{rgb}{0.44,0.63,0.99}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{
+    language=Verilog,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false       
+    columns=flexible,
+    basicstyle={\small\ttfamily},
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{blue},
+    commentstyle=\color{dkgreen},
+     % stringstyle=\color{mauve},
+    stringstyle=\color{orange},
+    backgroundcolor=\color{backcolour},
+    tabsize=4  
+}
+
+\newcommand{\lst}{\lstinline}
+\newcommand{\bs}{\bigskip}
+
+
 \begin{document}
 
 \bigskip
@@ -255,6 +293,76 @@ The IV curve across a light emitting diode (LED) should look something like this
 The IV curve for a diode, like an LED, is exponential in that the current slowly increases after the voltage across a diode hits some ``threshold," after which the current rises exponentially with voltage. Why is this the case? A diode is a P-N junction bridged by some depletion zone. The P side of the diode contains positively charged elements that act as ``holes" (a silly way to say there is an absent electron position). The N side contains elements whose outer layers are loosely filled with electrons (i.e., low ionization energy). Effectively, the P side is devoid of electrons, while the N side has many free to give. What does this mean with regard to current and voltage? It means that the ``depletion zone" between the two requires electrons to be able to bridge the gap. This really can't happen unless they have a certain amount of energy, so increasing the voltage helps reach the ``threshold" energy requires to pass the depletion zone (think of P $=$ IV). Thus, as the electrons somewhat saturate the diode, you can theoretically pass an infinite current through it, as it will be effectively a short circuit. 
 
 
+\chapter{Writing Hardware}
+
+\section{Introduction}
+
+Verilog is a language used to describe electronics, and allows you to avoid the physical action of wiring. This is the reason for the designation \textbf{writing hardware}. In this way, you can pick your poison: debugging code, or debugging breadboards. Importantly, though, Verilog is capable of computation and writing data files that go beyond circuit descriptions. Thus, it is not a "markdown" language, per se, and is Turing Complete.\newline
+
+Tools like Field Programmable Gate Arrays (FPGAs) allow for this, as their internal composition can be rewired through code in order to meet the demands of the programmer. 
+
+\subsection{Creating Modules} In Verilog, a circuit is called a \lst{module}. Each module is defined between a \lst{module} and \lst{endmodule}, which can be named as shown in the example below. Different ports connect the module to things outside of the module.
+
+\bs
+
+\begin{lstlisting}
+module example1(o, i1, i2); 
+// example1 is the name of our module, and o, i1, and i2 are our ports 
+// it is convention to list outputs first
+
+output o; // this defines o as an output
+input i1, i2; // this defines i1 and i2 as inputs
+
+endmodule
+\end{lstlisting}
+
+\bs
+
+Gates are also initialized like modules. The way to do this is with the built in primitives for AND and OR gates (\lst{and} and \lst{or} respectively). For example: 
+
+\bs
+
+\begin{lstlisting}
+module example2(o, i1, i2); 
+
+output o; 
+input i1, i2; 
+wire wire1, wire2; // this initializes two wires called wire1 and wire2
+
+or or1(wire1, i1, i2); 
+// this makes an OR gate named or1 with inputs i1 and i2, and output called wire1
+and and1(o, wire1, wire2);
+// this makes a NOT gate named not1 with input i2, and output called wire2
+// one of the outputs of the OR gate feeds into the AND gate (via wire1) in this example
+
+endmodule
+\end{lstlisting}
+
+\bs
+
+The order in which things are initialized do not matter. It is very important to not reuse wire or other variable names, as Verilog will read these as being connected irrespective of where they are intended to be. As mentioned, the code above uses modules built into Verilog, but you could make your own module in the following way: 
+
+\bs 
+\begin{lstlisting}
+module andgate (output o1, input i1, input i2);
+    assign o1 = i1 & i2;
+    // for OR you would use |, and for XOR you would use ^
+endmodule;
+\end{lstlisting}
+\bs
+
+
+\subsection{Bus Notation} Bus notation is used to simplify the pins used (in Verilog, this is called a vector). For example, a multiplexer or an adder will have many inputs, which would be inconvenient to initialize individually. Instead, we can use  something like this: 
+
+\bs
+
+\begin{lstlisting}
+module adder(c, a, b); // a, b, c are 3 bus inputs we will use
+    output[3:0] c; // initializes 4 wires within our c bus
+    input[3:0] a, b; // initializes 4 wires within our a and b buses
+endmodule
+
+\end{lstlisting}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -410,14 +518,38 @@ While one may find it odd to begin an electronics discussion with a chapter on b
 
 Using electronics to study neural circuits has a long and storied history. One can think of Hodgkin and Huxley, whose ubiquitous nature avoids a need for citation, using an operational amplifier to clamp the voltage of giant squid axons to learn of their properties. In the case of solve spinal cord circuits, so too have electronics long been used\footnote{\url{https://journals.physiology.org/doi/epdf/10.1152/jn.1943.6.2.111}}.\newline
 
-Restoration of the signals which pervade severance in spinal cord injury through therapeutics has been equally explored. For example, drugs such as clonidine, $\alpha_2$ receptor agonist, can promote walking in cats with spinal cord injury\footnote{\url{https://journals.physiology.org/doi/full/10.1152/jn.1998.79.6.2941}}. This effect can be blockedc completely by yohimbine, an $\alpha_2$ receptor antagonist\footnote{\url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2278596}}.\newline
+Restoration of the signals which pervade severance in spinal cord injury through therapeutics has been equally explored. For example, drugs such as clonidine, $\alpha_2$ receptor agonist, can promote walking in cats with spinal cord injury\footnote{\url{https://journals.physiology.org/doi/full/10.1152/jn.1998.79.6.2941}}. This effect can be blocked completely by yohimbine, an $\alpha_2$ receptor antagonist\footnote{\url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2278596}}.\newline
 
 The ability to generate walking-like movements from electrical stimulation of the lower spine, the T10-L1 region, has been long known\footnote{\url{https://www.sciencedirect.com/science/article/pii/B9780444521378000188}}$^,$\footnote{\url{https://journals.sagepub.com/doi/pdf/10.1177/1073858417699790}}. In these instances, ``tonic" stimulation was able to generate step-like movements. Although the term ``tonic" is dubious because other papers by the same lab identified frequency dependence in their stimulation\footnote{\url{https://link.springer.com/article/10.1007/s00422-004-0511-5}}. While one can generate step-like movements at once frequency, continued extension can be generated with another. 
 
+\section{Reading Thoughts} 
 
-\section{Lorach, ..., Courtine 2023, Nature} This is the most recent iteration of an ongoing project by the Courtine group. It features a brain-spine interface (herein called BSI). 
+My personal opinion is that the limiting factor in bridging from the stimulation applied by Tator and Minassian is a reliable way to read ones objective through their brain waves. Lorach and the Courtine group solved this using the WIMAGINE system\footnote{\url{https://www.frontiersin.org/articles/10.3389/fnins.2019.00847/full}}. Let's begin by discussing the options. 
 
-\subsection{Overview} The group used surgical implantation into th skull, over the motor cortex, to record patient movements and wirelessly transmit this to the spinal cord. The technology used to capture these electrocorticographic (ECoG) signals is the WIMAGINE electrode array--- which features 64 electrodes on either side ($8 \times 8$ grid)\footnote{This seems like strikingly low resolution}. The design features two antennas, and the second of which transmits motor signals that are to be decoded and sent to a pulse generator. The pulse generator is ACTIVA RC, the same that is used in deep brain stimulation (DBS). 
+\subsection{Different Reading Devices} As you would imagine, there is a tradeoff between the resolution and the damage you will confer upon one's brain. This is described well by Schwartz in 2006, so notably technology may have advanced since then\footnote{\url{https://www.sciencedirect.com/science/article/pii/S0896627306007264}}. The four classes of devices are: 
+\begin{enumerate}
+    \item Electroencephalography (EEG)
+    \item Electrocorticography (ECoG)
+    \item Local field potentials (LFPs)
+    \item Single Unit AP
+\end{enumerate}
+
+EEGs, naturally, are non-invasive and have a reading range on the order of a few centimeters. ECoG is on the tenths of centimeters level, while LPS is millimeters level. Single unit AP is as the name describes, and reads individual action potentials. EEGs sit far above the cortex, outside of the skull, and ECoG come in contact with it. Both LPS and single unit require the electrodes to be buried within the cortex itself, thus causing damage to the brain tissue. Therefore, EEG is typically preferable, as it does not require surgery. It is highlighted by Schwartz that many negatives can occur long term from invasive procedures, such as degeneration, volume displacement, or glial encapsulation. Therefore, it is for this reason that I presume the ability to read ones objective was the limiting factor in progressing the field. \newline
+
+For the moment, I will avoid describing individual technologies between the four groups, as it is likely that the tech progresses greatly each year, and it would be pointless to attempt to describe the reading ranges of any without being totally up-to-date. Instead, we will discuss the WIMAGINE in depth here.
+
+\subsubsection{WIMAGINE ECoG.}
+As the name suggests, the device requires the skull to be torn away and must sit directly upon the cortex. It features 64 electrodes, and a human patient would need to have two implanted in order to read both sides of one's motor cortex.\newline
+
+The device was tested longest in sheep, which was a 10 month trial. Surprisingly, at the end of the 10 month trial, through GFAP staining, they still found a great deal of glial migration/build-up around the site. They did not quantify this, but in my personal opinion, this does not bode well for our patient---as they will have to spend a lifetime with the device. Secondly, calcification of the dura matter over the device had begun. This is not inherently surprising, and perhaps is a good sign that the bone was not irreversibly damaged. However, as the device is wirelessly charged, and wirelessly transmits brain information, one must wonder how years of calcium buildup may impact the ability to send or receive information. Too, if the technology needs a dust-up, the surgeons will have to re-destroy these calcified layers. There is quite a lot of fuss made about the fact that the device is wireless, and how it was a decision made to best serve patient comfort. But, in my opinion, it may spell out more long-term harm than good. It is not clear to me yet whether the $8\times 8$ resolution of the electrodes is sufficient to delineate all necessary information. Though, this is the trade-off one must make in choosing between EEG, ECoG, and LPS.\newline
+
+The WIMAGINE system digitizes information with 12 bits of resolution. Data is processed through pwelch spectral analysis. From what I can gather, this is simply another implementation of the FFT. 
+
+
+\section{Lorach and the Courtine Group} This is the most recent iteration of an ongoing project by the Courtine group. 
+
+\subsection{Overview} The group used surgical implantation into the skull, over the motor cortex, to record patient movements and wirelessly transmit this to the spinal cord. The technology used to capture these electrocorticographic (ECoG) signals is the WIMAGINE. The design features two antennas, and the second of which transmits motor signals that are to be decoded and sent to a pulse generator. The pulse generator is ACTIVA RC, the same that is used in deep brain stimulation (DBS) or pacemakers in the heart. There is no mention of having the patient replace this in future years, but my assumption is that a new battery will require a new surgery in years to come. 
+
 
 \subsection{Shortcomings} The three shortcomings explicitly mentioned in the \textbf{Introduction} are that \textbf{(1)} one using this BSI must have motion sensors on in order to compensate (a sort of PID controller, perhaps),  \textbf{(2)} that the patient's movement was not perceived as natural, and \textbf{(3)} that there was still considerable hurdles in traversing variable terrain. Many more shortcomings exist than this, and we will go through them below.\newline
 
@@ -430,6 +562,8 @@ Similarly, they commented that the patient tested was able to walk without the B
 A comment regarding the surgery itself: The patient's are having two large, 50mm arrays placed into their skull. Naturally, most would agree to this in order to restore their ability to walk. However, it surprises me that they chose to make the device wireless, given that the surgery is already quite invasive. 
 
 \subsubsection{Seven States} 
+
+Data is processed and used to edit the probability distribution of a Markov chain, which progresses the electrode paddle through seven defined states defined below.
 
 \begin{center}
 \begin{tikzpicture}
@@ -462,5 +596,7 @@ A comment regarding the surgery itself: The patient's are having two large, 50mm
 
 \end{tikzpicture}
 \end{center}
+
+Notably, they did not explicitly mention that one of the progressions could be from state to self state, but one can only assume this is true. So too, only seven states seems to limit the mobility of a patient. 
 
 \end{document}
