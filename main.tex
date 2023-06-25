@@ -12,8 +12,6 @@
 \usepackage{graphicx}
 \graphicspath{ {./images/} }
 
-\pagestyle{plain}
-
 \usepackage{amsthm}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -22,7 +20,7 @@
 
 \usepackage{graphicx}
 \usepackage{multicol}
-\usepackage{ marvosym }
+\usepackage{marvosym}
 \usepackage{wasysym}
 
 \usepackage{outlines}
@@ -30,21 +28,8 @@
 \usepackage[english]{babel}
 
 \usepackage{enumitem,amssymb}
-\newlist{todolist}{itemize}{2}
-\setlist[todolist]{label=$\square$}
-\usepackage{pifont}
-\newcommand{\cmark}{\ding{51}}%
-\newcommand{\xmark}{\ding{55}}%
-\newcommand{\done}{\rlap{$\square$}{\raisebox{2pt}{\large\hspace{1pt}\cmark}}%
-\hspace{-2.5pt}}
-\newcommand{\wontfix}{\rlap{$\square$}{\large\hspace{1pt}\xmark}}
 
 \newcommand{\pr}[1]{\left(#1\right)}
-
-\usepackage{xcolor}
-\definecolor{forestgreen}{RGB}{1, 97, 89}
-\definecolor{green}{RGB}{0, 150, 0}
-\definecolor{yellow}{RGB}{218, 165, 32}
 
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.16}
@@ -73,13 +58,13 @@
 
        \vspace{0.5in}
 
-       \textbf{\large By Jackson Powell \\ \small For future Jackson}
+       {\large By Jackson Powell \\ \small For future Jackson}
 
     \vspace{1cm}
 
     \begin{center}
-        Once you know the way broadly, you can see it in all things.\\
-        -- The Book of Five Rings by Miyamoto Musashi
+        \textbf{Once you know the way broadly, you can see it in all things.\\
+        -- The Book of Five Rings by Miyamoto Musashi}
     
     \end{center}
 
@@ -102,7 +87,7 @@
 
 
 
-{\scshape J. Powell} \hfill {\scshape \large Brain-spine-muscle} \hfill {\scshape Summer, 2023}
+{\scshape J. Powell} \hfill {\scshape \large Brain-Spine-Muscle Interfaces} \hfill {\scshape Summer, 2023}
  
 \smallskip
 
@@ -339,10 +324,15 @@ Transition matrix:
             \vspace{0.2in}
             \begin{center}
             \begin{minipage}[l]{10cm}\small
-                ?? \newline
-                -- ??
+                Preoccupied with a single leaf, you won't see the tree. Preoccupied with a single tree, you'll miss the entire forest.  \newline
+                -- Vagabond by Takehiko Inoue
             \end{minipage}
             \end{center}}
+
+\section{Overview}
+
+It is very important to avoid taking a quantized approach to studying physiology. You'll notice neuroscience majors may know some superb nuances regarding the role of HCN channels in overexcitable neural disorders, like epilepsy. However, they may be totally unaware of their canonical role as pacemakers in the heart. So too may they be unaware of the rich history of modeling $I_h$ currents by computational biologists, preferring to look only at a channel as it functions in neurons. Hence, one must not become preoccupied with a single leaf. 
+
 
 \chapter{Muscles}
 
@@ -360,15 +350,34 @@ A steady supply of ATP is needed to maintain pumping, and it is said that at any
 
 Notably, it is very difficult to fully deplete a muscle of its ATP. Other forms of fatigue begin before this can possibly occur, which include CNS or PNS feedback. An example of this may be that acetylcholine is not synthesized fast enough to continually stimulate muscle fibers. Continual simulation of muscle fibers, beyond what is allowable under normal conditions, \textbf{will fully deplete ATP levels and therefore cause damage to muscles}. Another consideration is the continuous use of ATP may result in P$_i$ buildup in the sarcoplasm, making release of ADP $+$ P$_i$ from myosin less likely to occur. Too, this opens the possibility of calcium phosphate forming, which can be quite damaging if it crystallizes further. There are also ion concentration changes to consider, and continued stimulation can result it tetanus.
 
+\subsection{Nervous system control}
+
+% COMMENTING OUT BECAUSE I AM UNSURE WHAT SECTION TO PUT THIS IN.
+% \subsection{Disorders}
+% There are many ways one can lose control of their muscles. Nerve damage, for example, will halt the release of acetylcholine onto the motor plate. In a similar manner, botulism is a result of the botulinum toxin blocking release of acetylcholine, resembling the effect of nerve damage. In muscular dystrophy, the protein dystrophin is absent, which would normally attach actin to the cell membrane. Evidently, this can result in membrane permeability, calcium influx, and thus activation of digestive enzymes that breakdown muscle fibers. In McArdle's disease, muscles simply cannot convert glycogen to glucose-6-phosphase, causing the energy supply to be limited. 
 
 
 \section{Smooth Muscle}
+
+Smooth muscle is much more variable than skeletal, differing by location, contraction pattern, required inputs, and structure. 
+
+
 \subsection{A Cellular Level}
 \subsubsection{Structure.}
+Smooth muscle is not considered to have sarcomeres, despite it having the same basic structural components of skeletal muscles. Smooth muscle contains much more aactin than does skeletal muscle, and notably does not contain troponin like skeletal muscle does. Smooth muscle networks are connected through intermediate filaments, which usually attach to dense bodies within the cytoplasm. Actin also attaches to dense bodies, maintaining the actin-myosin network within the cell as well. Smooth muscles do not have T-tubules like skeletal muscles. A comparable structure may be calveolae, which do indent into the membrane and seem spatially associated with the sarcoplasmic reticulum. The autonomic nervous system stimulates fibers through neurotransmitter release from varicosities, or bulbous stores of the chemical. The neurons may innervate the muscle fibers, allowing multiple muscle cells to be stimulated at once, or they may be release to a few fibers, which are connected through gap junctions and stimulate the nearby ones, causing a propagating wave to stimulate others. The first case describes a multi-subunit muscle, and the second a single subunit. 
 
 \subsubsection{Contraction-Relaxation.} 
+Initiation of contraction begins the same as skeletal muscle, in that calcium enters and the concentration is further driven up by sarcoplasmic calcium release. Though, in this case Ca$^{2+}$ may enter either through gap junctions or membrane ion channels. As such, there are many more modes of entry than in skeletal muscle. For example, voltage-gated Ca$^{2+}$ channels may open, but there are also ligand gated channels or stretch-activated channels, adding extra layers of possible regulation. Intracellular differences arise beginning from release from the SR. Firstly, is is no longer a mechanically gated RyR channel which allows its release. The release mechanism is now Ca$^{2+}$ activated RyR release (commonly called Ca$^{2+}$-induced-Ca$^{2+}$-release (CICR)), and the IP$_3$ path. GPCRs activate phospholipase C, driving IP$_3$ production which binds to SR channels and causes them to open. The IP$_3$ path is usually considered the greatest way to drive up intracellular Ca$^{2+}$ (or at least, that is what computational biologists seem to think). When Ca$^{2+}$ is available, it binds to calmodulin (CaM), which then binds to the myosin light chain kinase (MLCK). MLCK phosphorylates myosin to increase myosin ATPase activity. Importantly, once contraction occurs, it stays stiff until released by a different mechanism. Because after contraction, no work is being done in the stiff state, smooth muscle is able to stay contracted for long periods. This explains why sphincters in the body are able to stay closed all the time, while one's bicep fatigues after carrying groceries for just a little while. Relaxation begins when Ca$^{2+}$ is either pumped out of the cell through a Ca$^{2+}$ATPase pump, or sodium transporter. This causes CaM to unbind, myosin light chain phosphatase (MLCP) to dephosphorylate myosin, and the myosin heads to release from actin. Interestingly, diacylglycerol (DAG), another product of the IP$_3$ path, inhibits MLCP and thereby enhances muscle contraction.\newline
+
 The calcium stored in the SR is maintained in a number of ways. One example being the protein STIM1 responding to lower Ca$^{2+}$ levels within it, moving toward the cell membrane, and activating store operated Ca$^{2+}$ channels, such as Orai1. 
 
+\subsection{Nervous system control}
+
+\section{Cardiac Muscle}
+\subsection{A Cellular Level}
+\subsubsection{Structure.}
+\subsubsection{Contraction-Relaxation.} 
+\subsection{Nervous system control}
 
 \chapter{The Spinal Cord}
 
@@ -382,15 +391,20 @@ Defining the central pattern generator is still somewhat contested. Computationa
             \vspace{0.2in}
             \begin{center}
             \begin{minipage}[l]{10cm}\small
-                ??
-                -- ??
+                When we stand at the edge of the ocean, we can not understand its vastness. We know only that it is big. Itt$\overline{\mathrm{o}}$ Ittosai is big. And what about Kojir$\overline{\mathrm{o}}$? \\
+                -- Reworded from Vagabond by Takehiko Inoue
             \end{minipage}
             \end{center}}
 
 \chapter{Biochemistry}
-\section{Therapeutic Approaches} While one may find it odd to begin an electronics discussion with a chapter on biochemistry, the fact of the matter is an integrated approach is the only way. 
+
+While one may find it odd to begin an electronics discussion with a chapter on biochemistry, the fact of the matter is an integrated approach is the only way. As such, to be able to interface with the electrophysiology of neurons, one must fully understand it. 
+
+\section{Ion Channels}
 
 
+
+\chapter{Treatment of SCI}
 
 \section{Historical Dealings}
 
