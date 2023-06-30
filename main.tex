@@ -103,7 +103,7 @@
 \newcommand{\eV}{{\rm eV}}
 \newcommand{\V}{{\rm V}}
 \newcommand{\mV}{{\rm mV}}
-\newcommand{\Vpp}{{\rm V}_{\rm pp}}
+\newcommand{\Vpp}{{ V}_{ pp}}
 \newcommand{\mVpp}{{\rm mV}_{\rm pp}}
 \newcommand{\Vac}{{\rm V}_{\rm AC}}
 \newcommand{\Vdc}{{\rm V}_{\rm DC}}
@@ -154,7 +154,8 @@
 
 \newcommand{\lst}{\lstinline}
 \newcommand{\bs}{\bigskip}
-
+\newcommand{\Vo}{{V}_{out}}
+\newcommand{\Vi}{{V}_{in}}
 
 \begin{document}
 
@@ -201,7 +202,7 @@
 
 
 
-{\scshape J. Powell} \hfill {\scshape \large Brain-Spine-Muscle Interfaces} \hfill {\scshape Summer, 2023}
+{\scshape J. Powell} \hfill {\scshape \large Brain-Spine-Muscle Interfaces} \hfill {\scshape 2023}
  
 \smallskip
 
@@ -217,7 +218,7 @@
 The purpose of this book is to aggregate all of the content and tools I will need in forging the future I desire: building better brain-spine-muscle interfaces. 
 
 \subsection{Content}
-It is true that total recovery from spinal cord injury, in sever cases, will require both therapeutic and electronic intervention. One must therefore learn of physiology and electronics to be able to solve these problems.  
+It is true that total recovery from spinal cord injury, in sever cases, will require both therapeutic and electronic intervention. One must therefore learn of physiology and electronics to be able to solve these problems. I will cover, in some depth, both the electronics, math, and physiology I think I'll need. While programming will likely be an essential tool in this endeavor, I will not discuss programming beyond Verilog (which is an aspect of electronics). This is because programming is something you learn by doing, and writing out C++ algorithms in a PDF would be a waste of time!
 
 \vfill\pagebreak
 
@@ -231,6 +232,9 @@ It is true that total recovery from spinal cord injury, in sever cases, will req
             \end{center}}
 
 \chapter{Background Information} 
+
+\subsection{Overview} 
+The bulk of this information comes from the Lab Electronics course at the University of Pennsylvania, taught to me by Professor Ashmanskas\footnote{\url{https://www.hep.upenn.edu/Classes/Phys364_spring23/}}$^,$\footnote{\url{http://www.hep.upenn.edu/~ashmansk/}}. As a comment on notation: $V$ represents a variable value, while V represents a unit (or at least, that's what it should be; sometimes I forget proper notation). Graphics like this were made using CircuitTikz, whose manual can be found \href{https://texdoc.org/serve/circuitikz/0}{here}.\newline
 
 \section{How Electricity Works} 
 \subsection{The misconception} One often represents electricity with the canonical metaphor of water flowing in a tube, equating the flow of water, which powers a wheel of some sort, as being the equivalent of electrons pushing through a wire. Incidentally, this simplifying schema illustrates a key misconception in the nature of electricity. This is easiest exemplified in the mode with which electricity reaches one's house from a power-plant, which before arriving will be subject to breaks in the circuit (transformers). In the traditional viewing of electricity, that which one is taught in early education, this is disconcerting as one would think that if electrons can not physically go from battery to bulb, then how can their kinetic energy be transferred and light it?\newline
@@ -249,9 +253,9 @@ The whole idea is quite unintuitive, so it is appropriate to keep it smushed in 
 
 
 
-\section{Laws and Devices} The currents flowing in and out of a node will always be equal. The sum of the voltages over an entire circuit will always be equal. Kirchoff's Voltage Law (KVL) can be used to show that wires connected in parallel will have the same voltage across them. In this way, we can predict the current flowing through a circuit to be $\mathrm{V} = \mathrm{IR}$. The formula for power is given as: $\mathrm{VI} = \mathrm{P}$, which means that when one solves for voltage, and knowing that current is in units of charge/time and power in work/time, voltage is work per unit charge.\newline
+\section{Laws and Devices} The currents flowing in and out of a node will always be equal. The sum of the voltages over an entire circuit will always be equal. Kirchoff's Voltage Law (KVL) can be used to show that wires connected in parallel will have the same voltage across them. In this way, we can predict the current flowing through a circuit to be $V = IR$. The formula for power is given as: $VI = P$, which means that when one solves for voltage, and knowing that current is in units of charge/time and power in work/time, voltage is work per unit charge.\newline
 
-Voltage is measured using a voltmeter, a device in parallel with the load you are interested in measuring. An ammeter is used to measure current, which will be in series with the current you are trying to measure. This means that the voltmeter should have an extremely high resistance, so as to not draw any current, and an ammeter to have a low resistance, so as to not have any voltage drop. These are important considerations, as if the resistance of the load you are measuring is large (say, $1\mathrm{M}\Omega$), it is possible that the voltmeter will have some non-negligible current flow through it. The same goes for if your circuit has very low resistance and you use an ammeter. To illustrate, one would measure the voltage and current coming from a battery as seen below\footnote{Graphics like this were made using CircuitTikz, whose manual can be found \href{https://texdoc.org/serve/circuitikz/0}{here}.}:
+Voltage is measured using a voltmeter, a device in parallel with the load you are interested in measuring. An ammeter is used to measure current, which will be in series with the current you are trying to measure. This means that the voltmeter should have an extremely high resistance, so as to not draw any current, and an ammeter to have a low resistance, so as to not have any voltage drop. These are important considerations, as if the resistance of the load you are measuring is large (say, $1\mathrm{M}\Omega$), it is possible that the voltmeter will have some non-negligible current flow through it. The same goes for if your circuit has very low resistance and you use an ammeter. To illustrate, one would measure the voltage and current coming from a battery as seen below:
 
 \begin{center}
 \begin{circuitikz}
@@ -266,7 +270,7 @@ Voltage is measured using a voltmeter, a device in parallel with the load you ar
 \end{circuitikz}
 \end{center}
 
-\subsection{Thevenin and Ideality} A Thevenin Circuit simplifies the circuit to have a single resistance, $\mathrm{R}_{th}$, and a single voltage, $\mathrm{V}_{th}$. $\mathrm{R}_{th}$ can be calculated via replacing all of the voltage sources with a wire, and disconnecting all of the current sources. This ``short circuits" your circuit and leaves you with only resistors, which can be used to calculate R$_{th}$ using the familiar resistor rules. One can also short circuit the terminals, and determine the current flow, giving us R$_{th} = \mathrm{V}_{th}/\mathrm{I}_{sc}$.\newline
+\subsection{Thevenin and Ideality} A Thevenin Circuit simplifies the circuit to have a single resistance, ${R}_{th}$, and a single voltage, $V_{th}$. ${R}_{th}$ can be calculated via replacing all of the voltage sources with a wire, and disconnecting all of the current sources. This ``short circuits" your circuit and leaves you with only resistors, which can be used to calculate R$_{th}$ using the familiar resistor rules. One can also short circuit the terminals, and determine the current flow, giving us R$_{th} = {V}_{th}/{I}_{sc}$.\newline
 
 R$_{th}$ can be measured in a circuit by varying the R$_{load}$ added to a circuit. In this case, you will see the voltage supplied (and corresponding current) change. The slope of this change $(\Delta \mathrm{V} / \Delta \mathrm{I})$ will equal R$_{th}$. If you vary the load through the two terminals and measure the voltage across it, you will get a graph that looks something like this:\newline  
 
@@ -292,7 +296,7 @@ R$_{th}$ can be measured in a circuit by varying the R$_{load}$ added to a circu
 \end{tikzpicture}
 \end{center}
 
-Again, the slope is what gives you R$_{th}$. I$_{sc}$ is an important value which allows you to calculate V$_{th}$. The current that flows when you short circuit the load (I$_{sc}$), multiplied by R$_{th}$, gives you V$_{th}$. 
+Again, the slope is what gives you $R_{th}$. $I_{sc}$ is an important value which allows you to calculate $V_{th}$. The current that flows when you short circuit the load ($I_{sc}$), multiplied by $R_{th}$, gives you $V_{th}$. 
 
 \begin{multicols}{2}
 \begin{center}
@@ -305,9 +309,6 @@ Again, the slope is what gives you R$_{th}$. I$_{sc}$ is an important value whic
 (-2,2) to [R, l=1k$\Omega$] (1,2)
 (3,0) to [short, *-] (0,0);
 \end{circuitikz}
-\end{center}
-
-\begin{center}
 
 \begin{circuitikz}
 \draw 
@@ -319,7 +320,7 @@ Again, the slope is what gives you R$_{th}$. I$_{sc}$ is an important value whic
 \end{multicols}
 
 \subsubsection{The ideality of sources.}
-This coaxes us lightly into the topic of source ideality. Imagine all voltage or current sources as having a resistor in parallel with it, but inside of the component itself. An ideal battery, or voltage source, would be able to drive the same voltage, irrespective of the resistor/current. This would be like having a battery whose internal resistance is 0, causing the entirety of the voltage drop to occur on the circuit fragments outside of the battery. In the real world, batteries are not ideal. The canonical illustration of a batteries ideality is in trying to use a 9V battery to start your car. Naturally, the voltage dwindles as the current supplied increases. You can calculate the internal resistance of a battery by adding increasingly large loads to it, thereby giving you the batteries IV curve. It is worth considering this, as if your R$_{load}$ is only $\approx 10 \times$ R$_{th}$, then you may see drooping in the voltage supplied. Another way to state this is to make sure that the \textit{input resistance} of your voltage source is much smaller than the \textit{output resistance} of the upcoming circuit fragment you are attempting to drive. An example of when this fails is as follows:
+This coaxes us lightly into the topic of source ideality. Imagine all voltage or current sources as having a resistor in parallel with it, but inside of the component itself. An ideal battery, or voltage source, would be able to drive the same voltage, irrespective of the resistor/current. This would be like having a battery whose internal resistance is 0, causing the entirety of the voltage drop to occur on the circuit fragments outside of the battery. In the real world, batteries are not ideal. The canonical illustration of a batteries ideality is in trying to use a 9V battery to start your car. Naturally, the voltage dwindles as the current supplied increases. You can calculate the internal resistance of a battery by adding increasingly large loads to it, thereby giving you the batteries IV curve. It is worth considering this, as if your $R_{load}$ is only $\approx 10 \times R_{th}$, then you may see drooping in the voltage supplied. Another way to state this is to make sure that the \textit{input resistance} of your voltage source is much smaller than the \textit{output resistance} of the upcoming circuit fragment you are attempting to drive. An example of when this fails is as follows:
 
 \begin{center}
 \begin{circuitikz}
@@ -339,7 +340,7 @@ This coaxes us lightly into the topic of source ideality. Imagine all voltage or
 \end{center}
 
 
-Because the circuit has a non-negligible resistance relative to the voltmeter, you should expect to read something inconsistent with using an ideal voltmeter. As we are adding a 10 M$\Omega$ voltmeter in parallel to our 10 M$\Omega$ resistor, we expect that the ``R$_{load}$" in this case will now be 5 M$\Omega$, so the voltage divider at V$_{out}$ will now be $1/3 \times 20$V, or 6.67V.\newline
+Because the circuit has a non-negligible resistance relative to the voltmeter, you should expect to read something inconsistent with using an ideal voltmeter. As we are adding a 10 M$\Omega$ voltmeter in parallel to our 10 M$\Omega$ resistor, we expect that the ``$R_{load}$" in this case will now be 5 M$\Omega$, so the voltage divider at $V_{out}$ will now be $1/3 \times 20$V, or 6.67V.\newline
 
 This contrasts to a current source, whose desired internal resistance is $\infty$, as you will want no current to flow through it, and to flow entirely through the circuit fragments outside of the component. Once again, as the real world is not ideal, your goal in this case will be to have downstream circuit components whose input resistance is much smaller than the components output resistance.\newline
 
@@ -384,9 +385,9 @@ Let us consider another example of input resistance vs. output resistance:
 
 \end{multicols}
 
-If we draw a black box around the first voltage divider, we can convert it to the circuit schematic on the right because 1 k$\Omega || $2 k$\Omega$ $=$ 667 k$\Omega$ just as before. We can find the V$_{th}$ by first finding I$_{sc}$, when we short the black box's load. So, I$_{sc} = 9 \mathrm{V} / 1 \mathrm{k}\Omega = 0.9 \mathrm{mA}$. We multiply I$_{sc}$ (9 mA) by R$_{th}$ (6.67 k$\Omega$) to get a V$_{th}$ of 6 V. If you were to compare the output resistance of the black box, 6.67 k$\Omega$, to the input resistance of the upcoming voltage divider, 300 k$\Omega$, you would find that it is much smaller. This naturally means that the entirety of the 6 V drop will occur over this part of the circuit.\newline
+If we draw a black box around the first voltage divider, we can convert it to the circuit schematic on the right because 1 k$\Omega || $2 k$\Omega$ $=$ 667 k$\Omega$ just as before. We can find the $V_{th}$ by first finding $I_{sc}$, when we short the black box's load. So, $I_{sc} = 9 \mathrm{V} / 1 \mathrm{k}\Omega = 0.9 \mathrm{mA}$. We multiply $I_{sc}$ (9 mA) by R$_{th}$ (6.67 k$\Omega$) to get a $V_{th}$ of 6 V. If you were to compare the output resistance of the black box, 6.67 k$\Omega$, to the input resistance of the upcoming voltage divider, 300 k$\Omega$, you would find that it is much smaller. This naturally means that the entirety of the 6 V drop will occur over this part of the circuit.\newline
 
-Another way to think about this is as two successive voltage dividers, and qualitatively noting that the second's total resistance is much higher allows us to simplify things greatly. As a reminder, a voltage divider can be solved as $\mathrm{R}_A\mathrm{I} = \mathrm{R}_A\times \mathrm{V}_{total}/\mathrm{R}_{total} = \mathrm{V}_{total} \times \mathrm{R}_A/(\mathrm{R}_A + \mathrm{R}_B)$. If you redraw as the Thevenin equivalent, the first voltage divider can effectively be ignored, because the voltage drop across this component will be minimal. Not by coincidence, since the first voltage divider is a $2/3$ divider, and the second is a $2/3$ divider, the voltage measured between our two terminals is $2/3 \:\times\: 2/3 \:\times\: 9$V, or alternatively, $2/3 \:\times\: 6$V (V$_{th}$). This equivalency does not work when the input and output resistances of each fragment are comparable, here is an example:\newline
+Another way to think about this is as two successive voltage dividers, and qualitatively noting that the second's total resistance is much higher allows us to simplify things greatly. As a reminder, a voltage divider can be solved as ${R}_A{I} = {R}_A\times {V}_{total}/{R}_{total} = {V}_{total} \times {R}_A/({R}_A + {R}_B)$. If you redraw as the Thevenin equivalent, the first voltage divider can effectively be ignored, because the voltage drop across this component will be minimal. Not by coincidence, since the first voltage divider is a $2/3$ divider, and the second is a $2/3$ divider, the voltage measured between our two terminals is $2/3 \:\times\: 2/3 \:\times\: 9$V, or alternatively, $2/3 \:\times\: 6$V ($V_{th}$). This equivalency does not work when the input and output resistances of each fragment are comparable, here is an example:\newline
 
 \begin{multicols}{2}
 
@@ -430,7 +431,7 @@ Another way to think about this is as two successive voltage dividers, and quali
 \end{multicols}
 
 
-In this case, R$_{th}$ will be the same, and R$_{load}$ will be 3 k$\Omega$. V$_{th} \times \mathrm{R}_A/(\mathrm{R}_A + \mathrm{R}_B) = 3,000 / 3,667 \approx 5.45$V for the output of the first divider (i.e., between R$_{th}$ and the 1 k$\Omega$ resistor). And then naturally, if you were to measure the voltage between the 1 k$\Omega$ and 2 k$\Omega$ resistors, it would be $2/3 \times 5.45 \mathrm{V} \approx 3.63$V for the voltage at the second divider.\newline
+In this case, $R_{th}$ will be the same, and $R_{load}$ will be 3 k$\Omega$. $V_{th} \times {R}_A/({R}_A + {R}_B) = 3,000 / 3,667 \approx 5.45$V for the output of the first divider (i.e., between $R_{th}$ and the 1 k$\Omega$ resistor). And then naturally, if you were to measure the voltage between the 1 k$\Omega$ and 2 k$\Omega$ resistors, it would be $2/3 \times 5.45 \mathrm{V} \approx 3.63$V for the voltage at the second divider.\newline
 
 This kind of Thevenin analysis only works when you have a linear IV curve. When might you have a non-linear IV curve?
 
@@ -475,7 +476,7 @@ The IV curve across a light emitting diode (LED) should look something like this
 \end{centering}
 
 
-The IV curve for a diode, like an LED, is exponential in that the current slowly increases after the voltage across a diode hits some ``threshold," after which the current rises exponentially with voltage. Why is this the case? A diode is a P-N junction bridged by some depletion zone. The P side of the diode contains positively charged elements that act as ``holes" (a silly way to say there is an absent electron position). The N side contains elements whose outer layers are loosely filled with electrons (i.e., low ionization energy). Effectively, the P side is devoid of electrons, while the N side has many free to give. What does this mean with regard to current and voltage? It means that the ``depletion zone" between the two requires electrons to be able to bridge the gap. This really can't happen unless they have a certain amount of energy, so increasing the voltage helps reach the ``threshold" energy requires to pass the depletion zone (think of P $=$ IV). Thus, as the electrons somewhat saturate the diode, you can theoretically pass an infinite current through it, as it will be effectively a short circuit. 
+The IV curve for a diode, like an LED, is exponential in that the current slowly increases after the voltage across a diode hits some ``threshold," after which the current rises exponentially with voltage. Why is this the case? A diode is a P-N junction bridged by some depletion zone. The P side of the diode contains positively charged elements that act as ``holes" (a silly way to say there is an absent electron position). The N side contains elements whose outer layers are loosely filled with electrons (i.e., low ionization energy). Effectively, the P side is devoid of electrons, while the N side has many free to give. What does this mean with regard to current and voltage? It means that the ``depletion zone" between the two requires electrons to be able to bridge the gap. This really can't happen unless they have a certain amount of energy, so increasing the voltage helps reach the ``threshold" energy requires to pass the depletion zone (think of $P = IV$). Thus, as the electrons somewhat saturate the diode, you can theoretically pass an infinite current through it, as it will be effectively a short circuit. 
 
 
 \chapter{Capacitors}
@@ -486,9 +487,9 @@ Getting a good intuition of capacitor's behavior is an essential part of underst
 
 \begin{equation} \label{cap1}
 \begin{split}
-\mathrm{V}_C &= \mathrm{V}_S \times e^{-t / \mathrm{RC}} \\
-\tau &= \mathrm{RC} \\
-\mathrm{V}_C &= \mathrm{V}_S \times e^{-t / \tau}
+{V}_C &= {V}_S \times e^{-t / {RC}} \\
+\tau &= {RC} \\
+{V}_C &= \mathrm{V}_S \times e^{-t / \tau}
 \end{split}
 \end{equation}
 
@@ -507,13 +508,13 @@ This is quite similar to neurons, isn't it! So some examples, to build up a bit 
 \end{circuitikz}
 \end{center}
 
-RC will be 1k$\Omega \times 1 \mu$F $ = 1 \times 10^{-3}$, or $\tau = 1$ms. What does this actually mean, though? It means that if you charge this capacitor up to 10V, then $\mathrm{V}_C = \mathrm{V}_S \times e^{-t / \mathrm{RC}} \rightarrow 10\mathrm{V} \times  e^{-t / \mathrm{1ms}}$. So 1 ms after voltage is removed, and or, one time constant $\tau$ after voltage is removed, the voltage at the capacitor will be $10 \times e^{-1} \approx 10 \times 0.367 = 3.67$V. If you were using a square wave which charged the capacitor to 10V, with a very high frequency (100 kHz, for example), then the period would be $1/100$kHz $ = 0.01$ ms. Therefore, you would not expect the capacitor to ever fully discharge, and it would maintain a constant, high voltage. This circuit happens to be what is called a \textit{low-pass filter}, which we will discuss in-depth later. But, you can see how it might get this moniker, as this very high frequency is not allowed to pass due to the capacitor's time constant.\newline
+RC will be 1k$\Omega \times 1 \mu$F $ = 1 \times 10^{-3}$, or $\tau = 1$ms. What does this actually mean, though? It means that if you charge this capacitor up to 10V, then ${V}_C = {V}_S \times e^{-t / {RC}} \rightarrow 10{V} \times  e^{-t / \mathrm{1ms}}$. So 1 ms after voltage is removed, and or, one time constant $\tau$ after voltage is removed, the voltage at the capacitor will be $10 \times e^{-1} \approx 10 \times 0.367 = 3.67$V. If you were using a square wave which charged the capacitor to 10V, with a very high frequency (100 kHz, for example), then the period would be $1/100$kHz $ = 0.01$ ms. Therefore, you would not expect the capacitor to ever fully discharge, and it would maintain a constant, high voltage. This circuit happens to be what is called a \textit{low-pass filter}, which we will discuss in-depth later. But, you can see how it might get this moniker, as this very high frequency is not allowed to pass due to the capacitor's time constant.\newline
 
 This was meant to serve as a basic intro to what a capacitor is. Now we can begin discussing the nuances. 
 
 \section{Filtration}
 \subsection{Integration and Differentiation}
-Capacitors have this incredible ability to perform complex math, including taking derivatives or integrals of your wave form. Let's think about how this may occur using the circuit mentioned in the previous part. Firstly, recall that the current flowing through the resistor must equal the current flowing through the capacitor, and that Q $=$ CV: 
+Capacitors have this incredible ability to perform complex math, including taking derivatives or integrals of your wave form. Let's think about how this may occur using the circuit mentioned in the previous part. Firstly, recall that the current flowing through the resistor must equal the current flowing through the capacitor, and that $Q = CV$: 
 
 \begin{multicols}{2}
 \begin{center}
@@ -548,15 +549,15 @@ We can then solve for the voltage drop across R$_1$ as:
 
 \begin{equation} \label{cap2}
 \begin{split}
-\mathrm{Q} &= \mathrm{C_1V}_{out1}\\
-\frac{d}{dt}\mathrm{Q} &= \frac{d}{dt}\mathrm{C_1V}_{out1} \\
-\mathrm{I} &= \mathrm{C_1}\frac{d\mathrm{V}_{out1}}{dt} \\
+{Q} &= {C_1V}_{out1}\\
+\frac{d}{dt}{Q} &= \frac{d}{dt}{C_1V}_{out1} \\
+{I} &= {C_1}\frac{d{V}_{out1}}{dt} \\
 \end{split}
 \end{equation}
 \begin{equation} \label{cap3}
 \begin{split}
-\mathrm{IR}_1 &= \V_{in} - \V_{out1} \\
-\frac{d\mathrm{V}_{out1}}{dt} &= \frac{1}{\mathrm{R}_1 \C_1}\pr{\V_{in} - \V_{out1}}
+{IR}_1 &= V_{in} - V_{out1} \\
+\frac{d{V}_{out1}}{dt} &= \frac{1}{{R}_1 C_1}\pr{V_{in} - V_{out1}}
 \end{split}
 \end{equation}\newline
 
@@ -564,9 +565,9 @@ Therefore, if V$_{out}$ is very small compared to V$_{in}$, you get:
 
 \begin{equation} \label{cap4}
 \begin{split}
-\frac{d\mathrm{V}_{out1}}{dt} &= \frac{1}{\mathrm{R}_1 \C_1}\V_{in}\\
-\int \frac{d\mathrm{V}_{out1}}{dt} &= \int \frac{1}{\mathrm{R}_1 \C_1}\V_{in}\\
-\mathrm{V}_{out1} &= \frac{1}{\mathrm{R}_1 \C_1} \int \V_{in}\\
+\frac{d{V}_{out1}}{dt} &= \frac{1}{{R}_1 C_1}V_{in}\\
+\int \frac{d{V}_{out1}}{dt} &= \int \frac{1}{{R}_1 C_1}V_{in}\\
+{V}_{out1} &= \frac{1}{{R}_1 C_1} \int V_{in}\\
 \end{split}
 \end{equation}
 
@@ -574,10 +575,10 @@ And or, that $\V_{out}$ integrates $\V_{in}$. How will this change if we swap th
 
 \begin{equation} \label{cap5}
 \begin{split}
-\mathrm{I} &= \mathrm{C_2}\frac{d}{dt} \pr{\V_{in} - \V_{out2}}\\
-\mathrm{\frac{\V_{out2}}{R_2}} &= \mathrm{C_2}\frac{d}{dt} \pr{\V_{in} - \V_{out2}}\\
-\mathrm{\frac{\V_{out2}}{R_2}} &= \mathrm{C_2}\frac{d \V_{in}}{dt}\\
-\V_{out2} &= R_2\mathrm{C_2}\frac{d \V_{in}}{dt}\\
+{I} &= {C_2}\frac{d}{dt} \pr{V_{in} - V_{out2}}\\
+{\frac{V_{out2}}{R_2}} &= {C_2}\frac{d}{dt} \pr{V_{in} - V_{out2}}\\
+{\frac{V_{out2}}{R_2}} &= {C_2}\frac{d V_{in}}{dt}\\
+V_{out2} &= R_2{C_2}\frac{d V_{in}}{dt}\\
 \end{split}
 \end{equation}\newline
 
@@ -699,18 +700,41 @@ So if we say that the frequency is extremely slow, and the red curve is the volt
 
 Similarly, if the frequency is very high, how might the integral look? Take a second to ponder the two graphs above and gather a bit of intuition on it. This should allow you to qualitatively state that an integrating circuit will be a \textit{low-pass filter}, and an integrating circuit will be a \textit{high-pass filter}. As in the left graph, as the frequency gets smaller and smaller, the red plot will more and more closely match the green plot. This is the basis of capacitor filtration, an essential tool in electronics!
 
+\section{Frequency Dependence}
+This section will primarily be quantitative. The important bits, though, are the qualitative understandings, and the final results of this quantitative section. What you find in the interim is likely not worth understanding fully. Let's begin by supposing we apply a $\cos$ wave to a resistor. The relationship between current and voltage is as follows:
 
+\begin{equation} \label{freq1}
+\begin{split}
+f &= \frac{\lambda}{2\pi}\\
+V(t) &= \Vpp \cos\pr{\lambda t} \\
+V(t) &= I(t)\mathrm{R} \\
+I(t) & = \pr{\Vpp / {R}} \cos\pr{\lambda t}\\
+\end{split}
+\end{equation}\newline
 
+Therefore, if you were to solve something like $\Vo / \Vi$ your pesky $\cos$ terms will cancel. Unfortunately, this is not so for capacitor equations. We can see this below: 
 
+\begin{equation} \label{freq2}
+\begin{split}
+Q &= CV \\
+I(t) &= C \frac{d \pr{\Vpp \cos\pr{\lambda t}}}{dt} \\
+I(t) &= - \lambda C \Vpp \sin \pr{\lambda t} \\
+\end{split}
+\end{equation}\newline
+
+This means that the current and the voltage will be $90^{\circ}$ out of phase.\newline
+
+% This is going to be kind of a nightmare to write out / understand, so I will procrastinate on it for later. I'll add this code though, for now: $e^{i\theta} = cos(\theta) + isin(\theta)$
 
 %%%%%%%%%%%%%%%%%%%%
 \chapter{Writing Hardware}
 
 \section{Introduction}
 
-Verilog is a language used to describe electronics, and allows you to avoid the physical action of wiring. This is the reason for the designation \textbf{writing hardware}. In this way, you can pick your poison: debugging code, or debugging breadboards. Importantly, though, Verilog is capable of computation and writing data files that go beyond circuit descriptions. Thus, it is not a "markdown" language, per se, and is Turing Complete.\newline
+Verilog\footnote{A large part of the background information and general syntax comes from the YouTube channel: CompArchIllinois.} is a language used to describe electronics, and allows you to avoid the physical action of wiring. This is the reason for the designation \textbf{writing hardware}. In this way, you can pick your poison: debugging code, or debugging breadboards. Importantly, though, Verilog is capable of computation and writing data files that go beyond circuit descriptions. Thus, it is not a ``markdown" language and is Turing Complete\footnote{Or at least, I think it is. I can never remember the exact definition of Turing Complete :)}.\newline
 
-Tools like Field Programmable Gate Arrays (FPGAs) allow for this, as their internal composition can be rewired through code in order to meet the demands of the programmer. 
+Tools like Field Programmable Gate Arrays (FPGAs) allow for this, as their internal composition is something of an array of transistors, which can be rewired through code in order to meet the demands of the programmer. 
+
 
 \subsection{Creating Modules} In Verilog, a circuit is called a \lst{module}. Each module is defined between a \lst{module} and \lst{endmodule}, which can be named as shown in the example below. Different ports connect the module to things outside of the module.
 
@@ -755,7 +779,7 @@ The order in which things are initialized do not matter. It is very important to
 
 \bs 
 \begin{lstlisting}
-module andgate (output o1, input i1, input i2);
+module andgate(output o1, input i1, input i2);
     assign o1 = i1 & i2;
     // for OR you would use |, and for XOR you would use ^
 endmodule;
@@ -766,14 +790,51 @@ endmodule;
 \subsection{Bus Notation} Bus notation is used to simplify the pins used (in Verilog, this is called a vector). For example, a multiplexer or an adder will have many inputs, which would be inconvenient to initialize individually. Instead, we can use  something like this: 
 
 \bs
-
 \begin{lstlisting}
 module adder(c, a, b); // a, b, c are 3 bus inputs we will use
     output[3:0] c; // initializes 4 wires within our c bus
     input[3:0] a, b; // initializes 4 wires within our a and b buses
 endmodule
-
 \end{lstlisting}
+\bs
+
+Firstly, note that Verilog is 0 indexed, so $[3:0]$ includes 4 wires. In a circuit schematic, busses are drawn as thicker wires with a slash through them and a number denoting the amount of wires in the bus. If we wanted to call individual wires from our busses into the \lst{andgate} module we declared earlier, we could do it as: 
+
+\bs 
+\begin{lstlisting}
+andgate(c[0], a[0], b[0]); 
+\end{lstlisting}
+\bs
+
+And we can connect busses together, or wires together, using the assign command like before. For example: 
+
+\bs 
+\begin{lstlisting}
+wire wire3; 
+assign wire3 = c[2];
+assign c[2:0] = a[2:0]; // wire3 will now be connected to bus a[2] through bus c[2]
+\end{lstlisting}
+\bs
+
+\section{Constants and Variables}
+Verilog allows us to define constants using 3 parameters, defined as their size, method of encoding, and value. For example, 8'hd7 corresponds to a size of 8 bits, hexadecimal encoding, and the value d7 (equivalently, 11010111). You can use this in \lst{boolean} comparisons, as below: 
+
+\bs 
+\begin{lstlisting}
+wire wire4; 
+'define CONST1 3'b011; // CONST1 is the name of the constant
+wire4 = (a[2:0] == CONST1);
+// This is a tad complicated. The gist is: all of the bit values in a[2:0] will be compared to CONST1 in a NXOR style statement. That will then be compared to all of the other bits in an AND style statement. So wire4 will be on only if all wires in correspond to CONST1. 
+// The C++ equivalent would be something like: 
+//    (a[2] == 1'b0) && (a[1] == 1'b1) && (a[0] == 1'b1)
+// Also, this could be completely wrong. I can't check any of this without an actual FPGA in front of me! So who knows!
+\end{lstlisting}
+\bs
+
+This does bring up a worthwhile point, which is that everything you write in Verilog has a direct circuit component underlying it (I suppose the same is true for any program, but it's more... explicit with Verilog). 
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -789,7 +850,7 @@ endmodule
             \end{center}}
 
 \chapter{Moving Through States}
-\subsection{Markov-chains} Markov chains are useful in predicting the next state desired. 
+\section{Markov-chains} Markov chains are useful in predicting the next state desired. 
 
 \begin{center}
 \begin{tikzpicture}
@@ -838,7 +899,122 @@ Transition matrix:
 \end{bmatrix}
 \end{align}
 
-\vfill\pagebreak
+
+\section{Diffusion}
+
+ Note that in the coming sections, $[f]$ is used to describe the concentration of some molecule $f$. But, this principal can be applied to anything, including the spreading of voltage across some surface. 
+
+\subsection{Forward Euler's} Diffusion is accomplished using some diffusion coefficient ($D_c$) multiplied by some measure of the proportion in one compartment verses another (often $\partial^2 [f]/\partial x^2)$. $D_c$ can be tuned however desired. The important bit is the second derivative of $[f]$ with respect to space. This can be done using the general form of a second derivative, as written below: 
+
+\begin{equation} \label{diff1}
+\begin{split}
+f'' = \frac{f_{x + 1} - 2f_x + f_{x - 1}}{x^2}
+\end{split}
+\end{equation}
+
+\bigskip
+
+One may wonder how one would solve for an edge case, as the general form of a second derivative requires three data points. There are some nuances, but in general the solution is simply the first derivative of the non-edge side. That is, since the second derivative is the difference in derivatives, that leaves simply the derivative of one side minus zero. This is like applying a closed end to your surface. You can ponder how to solve for an open end, if that ever arises.\newline
+
+This method has some slight issues in which the $[f]$ can occasionally go negative. The way in which this occurs is stated below (note that now $[f]$ is used instead of $f$ to signify concentration at a value $x$ and time $t$). We can first describe a simplified version of the problem:
+
+\begin{equation} \label{eq8}
+\begin{split}
+[f]_i & = f_0\exp(-mt) \\
+\frac{d[f]}{dt} & = \frac{[f]_{i+1} - [f]_{i}}{\Delta t} = -m[f]_i \\
+[f]_{i+1} & = (1-m\Delta t)[f]_i = [f]_i - m\Delta t [f]_i \\
+[f]_{i} & = (1-m\Delta t)[f]_{i-1} = (1-m\Delta t)^2[f]_{i-2} \\
+[f]_{i} & = (1-m\Delta t)^i[f]_{0} \\
+\end{split}
+\end{equation}
+
+You can see easily, from this, that if $\Delta t$ is too big, you will abandon the characteristic decay you'd expect from $f_0\exp(-mt)$, and instead get some diverging oscillatory function. How this applies to our interest in diffusion is described below: 
+
+\begin{equation} \label{eq8}
+\begin{split}
+\frac{[f]^{t+1}_{x} - [f]^{t}_{x}}{\Delta t} &= \frac{[f]^{t}_{x+1} - 2[f]^{t}_x + [f]^{t}_{x - 1}}{x^2}\\
+[f]^{t+1}_{x} - [f]^{t}_{x} &= \frac{\Delta t}{x^2} \pr{[f]^{t}_{x+1} - 2[f]^{t}_x + [f]^{t}_{x - 1}} \\
+[f]^{t+1}_{x} &= \frac{\Delta t}{x^2} [f]^{t}_{x+1} + \pr{1 - 2\frac{\Delta t}{x^2}}[f]^{t}_x + \frac{\Delta t}{x^2}[f]^{t}_{x - 1} \\
+\end{split}
+\end{equation}
+
+Therefore, if we want to ensure that the concentration is always positive, we are constrained by: 
+
+\begin{equation} \label{eq8}
+\begin{split}
+1 - 2\frac{\Delta t}{x^2} & = 0\\
+\Delta t & < \frac{x^2}{2}\\
+\end{split}
+\end{equation}
+
+The relevance of this being that if one were interested in modeling on a very small $\Delta x$, then one would have to use a $\Delta t$ that is not physiological, and thus waste a great deal of computing power in doing so. This can be avoided explicitly using some other methods, discussed next. 
+
+\subsection{Backward Euler's} This form serves to solve the time-scale dilemma by swapping $[f]_{x+1}$, and can be used with any $\Delta t$. Let us consider the same example from above: 
+
+\begin{equation} \label{eq8}
+\begin{split}
+[f]_i & = f_0\exp(-mt) \\
+\frac{d[f]}{dt} & = \frac{[f]_{i+1} - [f]_{i}}{\Delta t} = -m[f]_{i+1} \\
+[f]_{i+1} - [f]_{i} & = -m\Delta t[f]_{i+1} \\
+[f]_{i+1} & = \frac{1}{1+m\Delta t}[f]_{i} \\
+\end{split}
+\end{equation}
+
+Naturally, there is no longer a concern of the size of $\Delta t$. Though, one immediate concern is the difficulty of solving your equation for $[f]_{i+1}$. Getting back to the diffusion interest, we now have:
+
+\begin{equation} \label{eq8}
+\begin{split}
+\frac{[f]^{t+1}_{x} - [f]^{t}_{x}}{\Delta t} &= \frac{[f]^{t+1}_{x+1} - 2[f]^{t+1}_x + [f]^{t+1}_{x - 1}}{x^2}\\
+[f]^{t+1}_{x} - [f]^{t}_{x} &= \frac{\Delta t}{x^2} \pr{[f]^{t+1}_{x+1} - 2[f]^{t}_x + [f]^{t-1}_{x - 1}} \\
+\end{split}
+\end{equation}
+
+
+Which simply replaces the previous $[f]^{t}_{x}$ with $[f]^{t+1}_{x}$. This leaves us with three unknowns (those being $[f]^{t+1}$ at $x-1,x,x+1$). We must use linear algebra to solve by first rewriting the left and right side as vectors and a matrix in the following way: 
+
+\begin{align}
+\vec{[f]}^{t+1} &= \begin{bmatrix}
+        [f]^{t+1}_{0} \\
+        [f]^{t+1}_{1} \\
+        \vdots \\
+        [f]^{t+1}_{x}
+\end{bmatrix}
+; \vec{[f]}^{t} = \begin{bmatrix}
+        [f]^{t}_{0} \\
+        [f]^{t}_{1} \\
+        \vdots \\
+        [f]^{t}_{x}
+\end{bmatrix}
+\end{align}
+
+and 
+\begin{align}
+\mathrm{A} = \frac{\Delta t}{x^2}
+\begin{bmatrix} %%%%%%%%%%%%%%
+\dots       &   \dots       & \dots     &   \dots    &   \dots   \\
+1           &   -2          & 1         &            &   \vdots    \\
+\vdots      &   1           & -2        &   1        &   \vdots   \\   
+\vdots      &               & 1         &   -2       &   1    \\
+\dots       &   \dots       & \dots     &   \dots    &   \dots    \\
+\end{bmatrix}
+\end{align}
+
+The corners $1,1$ and $x,x$ were intentionally omitted, as what one desires to do with this is dependent on how they would prefer to treat their edges. As described before in the \textit{Forward Euler's} method, one can use instead of the $(1,-2,1)$ pattern, simply $(\varnothing,-1,1)$ pattern, which signifies a closed edge. Therefore, together now we get: 
+
+\begin{equation} \label{eq8}
+\begin{split}
+\vec{[f]}^{t+1} - \vec{[f]}^{t} & = \mathrm{A} \vec{[f]}^{t+1} \\
+\mathrm{I}\vec{[f]}^{t+1} - \mathrm{A}\vec{[f]}^{t+1} & = \vec{[f]}^{t} \\
+\vec{[f]}^{t+1} & = (\mathrm{I} - \mathrm{A})^{-1}\vec{[f]}^{t}
+\end{split}
+\end{equation}
+
+Where I is the identity matrix. 
+
+\subsubsection{Remarks.} 
+Foward Euler's is explicit, and will be preferred whenever the differential equations are non-stiff\footnote{On approximately the same time scale.}. It is the more accurate of the two methods, and can be less computationally intensive if your decay rates are all slow. Backward Euler's is implicit, and can not be used to solve everything, but is doable in most cases. The extra computation required to solve the system of equations more than makes up for potential limitations in your $\Delta t$. 
+
+
 \part[Physiology]{Physiology
             \vspace{0.2in}
             \begin{center}
@@ -1047,7 +1223,7 @@ While one may find it odd to begin an electronics discussion with a chapter on b
 
 
 
-\chapter{Treatment of SCI}
+\chapter{The Technology of SCI}
 
 \section{Historical Dealings}
 
