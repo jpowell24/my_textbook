@@ -76,6 +76,82 @@
     tabsize=4  
 }
 
+%%%%%%%%%%%%%%%% These commands are taken from Professor Ashmanskas!
+\newcommand{\ohm}{\Omega}
+\newcommand{\kohm}{{\rm k}\Omega}
+\newcommand{\Mohm}{{\rm M}\Omega}
+\newcommand{\dif}{{\rm d}}
+\newcommand{\kgmps}{{\rm kg\cdot m/s}}
+\newcommand{\degC}{{}^\circ{\rm C}}
+\newcommand{\degF}{{}^\circ{\rm F}}
+\newcommand{\K}{{\rm K}}
+\newcommand{\liter}{{\rm L}}
+\newcommand{\mL}{{\rm mL}}
+\newcommand{\atm}{{\rm atm}}
+\newcommand{\mol}{{\rm mol}}
+\newcommand{\Cal}{{\rm Cal}}
+\newcommand{\W}{{\rm W}}
+\newcommand{\kW}{{\rm kW}}
+\newcommand{\dB}{{\rm dB}}
+\newcommand{\amu}{{\rm u}}
+\newcommand{\Pa}{{\rm Pa}}
+\newcommand{\J}{{\rm J}}
+\newcommand{\N}{{\rm N}}
+\newcommand{\pC}{{\rm pC}}
+\newcommand{\C}{{\rm C}}
+\newcommand{\T}{{\rm T}}
+\newcommand{\eV}{{\rm eV}}
+\newcommand{\V}{{\rm V}}
+\newcommand{\mV}{{\rm mV}}
+\newcommand{\Vpp}{{\rm V}_{\rm pp}}
+\newcommand{\mVpp}{{\rm mV}_{\rm pp}}
+\newcommand{\Vac}{{\rm V}_{\rm AC}}
+\newcommand{\Vdc}{{\rm V}_{\rm DC}}
+\newcommand{\Vbold}{{\bf V}}
+\newcommand{\Ibold}{{\bf I}}
+\newcommand{\Zbold}{{\bf Z}}
+\newcommand{\kV}{{\rm kV}}
+\newcommand{\emf}{{\cal E}}
+\newcommand{\A}{{\rm A}}
+\newcommand{\mA}{{\rm mA}}
+\newcommand{\uA}{{\rm \mu A}}
+\newcommand{\nA}{{\rm nA}}
+\newcommand{\F}{{\rm F}}
+\newcommand{\uF}{\mu{\rm F}}
+\newcommand{\nF}{{\rm nF}}
+\newcommand{\pF}{{\rm pF}}
+\newcommand{\mH}{{\rm mH}}
+\newcommand{\muH}{{\rm \mu H}}
+\newcommand{\uC}{\mu{\rm C}}
+\newcommand{\nC}{{\rm nC}}
+\newcommand{\MJ}{{\rm MJ}}
+\newcommand{\kJ}{{\rm kJ}}
+\newcommand{\kg}{{\rm kg}}
+\newcommand{\g}{{\rm g}}
+\newcommand{\m}{{\rm m}}
+\newcommand{\s}{{\rm s}}
+\newcommand{\ms}{\rm ms}
+\newcommand{\us}{\mu{\rm s}}
+\newcommand{\ns}{{\rm ns}}
+\newcommand{\cm}{{\rm cm}}
+\newcommand{\um}{\mu{\rm m}}
+\newcommand{\mm}{{\rm mm}}
+\newcommand{\nm}{{\rm nm}}
+\newcommand{\km}{{\rm km}}
+\newcommand{\G}{{6.67\times10^{-11}~\frac{\N~\m^2}{\kg^2}}}
+\newcommand{\mpsps}{\frac{\m}{\s^2}}
+\newcommand{\kgmsq}{\kg\cdot\m^2}
+\newcommand{\Nm}{\N~\m}      % {\N\cdot\m}
+\newcommand{\ihat}{{\hat{i}}}
+\newcommand{\jhat}{{\hat{j}}}
+\newcommand{\khat}{{\hat{k}}}
+\newcommand{\Hz}{{\rm Hz}}
+\newcommand{\kHz}{{\rm kHz}}
+\newcommand{\MHz}{{\rm MHz}}
+\newcommand{\kN}{{\rm kN}}
+\newcommand{\red}{\color{red}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \newcommand{\lst}{\lstinline}
 \newcommand{\bs}{\bigskip}
 
@@ -175,7 +251,7 @@ The whole idea is quite unintuitive, so it is appropriate to keep it smushed in 
 
 \section{Laws and Devices} The currents flowing in and out of a node will always be equal. The sum of the voltages over an entire circuit will always be equal. Kirchoff's Voltage Law (KVL) can be used to show that wires connected in parallel will have the same voltage across them. In this way, we can predict the current flowing through a circuit to be $\mathrm{V} = \mathrm{IR}$. The formula for power is given as: $\mathrm{VI} = \mathrm{P}$, which means that when one solves for voltage, and knowing that current is in units of charge/time and power in work/time, voltage is work per unit charge.\newline
 
-Voltage is measured using a voltmeter, a device in parallel with the load you are interested in measuring. An ammeter is used to measure current, which will be in series with the current you are trying to measure. This means that the voltmeter should have an extremely high resistance, so as to not draw any current, and an ammeter to have a low resistance, so as to not have any voltage drop. These are important considerations, as if the resistance of the load you are measuring is large (say, $1\mathrm{M}\Omega$), it is possible that the voltmeter will have some non-negligible current flow through it. The same goes for if your circuit has very low resistance and you use an ammeter. To illustrate, one would measure the voltage and current coming from a battery as seen below:
+Voltage is measured using a voltmeter, a device in parallel with the load you are interested in measuring. An ammeter is used to measure current, which will be in series with the current you are trying to measure. This means that the voltmeter should have an extremely high resistance, so as to not draw any current, and an ammeter to have a low resistance, so as to not have any voltage drop. These are important considerations, as if the resistance of the load you are measuring is large (say, $1\mathrm{M}\Omega$), it is possible that the voltmeter will have some non-negligible current flow through it. The same goes for if your circuit has very low resistance and you use an ammeter. To illustrate, one would measure the voltage and current coming from a battery as seen below\footnote{Graphics like this were made using CircuitTikz, whose manual can be found \href{https://texdoc.org/serve/circuitikz/0}{here}.}:
 
 \begin{center}
 \begin{circuitikz}
@@ -222,11 +298,11 @@ Again, the slope is what gives you R$_{th}$. I$_{sc}$ is an important value whic
 \begin{center}
 \begin{circuitikz}
 \draw 
-(1,2) to [R, l=$2k\Omega$] (1,0)
-(-2,2) to [battery, l=$10V$] (-2,0)
+(1,2) to [R, l=2k$\Omega$] (1,0)
+(-2,2) to [battery, l=10V] (-2,0)
 (-2,0) -- (0,0)
 (1,2) to [short, -*] (3,2)
-(-2,2) to [R, l=$1k\Omega$] (1,2)
+(-2,2) to [R, l=1k$\Omega$] (1,2)
 (3,0) to [short, *-] (0,0);
 \end{circuitikz}
 \end{center}
@@ -235,7 +311,7 @@ Again, the slope is what gives you R$_{th}$. I$_{sc}$ is an important value whic
 
 \begin{circuitikz}
 \draw 
-(0,2) to [battery, l=$6.67V$] (0,0)
+(0,2) to [battery, l=6.67V] (0,0)
 (0,2) to [R, l=$667\Omega$,-*] (3,2)
 (3,0) to [short, *-] (0,0);
 \end{circuitikz}
@@ -243,11 +319,120 @@ Again, the slope is what gives you R$_{th}$. I$_{sc}$ is an important value whic
 \end{multicols}
 
 \subsubsection{The ideality of sources.}
-This coaxes us lightly into the topic of source ideality. Imagine all voltage or current sources as having a resistor in parallel with it, but inside of the component itself. An ideal battery, or voltage source, would be able to drive the same voltage, irrespective of the resistor/current. This would be like having a battery whose internal resistance is 0, causing the entirety of the voltage drop to occur on the circuit fragments outside of the battery. In the real world, batteries are not ideal. The canonical illustration of a batteries ideality is in trying to use a 9V battery to start your car. Naturally, the voltage dwindles as the current supplied increases. You can calculate the internal resistance of a battery by adding increasingly large loads to it, thereby giving you the batteries IV curve. It is worth considering this, as if your R$_{load}$ is only $\approx 10 \times$ R$_{th}$, then you may see drooping in the voltage supplied. Another way to state this is to make sure that the \textit{input resistance} of your voltage source is much smaller than the \textit{output resistance} of the upcoming circuit fragment you are attempting to drive. \newline
+This coaxes us lightly into the topic of source ideality. Imagine all voltage or current sources as having a resistor in parallel with it, but inside of the component itself. An ideal battery, or voltage source, would be able to drive the same voltage, irrespective of the resistor/current. This would be like having a battery whose internal resistance is 0, causing the entirety of the voltage drop to occur on the circuit fragments outside of the battery. In the real world, batteries are not ideal. The canonical illustration of a batteries ideality is in trying to use a 9V battery to start your car. Naturally, the voltage dwindles as the current supplied increases. You can calculate the internal resistance of a battery by adding increasingly large loads to it, thereby giving you the batteries IV curve. It is worth considering this, as if your R$_{load}$ is only $\approx 10 \times$ R$_{th}$, then you may see drooping in the voltage supplied. Another way to state this is to make sure that the \textit{input resistance} of your voltage source is much smaller than the \textit{output resistance} of the upcoming circuit fragment you are attempting to drive. An example of when this fails is as follows:
+
+\begin{center}
+\begin{circuitikz}
+
+\draw 
+(1,2) to [R, l=10 M$\Omega$] (1,0)
+(-2,2) to [battery, l=10V] (-2,0)
+(-2,0) -- (0,0)
+(1,2) -- (5,2)
+(-2,2) to [R, l=10 M$\Omega$] (1,2)
+(5,0) to [short, *-] (0,0)
+(5,2) to [short, *-] (4,2)
+
+(4,2) to [voltmeter, l=10 M$\Omega$] (4,0);
+\end{circuitikz}
+
+\end{center}
+
+
+Because the circuit has a non-negligible resistance relative to the voltmeter, you should expect to read something inconsistent with using an ideal voltmeter. As we are adding a 10 M$\Omega$ voltmeter in parallel to our 10 M$\Omega$ resistor, we expect that the ``R$_{load}$" in this case will now be 5 M$\Omega$, so the voltage divider at V$_{out}$ will now be $1/3 \times 20$V, or 6.67V.\newline
 
 This contrasts to a current source, whose desired internal resistance is $\infty$, as you will want no current to flow through it, and to flow entirely through the circuit fragments outside of the component. Once again, as the real world is not ideal, your goal in this case will be to have downstream circuit components whose input resistance is much smaller than the components output resistance.\newline
 
-Building this kind of circuit only works when the IV curve of the circuit is linear. When isn't it?
+Let us consider another example of input resistance vs. output resistance: 
+
+\begin{multicols}{2}
+
+\begin{center}
+
+\begin{circuitikz}
+
+\draw 
+(1,2) to [R, l=2 k$\Omega$] (1,0)
+(-2,2) to [battery, l=9 V] (-2,0)
+(-2,0) -- (0,0)
+(-2,2) to [R, l=1 k$\Omega$] (1,2)
+(5,0) to [short, *-] (0,0)
+(5,2) to [short, *-] (4,2)
+
+(1,2) to [R, l=100 k$\Omega$] (4,2)
+(4,2) to [R, l=200 k$\Omega$] (4,0);
+\end{circuitikz}
+
+\end{center}
+
+\begin{center}
+
+\begin{circuitikz}
+
+\draw 
+(-2,2) to [battery, l=6 V] (-2,0)
+(-2,0) -- (0,0)
+(-2,2) to [R, l=667 $\Omega$] (1,2)
+(5,0) to [short, *-] (0,0)
+(5,2) to [short, *-] (4,2)
+
+(1,2) to [R, l=100 k$\Omega$] (4,2)
+(4,2) to [R, l=200 k$\Omega$] (4,0);
+\end{circuitikz}
+\end{center}
+
+
+\end{multicols}
+
+If we draw a black box around the first voltage divider, we can convert it to the circuit schematic on the right because 1 k$\Omega || $2 k$\Omega$ $=$ 667 k$\Omega$ just as before. We can find the V$_{th}$ by first finding I$_{sc}$, when we short the black box's load. So, I$_{sc} = 9 \mathrm{V} / 1 \mathrm{k}\Omega = 0.9 \mathrm{mA}$. We multiply I$_{sc}$ (9 mA) by R$_{th}$ (6.67 k$\Omega$) to get a V$_{th}$ of 6 V. If you were to compare the output resistance of the black box, 6.67 k$\Omega$, to the input resistance of the upcoming voltage divider, 300 k$\Omega$, you would find that it is much smaller. This naturally means that the entirety of the 6 V drop will occur over this part of the circuit.\newline
+
+Another way to think about this is as two successive voltage dividers, and qualitatively noting that the second's total resistance is much higher allows us to simplify things greatly. As a reminder, a voltage divider can be solved as $\mathrm{R}_A\mathrm{I} = \mathrm{R}_A\times \mathrm{V}_{total}/\mathrm{R}_{total} = \mathrm{V}_{total} \times \mathrm{R}_A/(\mathrm{R}_A + \mathrm{R}_B)$. If you redraw as the Thevenin equivalent, the first voltage divider can effectively be ignored, because the voltage drop across this component will be minimal. Not by coincidence, since the first voltage divider is a $2/3$ divider, and the second is a $2/3$ divider, the voltage measured between our two terminals is $2/3 \:\times\: 2/3 \:\times\: 9$V, or alternatively, $2/3 \:\times\: 6$V (V$_{th}$). This equivalency does not work when the input and output resistances of each fragment are comparable, here is an example:\newline
+
+\begin{multicols}{2}
+
+\begin{center}
+
+\begin{circuitikz}
+
+\draw 
+(1,2) to [R, l=2 k$\Omega$] (1,0)
+(-2,2) to [battery, l=9 V] (-2,0)
+(-2,0) -- (0,0)
+(-2,2) to [R, l=1 k$\Omega$] (1,2)
+(5,0) to [short, *-] (0,0)
+(5,2) to [short, *-] (4,2)
+
+(1,2) to [R, l=1 k$\Omega$] (4,2)
+(4,2) to [R, l=2 k$\Omega$] (4,0);
+\end{circuitikz}
+
+\end{center}
+
+\begin{center}
+
+\begin{circuitikz}
+
+\draw 
+(-2,2) to [battery, l=6 V] (-2,0)
+(-2,0) -- (0,0)
+(-2,2) to [R, l=667 $\Omega$] (1,2)
+(5,0) to [short, *-] (0,0)
+(5,2) to [short, *-] (4,2)
+
+(1,2) to [R, l=1 k$\Omega$] (4,2)
+(4,2) to [R, l=2 k$\Omega$] (4,0);
+\end{circuitikz}
+
+
+\end{center}
+
+
+\end{multicols}
+
+
+In this case, R$_{th}$ will be the same, and R$_{load}$ will be 3 k$\Omega$. V$_{th} \times \mathrm{R}_A/(\mathrm{R}_A + \mathrm{R}_B) = 3,000 / 3,667 \approx 5.45$V for the output of the first divider (i.e., between R$_{th}$ and the 1 k$\Omega$ resistor). And then naturally, if you were to measure the voltage between the 1 k$\Omega$ and 2 k$\Omega$ resistors, it would be $2/3 \times 5.45 \mathrm{V} \approx 3.63$V for the voltage at the second divider.\newline
+
+This kind of Thevenin analysis only works when you have a linear IV curve. When might you have a non-linear IV curve?
 
 \subsection{LED Circuits and PNP}
 
@@ -293,6 +478,232 @@ The IV curve across a light emitting diode (LED) should look something like this
 The IV curve for a diode, like an LED, is exponential in that the current slowly increases after the voltage across a diode hits some ``threshold," after which the current rises exponentially with voltage. Why is this the case? A diode is a P-N junction bridged by some depletion zone. The P side of the diode contains positively charged elements that act as ``holes" (a silly way to say there is an absent electron position). The N side contains elements whose outer layers are loosely filled with electrons (i.e., low ionization energy). Effectively, the P side is devoid of electrons, while the N side has many free to give. What does this mean with regard to current and voltage? It means that the ``depletion zone" between the two requires electrons to be able to bridge the gap. This really can't happen unless they have a certain amount of energy, so increasing the voltage helps reach the ``threshold" energy requires to pass the depletion zone (think of P $=$ IV). Thus, as the electrons somewhat saturate the diode, you can theoretically pass an infinite current through it, as it will be effectively a short circuit. 
 
 
+\chapter{Capacitors}
+\section{Overview}
+Getting a good intuition of capacitor's behavior is an essential part of understanding electronics. A capacitor is like a storage of charge, which can maintain a voltage for a period after the voltage supplied to the circuit is cut off. The basic structure of a capacitor is an anode and a cathode separated by a dialectric plate. Charge will be stored across it, and is released when the voltage supply dwindles. \newline
+
+ Capacitor discharge will be exponential decay in the form: 
+
+\begin{equation} \label{cap1}
+\begin{split}
+\mathrm{V}_C &= \mathrm{V}_S \times e^{-t / \mathrm{RC}} \\
+\tau &= \mathrm{RC} \\
+\mathrm{V}_C &= \mathrm{V}_S \times e^{-t / \tau}
+\end{split}
+\end{equation}
+
+This is quite similar to neurons, isn't it! So some examples, to build up a bit of intuition. Let's say you have the following circuit: 
+
+
+\begin{center}
+\begin{circuitikz}
+\draw 
+(1,2) to [C, l=1 $\mu$F] (1,0)
+(-2,2) to [sqV] (-2,0)
+(-2,0) -- (0,0)
+(1,2) to [short, -*] (3,2)
+(-2,2) to [R, l=1 k$\Omega$] (1,2)
+(3,0) to [short, *-] (0,0);
+\end{circuitikz}
+\end{center}
+
+RC will be 1k$\Omega \times 1 \mu$F $ = 1 \times 10^{-3}$, or $\tau = 1$ms. What does this actually mean, though? It means that if you charge this capacitor up to 10V, then $\mathrm{V}_C = \mathrm{V}_S \times e^{-t / \mathrm{RC}} \rightarrow 10\mathrm{V} \times  e^{-t / \mathrm{1ms}}$. So 1 ms after voltage is removed, and or, one time constant $\tau$ after voltage is removed, the voltage at the capacitor will be $10 \times e^{-1} \approx 10 \times 0.367 = 3.67$V. If you were using a square wave which charged the capacitor to 10V, with a very high frequency (100 kHz, for example), then the period would be $1/100$kHz $ = 0.01$ ms. Therefore, you would not expect the capacitor to ever fully discharge, and it would maintain a constant, high voltage. This circuit happens to be what is called a \textit{low-pass filter}, which we will discuss in-depth later. But, you can see how it might get this moniker, as this very high frequency is not allowed to pass due to the capacitor's time constant.\newline
+
+This was meant to serve as a basic intro to what a capacitor is. Now we can begin discussing the nuances. 
+
+\section{Filtration}
+\subsection{Integration and Differentiation}
+Capacitors have this incredible ability to perform complex math, including taking derivatives or integrals of your wave form. Let's think about how this may occur using the circuit mentioned in the previous part. Firstly, recall that the current flowing through the resistor must equal the current flowing through the capacitor, and that Q $=$ CV: 
+
+\begin{multicols}{2}
+\begin{center}
+\begin{circuitikz}
+\draw 
+(1,2) to [C, l=C$_1$] (1,0)
+(-2,2) to [sV, l=V$_{in}$] (-2,0)
+(-2,0) -- (0,0)
+(1,2) to [short, -*] (3,2)
+(-2,2) to [R, l=R$_1$] (1,2)
+(3,0) to [short, *-] (0,0)
+(3,2.5) node {V$_{out1}$};
+\end{circuitikz}
+\end{center}
+
+\begin{center}
+\begin{circuitikz}
+\draw 
+(1,2) to [R, l=R$_2$] (1,0)
+(-2,2) to [sV, l=V$_{in}$] (-2,0)
+(-2,0) -- (0,0)
+(1,2) to [short, -*] (3,2)
+(-2,2) to [C, l=C$_2$] (1,2)
+(3,0) to [short, *-] (0,0)
+(3,2.5) node {V$_{out2}$};
+\end{circuitikz}
+\end{center}
+\end{multicols}
+
+
+We can then solve for the voltage drop across R$_1$ as: 
+
+\begin{equation} \label{cap2}
+\begin{split}
+\mathrm{Q} &= \mathrm{C_1V}_{out1}\\
+\frac{d}{dt}\mathrm{Q} &= \frac{d}{dt}\mathrm{C_1V}_{out1} \\
+\mathrm{I} &= \mathrm{C_1}\frac{d\mathrm{V}_{out1}}{dt} \\
+\end{split}
+\end{equation}
+\begin{equation} \label{cap3}
+\begin{split}
+\mathrm{IR}_1 &= \V_{in} - \V_{out1} \\
+\frac{d\mathrm{V}_{out1}}{dt} &= \frac{1}{\mathrm{R}_1 \C_1}\pr{\V_{in} - \V_{out1}}
+\end{split}
+\end{equation}\newline
+
+Therefore, if V$_{out}$ is very small compared to V$_{in}$, you get: 
+
+\begin{equation} \label{cap4}
+\begin{split}
+\frac{d\mathrm{V}_{out1}}{dt} &= \frac{1}{\mathrm{R}_1 \C_1}\V_{in}\\
+\int \frac{d\mathrm{V}_{out1}}{dt} &= \int \frac{1}{\mathrm{R}_1 \C_1}\V_{in}\\
+\mathrm{V}_{out1} &= \frac{1}{\mathrm{R}_1 \C_1} \int \V_{in}\\
+\end{split}
+\end{equation}
+
+And or, that $\V_{out}$ integrates $\V_{in}$. How will this change if we swap the positions of the resistor and capacitor in circuit 2? Once again, consider when $\V_{out}$ is much smaller than the input. 
+
+\begin{equation} \label{cap5}
+\begin{split}
+\mathrm{I} &= \mathrm{C_2}\frac{d}{dt} \pr{\V_{in} - \V_{out2}}\\
+\mathrm{\frac{\V_{out2}}{R_2}} &= \mathrm{C_2}\frac{d}{dt} \pr{\V_{in} - \V_{out2}}\\
+\mathrm{\frac{\V_{out2}}{R_2}} &= \mathrm{C_2}\frac{d \V_{in}}{dt}\\
+\V_{out2} &= R_2\mathrm{C_2}\frac{d \V_{in}}{dt}\\
+\end{split}
+\end{equation}\newline
+
+Thus, in this case $\V_{out}$ approximates the derivative of $\V_{in}$. 
+
+\subsubsection{Qualitative thinking.}
+
+The best lead in to thinking about filtration, to me, is thinking simply about how the graphs look like when something integrates or differentiates a square wave. Let us not do any math, and think only qualitatively. 
+
+\begin{centering}
+\begin{tikzpicture}
+\begin{axis}[
+    xlabel=time,
+    ylabel=voltage,
+    xmin=0, xmax=10,
+    ymin=0, ymax=10,
+    xtick={0},
+   % <---
+    ytick={0}
+            ]
+% can add points by inserting ,mark=* into the specifications
+\addplot[color=green]
+    plot coordinates {
+    (0,0)
+    (2,0)
+    (2,8)
+    (8,8)
+    (8,0)
+    (10,0)
+    };
+\addplot[color=red]
+    plot coordinates {
+    (0,3)
+    (2,2)
+    (4,3)
+    (6,4)
+    (8,5)
+    (10,4)
+    };
+\addplot[smooth,color=blue]
+    plot coordinates {
+    (2,8)
+    (4,2)
+    (6,0.5)
+    (8,0.125)
+    (10,0)
+    };
+\end{axis}
+    \end{tikzpicture}
+    
+\end{centering}
+
+If the green waveform is our $\V_{in}$ from the previous example, then our red curve is similar to how $\V_{out1}$ may look, and the blue curve is similar to how $\V_{out2}$. That is, the blue curve \textit{kind of} differentiates the green curve, because the relatively instant rise signifies a very positive derivative, marked by this blue spike. Similarly, the red curve \textit{kind of} integrates the green curve, because the area under the green curve slowly accumulates, hence the constant slope of the red curve.\newline 
+
+So if we say that the frequency is extremely slow, and the red curve is the voltage being measured at $\V_{out2}$, how might the derivative curve look? 
+
+\begin{multicols}{2}
+\begin{tikzpicture}
+\begin{axis}[
+    xlabel=time (low frequency),
+    ylabel=voltage,
+    xmin=0, xmax=10,
+    ymin=0, ymax=10,
+    xtick={0},
+   % <---
+    ytick={0}
+            ]
+% can add points by inserting ,mark=* into the specifications
+\addplot[color=green]
+    plot coordinates {
+    (0,0)
+    (2,0)
+    (2,8)
+    (8,8)
+    (8,0)
+    (10,0)
+    };
+\addplot[color=red]
+    plot coordinates {
+    (2,0)
+    (2.5,4)
+    (3,8)
+    (8,8)
+    (8.5,4)
+    (9,0)
+    };
+\end{axis}
+    \end{tikzpicture}
+
+\begin{tikzpicture}
+\begin{axis}[
+    xlabel=time (high frequency),
+    ylabel=voltage,
+    xmin=0, xmax=10,
+    ymin=0, ymax=10,
+    xtick={0},
+   % <---
+    ytick={0}
+            ]
+% can add points by inserting ,mark=* into the specifications
+\addplot[color=green]
+    plot coordinates {
+    (0,0)
+    (2,0)
+    (2,8)
+    (8,8)
+    (8,0)
+    (10,0)
+    };
+\addplot[smooth,color=blue]
+    plot coordinates {
+    (2,8)
+    (6,6)
+    (8,5.5)
+    };
+\end{axis}
+    \end{tikzpicture}    
+\end{multicols}
+
+Similarly, if the frequency is very high, how might the integral look? Take a second to ponder the two graphs above and gather a bit of intuition on it. This should allow you to qualitatively state that an integrating circuit will be a \textit{low-pass filter}, and an integrating circuit will be a \textit{high-pass filter}. As in the left graph, as the frequency gets smaller and smaller, the red plot will more and more closely match the green plot. This is the basis of capacitor filtration, an essential tool in electronics!
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%
 \chapter{Writing Hardware}
 
 \section{Introduction}
@@ -560,16 +971,26 @@ This section serves to allow me to comment random things until I find a place fo
     \item The ependyma is a source of stem cells, which contributes to glial scar formation after SCI. Connexin (gap junction) signaling between ependymal cells is supposedly a factor involved in their differentiation. 
 \end{enumerate}
 
-\chapter{Therapeutic Approaches}
+\chapter{In The Clinic \& Therapeutic Approaches}
+Death rates from SCI are still as high as 20\% in some countries. There is a strong age dependence to this, as the probability of walking again after SCI in those older than 50 is much lower than those under.\newline
 
 For this section, I will largely ignore the uninteresting, obvious approaches to axon/neuron regeneration. This includes the often successful implantation of stem cells and or treatment with various neurotrophic factors. While these represent important measures in the field, they are largely intuitive and still face the broad issue of improper circuit reformation.\newline
 
-One thing that I might mention, though, is that adding promise to stem cell implantation is the use of biomaterials that enhance proper network reformation\footnote{\url{https://pubs.rsc.org/en/content/articlepdf/2022/bm/d1bm01744f}}. 
+\subsubsection{Classifying Injury}
+One main method of classifying injury and tracking progress of patients is called the American Spinal Injury Association (AISA) impairment scale. AISA scores are broken into the following categories: 
+
+\begin{enumerate}
+    \item Grade A: Complete impairment, where there is no motor or sensory information being transmitted below the injury site\footnote{It is not clear to me if this is measured by EMG or movement.}
+    \item Grade B: Incomplete impairment, where there is no motor information being transmitted, but some sensory information is preserved. 
+    \item Grade C: There is some motor activity preserved, but more than half of the key muscles are too weak to move against gravity (Grade 3 muscles). 
+    \item Grade D: A fair amount of motor activity is preserved, where at least half of the key muscles are above muscle Grade 3.
+    \item Grade E: There is no impairment at all!
+\end{enumerate}
 
 \subsection{Electrical Stimulation}
 Fascinatingly, electrical stimulation has been used in conjunction with physical therapy in the past with good resuts\footnote{\url{https://www.nejm.org/doi/pdf/10.1056/NEJMoa1803588?articleTools=true}}. The reasons may be that this promotes stem cell differentiation\footnote{\url{https://www.mdpi.com/2073-4409/11/5/846}}, or disrupts inhibitory interneuron signaling. The optimal electrical application for differentiation has been explored extensively\footnote{\url{https://www.frontiersin.org/articles/10.3389/fbioe.2021.591838/full}}. One may wonder if the benefits of BSI are in the interface itself, or simply the stimulation. Combining stem cell implantation and electronics is, likely, the future.\newline
 
-A slightly different rose by the same name is functional electrical stimulation (FES). 
+A slightly different rose by the same name is functional electrical stimulation (FES). Many trials have shown improvement in patients treated with either external stimulation or internal stimulation. 
 
 \subsubsection{Light.}
 Light stimulation feels like a footnote in the electrical modulation story, to me. Though, if one wanted to control different neurons or enzymes on an alternate time course, optogenetic activation may be an option. The obvious issue being that one does not have genetic access to patients, and therefore would need to design (likely very complicated) targeted therapeutics. 
@@ -578,12 +999,14 @@ Light stimulation feels like a footnote in the electrical modulation story, to m
 Another footnote is ultrasound simulation. In this case, it will be low intensity focused ultrasound. Some approaches have seen altered gene expression, but perhaps a more promising one is modulating mechanosensitive channels as was shown here\footnote{\url{https://www.nature.com/articles/s41467-022-28040-1}}. Notably, this paper found that many mechanically activated channels are affected in ultrasound, including Piezo, and many of the Trp family proteins. 
 
 \subsubsection{Magnetics.}
-I would be extremely curious to know if the magnetic field itself has any unique properties beyond its manipulation of the electric field. Still, too, the story is the same. Some seem to enhance channel activation, while others expression. 
+I would be extremely curious to know if the magnetic field itself has any unique properties beyond its manipulation of the electric field. Still, too, the story is the same. Some seem to enhance channel activation, while others expression. Interestingly, transcranial magnetic stimulation (TMS) has been used as a treatment with some success. Incomplete spinal cord injury has seen improvements from TMS. 
 
 \subsection{Biomaterials}
-The overall goal in the use of biomaterials is to block a worsened immune response, scar formation, and promote neuron activity. Theoretically, a perfect biomaterial could be a substrate preferable for neuron growth, contain molecules that inhibit the immune response, neurotrophic factors that enhance stem cell differentiation and recruitment, and ion channel agonists. Notably, to date there have been no major publications where a ``cocktail" like this has been successful. These sorts of things are usually made from hydrogels, collagens, or select inorganic fibers.\newline
+The overall goal in the use of biomaterials is to block a worsened immune response, scar formation, and promote neuron activity. Adding promise to stem cell implantation is the use of biomaterials that enhance proper network reformation\footnote{\url{https://pubs.rsc.org/en/content/articlepdf/2022/bm/d1bm01744f}}. Theoretically, a perfect biomaterial could be a substrate preferable for neuron growth, contain molecules that inhibit the immune response, neurotrophic factors that enhance stem cell differentiation and recruitment, and ion channel agonists. Notably, to date there have been no major publications where a ``cocktail" like this has been successful. These sorts of things are usually made from hydrogels, collagens, or select inorganic fibers.\newline
 
-An open question is how one could leverage biomaterials to help clear damaged parts of neurons/cells that would normally be cleared by phagocytosis. Perhaps, one could add materials that are easily oxygenated to dampen the blow of ROS.
+An open question is how one could leverage biomaterials to help clear damaged parts of neurons/cells that would normally be cleared by phagocytosis. Perhaps, one could add materials that are easily oxygenated to dampen the blow of ROS.\newline
+
+To date, implantation of biomaterials have been relatively lackluster in treating patients. While some regeneration scaffolds have proven to improve some neurological function, no patient has regained motor function. 
 
 \subsection{Drug Treatment}
 Drug treatment primarily follows the same paths, being reduction of inflammation and neuroprotection. Methylprednisolone (MP) is the only drug approved to treat SCI and works through reducing inflammation. Notably, some side effects have been observed and therefore MP has fallen out of favor for treatment. 
@@ -592,6 +1015,9 @@ Drug treatment primarily follows the same paths, being reduction of inflammation
 I think you'll find that there is a disappointing lack of options---signaling the primitive nature of neurosurgery! Anyway, surgical intervention aims to restabilize the spinal cord as quickly as possible, particularly through decompression. Early surgery seems indicative of shorter ICU stays and better neurological recovery. The first day or so post SCI is the critical time. Interestingly, even after decompression, the pressure within the spine remains high due to fluid build-up within the dura matter. This makes blood reperfusion more difficult, leading to more problems. While durotomy is often a complication of surgery due to progressive CSF leakage after operation, in this case it can be helpful to lessen spinal pressure, which there evidently is a long tradition of\footnote{\url{https://www.sciencedirect.com/science/article/pii/0020138388901325}}. Duroplasty is a more modern and sophisticated alternative, and can allow opening of the dura matter without as much risk\footnote{\url{https://www.liebertpub.com/doi/full/10.1089/neu.2014.3668}}.\newline
 
 Incision directly into the spinal cord itself, myelotomy, has also been done with some success. The belief is that it helps drain some of the harmful dying tissue. There seems to be time dependence in this, where if performed too late after injury it will simply reinvigorate inflammation. 
+
+\subsection{Rehabilitation}
+As you would intuit, exercise is the most common technique, as it preserves muscle mass and promotes circuit reorganization. Another rehabilitative technique is pumping in a significant amount of oxygen, as ischemia occurs after injury. BSIs have also become more popular. Fascinatingly, decoding of handwriting has been used to generate text\footnote{\url{https://www.nature.com/articles/s41586-021-03506-2}}. Though, these seem to require deep access to the brain. 
 
 \section{Integrated Approach}
 So it seems to me that a good course of treatment would be something like: 
