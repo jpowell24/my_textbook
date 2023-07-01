@@ -705,10 +705,10 @@ This section will primarily be quantitative. The important bits, though, are the
 
 \begin{equation} \label{freq1}
 \begin{split}
-f &= \frac{\lambda}{2\pi}\\
-V(t) &= \Vpp \cos\pr{\lambda t} \\
+f &= \frac{\omega}{2\pi}\\
+V(t) &= \Vpp \cos\pr{\omega t} \\
 V(t) &= I(t)\mathrm{R} \\
-I(t) & = \pr{\Vpp / {R}} \cos\pr{\lambda t}\\
+I(t) & = \pr{\Vpp / {R}} \cos\pr{\omega t}\\
 \end{split}
 \end{equation}\newline
 
@@ -717,14 +717,129 @@ Therefore, if you were to solve something like $\Vo / \Vi$ your pesky $\cos$ ter
 \begin{equation} \label{freq2}
 \begin{split}
 Q &= CV \\
-I(t) &= C \frac{d \pr{\Vpp \cos\pr{\lambda t}}}{dt} \\
-I(t) &= - \lambda C \Vpp \sin \pr{\lambda t} \\
+I(t) &= C \frac{d \pr{\Vpp \cos\pr{\omega t}}}{dt} \\
+I(t) &= - \omega C \Vpp \sin \pr{\omega t} \\
 \end{split}
 \end{equation}\newline
 
-This means that the current and the voltage will be $90^{\circ}$ out of phase.\newline
+This means that the current and the voltage will be $90^{\circ}$ out of phase. Another way would be to write this as $A \cos \pr{\omega t + \phi}$. Let us think about what will happen with our standard low-pass filter. Using KVL, we can state that: 
 
-% This is going to be kind of a nightmare to write out / understand, so I will procrastinate on it for later. I'll add this code though, for now: $e^{i\theta} = cos(\theta) + isin(\theta)$
+\begin{equation} \label{freq3}
+\begin{split}
+\Vpp \cos\pr{\omega t} &= RC\frac{dv_C}{dt} + v_c \\ 
+v_c &= A \cos \pr{\omega t + \phi} \\ 
+\Vpp \cos\pr{\omega t} &= RC\frac{d}{dt}A \cos \pr{\omega t + \phi} + A \cos \pr{\omega t + \phi} \\
+\end{split}
+\end{equation}
+
+
+\subsection{Imaginary Numbers Digression.}
+You probably looked at the previous equation and it is solvable (probably?) but that it would be not worth your while to do so, and that there is likely a better way to go about it. Recall Euler's Relation\footnote{Electrical Engineers use $j$ instead of $i$ for imaginary numbers. The claim is that it is easier to keep track of in the math.}: 
+
+\begin{equation} \label{imag1}
+\begin{split}
+e^{j\omega t} = \cos(\omega t) + j\sin(\omega t) \\
+\end{split}
+\end{equation}
+
+One of the requirements of a linear circuit is superposition, and that is \textit{kind of} the argument that allows us to use imaginary numbers. You can think that if you are using math that includes both a real and imaginary component, as long as you keep track of the real, your output will still be correct---but, don't think too hard about this. In the upcoming sections, I will use \textbf{v}$_c$ to denote the complex number. Let us examine: 
+
+\begin{equation} \label{imag2}
+\begin{split}
+\Vpp e^{j\omega t} &= RC\frac{d\textbf{v}_c}{dt} + \textbf{v}_c \\
+\textbf{v}_c &= Ae^{j\omega t} \\
+\Vpp e^{j\omega t} &= RC\frac{d}{dt}Ae^{j\omega t} + Ae^{j\omega t} \\
+\end{split}
+\end{equation}
+
+We can differentiate, and then obtain an expression for $A$, and solve for the voltage at the capacitor as:
+
+\begin{equation} \label{imag3}
+\begin{split}
+\Vpp e^{j\omega t} &= j\omega RCAe^{j\omega t} + Ae^{j\omega t} \\
+\Vpp &= j\omega RCA + A \\
+\Vpp &= A\pr{1 + j\omega RC}\\
+\frac{\Vpp}{\pr{1 + j\omega RC}} &= A\\
+\textbf{v}_c &= \frac{\Vpp}{1 + j\omega RC}e^{j\omega t} \\
+\end{split}
+\end{equation}
+
+We now want to find the real component, which begins by rewriting the expression in its polar form: 
+
+\begin{equation} \label{imag4}
+\begin{split}
+\textbf{v}_c &= \pr{\frac{1}{\sqrt{1 + \omega^2 R^2C^2}}e^{j\phi}}\Vpp e^{j\omega t} \\
+\phi &= \tan^{-1}(-\omega RC) \\
+\textbf{v}_c &= \frac{1}{\sqrt{1 + \omega^2 R^2C^2}}\Vpp e^{j(\omega t + \phi)} \\
+\end{split}
+\end{equation}
+
+From here we can simply take the real part and be on our way:
+
+\begin{equation} \label{imag5}
+\begin{split}
+v_c &= \frac{\Vpp}{\sqrt{1 + \omega^2 R^2C^2}} \cos(\omega t + \phi) \\
+\end{split}
+\end{equation}
+
+This is one way to go about this problem. Another way, which will be discussed in a different section, is using impedance. 
+
+
+
+\section{Impedance}
+We mentioned earlier in equation \eqref{imag3} that the relationship between an input voltage and what is measured at a capacitor for a low-pass filter is: 
+
+\begin{equation} \label{imp1}
+\begin{split}
+\Vi \frac{1}{1+j\omega RC} = v_c
+\end{split}
+\end{equation}
+
+If we were to divide this fraction by $j\omega C$, and simplify using the representation $Z_C$, we would get: 
+
+\begin{equation} \label{imp2}
+\begin{split}
+\Vi \frac{1/j\omega C}{1/j\omega C + R} = v_c \\
+\Vi \frac{Z_C}{Z_C + R} = v_c \\ 
+\end{split}
+\end{equation}
+
+This looks just like a voltage divider equation! The concept of \textit{impedance} is used to summarize other circuit fragments, like capacitors or inductors, using some resistance equivalent $Z$. The impedance of a resistor, $Z_R$, is simply R. $Z_C$ is ${1} / j\omega C$. Let's think of how this pertains to our low-pass filter. 
+
+\begin{center}
+\begin{circuitikz}
+\draw 
+(1,2) to [C, l=C] (1,0)
+(-2,2) to [sV, l=V$_{in}$] (-2,0)
+(-2,0) -- (0,0)
+(1,2) to [short, -*] (3,2)
+(-2,2) to [R, l=R] (1,2)
+(3,0) to [short, *-] (0,0)
+(3,2.5) node {V$_{out}$};
+\end{circuitikz}
+\end{center}
+
+If we measure at $\Vo$, we can think of it like a voltage divider, giving us: 
+
+\begin{equation} \label{imp3}
+\begin{split}
+\Vo = \frac{Z_C}{Z_C + R}\Vi
+\end{split}
+\end{equation}
+
+You may wonder if $Z_C = {1} / j\omega C$ has any real basis, or if it is simply an extraction from the above math. In reality, you can find it quite simply through: 
+
+\begin{equation} \label{imp4}
+\begin{split}
+I_c = C\frac{dv_c}{dt} \\
+I_ce^{j\omega t} = CA\frac{d}{dt}e^{j\omega t} \\
+I_ce^{j\omega t} = j\omega CAe^{j\omega t} \\
+I_c = j\omega CA \\
+I_c\frac{1}{j\omega C} = A \\
+\end{split}
+\end{equation}
+
+This is the equivalent of Ohm's law, where ${1} /{j\omega C}$ is the resistance. 
 
 %%%%%%%%%%%%%%%%%%%%
 \chapter{Writing Hardware}
@@ -1089,8 +1204,8 @@ Defining the central pattern generator is still somewhat contested. Computationa
             \vspace{0.2in}
             \begin{center}
             \begin{minipage}[l]{10cm}\small
-                ?? \\
-                -- ??
+                Maybe it sounds like I'm just spouting moral platitudes. But from a vagabond like me, it's not that. I can't begin to tell you how lonely I feel when I come across a beautiful view, then suddenly realize there's no one to enjoy it with me. \\
+                -- Musashi by Eiji Yoshikawa
             \end{minipage}
             \end{center}}
 
