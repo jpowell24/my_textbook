@@ -478,6 +478,199 @@ The IV curve across a light emitting diode (LED) should look something like this
 
 The IV curve for a diode, like an LED, is exponential in that the current slowly increases after the voltage across a diode hits some ``threshold," after which the current rises exponentially with voltage. Why is this the case? A diode is a P-N junction bridged by some depletion zone. The P side of the diode contains positively charged elements that act as ``holes" (a silly way to say there is an absent electron position). The N side contains elements whose outer layers are loosely filled with electrons (i.e., low ionization energy). Effectively, the P side is devoid of electrons, while the N side has many free to give. What does this mean with regard to current and voltage? It means that the ``depletion zone" between the two requires electrons to be able to bridge the gap. This really can't happen unless they have a certain amount of energy, so increasing the voltage helps reach the ``threshold" energy requires to pass the depletion zone (think of $P = IV$). Thus, as the electrons somewhat saturate the diode, you can theoretically pass an infinite current through it, as it will be effectively a short circuit. 
 
+\section{Resistor Lattice Digression}
+One issue with modern BSIs is the usage of ECoGs, or EEGs, or other large measuring devices\footnote{This is expanded on in the later parts.}. Too, they are almost universally hard electronics that require intense surgeries to implant. Therefore, if we could replace with soft electronics, we can cover considerable ground. For example, if one could drill a small hole into a patient's skull and spread over the cortex a fabric that contained electrodes, one could achieve a similar amount of readings with a minimally invasive surgery. It is probable that there will be electrodes small enough to accomplish this, but let's say there aren't. Another way that this could be solved is using a lattice of resistors, with probes at either corner. These corners can exit the brain and be the points at which a computer interfaces with them. Let us start with a simple(r) problem:\newline 
+
+\begin{center}
+\begin{circuitikz}
+\draw 
+(1,1) to [R,l_=$R_{e1}$] (-1,1)
+(1,1) to [R,l=$R_{e2}$] (1,-1)
+(-1,-1) to [R,l=$R_{c1}$] (-1,1)
+(-1,-1) to [R,l=$R_{c2}$] (1,-1)
+
+(-1,-1) to [R,l=$R_{c3}$] (-1,-3)
+(-1,-1) to [R,l=$R_{c4}$] (-3,-1)
+(-3,-1) to [R,l_=$R_{e4}$] (-3,-3)
+(-1,-3) to [R,l=$R_{e3}$] (-3,-3)
+
+(-1,1) to [R,l_=$R_{e1}$] (-3,1)
+(-3,-1) to [R,l=$R_{e4}$] (-3,1)
+(-1,-3) to [R,l_=$R_{e3}$] (1,-3)
+(1,-1) to [R,l=$R_{e2}$] (1,-3)
+
+(-3,1) to [R,l_=$R_{g}$] (-5,1) 
+to ++(0,0) node[ground]{}
+
+(1,1) to [R,l=$R_{g}$] (3,1) 
+to ++(0,0) node[ground]{}
+
+(1,-3) to [R,l_=$R_{g}$] (3,-3) 
+to ++(0,0) node[ground]{}
+
+(-3,-3) to [R,l=$R_{g}$] (-5,-3) 
+to ++(0,0) node[ground]{}
+(-3,-3) to [short, *-] (-3,-3)
+(-3,-3.5) node {V$_{out}$}
+(-1.35,-0.75) node {$\Vi$}
+(-1,-1) to [short, *-] (-1,-1);
+\end{circuitikz}
+\end{center}
+
+Firstly, apologies for the mess in labeling. The most difficult thing about this problem, in actuality, is probably just how you look at it. Redrawing the circuit helps a great deal. I'll guide you through how one might do this. In truth, the four grounded resistors are in parallel and can be simplified to one wire ($R_g || R_g || R_g || R_g$, or $R_g/4$). You can probably realize that the edge resistors, for example the pair of $R_{e1}$, are also in parallel and are in series with $R_{c1}$. Therefore, we have $\pr{R_{e1} || R_{e1}} + R_{c1}$. I'll call this $R^{eq}_1$. Then you'll realize simply that all of the equivalent $R$ are also in parallel. This gives us $R^{eq}_1 || R^{eq}_2 || R^{eq}_3 ||  R^{eq}_4$, which I will call $R^{eq}_{total}$. Now, our circuit simplifies to: 
+
+\begin{center}
+\begin{circuitikz}
+\draw 
+(1,2) to [R, l=$R_g/4$] (1,0)
+to ++(0,0) node[ground]{}
+(-2,2) to [battery, l=$\Vi$] (-2,0)
+(-2,0) -- (0,0)
+(1,2) to [short, -*] (3,2)
+(-2,2) to [R, l=$R^{eq}_{total}$] (1,2)
+(3,0) to [short, *-] (0,0)
+(3,2.5) node {V$_{out}$};
+\end{circuitikz}
+\end{center}
+
+A popular problem of the same flavor is the \textit{infinite resistor grid}, which looks something like this: 
+
+\begin{center}
+\begin{circuitikz}
+\draw 
+(1,1) to [R] (-1,1)
+(1,1) to [R] (1,-1)
+(-1,-1) to [R] (-1,1)
+
+(-1,1) to [R] (-3,1)
+(-1,1) to [R] (-1,3)
+
+(1,1) to [R] (1,3)
+(1,1) to [R] (3,1)
+
+(-1,1) to [short, *-] (-1,1)
+(1,1) to [short, *-] (1,1)
+(-1.2,1.2) node {$a$}
+(1.2,1.2) node {$b$}
+
+;
+\end{circuitikz}
+\end{center}
+
+Imagine that the lattice of resistors continues out in every direction infinitely, in a grid-like fashion, similar to the previous problem. The problem asks you to determine the equivalent resistance between points $a$ and $b$. Considering the infinite nature, the more immediate response would be to take some limit of parallel and series resistors. I actually think this is an important solution to keep in mind, as it can be generalized to other systems better. However, in this case the easiest solution is to use \textit{superposition}. It goes as follows: 
+
+\begin{center}
+\begin{circuitikz}[american]
+\draw 
+(1,1) to [R] (-1,1)
+(1,1) to [R] (1,-1)
+(-1,-1) to [R] (-1,1)
+
+(-1,1) to [R] (-3,1)
+(-1,1) to [R] (-1,3)
+
+(1,1) to [R] (1,3)
+(1,1) to [R] (3,1)
+
+(-1,1) to [short, *-] (-1,1)
+(1,1) to [short, *-] (1,1)
+(-1.2,1.2) node {$a$}
+(1.2,1.2) node {$b$}
+
+(-3,-1) to [isource, l=$I_+$] (-1,1)
+(1,1) to [isource, l=$I_-$] (3,-1)
+;
+\end{circuitikz}
+\end{center}
+
+If you were to wire a positive current source to node $a$, you can immediately know that the current will be split equally in 4 ways, as the lattice is infinite. Then, if you apply a negative current source to node $b$, you can immediately know that it will draw $1/4 I$ from each resistor as well. The total current flowing between nodes $a$ and $b$ will then be $1/2 I$. Given that $V = IR$, and by superposition, we can know that $V_{ab} = (I/2)R$, so $R_{ab} = V_{ab}/I = (I/2)R/I = R/2$. The in-line math is kind of ugly, but I think you get the gist.\newline
+
+Another option of a similar flavor is: 
+
+\begin{center}
+\begin{circuitikz}
+\draw 
+(1,1) to [R,l_=$R^*_{e1}$] (-1,1)
+(1,1) to [R,l=$R^*_{e2}$] (1,-1)
+(-1,-1) to [R,l=$R_{c1}$, red] (-1,1)
+(-1,-1) to [R,l=$R_{c2}$] (1,-1)
+
+(-1,-1) to [R,l=$R_{c3}$] (-1,-3)
+(-1,-1) to [R,l=$R_{c4}$, red] (-3,-1)
+(-3,-1) to [R,l_=$R_{e4}$, red] (-3,-3)
+(-1,-3) to [R,l=$R_{e3}$] (-3,-3)
+
+(-1,1) to [R,l_=$R_{e1}$, red] (-3,1)
+(-3,-1) to [R,l=$R_{e4}$, red] (-3,1)
+(-1,-3) to [R,l_=$R_{e3}$] (1,-3)
+(1,-1) to [R,l=$R_{e2}$] (1,-3)
+
+(-3,1) -- (-3.2,1.2)
+(-3.2,1.5) node {V$_{out1}$}
+(1,1) -- (1.2,1.2)
+(1.2,1.5) node {V$_{out2}$}
+(1,-3) -- (1.2,-3.2)
+(1.2,-3.5) node {V$_{out4}$}
+
+(-3,-3) to [R,l=$R_{g}$] (-5,-3) 
+to ++(0,0) node[ground]{}
+(-3,-3) to [short, *-] (-3,-3)
+(-3,-3.5) node {V$_{out3}$}
+(-1.35,-0.75) node {$\Vi$}
+(-1,-1) to [short, *-] (-1,-1);
+\end{circuitikz}
+\end{center}
+
+In this case, we will think about what each $\Vo$ will read. One thing to note immediately is that the net current at $\Vo{}_2$ will be 0. Therefore, $R^*_{e1}$ and $R^*_{e2}$ don't really matter, and can be neglected in our calculations. This once again is easiest to solve when re-visualized. The gist being that you have two quadrants (the $R_{c1},R_{c4}$, which I colored to have red labels, and the $R_{c2},R_{c3}$ quadrants) where $\Vi$ is split into. The voltage drop across these quadrants being $3R || R$. We then add another $R$, for the one that connects to $R_g$, and voila, we are done. Let's call this $R_q$, so to find the equivalent resistance from $\Vi$ to $\Vo{}_3$ it is $R_{q1} || R_{q2}$. I think you get the idea. The reason for going through these simple models is to prepare ourselves for some of the upcoming, more complicated ones. Let us level up now: 
+
+
+\begin{center}
+\begin{circuitikz}
+\draw 
+(1,1) to [R] (-1,1)
+(1,1) to [R] (1,-1)
+(-1,-1) to [R] (-1,1)
+(-1,-1) to [R] (1,-1)
+
+(-1,1) to [R] (-3,1)
+(-1,1) to [R] (-1,3)
+(-3,1) to [R] (-3,3)
+(-1,3) to [R] (-3,3)
+
+(1,-1) to [R] (3,-1)
+(1,-1) to [R] (1,-3)
+(1,-3) to [R] (3,-3)
+(3,-1) to [R] (3,-3)
+
+(-1,-1) to [R] (-1,-3)
+(-1,-1) to [R] (-3,-1)
+(-3,-1) to [R] (-3,-3)
+(-1,-3) to [R] (-3,-3)
+
+(1,1) to [R] (1,3)
+(1,1) to [R] (3,1)
+(3,1) to [R] (3,3)
+(1,3) to [R] (3,3)
+
+(-3,-1) to [R] (-3,1)
+(-1,-3) to [R] (1,-3)
+(-1,3) to [R] (1,3)
+(3,-1) to [R] (3,1)
+
+(-3,3) -- (-3.2,3.2)
+(-3.2,3.5) node {V$_{out1}$}
+(3,3) -- (3.2,3.2)
+(3.2,3.5) node {V$_{out2}$}
+(-3,-3) -- (-3.2,-3.2)
+(-3.2,-3.5) node {V$_{out3}$}
+(3,-3) -- (3.2,-3.2)
+(3.2,-3.5) node {V$_{out4}$}
+(-1.3,-0.75) node {$\Vi$}
+(-1,-1) to [short, *-] (-1,-1);
+\end{circuitikz}
+\end{center}
+
+
 
 \chapter{Capacitors}
 \section{Overview}
@@ -840,6 +1033,8 @@ I_c\frac{1}{j\omega C} = A \\
 \end{equation}
 
 This is the equivalent of Ohm's law, where ${1} /{j\omega C}$ is the resistance. 
+
+
 
 %%%%%%%%%%%%%%%%%%%%
 \chapter{Writing Hardware}
