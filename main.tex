@@ -479,7 +479,175 @@ The IV curve across a light emitting diode (LED) should look something like this
 The IV curve for a diode, like an LED, is exponential in that the current slowly increases after the voltage across a diode hits some ``threshold," after which the current rises exponentially with voltage. Why is this the case? A diode is a P-N junction bridged by some depletion zone. The P side of the diode contains positively charged elements that act as ``holes" (a silly way to say there is an absent electron position). The N side contains elements whose outer layers are loosely filled with electrons (i.e., low ionization energy). Effectively, the P side is devoid of electrons, while the N side has many free to give. What does this mean with regard to current and voltage? It means that the ``depletion zone" between the two requires electrons to be able to bridge the gap. This really can't happen unless they have a certain amount of energy, so increasing the voltage helps reach the ``threshold" energy requires to pass the depletion zone (think of $P = IV$). Thus, as the electrons somewhat saturate the diode, you can theoretically pass an infinite current through it, as it will be effectively a short circuit. 
 
 \section{Resistor Lattice Digression}
-One issue with modern BSIs is the usage of ECoGs, or EEGs, or other large measuring devices\footnote{This is expanded on in the later parts.}. Too, they are almost universally hard electronics that require intense surgeries to implant. Therefore, if we could replace with soft electronics, we can cover considerable ground. For example, if one could drill a small hole into a patient's skull and spread over the cortex a fabric that contained electrodes, one could achieve a similar amount of readings with a minimally invasive surgery. It is probable that there will be electrodes small enough to accomplish this, but let's say there aren't. Another way that this could be solved is using a lattice of resistors, with probes at either corner. These corners can exit the brain and be the points at which a computer interfaces with them. Let us start with a simple(r) problem:\newline 
+One issue with modern BSIs is the usage of ECoGs, or EEGs, or other large measuring devices\footnote{This is expanded on in the later parts.}. Too, they are almost universally hard electronics that require intense surgeries to implant. Therefore, if we could replace with soft electronics, we can cover considerable ground. For example, if one could drill a small hole into a patient's skull and spread over the cortex a fabric that contained electrodes, one could achieve a similar amount of readings with a minimally invasive surgery. It is probable that there will be electrodes small enough to accomplish this, but let's say there aren't. Another way that this could be solved is using a lattice of resistors, with probes at either corner. These corners can exit the brain and be the points at which a computer interfaces with them.\newline
+
+Don't be annoying, just go with the process. 
+
+\begin{center}
+\begin{circuitikz}[american]
+\draw 
+
+(-5,-3) to [isource, l=$I$] (-5,-1)
+(-5,-1) -- (-3,-1)
+(-5,-3) -- (-3,-3)
+
+(-1,-1) to [R,l=$R_3$] (-1,-3)
+(-1,-1) to [R,l_=$R_2$] (-3,-1)
+(-3,-1) to [R,l_=$R_1$] (-3,-3)
+(-3,-1) to [short, *-] (-3,-1)
+(-1,-1) to [short, *-] (-1,-1)
+(-3,-0.55) node {$V_1$}
+(-1,-0.55) node {$V_2$}
+(-1,-3) -- (-3,-3)
+to ++(0,0) node[ground]{};
+
+\end{circuitikz}
+\end{center}
+
+Please, don't be annoying---the solution is trivial but we will be talking about methods you can generalize. This example is from the SPICE method\footnote{Thank you Prof. Ashmanskas, \url{http://www.ecircuitcenter.com/SpiceTopics/Overview/Overview.htm}}. Considering KCL at the nodes gives us these two equations:
+
+\begin{equation} \label{lattice1}
+\begin{split}
+I &= \frac{V_1}{R_1} + \frac{V_1 - V_2}{R_2}\\
+\frac{V_1 - V_2}{R_2} &= \frac{V_2}{R_3} \\
+\end{split}
+\end{equation}
+
+As it goes, we can reformat this so as to easily turn it into a matrix in the following way: 
+
+\begin{equation} \label{lattice2}
+\begin{split}
+I &= \frac{1}{R_1}V_1 + \frac{1}{R_2}\pr{V_1 - V_2}\\
+I &= \frac{1}{R_1}V_1 + \frac{1}{R_2}V_1 - \frac{1}{R_2}V_2\\
+I &= \pr{\frac{1}{R_1} + \frac{1}{R_2}}V_1 - \frac{1}{R_2}V_2\\
+\end{split}
+\end{equation}
+
+\begin{equation} \label{lattice3}
+\begin{split}
+\frac{V_1 - V_2}{R_2} &= \frac{V_2}{R_3} \\
+0 &= - \frac{1}{R_2}V_1 + \frac{1}{R_2}V_2 + \frac{1}{R_3}V_2 \\
+0 &= - \frac{1}{R_2}V_1 + \pr{\frac{1}{R_2} + \frac{1}{R_3}}V_2 \\
+\end{split}
+\end{equation}
+
+These sorts of equations will usually be simplified using conductance as below: 
+
+\begin{equation} \label{lattice4}
+\begin{split}
+\pr{G_1 + G_2}V_1 - G_2V_2 &= I\\
+- G_2V_1 + \pr{G_2 + G_3}V_2 &= 0 \\
+\end{split}
+\end{equation}
+
+\begin{align}
+\begin{bmatrix} 
+G_1 + G_2       &   - G_2             \\
+- G_2           &   G_2 + G_3       \\
+\end{bmatrix}
+\begin{bmatrix} 
+V_1      \\
+V_2      \\
+\end{bmatrix}
+= 
+\begin{bmatrix} 
+I     \\
+0      \\
+\end{bmatrix}
+\end{align}
+
+So if $R_{1,2,3} = 100 \Omega$, and $I = 1\mA$, then: 
+
+\begin{align}
+x = \mathrm{A}^{-1}\mathrm{B} = 
+\begin{bmatrix} 
+67 \mV   \\
+33 \mV     \\
+\end{bmatrix}
+\end{align}
+
+This method is called \textit{nodal analysis}. You'll find more trouble trying to use a voltage source rather than a current source, and in fixing this, a method of \textit{modified nodal analysis} was invented. Let us take the below example\footnote{\url{https://cheever.domains.swarthmore.edu/Ref/mna/MNA2.html}}:
+
+\begin{center}
+\begin{circuitikz}[american]
+\draw 
+
+ (-5,-1) to [battery,l_=$V_{s1}$] (-5,-3)
+(-5,-1) to [R,l=$R_1$] (-3,-1)
+(-5,-3) -- (-3,-3)
+
+(-1,-1) to [battery,l=$V_{s2}$] (-1,-3)
+(-1,-1) to [R,l_=$R_3$] (-3,-1)
+(-3,-1) to [R,l_=$R_2$] (-3,-3)
+(-3,-1) to [short, *-] (-3,-1)
+(-1,-1) to [short, *-] (-1,-1)
+(-3,-3) to [short, *-] (-3,-3)
+(-5,-0.55) node {$V_1$}
+(-3,-0.55) node {$V_2$}
+(-1,-0.55) node {$V_3$}
+(-2.7,-2.7) node {$V_4$}
+(-5,-1) to [short, *-] (-5,-1)
+(-1,-3) -- (-3,-3)
+to ++(0,0) node[ground]{};
+
+\end{circuitikz}
+\end{center}
+
+In this system, we have 4 nodes, but node 4 largely functions as a reference for the other 3 nodes. A small note to make this a tad clearer is that in thinking about the current flowing into a node, such as into $V_1$, you will view this as current going from $V_2$ to $V_1$, but because everything in electronics is backwards, this is calculated as $(V_1 - V_2)/R_1$, and the opposite for current flowing into $V_2$. Annoyance aside, using KCL, and then our definitions, we can gather these equations: 
+
+\begin{equation} \label{lattice5}
+\begin{split}
+I_1 + \frac{V_1 - V_2}{R_1} &= 0 \\
+\frac{V_2 - V_1}{R_1} + \frac{V_2}{R_2} + \frac{V_2 - V_3}{R_3} &= 0 \\ 
+I_2 + \frac{V_3 - V_2}{R_3} &= 0 \\
+V_1 & = V_{s1} \\
+V_3 & = V_{s2} \\
+\end{split}
+\end{equation}
+
+Which we convert to: 
+
+\begin{equation} \label{lattice6}
+\begin{split}
+I_1 + G_1V_1 - G_1V_2 &= 0 \\
+G_1V_1 + \pr{-G_1 + G_2 + G_3}V_2 - G_3V_3 &= 0 \\ 
+I_3 - G_3V_2 + G_3V_3 &= 0 \\
+V_1 & = V_{s1} \\
+V_3 & = V_{s2} \\
+\end{split}
+\end{equation}
+
+And then: 
+
+\begin{align}
+\begin{bmatrix} 
+G_1 &   -G_1 &  0   & 1     &   0    \\
+-G_1 &   G_1 + G_2 + G_3 &  -G_3   & 0     &   0    \\
+0 &   -G_3 &  G_3   & 0     &   1    \\
+1 &   0 &  0   & 0     &   0    \\
+0 &   0 &  1   & 0     &   0    \\
+\end{bmatrix}
+\begin{bmatrix} 
+V_1      \\
+V_2      \\
+V_3      \\
+I_1      \\
+I_3      \\
+\end{bmatrix}
+= 
+\begin{bmatrix} 
+0     \\
+0      \\
+0     \\
+V_{s1}      \\
+V_{s2}     \\
+\end{bmatrix}
+\end{align}
+
+
+Now, I realize that one doesn't need to build a system of equations for most problems of small size, and they can be generally solved at a glance. Too, in many cases building a system is more hassle than it's worth. But, this will be important to keep in mind for the upcoming chapter \textbf{Modeling Circuits}. Let's look at some examples that are easier dealt with in the traditional way:
+
+
 
 \begin{center}
 \begin{circuitikz}
@@ -519,6 +687,51 @@ to ++(0,0) node[ground]{}
 
 Firstly, apologies for the mess in labeling. The most difficult thing about this problem, in actuality, is probably just how you look at it. Redrawing the circuit helps a great deal. I'll guide you through how one might do this. In truth, the four grounded resistors are in parallel and can be simplified to one wire ($R_g || R_g || R_g || R_g$, or $R_g/4$). You can probably realize that the edge resistors, for example the pair of $R_{e1}$, are also in parallel and are in series with $R_{c1}$. Therefore, we have $\pr{R_{e1} || R_{e1}} + R_{c1}$. I'll call this $R^{eq}_1$. Then you'll realize simply that all of the equivalent $R$ are also in parallel. This gives us $R^{eq}_1 || R^{eq}_2 || R^{eq}_3 ||  R^{eq}_4$, which I will call $R^{eq}_{total}$. Now, our circuit simplifies to: 
 
+\vfill\pagebreak
+
+\begin{multicols}{2}
+\begin{center}
+\begin{circuitikz}
+\draw 
+(-1,-0.5) -- (0,-0.5)
+(-1,0) node {$\Vi$}
+
+(0,4) to [R,l_=$R_{c1}$] (2,4)
+(0,1) to [R,l_=$R_{c2}$] (2,1)
+(0,-2) to [R,l_=$R_{c3}$] (2,-2)
+(0,-5) to [R,l_=$R_{c4}$] (2,-5)
+
+(2,4.5) to [R,l=$R_{e1}$] (4,4.5)
+(2,3.5) to [R,l=$R_{e1}$] (4,3.5)
+(2,4.5) -- (2,3.5)
+
+(2,1.5) to [R,l=$R_{e2}$] (4,1.5) 
+(2,0.5) to [R,l=$R_{e2}$] (4,0.5)
+(2,1.5) -- (2,0.5)
+
+(2,-1.5) to [R,l=$R_{e3}$] (4,-1.5)
+(2,-2.5) to [R,l=$R_{e3}$] (4,-2.5)
+(2,-1.5) to (2,-2.5)
+
+(2,-4.5) to [R,l=$R_{e4}$] (4,-4.5)
+(2,-5.5) to [R,l=$R_{e4}$] (4,-5.5)
+(2,-4.5) to (2,-5.5)
+
+(4,4) to [R,l_=$R_{g}$] (6,4)
+to ++(0,0) node[ground]{}
+(4,1) to [R,l_=$R_{g}$] (6,1)
+to ++(0,0) node[ground]{}
+(4,-2) to [R,l_=$R_{g}$] (6,-2)
+to ++(0,0) node[ground]{}
+(4,-5) to [R,l_=$R_{g}$] (6,-5)
+to ++(0,0) node[ground]{}
+
+(4,4.5) -- (4,-5.5)
+(0,4) -- (0,-5)
+;
+\end{circuitikz}
+\end{center}
+
 \begin{center}
 \begin{circuitikz}
 \draw 
@@ -533,7 +746,9 @@ to ++(0,0) node[ground]{}
 \end{circuitikz}
 \end{center}
 
-A popular problem of the same flavor is the \textit{infinite resistor grid}, which looks something like this: 
+\end{multicols}
+
+You may have had trouble at first glance because of all the ``looped" sections of the circuit. It appears that current can flow any which way. Keep KVL in mind, and recall that current will only flow from high to low voltage. Therefore, you would never have current flowing from, say, $R_{e2}$ to $R_{e3}$. A popular problem of the same flavor is the \textit{infinite resistor grid}, which looks something like this: 
 
 \begin{center}
 \begin{circuitikz}
@@ -557,7 +772,7 @@ A popular problem of the same flavor is the \textit{infinite resistor grid}, whi
 \end{circuitikz}
 \end{center}
 
-Imagine that the lattice of resistors continues out in every direction infinitely, in a grid-like fashion, similar to the previous problem. The problem asks you to determine the equivalent resistance between points $a$ and $b$. Considering the infinite nature, the more immediate response would be to take some limit of parallel and series resistors. I actually think this is an important solution to keep in mind, as it can be generalized to other systems better. However, in this case the easiest solution is to use \textit{superposition}. It goes as follows: 
+Imagine that the lattice of resistors continues out in every direction infinitely, in a grid-like fashion. The problem asks you to determine the equivalent resistance between points $a$ and $b$. Considering the infinite nature, the more immediate method to solve would be to take some limit of parallel and series resistors. I actually think this is an important solution to keep in mind, as it can be generalized to other systems better. However, in this case the easiest solution is to use \textit{superposition}. It goes as follows: 
 
 \begin{center}
 \begin{circuitikz}[american]
@@ -661,12 +876,14 @@ In this case, we will think about what each $\Vo$ will read. One thing to note i
 (-3.2,3.5) node {V$_{out1}$}
 (3,3) -- (3.2,3.2)
 (3.2,3.5) node {V$_{out2}$}
-(-3,-3) -- (-3.2,-3.2)
-(-3.2,-3.5) node {V$_{out3}$}
+(-3,-3.5) node {V$_{out3}$}
 (3,-3) -- (3.2,-3.2)
 (3.2,-3.5) node {V$_{out4}$}
 (-1.3,-0.75) node {$\Vi$}
-(-1,-1) to [short, *-] (-1,-1);
+(-1,-1) to [short, *-] (-1,-1)
+(-3,-3) to [R,l=$R_{g}$] (-5,-3) 
+to ++(0,0) node[ground]{}
+;
 \end{circuitikz}
 \end{center}
 
@@ -1324,6 +1541,114 @@ Where I is the identity matrix.
 \subsubsection{Remarks.} 
 Foward Euler's is explicit, and will be preferred whenever the differential equations are non-stiff\footnote{On approximately the same time scale.}. It is the more accurate of the two methods, and can be less computationally intensive if your decay rates are all slow. Backward Euler's is implicit, and can not be used to solve everything, but is doable in most cases. The extra computation required to solve the system of equations more than makes up for potential limitations in your $\Delta t$. 
 
+\chapter{Modeling Circuits}
+\label{Modeling Circuits}
+
+The idea of this algorithm comes from\footnote{\url{https://lpsa.swarthmore.edu/Systems/Electrical/mna/MNA3.html}} and is an expansion of what was discussed earlier in the \textbf{Electronics} part of this book. Not by coincidence, both of the examples in the earlier section had symmetric matrices. The general way to extract equations from a circuit is in the following pattern:   
+
+\begin{align}
+\begin{bmatrix} 
+\mathrm{G} &   \V \\
+\V^T   &   \mathrm{Z}  \\
+\end{bmatrix}
+\end{align}
+
+G is essentially the way nodes are connected by resistors (represented as conductances). The diagonal represents the total number of resistors connected to a diagonal, and the other bits represents how nodes are connected by resistors. I will use the example provided in the footnote directly to illustrate: 
+
+\begin{center}
+\begin{circuitikz}[american]
+\draw 
+
+(-3,-1) to [battery,l_=$V_{s1}$] (-5,-1)
+(-5,-1) to [R,l_=$R_1$] (-5,-3)
+(-5,-3) -- (-3,-3)
+
+(-1,-1) to [battery,l=$V_{s2}$] (-1,-3)
+(-1,-1) to [R,l_=$R_2$] (-3,-1)
+(-3,-1) to [R,l_=$R_3$] (-3,-3)
+(-3,-1) to [short, *-] (-3,-1)
+(-1,-1) to [short, *-] (-1,-1)
+(-3,-3) to [short, *-] (-3,-3)
+(-5,-0.55) node {$V_1$}
+(-3,-0.55) node {$V_2$}
+(-1,-0.55) node {$V_3$}
+(-2.7,-2.7) node {$V_4$}
+(-5,-1) to [short, *-] (-5,-1)
+(-1,-3) -- (-3,-3)
+to ++(0,0) node[ground]{};
+
+\end{circuitikz}
+\end{center}
+
+There are 4 nodes, but as mentioned before, Node 4 is grounded, a reference, and thus not included in our calculations. This will mean our matrix G must be $n \times n$, where $n$ is $N - 1$. Node 1 is connected only to $R_1$, resolving the $(0,0)$\footnote{You are a computer scientist in addition to a mathematician, so of course our matricies must be 0 indexed.} position of the matrix to be $G_1$. Node 2 is connected to $R_2$ and $R_3$, giving us $(1,1) = G_2 + G_3$. Node 3 to only $R_3$, giving us $(2,2) = G_3$. Node 2 and Node 3 are connected via $R_2$, meaning the $1,2$ and $2,1$ positions will have a $G_2$, though notably, it will be $-G_2$:
+
+\begin{align}
+\mathrm{G} = 
+\begin{bmatrix} 
+G_1 & 0 & 0 \\
+0 & G_2 + G_3 & -G_2 \\
+0 & -G_2 & G_2 \\
+\end{bmatrix}
+\end{align}
+
+There are two voltage sources ($V = 2$), and 3 nodes, meaning the matrix must be $n \times m$, where $n = N-1$ and $m = V$. You fill the matrix as if the positive terminal of the $j^{\mathrm{th}}$ voltage source is connected to the $i^{\mathrm{th}}$ node, point $(i,j) = 1$, or $(i,j) = -1$ for the negative terminal. So for the above, since the negative terminal of $V_{s1}$ is connected to Node 1, $(0,0) = -1$, and as the positive terminal connects to Node 2, $(1,0) = 1$. Lastly, as Node 3 connects to the positive terminal of $V_{s1}$, $(2,1) = 1$. 
+\begin{multicols}{2}
+\begin{align}
+\mathrm{V} = 
+\begin{bmatrix} 
+-1 & 0 \\
+1 & 0  \\
+0 & 1  \\
+\end{bmatrix}
+\end{align}
+
+\begin{align}
+\mathrm{V}^T = 
+\begin{bmatrix} 
+-1 & 1 & 0 \\
+0 & 0  & 1 \\
+\end{bmatrix}
+\end{align}
+\end{multicols}
+
+And lastly, Z for zero is an $n \times n$ matrix of zeros where $n = V$:
+
+\begin{align}
+\mathrm{V}^T = 
+\begin{bmatrix} 
+0 & 0  \\
+0 & 0   \\
+\end{bmatrix}
+\end{align}
+
+Giving us an $\mathrm{A}x = \mathrm{B}$ of: 
+
+\begin{align}
+\begin{bmatrix} 
+G_1 & 0 & 0 & -1 & 0 \\
+0 & G_2 + G_3 & -G_2 & 1 & 0  \\
+0 & -G_2 & G_2 & 0 & 1  \\
+-1 & 1 & 0 & 0 & 0  \\
+0 & 0  & 1 & 0 & 0  \\
+\end{bmatrix}
+\begin{bmatrix} 
+V_1 \\
+V_2  \\
+V_3  \\
+I_1  \\
+I_3 \\
+\end{bmatrix}
+=
+\begin{bmatrix} 
+0 \\
+0  \\
+0  \\
+V_{s1}  \\
+V_{s2} \\
+\end{bmatrix}
+\end{align}
+
+You may, rightfully, say ``\textit{Uh, who cares?}," since we arleady know that each row corresponds to a different equation. Well, there are a few reasons. Firstly, doing this algorithmically allows us to avoid accidentally underdetermining our matrix using the ol' eye-balling it technique. More importantly, though, the algorithmic approach allows us to solve this via code. Once I can write a bit more neatly, I'll likely upload some snippets here. 
 
 \part[Physiology]{Physiology
             \vspace{0.2in}
@@ -1334,9 +1659,14 @@ Foward Euler's is explicit, and will be preferred whenever the differential equa
             \end{minipage}
             \end{center}}
 
-\section{Overview}
+\section{Perspective}
 
-It is very important to avoid taking a quantized approach to studying physiology. You'll notice neuroscience majors may know some superb nuances regarding the role of HCN channels in overexcitable neural disorders, like epilepsy. However, they may be totally unaware of their canonical role as pacemakers in the heart. So too may they be unaware of the rich history of modeling $I_h$ currents by computational biologists, preferring to look only at a channel as it functions in neurons. Hence, one must not become preoccupied with a single leaf. 
+It is very important to avoid taking a quantized approach to studying physiology. You'll notice neuroscience majors may know some superb nuances regarding the role of HCN channels in overexcitable neural disorders, like epilepsy. However, they may be totally unaware of their canonical role as pacemakers in the heart. So too may they be unaware of the rich history of modeling $I_h$ currents by computational biologists, preferring to look only at a channel as it functions in neurons and is testable in a cell culture. Hence, one must not become preoccupied with a single leaf.\newline
+
+Another bit of wisdom comes from Yoshikawa's Musashi. There is a chapter in which vagabonds are tilling a marsh's untenable land. Each time a storm came, all work was reset as flooding returned it to mud. One realized that they had been tilling the field in the shape of a square, unconsciously aiming for a uniform, symmetrical crop that is typical of any farmer. In doing so, they intended to bend nature from its gruff state into something it was not. Nature, not allowing this, cyclically reclaimed the land. But, if they tilled the land in an oblong fashion, asymmetrical and with the natural bends of the marsh, along the path that water would flow in a storm, perhaps the fields would survive the storm. Rather than trying to oppose the universe, one must first know its way, and be guided by it.\newline
+
+Surgical intervention is most often an opposition to the way of nature. Indeed, the most clear evidence of this is in today's BSIs which attempt to escape endogenous circuits all together. Perhaps one should focus more on enhancing nature's way first, before opposing it. And to enhance nature's way, one must understand it fully. 
+
 
 
 \chapter{Muscles}
@@ -1391,6 +1721,34 @@ The calcium stored in the SR is maintained in a number of ways. One example bein
 
 \chapter{The Spinal Cord}
 
+\section{General Structure}
+A cross section of the spinal cord would reveal meninges just like the brain and skull; an outer layer of dura, then arachnoid, and finally pia mater. Too, there is an outer layer of white matter followed by a grey matter interior, which is centered around a ``central canal." The spinal cord has 33 vertebrae, beginning with cervical (C$_1$ to C$_7$), then thoracic (T$_1$ to T$_{12}$), then lumbar (L$_1$ to L$_5$), then sacral (S$_1$ to S$_5$), and finally one coccyx (Co$_1$ to Co$_4$). The sacral, and especially the coccygeal, vertebrae are fused, so you may see them depicted as a single unit. Adding slightly to the confusion is that there are only 31 pairs of spinal nerves. These are C$_1$ - C$_8$, T$_1$ - T$_{12}$, L$_1$ - L$_5$, S$_1$ - S$_5$, and Co$_1$. The spinal nerves exit the spinal cord on either side, i.e., either dorsal or ventral roots. Dorsal entry neurons carry sensory information to the CNS, while ventral exit zones carry information from the CNS to the muscles. Though, importantly, their axons can not necessarily be found on either side, this will depend on where crossing over occurs. The secton of grey matter which connects to the dorsal root is called the dorsal horn, and the same is true for the ventral horn. The lateral horn is in between the dorsal and ventral horns.\newline
+
+\textcolor{red}{Note to self: It might be fun to add a more detailed breakdown at some point, such as the general arrangement of all the nuclei in the spinal cord.}\newline
+
+\textcolor{red}{Another note to self: It would be good to integrate more clinical outcomes into this. For example, what happens in the case of SCI at various vertebrae, or in vagotomy, etc.}
+
+\section{Autonomic Nervous System}
+
+Pathways of the autonomic nervous system require two neurons, one that originates in the CNS and terminates at a ganglion, and a post-ganglionic neuron which terminates at the tissue of interest. While the circuit is often considered to have only two neurons, in fact many pre-ganglionic neurons synapse onto many post-ganglionic neurons, which means one neuron can affect many target tissues. 
+
+\subsection{Sympathetic Nervous System}
+Pre-ganglionic neurons of the sympathetic nervous system originate in the hypothalamus or reticular formation and extend down to the mid-sections of the spinal cord, from neuron pairs T$_1$ to L$_2$. Sympathetic ganglia are directly beside the spinal cord in a long chain (often called the sympathetic chain). Generally speaking, neurons closer to the T$_1$ section correspond to organs higher in the body, such as the heart or lungs, while neurons closer to the L$_2$ section corresponds to those lower in the body, like one's reproductive organs\footnote{Memorizing which nerves respond to which segments is likely not a good use of your time at this stage..., although it might have some clinical use to know which organs may be affected after SCI.}. Pre-ganglionic neurons release acetylcholine onto nicotinic receptors,  and post-ganglionic neurons release norepinephrine onto adrenergic receptors. 
+
+\subsection{Paraympathetic Nervous System}
+Parasympathetic neurons originate from the uppermost and lowermost neurons, either leaving directly from the cranial nerves or from the S$_2$ to S$_4$ nerves. Ganglia in the parasympathetic nervous system are close to the target tissue, meaning post-ganglionic neurons are very short compared to the pre-ganglionic ones. One of the most paths being from the vagus nerve (a cranial nerve) that carries the majority of parasympathetic signals to organs including the heart, lungs, liver, stomach, intestines, and pancreas. Like the sympathetic nervous system, pre-ganglionic neurons release acetylcholine onto nicotinic receptors. Notably, parasympathetic post-ganglionic neurons also secrete acetylcholine, but onto muscarinic receptors instead. 
+
+\section{Acetylcholine, Nicotinic Receptors, and Muscarinic Receptors}
+
+Funnily enough, nicotinic receptors (nAChRs) have been described as the most well understood membrane receptor\footnote{\url{https://www.nature.com/articles/nrd2927}}. Nicotinic receptors are fast opening non-specific cationic channels.  They are expressed throughout much of the major structures in the brain, peripheral nervous system, and skeletal muscle. As such, drugs targeting these receptors are of considerable interest in many neurological disorders. The binding site for ACh is composed of aromatic amino acids, namely W and Y. This paper describes continual exposure to drugs treating nAChRs as causing their eventual desensitization, while exposure to nicotine increases their expression greatly.\newline
+
+Both of these are of key interest in treating Alzheimer's disease, as loss of cholinergic synapses is one of its features (including significant reduction of both muscarinic and nicotinic receptors). Interestingly, Alzheimer's shows varying loss of nicotinic receptor subtypes across the brain. There is no shortage of drugs currently in development for reversing this.\newline
+
+\subsubsection{Myasthena Gravis Digression.}
+Myasthena Gravis, an autoimmune disorder, is an example of an actylcholine dysregulation caused muscle disorder. As a digression within a digression, autoimmune disorders most often target endocrine organs, and the belief is that they are to protect against mutations causing hypersecretion\footnote{\url{https://www.cell.com/immunity/pdf/S1074-7613(20)30180-1.pdf}}. Upon first glance, you may think that Myasthena Gravis evades this generality, but in fact it does not, as it is well associated with patients that dually have a thymoma (tumor of the thymus). Immune cells begin attacking cells with ACh recepetors, tagging them with antibodies. Therefore, Myasthena Gravis presents itself usually in the weaker muscles, such as those that control the eyes, as they have less ACh receptors and therefore a diminished response to signals. Thus, patients may have drooped eyelids (ptosis), double vision (diplopia), or trouble following moving objects with their eyes. The disease worsens with increased activity, as this causes more antibodies to be released onto ACh receptors---but improves on rest. Fascinatingly, men and women ``get" the disease at different times (women typically under 40, while men over 60).\newline
+
+Antibodies may also target other genes (such as MUSK or LRP4) which are involved in ACh receptor localization, or other forms of regulation. 
+
 \section{Central Pattern Generation}
 
 Defining the central pattern generator is still somewhat contested. Computational models have been used to explore its existence\footnote{\url{https://www.nature.com/articles/s41598-021-91714-1}}, and for now we should take a few unifying assumptions: \textbf{(1)} the central pattern generator exists and is used to generate rhythmic moving, such as walking, \textbf{(2)} in many cases it is initiated by the CNS, but aside from that is largely devoid from CNS input, and \textbf{(3)} the CNS can work in tandem to compute integrated moving that requires coordination and balance. 
@@ -1400,7 +1758,7 @@ Defining the central pattern generator is still somewhat contested. Computationa
             \begin{center}
             \begin{minipage}[l]{10cm}\small
                 Maybe it sounds like I'm just spouting moral platitudes. But from a vagabond like me, it's not that. I can't begin to tell you how lonely I feel when I come across a beautiful view, then suddenly realize there's no one to enjoy it with me. \\
-                -- Musashi by Eiji Yoshikawa
+                -- Musashi by Eiji Yoshikawa \\ \\
             \end{minipage}
             \end{center}}
 
@@ -1618,6 +1976,28 @@ Data is processed and used to edit the probability distribution of a Markov chai
 \end{tikzpicture}
 \end{center}
 
-Notably, they did not explicitly mention that one of the progressions could be from state to self state, but one can only assume this is true. So too, only seven states seems to limit the mobility of a patient. 
+Notably, they did not explicitly mention that one of the progressions could be from state to self state, but one can only assume this is true. So too, only seven states seems to limit the mobility of a patient.
+
+
+
+
+
+\vfill\pagebreak
+
+\begin{center}
+Thank you. 
+\end{center}
+
+\vspace{3in}
+
+            \begin{center}
+            \begin{minipage}[l]{10cm}\small
+            
+               \textbf{Man takes up the sword in order to shield the wound in his heart sustained in a far-off time beyond remembrance. Man wields the sword so that he may die smiling in some far-off time beyond perception.} \newline
+                \textbf{-- Berserk by Kentaro Miura}
+            \end{minipage}
+            \end{center}
+
+\vfill
 
 \end{document}
