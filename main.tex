@@ -1426,6 +1426,158 @@ Transition matrix:
 \end{bmatrix}
 \end{align}
 
+\chapter{Neuron Modeling}
+
+\section{Hodgkin-Huxley} 
+
+\subsection{The Main Form} The pair won the nobel prize for this model, which formed the basis of our understanding of action potentials. Beyond neurons, it was used in modeling pacemakers of the heart, and muscle cell depolarizations before better models existed.  The basis is simply KCL: 
+
+\bigskip
+
+\begin{equation} \label{eq8}
+\begin{split}
+C\dot{V} = I - I_{Na} - I_{K} - I_{Leak}
+\end{split}
+\end{equation}
+
+\bigskip
+
+Because the equations can be found in nearly any textbook\footnote{Izhikevich, \textit{Dynamical Systems Neuroscience}} or Wikipedia page, I will focus on some of the conceptual understanding I had issues with at first. The complete equation Hodgkin and Huxley arrived at is as follows: 
+
+\bigskip
+
+\begin{equation} \label{eq8}
+\begin{split}
+C\dot{V} = I - \bar{g}_{Na}m^3h(V - E_{Na}) - \bar{g}_{K}n^4(V - E_{K}) - \bar{g}_{L}(V - E_{L})
+\end{split}
+\end{equation}
+
+\bigskip 
+
+There are a few main points to make here. Firstly, this model considers only 3 currents. $Na$ and $K$ are self explanatory, but $Leak$ represents the small amount of current that will always occur in cells due to the many routes of charged particles passing through the membrane. It is restorative, in that it pushes the membrane potential back to the resting voltage.\newline
+
+\subsection{Gating and Conductance} The $\bar{g}$ represent the maximal conductance of these ions. But, shouldn't conductance be variable, depending on how many channels are open? Yes, that is what $m$, $h$, and $n$ are for. These three variables are effectively kinetic fits of the opening and closing dynamics of sodium and potassium channels. Again, I will not mention these equations explicitly as they can be found anywhere. Conceptually, there are three things to know:\newline
+
+Firstly, $m$ is an activation curve for sodium, and the power to the 3rd represents that there are three activation gates. $h$ is an inactivation gate for sodium. Potassium has 4 activation gates, $n$, and no inactivation gate. Gating can be any number of things, for example, $h$ could be a conformtional change that occurs in the channel after it has been open for $0.1 ms$ that closes it again. Naturally, the gating for every channel will be different. Because the $Leak$ current is an ensemble of many channel types, it will not have "gating" per se.\newline
+
+Secondly, $m$, $h$, and $n$ all are between 0 and 1 and represent the \textbf{proportion of channels open}. For instance, if $n = 1$, then 100\% of potassium channels will be open. This is why we multiply by the maximal conductance.\newline
+
+Thirdly, $m$, $h$, and $n$ are dependent upon voltage, which affords them a time constant $\tau$. This is the conceptually most difficult part. The experimental explanation may be beneficial in understanding. Hodgkin and Huxley realized that these three gating variables will converge to different values depending on the voltage. This makes sense, because we know potassium channels are voltage gated, we would expect the gating variable $n$ to converge to around 1 as the voltage increases. But, the rate at which channels open and close is different. Therefore, their experiments were done to vary the voltage and determine how long it took the conductance of the channels to converge to some value. Does this make sense? In simplest terms: channels open and close at different rates, and that depends on the voltage.\newline
+
+What is the implication of this? Again, look up the exact equations if you are interested. Otherwise, trust the following: $m$ has a time constant $\tau_m$ which is very small compared to $\tau_h$ and $\tau_n$. Meaning, sodium channels will open the fastest in response to a voltage increase, causing depolarization of the cell. After some delay, sodium channel inactivation ($h$) and potassium channel activation ($n$) will kick in, causing repolarization and then hyperpolarization. 
+
+\subsubsection{These are all derivatives.}
+One of the most difficult conceptual understandings I had was that $\dot{V}$, $m$, $h$, and $n$ are all rates that depend on different time constants, which take voltage as their input. So, the derivative of voltage depends on the derivative of $m$, $h$, and $n$, which depend on voltage. The cyclic nature of this makes it strange, but still doable. Use the general form of derivative, $x_{i+2} = x_{i+1} + (x_{i+1} - x_i)/t$, follow the math, and you will survive.
+
+\section{Fitzhugh-Nagumo Reduction}
+
+\subsection{Why would we simplify this system?} Reduction implies we are reducing the amount of variables. But why would we do this? The system is already incredibly generalized. We only consider two ion channels and are looking at a static neuron. How can we be accurate if we simplify this system any further?\newline
+
+Let's start by doing a simple thought experiment regarding the previous model: 
+
+\bigskip
+
+\begin{center}
+
+    $C\dot{V} = I - \bar{g}_{Na}m^3h(V - E_{Na}) - \bar{g}_{K}n^4(V - E_{K}) - \bar{g}_{L}(V - E_{L})$
+    
+\end{center}
+
+\bigskip
+
+As mentioned, $m$, $h$, and $n$ have their own time constants $\tau_{m,h,n}$. That means you'll need to do at least 6 calculations in order to determine $\dot{V}$, which, because it is a derivative, has its own time constant $\tau_v$. Thus, the whole equation is $4^{th}$ dimensional with respect to time and requires at least 7 or so calculations per time step. If you'd like to simulate an action potential for around 10ms with a time step of 0.01ms, that means you'll perform around 7,000 calculations. Which is not so bad!\newline 
+
+However, let's say you want to attempt a propagating action potential. Many people would model this on an infinitely long neuron/wire, but for the sake of this thought experiment let's say you're just interested in a 1 cm neuron/wire for 10 ms. To account for this spatial consideration, you'll need to add in another term besides $I$ which receives current input from the previous segment of the neuron. So, this brings us up to at least 8,000 calculations.\newline
+
+You'd probably want to divide up the neuron into segments on the order of 1 $\mu$m. This multiplies our 8,000 calculations by an additional 100,000, giving us 800,000,000 to worry about. Still, this is not horrendous. But, this considers a 1D wire. Neurons are 3D dimensional. We are already considering a system that is $4^{\mathrm{th}}$ dimensional with respect to time, and now we desire to consider $3^{\mathrm{rd}}$ dimensional with respect to space. Imagine trying to calculate the flux through a $1000 \times 1000 \times 1000$ resolution box (i.e., perhaps $\mu m^3$ with good resolution). The surface area of this box is thus $6\times 10^6$. Now extend this surface area to include the length of the wire and the area of the soma and dendrites, giving you thousands of millions of points to calculate per time iteration. And, we are still only considering two ion channels. Neurons have dozens and dozens of channels all with different gating kinetics. It does not consider things like lateral inhibition, birufcation, dendritic input, etc. I'll not bother telling you how many calculations we need to perform beyond this point---but it would be large. 
+
+\subsection{How to Reduce} What do we know about the time constants mentioned in the previous section? Roughly speaking, some are fast and some are slow. The upswing of an action potential is on a fast time constant, and the repolarization is on a slow time constant. We also know that the upswing portion is roughly a positive feedback loop, so as voltage increases, so should the derivative of voltage.\newline
+
+This helps us arrive at least at the following: 
+
+\begin{equation} \label{eq8}
+\begin{split}
+\dot{V} &= V \times f(x)
+\end{split}
+\end{equation}
+
+
+Simply meaning that the derivative should scale with voltage in some way. We also know that there are at least two ``equilibrium points" in a neuron. Meaning, when the neuron is at rest, the $\dot{V}$ will be zero. And, when the neuron reaches the peak of the action potential, the same is true. This will allow us to immediately assume something interesting:
+
+\begin{equation} \label{eq8}
+\begin{split}
+\dot{V} &= V(V - V_{rest})(V - V_{max})
+\end{split}
+\end{equation}
+
+We are already almost there. What we have just done is said that when either $V = V_{rest}$ or $V = V_{max}$, the $\dot{V}$ will not change. These are all on the aforementioned ``fast" time scale, and as this is representative of the activation of the action potential, it is effectively a simplification of the sodium channel dynamics. This is also extremely easy to measure experimentally.\newline
+
+On our second time scale, the slow time scale, we have the inactivation/repolarization function. How will this look like? Just as with the first equation, we will want this curve to increase in magnitude with voltage. Because $n$ represented the potassium channel activation in the previous segment, we can use that as our repolarization function here. 
+
+\begin{equation} \label{eq8}
+\begin{split}
+\dot{n} &= V - \gamma n
+\end{split}
+\end{equation}
+
+What does this say? It says that our repolarization curve $\dot{n}$ will increase with respect to voltage. But, it will also decrease with respect to itself according to some scaling factor $\gamma$.\newline
+
+Now we have reduced our function down to two dimensions and can combine terms: 
+    
+\begin{equation} \label{eq8}
+\begin{split}
+    \dot{V} &= V(V - V_{rest})(V - V_{max}) - n\\ 
+    \dot{n} &= V - \gamma n\\
+\end{split}
+\end{equation}
+
+But, we still want voltage to be affected by an injected current, so we can simply add this term back in. And it is also in this equation that we will add our spatial dependence to reach the following: 
+
+\begin{equation} \label{eq8}
+\begin{split}
+    \dot{V} &= I_{app} + [V(V - V_{rest})(V - V_{max}) - n] +  D\frac{\partial V^2}{\partial x^2}\\
+\end{split}
+\end{equation}
+
+$D$ is our spatial dependence, which represents the diffusion of charge around the neuron membrane. And that's it, for now! 
+
+\subsubsection{Circuits digression.}
+A lot of the original work done by Fitzhugh and Nagumo used circuit equivalents in order to model neurons. One such example is as follows\footnote{This circuit is adapted from {\textit{Mathematical Physiology}}, by James Keener \& James Sneyd (1998).}:
+
+\begin{center}
+ \begin{circuitikz} 
+ \draw
+    (0, 0) node[op amp,yscale=-1] (opamp) {}
+    (opamp.+) to[short] ++(-1,0) 
+    to[C] ++(0,1.5)
+    (opamp.+) to[short] ++(-1,0)
+    to[R] ++(0,-1.5)
+    to ++(0,0) node[ground]{}
+    (opamp.-) to[short] ++(0,-1) coordinate (leftS)
+    to[short] (leftS -| opamp.out)
+    to[short] (opamp.out)
+    to[R] ++(0,2)
+    (-4,2) -- (2,2)
+    (-4,2) to[C] (-4,0)
+    to ++(0,0) node[ground]{}
+    (3.5, 0.5) node[op amp,yscale=-1] (opamp) {}
+    (opamp.+) to[short] ++(-0.5,0) 
+    to[short] ++(0,1)
+    (opamp.-) to[short] ++(-0.5,0) 
+    to[short] ++(0,-1)
+    to[R] ++(0,-2)
+    to ++(0,0) node[ground]{}
+    (1.81,-1) to[R] (4.7,-1)
+    to[short] (opamp.out)
+    to[short] ++(0,1.5)
+    to[R] ++(-3,0)
+;
+\end{circuitikz}
+
+\end{center}
+
+The rightward opamp functions as a Schmitt Trigger, and the entire thing is effectively an opamp oscillator with a second opamp in the middle. The purpose is to simulate an excitable system, like a neuron that is continually firing. Excitable systems systems are those that fire and have some refractory period before firing again (for example forest fires, or even your toilet).
+
 
 \section{Diffusion}
 
