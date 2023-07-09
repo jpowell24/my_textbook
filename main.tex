@@ -156,6 +156,7 @@
 \newcommand{\bs}{\bigskip}
 \newcommand{\Vo}{{V}_{out}}
 \newcommand{\Vi}{{V}_{in}}
+\newcommand{\fdb}{{f}_{3dB}}
 
 \begin{document}
 
@@ -922,7 +923,14 @@ RC will be 1k$\Omega \times 1 \mu$F $ = 1 \times 10^{-3}$, or $\tau = 1$ms. What
 
 This was meant to serve as a basic intro to what a capacitor is. Now we can begin discussing the nuances. 
 
-\section{Filtration}
+\section{Filtration Conceptually}
+
+Firstly, what is filtration? Filtration refers to our filtering out of background signal, or any undesigned signal, in order to isolate our signal of interest. For example, perhaps you are interested in a sine wave whose period is 1 ms, but this is superimposed by a bunch of other sine waves of variable periods. You can extract the 1ms sine wave with some clever circuits, and build your following circuit fragments based on it. 
+
+\subsubsection{Why filter?}
+You may ask yourself, why would we need a circuit that can filter out signals / frequencies? An example given by Professor Ashmanskas is: imagine you are building a sensor that tests the water level in a pool. You don't want the pool to overflow when it rains, or get too low when the Summer comes and evaporates water---so you devise an automatic system to add or take out water as needed. One could simply add a sensor to the side of the pool, but it will be subject to the constant waves formed by people swimming, and its readings will be horribly off-base, and uninterpretable. Each time someone cannon-balls in and splashes it, the sensor will think that the pool is greatly overflowing. Thus, one can devise a circuit that filters out all of these little fluctuations (this would be called a \textit{low-pass filter}, for passing things that occur on a long time-scale---low frequency).
+
+
 \subsection{Integration and Differentiation}
 Capacitors have this incredible ability to perform complex math, including taking derivatives or integrals of your wave form. Let's think about how this may occur using the circuit mentioned in the previous part. Firstly, recall that the current flowing through the resistor must equal the current flowing through the capacitor, and that $Q = CV$: 
 
@@ -1108,7 +1116,7 @@ So if we say that the frequency is extremely slow, and the red curve is the volt
     \end{tikzpicture}    
 \end{multicols}
 
-Similarly, if the frequency is very high, how might the integral look? Take a second to ponder the two graphs above and gather a bit of intuition on it. This should allow you to qualitatively state that an integrating circuit will be a \textit{low-pass filter}, and an integrating circuit will be a \textit{high-pass filter}. As in the left graph, as the frequency gets smaller and smaller, the red plot will more and more closely match the green plot. This is the basis of capacitor filtration, an essential tool in electronics!
+Similarly, if the frequency is very high, how might the integral look? Take a second to ponder the two graphs above and gather a bit of intuition on it. This should allow you to qualitatively state that an integrating circuit will be a \textit{low-pass filter}, and a differentiating circuit will be a \textit{high-pass filter}. As in the left graph, as the frequency gets smaller and smaller, the red plot will more and more closely match the green plot. This is the basis of capacitor filtration, an essential tool in electronics!
 
 \section{Frequency Dependence}
 This section will primarily be quantitative. The important bits, though, are the qualitative understandings, and the final results of this quantitative section. What you find in the interim is likely not worth understanding fully. Let's begin by supposing we apply a $\cos$ wave to a resistor. The relationship between current and voltage is as follows:
@@ -1192,9 +1200,7 @@ v_c &= \frac{\Vpp}{\sqrt{1 + \omega^2 R^2C^2}} \cos(\omega t + \phi) \\
 \end{split}
 \end{equation}
 
-This is one way to go about this problem. Another way, which will be discussed in a different section, is using impedance. 
-
-
+This is one way to go about this problem. Another way, which will be discussed in the next section, is using impedance. 
 
 \section{Impedance}
 We mentioned earlier in equation \eqref{imag3} that the relationship between an input voltage and what is measured at a capacitor for a low-pass filter is: 
@@ -1249,8 +1255,43 @@ I_c\frac{1}{j\omega C} = A \\
 \end{split}
 \end{equation}
 
-This is the equivalent of Ohm's law, where ${1} /{j\omega C}$ is the resistance. 
+This is the equivalent of Ohm's law, where ${1} /{j\omega C}$ is the resistance. Understanding this, we can find our high-pass filter's equation to be: 
 
+\begin{equation} \label{imp3}
+\begin{split}
+\Vo = \frac{R}{Z_C + R}\Vi
+\end{split}
+\end{equation}
+
+\section{Filtration Quantitatively}
+We are finally prepared to talk about filtration quantitatively! As was mentioned in the impedance discussion, resistor-capacitor (RC) circuits can be formulated as voltage dividers. We know that the impedance of a capacitor is ${1} /{j\omega C}$, which has some frequency dependence from $\omega$ (or, $2\pi f$). Therefore, we can get the sense that $\Vo$ may change depending on this frequency. With a bit of re-writing, we find: 
+
+\begin{equation} \label{filt1}
+\begin{split}
+\frac{\Vo}{\Vi} &= \frac{Z_C}{Z_C + R} \\
+\frac{\Vo}{\Vi} &= \frac{1}{1 + j\omega RC} \\
+\frac{\Vo}{\Vi} &= \frac{1}{\sqrt{1 + (2\pi f RC)^2}} \\
+\end{split}
+\end{equation}
+
+We can see that as the frequency goes up, this converges to $1 / \infty$, or $1/1$ as frequency goes down. Whereas, for a high pass filter: 
+
+\begin{equation} \label{filt1}
+\begin{split}
+\frac{\Vo}{\Vi} &= \frac{R}{Z_C + R} \\
+\frac{\Vo}{\Vi} &= \frac{j\omega RC}{1 + j\omega RC} \\
+\frac{\Vo}{\Vi} &= \frac{2\pi f RC}{\sqrt{1 + (2\pi f RC)^2}} \\
+\end{split}
+\end{equation}
+
+Which converges to $\infty / \infty$ as frequency goes up, and $0 / 1$ as frequency goes down.
+
+\subsection{Corner Frequency and Phase Shift}
+The way one quantifies this is with the ``corner frequency," which you will more often heart as $\fdb$. You'll notice that for both the high-pass and low-pass filter equations described above, the ratio of $\Vo$ to $\Vi$ is $1/\sqrt{2}$ when the frequency inputted is $f = 1/2\pi RC$. $1/\sqrt{2}$ corresponds to about 0.7, meaning that at this $\fdb$, the output is about 70\% the amplitude of the input. Thus, it is a good marker of how well your filter will work. If you are trying to pick a low pass filter that filters out anything at 1000 kHz and higher, you'll want to pick an RC circuit combination that is well below it.\newline
+
+Notably, filtration causes a phase shift. This shouldn't be surprising when you recall that a low-pass and high-pass filter also integrate and differentiate respectively. Let us take, for example, a $\sin$ input. If it is passed through a low-pass filter, would expect it to be integrated to $-\cos$. If passed to a high-pass, it would be differentiated to $\cos$. Therefore, as $-\cos$ is $+90^{\circ}$ relative to $\sin$, and $\cos$ is $-90^{\circ}$, we would expect a low-pass filter to generate an output that precedes $\Vi$, while a high-pass will generate one which lags $\Vi$.\newline
+
+\textcolor{red}{Somehow this disagrees with Prof. Ashmanskas' notes. Need to double check what logic error I am making here.}
 
 
 %%%%%%%%%%%%%%%%%%%%
