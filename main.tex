@@ -38,11 +38,18 @@
 \usetikzlibrary{patterns}
 \usetikzlibrary{arrows.meta}
 
+\usepackage{mdframed}
+\usepackage{pbox}
+\usepackage{array}
+\usepackage{makecell}
+\usepackage{booktabs}
+\setlength{\heavyrulewidth}{1pt}
+\setlength{\abovetopsep}{4pt}
+
+
 \setlength{\parindent}{0in}
 
 \pagestyle{plain}
-
-\usepackage{listings}
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -54,6 +61,7 @@
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
 
+\usepackage{listings}
 \lstset{
     language=Verilog,
     breakatwhitespace=false,         
@@ -238,23 +246,23 @@ It is true that total recovery from spinal cord injury, in sever cases, will req
 The bulk of this information comes from the Lab Electronics course at the University of Pennsylvania, taught to me by Professor Ashmanskas\footnote{\url{https://www.hep.upenn.edu/Classes/Phys364_spring23/}}$^,$\footnote{\url{http://www.hep.upenn.edu/~ashmansk/}}. As a comment on notation: $V$ represents a variable value, while V represents a unit (or at least, that's what it should be; sometimes I forget proper notation). Graphics like this were made using CircuitTikz, whose manual can be found \href{https://texdoc.org/serve/circuitikz/0}{here}.\newline
 
 \section{How Electricity Works} 
-\subsection{The misconception} One often represents electricity with the canonical metaphor of water flowing in a tube, equating the flow of water, which powers a wheel of some sort, as being the equivalent of electrons pushing through a wire. Incidentally, this simplifying schema illustrates a key misconception in the nature of electricity. This is easiest exemplified in the mode with which electricity reaches one's house from a power-plant, which before arriving will be subject to breaks in the circuit (transformers). In the traditional viewing of electricity, that is taught in early education, this is disconcerting as if electrons can not physically go from a power plate to the lights in your home, then how can their kinetic energy be transferred to them and turn them on?\newline
+\subsection{The misconception} One often represents electricity with the canonical metaphor of water flowing in a tube, equating the flow of water, which powers a wheel of some sort, as being the equivalent of electrons pushing through a wire. Incidentally, this simplifying schema illustrates a key misconception in the nature of electricity. This is easiest exemplified in the mode with which electricity reaches one's house from a power-plant, which before arriving will be subject to breaks in the circuit (transformers). In the traditional viewing of electricity, that is taught in early education, this is disconcerting as if electrons can not physically go from a power plant to the lights in your home, then how can their kinetic energy be transferred to them and turn them on?\newline
 
-When a battery sits without wires attached, around it is an electric field. This field does not dissipate because no electrons flow from it. When wires are attached, charge accumulates on the surface of the wires. This causes a small electric field within the wires, but the drift velocity of electrons within the wire is quite slow---nowhere near the speed of light. However, the flow of electrons within the wire is sufficient to drive an electric field which exists around the wires. From this, we can determine the direction that energy will flow by taking the cross product of the electric and magnetic fields. In fact, if an lightbulb is attached, this means that energy flows from the battery to the bulb in all directions, not through the wires itself.\newline 
+Regarding the flow of \textit{energy}: when a battery sits without wires attached, around it is an electric field. This field does not dissipate because no electrons flow from it. When wires are attached, charge accumulates on the surface of the wires. This causes a small electric field within the wires, but the drift velocity of electrons within the wire is quite slow---nowhere near the speed of light that you might expect electricity to flow. However, the flow of electrons within the wire is sufficient to drive an electric field which exists all around the wires. From this, we can determine the direction that energy will flow by taking the cross product of the electric and magnetic fields. In fact, if an lightbulb is attached, this means that energy flows from the battery to the bulb in all directions, not through the wires itself. This energy flow induces the vibration of electrons within the bulb's filament, thereby causing light. This means that a net flow of electrons is not required to power a bulb---but rather only their vibrations. Thus is illustrated next:\newline 
 
-Let us consider now what will happen with an AC circuit, where the electromotive force flips with each cycle. In this case, both the electric and magnetic fields switch directions, meaning that their cross product will remain the same and power the lightbulb. Notably, the electrons do not move much (if at all) in this setup---but this is not a surprise, as it is not the electrons that carry the energy anyway. Now, it is still essential to recognize that it is the movement of electrons within the filament of a lightbulb that creates light. This is, indeed, from kinetic energy transferred from electrons bouncing against the metals lattice, dissipating energy in the form of light. The necessary distinction is that it is not electrons that flow all the way from the battery, but rather it is vibrations of those that were, and always will be, within the bulb itself. When you consider it like this, it is straightforward---as the electric field derived from the battery is what provides the electrons with enough kinetic energy to power the bulb.\newline
+Let us consider now what will happen with an AC circuit (120V AC outlets around your home), where the electromotive force flips with each cycle. In this case, both the electric and magnetic fields switch directions, meaning that their cross product will remain the same and, again, energy flows in all directions to power the lightbulb. Notably, the electrons do not move much (if at all) in this setup---but this is not a surprise, as it is not the electrons that carry the energy anyway. Now, it is still essential to recognize that it is the movement of electrons within the filament of a lightbulb that creates light. This is, indeed, from kinetic energy transferred from electrons bouncing against the metals lattice, dissipating energy in the form of light. The necessary distinction is that it is not electrons that flow all the way from the battery, but rather it is vibrations of those that were, and always will be, within the bulb itself. When you consider it like this, it is straightforward---as the electric field derived from the battery is what provides the electrons with enough kinetic energy to power the bulb.\newline
 
-Interestingly, comparisons to the ``water flow" model fail dramatically in the traditional sense, but the Venturi Effect used to describe fluid flow actually succeeds. In adding a bulb you add a resistor, which is comparable to adding a part of a pipe with a smaller diameter. As water will flow faster in this section of the tube, so too will electrons. In order to maintain the same current as is through the rest of the tube, the drift velocity, $\mathrm{V_d}$, must be higher. $\mathrm{V_d}$ is proportional to the electromotive force, E, meaning the force is highest within the bulb.\newline 
+Interestingly, comparisons to the ``water flow" model fail dramatically in the traditional sense, but the Venturi Effect used to describe fluid flow actually succeeds. In adding a bulb you add a resistor, which is comparable to adding a part of a pipe with a smaller diameter. As water will flow faster in this section of the tube, so too will electrons. In order to maintain the same current as is through the rest of the tube, the drift velocity, $V_d$, must be higher. $V_d$ is proportional to the electromotive force, E, meaning the force is highest within the bulb. Things like $V_d$ are simplified into Ohm's Law ($V = IR$) and not often discussed.\newline 
 
-Of course you may say: ``well then why do we use wires at all?" The answer is that wires are helpful in channeling the fields, thereby making them more efficient. Knowing all of this, in this work I will almost invariable describe the flow of current as electrons moving through a wire. This is because it is much easier to think of electricity in this way, hence the ubiquitous misconception. 
+Of course you may say: ``well, then why do we use wires at all?" The answer is that wires are helpful in channeling the fields, thereby making them more efficient. But, we do not \textit{need} wires, per se. Think of wireless charging, for example. Knowing all of this, in this work I will almost invariably describe the flow of current as electrons moving through a wire. This is because it is much easier to think of electricity in this way, hence the ubiquitous misconception. 
 
 \subsection{Nuances in the fields} It is worth explicitly highlighting that the electric field that causes the actual flow is from charges along the wires, rather than the battery. This is notable because if this were not the case, the proximity of the bulb to the battery would dictate its brightness. One may wonder how this type of charge distribution can be established so rapidly, and the reason is that the distance an electron needs to travel in order to create such a distribution is subatomic in size---meaning that with movement at the speed of light, the time it takes to establish a surface charge is effectively zero.\newline
 
-The whole idea is quite unintuitive, so it is appropriate to keep it smushed in the back of your mind, and to only draw it out when encountering things that are otherwise strange---such as wireless charging, which should now be much more comprehensible. 
+The whole idea is quite unintuitive, so it is appropriate to keep it smushed in the back of your mind, and to only draw it out when encountering things that are otherwise strange---like the aforementioned wireless charging, which should now be much more comprehensible. 
 
 
 
-\section{Laws and Devices} The currents flowing in and out of a node will always be equal. The sum of the voltages over an entire circuit will always be equal. Kirchoff's Voltage Law (KVL) can be used to show that wires connected in parallel will have the same voltage across them. In this way, we can predict the current flowing through a circuit to be $V = IR$. The formula for power is given as: $VI = P$, which means that when one solves for voltage, and knowing that current is in units of charge/time and power in work/time, voltage is work per unit charge.\newline
+\section{Laws and Devices} The currents flowing in and out of a node will always be equal. The sum of the voltages over an entire circuit will always be equal. Kirchoff's Voltage Law (KVL) can be used to show that wires connected in parallel will have the same voltage across them, and the current flowing in and out of a node will always be the same, defined in  Kirchoff's Current Law (KCL). In this way, we can predict the current flowing through a circuit to be $V = IR$. The formula for power is given as: $VI = P$, which means that when one solves for voltage, and knowing that current is in units of charge/time and power in work/time, voltage is work per unit charge.\newline
 
 Voltage is measured using a voltmeter, a device in parallel with the load you are interested in measuring. An ammeter is used to measure current, which will be in series with the current you are trying to measure. This means that the voltmeter should have an extremely high resistance, so as to not draw any current, and an ammeter to have a low resistance, so as to not have any voltage drop. These are important considerations, as if the resistance of the load you are measuring is large (say, $1\mathrm{M}\Omega$), it is possible that the voltmeter will have some non-negligible current flow through it. The same goes for if your circuit has very low resistance and you use an ammeter. To illustrate, one would measure the voltage and current coming from a battery as seen below:
 
@@ -1289,9 +1297,45 @@ Which converges to $\infty / \infty$ as frequency goes up, and $0 / 1$ as freque
 \subsection{Corner Frequency and Phase Shift}
 The way one quantifies this is with the ``corner frequency," which you will more often heart as $\fdb$. You'll notice that for both the high-pass and low-pass filter equations described above, the ratio of $\Vo$ to $\Vi$ is $1/\sqrt{2}$ when the frequency inputted is $f = 1/2\pi RC$. $1/\sqrt{2}$ corresponds to about 0.7, meaning that at this $\fdb$, the output is about 70\% the amplitude of the input. Thus, it is a good marker of how well your filter will work. If you are trying to pick a low pass filter that filters out anything at 1000 kHz and higher, you'll want to pick an RC circuit combination that is well below it.\newline
 
-Notably, filtration causes a phase shift. This shouldn't be surprising when you recall that a low-pass and high-pass filter also integrate and differentiate respectively. Let us take, for example, a $\sin$ input. If it is passed through a low-pass filter, would expect it to be integrated to $-\cos$. If passed to a high-pass, it would be differentiated to $\cos$. Therefore, as $-\cos$ is $+90^{\circ}$ relative to $\sin$, and $\cos$ is $-90^{\circ}$, we would expect a low-pass filter to generate an output that precedes $\Vi$, while a high-pass will generate one which lags $\Vi$.\newline
+Notably, filtration causes a phase shift. This shouldn't be surprising when you recall that a low-pass and high-pass filter also integrate and differentiate respectively. Let us take, for example, a $\sin$ input. If it is passed through a low-pass filter, would expect it to be integrated to $-\cos$. If passed to a high-pass, it would be differentiated to $\cos$. Therefore, as $-\cos$ is $-90^{\circ}$ ($\sin(x - \frac{\pi}{2}) = -\cos(x)$) relative to $\sin$, and $\cos$ is $+90^{\circ}$ ($\sin(x + \frac{\pi}{2}) = \cos(x)$), we would expect a low-pass filter to generate an output that lags $\Vi$, while a high-pass will generate one which precedes $\Vi$.\newline
 
-\textcolor{red}{Somehow this disagrees with Prof. Ashmanskas' notes. Need to double check what logic error I am making here.}
+\section{Summarizing Thoughts}
+
+\begin{multicols}{2}
+\begin{center}
+\begin{circuitikz}
+\draw 
+(1,2) to [C, l=C$_1$] (1,0)
+(-2,2) to [sV, l=V$_{in}$] (-2,0)
+(-2,0) -- (0,0)
+(1,2) to [short, -*] (3,2)
+(-2,2) to [R, l=R$_1$] (1,2)
+(3,0) to [short, *-] (0,0)
+(3,2.5) node {V$_{out1}$};
+\end{circuitikz}
+\end{center}
+
+\begin{center}
+\begin{circuitikz}
+\draw 
+(1,2) to [R, l=R$_2$] (1,0)
+(-2,2) to [sV, l=V$_{in}$] (-2,0)
+(-2,0) -- (0,0)
+(1,2) to [short, -*] (3,2)
+(-2,2) to [C, l=C$_2$] (1,2)
+(3,0) to [short, *-] (0,0)
+(3,2.5) node {V$_{out2}$};
+\end{circuitikz}
+\end{center}
+\end{multicols}
+
+Let us look at these two circuits again, and see what we can tell just from a glance.\newline
+
+For the left circuit, since the current through the resistor and capacitor must be the same, we can say $Q = C\Vo$, and thus $I = C\Vo'$, that $\Vi = IR = RC\Vo'$, so $\Vo$ integrates $\Vi$. Knowing that it integrates, we can intuit that it must be a low-pass filter, based on the graphs presented earlier. We can also know it is a low-pass filter if we recall that $Z_C = 1/j\omega C$, and that a voltage divider must look like $Z_C / R + Z_C$, which would give us $1 / j\omega C + 1$. And, since it integrates, we know that $\int \sin = -\cos$, so there will be a $-90^{\circ}$ phase shift at very high frequencies.\newline
+
+For the right circuit, since $\Vi - \Vo = V_C$, we know $CV_C' = I$, so $\Vo = RC\Vi'$. Therefor, it differentiates, which means it mus be a high-pass filter. Too, it must be of the form $R/Z_C + R$. And if it differentiates, then $\sin ' = \cos$, so there must be a $+90^{\circ}$ phase shift at very low frequencies.\newline
+
+In other words, you can tell a lot just at a glance! This is without any math!
 
 
 %%%%%%%%%%%%%%%%%%%%
@@ -1864,6 +1908,8 @@ Surgical intervention is most often an opposition to the way of nature. Indeed, 
 
 \chapter{Muscles}
 
+A large part of this information comes from Dee Silverthorn's \textit{Human Physiology} textbook---arguably the best textbook of all time. 
+
 \section{Skeletal Muscle}
 \subsection{A Cellular Level}
 \subsubsection{Structure.}
@@ -1878,11 +1924,8 @@ A steady supply of ATP is needed to maintain pumping, and it is said that at any
 
 Notably, it is very difficult to fully deplete a muscle of its ATP. Other forms of fatigue begin before this can possibly occur, which include CNS or PNS feedback. An example of this may be that acetylcholine is not synthesized fast enough to continually stimulate muscle fibers. Continual simulation of muscle fibers, beyond what is allowable under normal conditions, \textbf{will fully deplete ATP levels and therefore cause damage to muscles}. Another consideration is the continuous use of ATP may result in P$_i$ buildup in the sarcoplasm, making release of ADP $+$ P$_i$ from myosin less likely to occur. Too, this opens the possibility of calcium phosphate forming, which can be quite damaging if it crystallizes further. There are also ion concentration changes to consider, and continued stimulation can result it tetanus.
 
-\subsection{Nervous system control}
-
-% COMMENTING OUT BECAUSE I AM UNSURE WHAT SECTION TO PUT THIS IN.
-% \subsection{Disorders}
-% There are many ways one can lose control of their muscles. Nerve damage, for example, will halt the release of acetylcholine onto the motor plate. In a similar manner, botulism is a result of the botulinum toxin blocking release of acetylcholine, resembling the effect of nerve damage. In muscular dystrophy, the protein dystrophin is absent, which would normally attach actin to the cell membrane. Evidently, this can result in membrane permeability, calcium influx, and thus activation of digestive enzymes that breakdown muscle fibers. In McArdle's disease, muscles simply cannot convert glycogen to glucose-6-phosphase, causing the energy supply to be limited. 
+\subsubsection{Disorders Digression.}
+There are many ways one can lose control of their muscles. Nerve damage, for example, will halt the release of acetylcholine onto the motor plate. In a similar manner, botulism is a result of the botulinum toxin blocking release of acetylcholine, resembling the effect of nerve damage. In muscular dystrophy, the protein dystrophin is absent, which would normally attach actin to the cell membrane. Evidently, this can result in membrane permeability, calcium influx, and thus activation of digestive enzymes that breakdown muscle fibers. In McArdle's disease, muscles simply cannot convert glycogen to glucose-6-phosphase, causing the energy supply to be limited. 
 
 
 \section{Smooth Muscle}
@@ -1898,8 +1941,6 @@ Smooth muscle is not considered to have sarcomeres, despite it having the same b
 Initiation of contraction begins the same as skeletal muscle, in that calcium enters and the concentration is further driven up by sarcoplasmic calcium release. Though, in this case Ca$^{2+}$ may enter either through gap junctions or membrane ion channels. As such, there are many more modes of entry than in skeletal muscle. For example, voltage-gated Ca$^{2+}$ channels may open, but there are also ligand gated channels or stretch-activated channels, adding extra layers of possible regulation. Intracellular differences arise beginning from release from the SR. Firstly, is is no longer a mechanically gated RyR channel which allows its release. The release mechanism is now Ca$^{2+}$ activated RyR release (commonly called Ca$^{2+}$-induced-Ca$^{2+}$-release (CICR)), and the IP$_3$ path. GPCRs activate phospholipase C, driving IP$_3$ production which binds to SR channels and causes them to open. The IP$_3$ path is usually considered the greatest way to drive up intracellular Ca$^{2+}$ (or at least, that is what computational biologists seem to think). When Ca$^{2+}$ is available, it binds to calmodulin (CaM), which then binds to the myosin light chain kinase (MLCK). MLCK phosphorylates myosin to increase myosin ATPase activity. Importantly, once contraction occurs, it stays stiff until released by a different mechanism. Because after contraction, no work is being done in the stiff state, smooth muscle is able to stay contracted for long periods. This explains why sphincters in the body are able to stay closed all the time, while one's bicep fatigues after carrying groceries for just a little while. Relaxation begins when Ca$^{2+}$ is either pumped out of the cell through a Ca$^{2+}$ATPase pump, or sodium transporter. This causes CaM to unbind, myosin light chain phosphatase (MLCP) to dephosphorylate myosin, and the myosin heads to release from actin. Interestingly, diacylglycerol (DAG), another product of the IP$_3$ path, inhibits MLCP and thereby enhances muscle contraction.\newline
 
 The calcium stored in the SR is maintained in a number of ways. One example being the protein STIM1 responding to lower Ca$^{2+}$ levels within it, moving toward the cell membrane, and activating store operated Ca$^{2+}$ channels, such as Orai1. 
-
-\subsection{Nervous system control}
 
 \section{Cardiac Muscle}
 \subsection{A Cellular Level}
@@ -1922,16 +1963,65 @@ A cross section of the spinal cord would reveal meninges just like the brain and
 \textcolor{red}{Another note to self: It would be good to integrate more clinical outcomes into this. For example, what happens in the case of SCI at various vertebrae, or in vagotomy, etc.}
 
 \section{Autonomic Nervous System}
-
-Pathways of the autonomic nervous system require two neurons, one that originates in the CNS and terminates at a ganglion, and a post-ganglionic neuron which terminates at the tissue of interest. While the circuit is often considered to have only two neurons, in fact many pre-ganglionic neurons synapse onto many post-ganglionic neurons, which means one neuron can affect many target tissues. 
+Pathways of the autonomic nervous system require two neurons, one that originates in the CNS and terminates at a ganglion, and a post-ganglionic neuron which terminates at the tissue of interest. While the circuit is often considered to have only two neurons, in fact many pre-ganglionic neurons synapse onto many post-ganglionic neurons, which means one neuron can affect many target tissues. Adding to this is the mode of release. The connection between neuron and target tissue is called the \textit{neuroeffector junction}. At this junction, transmitters are secrete indirectly from bulbous varicosities into the interstitial space, meaning neurotransmitters can diffuse over a larger area. Fascinatingly, these neurotransmitters are actually often synthesized within the axon / varicosities of neurons. 
 
 \subsection{Sympathetic Nervous System}
-Pre-ganglionic neurons of the sympathetic nervous system originate in the hypothalamus or reticular formation and extend down to the mid-sections of the spinal cord, from neuron pairs T$_1$ to L$_2$. Sympathetic ganglia are directly beside the spinal cord in a long chain (often called the sympathetic chain). Generally speaking, neurons closer to the T$_1$ section correspond to organs higher in the body, such as the heart or lungs, while neurons closer to the L$_2$ section corresponds to those lower in the body, like one's reproductive organs\footnote{Memorizing which nerves respond to which segments is likely not a good use of your time at this stage..., although it might have some clinical use to know which organs may be affected after SCI.}. Pre-ganglionic neurons release acetylcholine onto nicotinic receptors,  and post-ganglionic neurons release norepinephrine onto adrenergic receptors. 
+Pre-ganglionic neurons of the sympathetic nervous system originate in the hypothalamus or reticular formation and extend down to the mid-sections of the spinal cord, from neuron pairs T$_1$ to L$_2$. Sympathetic ganglia are directly beside the spinal cord in a long chain (often called the sympathetic chain). Generally speaking, neurons closer to the T$_1$ section correspond to organs higher in the body, such as the heart or lungs, while neurons closer to the L$_2$ section corresponds to those lower in the body, like one's reproductive organs\footnote{Memorizing which nerves respond to which segments is likely not a good use of your time at this stage..., although it might have some clinical use to know which organs may be affected after SCI.}. Pre-ganglionic neurons release acetylcholine onto nicotinic receptors,  and post-ganglionic neurons release norepinephrine onto adrenergic receptors.\newline
+
+Norepinepherine is a tyrosine derivative and, like other catecholamines, can be broken down either by monoamine oxidase (MOA) in the neuron's mitochondria, requiring re-uptake, or in the liver by catechol-o-methyltransferase (COMT).\newline
+
+\subsubsection{Adrenal Medulla Digression.} 
+It's worth noting that the adrenal medulla secretes epinephrine in a hormone-like manner. However, the adrenal medulla is often considered a collection of pre-ganglionic neurons, meaning epinepherine acts globally like a hormone, but is also a neurotransmitter.\newline
+
+Let us look at the different adrenergic receptors\footnote{This is ripped directly from Silverthorn.}: 
+
+\begin{table}[!htbp]
+\centering
+\begin{tabular}{*5c}
+\toprule
+{} &  \multicolumn{2}{c}{Adrenergic Receptors} & \\
+\midrule
+{Receptor}   & Location & Sensitivity & Effect \\
+\midrule
+$\alpha_1$  &  Most tissues & NE $>$ E & Increase Ca$^{2+}$   \\
+$\alpha_2$  &  Gut and pancreas & NE $>$ E & Decrease cAMP  \\
+$\beta_1$   &  Heart and kidney  &  NE $=$ E & Increase cAMP   \\
+$\beta_2$   &  Select smooth muscle  &  NE $<$ E & Increase cAMP   \\
+$\beta_3$  &  Adipose  & NE $>$ E & Increase cAMP   \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \subsection{Paraympathetic Nervous System}
 Parasympathetic neurons originate from the uppermost and lowermost neurons, either leaving directly from the cranial nerves or from the S$_2$ to S$_4$ nerves. Ganglia in the parasympathetic nervous system are close to the target tissue, meaning post-ganglionic neurons are very short compared to the pre-ganglionic ones. One of the most paths being from the vagus nerve (a cranial nerve) that carries the majority of parasympathetic signals to organs including the heart, lungs, liver, stomach, intestines, and pancreas. Like the sympathetic nervous system, pre-ganglionic neurons release acetylcholine onto nicotinic receptors. Notably, parasympathetic post-ganglionic neurons also secrete acetylcholine, but onto muscarinic receptors instead. 
 
+
+\begin{table}[!htbp]
+\centering
+\begin{tabular}{*5c}
+\toprule
+{} &  \multicolumn{2}{c}{Cholingergic Receptors} & {}\\
+\midrule
+{Receptor}   & Location & Effect \\
+\midrule
+N$_N$  &  Postganglionic neurons & Opens cation channels   \\
+N$_M$  &  Skeletal muscle  & Opens cation channels  \\
+M$_1$, M$_3$, M$_5$   &  Target tissues   & Increase Ca$^{2+}$   \\
+M$_2$, M$_4$   &  Target tissues   & Decrease cAMP, open K$^+$ channels   \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\subsubsection{Exceptions.}
+There are some exceptions to these rules, such as some sympathetic postganglionic neurons that terminate on sweat glands secrete norepinepherine rather than acetylcholine. These are called ``sympathetic cholinergic neurons." There are also neurons which secrete none of these, are are called ``nonadrenergic, noncholingeric neurons." There are also neurons which secrete multiple types of neurotransmitters. 
+
+\section{Somatic Nervous System}
+The somatic motor division is exclusively excitatory, and neurons project from the CNS all the way to muscles. Inhibition can occur at the neuronal level (i.e., motor neurons are inibited) but not at the muscle level. Cell bodies of motor neurons are either within the ventral horn of the spinal cord or within the brain. Close to the muscle itself, the axons branches and connects to the muscle at the neuromuscular junction (NMJ), which includes both the target muscle and Schwann cell projections. The ``synapse" equivalent is called the \textit{motor end plate}, which is an area on the muscle with a high density of nicotinic receptors. The ECM contains acetylcholinesterase, responsible for breaking down acetylcholine. Notably, the nicotinic receptors on muscle cells are considered N$_M$, a slightly different version than is found on neurons (N$_N$). This difference has proven to be curical in examples such as $\alpha$-bungarotoxin, which binds only to N$_M$\footnote{Dee Silverthorn quite possibly wrote the greatest textbook known to humanity, didn't she?}.
+
 \section{Acetylcholine, Nicotinic Receptors, and Muscarinic Receptors}
+
+Acetylcholine (which I'll call ACh for this section) is unquestionably one of the most important molecules in the body. It is sythesized from choline (a hydroxyl azanium) and acetyl-CoA. Typical usage goes as follows: ACh is released from vesicles and binds to cholinergic receptors. Upon unbinding, acetylcholinesterase (AChE) breaks it down into acetate and choline. Choline is brought back into the pre-synaptic neuron through sodium cotransporters so that it may be reused. It is then re-combined with acetyl-CoA and repackaged and vesicles.\newline 
 
 Funnily enough, nicotinic receptors (nAChRs) have been described as the most well understood membrane receptor\footnote{\url{https://www.nature.com/articles/nrd2927}}. Nicotinic receptors are fast opening non-specific cationic channels.  They are expressed throughout much of the major structures in the brain, peripheral nervous system, and skeletal muscle. As such, drugs targeting these receptors are of considerable interest in many neurological disorders. The binding site for ACh is composed of aromatic amino acids, namely W and Y. This paper describes continual exposure to drugs treating nAChRs as causing their eventual desensitization, while exposure to nicotine increases their expression greatly.\newline
 
@@ -1940,7 +2030,9 @@ Both of these are of key interest in treating Alzheimer's disease, as loss of ch
 \subsubsection{Myasthena Gravis Digression.}
 Myasthena Gravis, an autoimmune disorder, is an example of an actylcholine dysregulation caused muscle disorder. As a digression within a digression, autoimmune disorders most often target endocrine organs, and the belief is that they are to protect against mutations causing hypersecretion\footnote{\url{https://www.cell.com/immunity/pdf/S1074-7613(20)30180-1.pdf}}. Upon first glance, you may think that Myasthena Gravis evades this generality, but in fact it does not, as it is well associated with patients that dually have a thymoma (tumor of the thymus). Immune cells begin attacking cells with ACh recepetors, tagging them with antibodies. Therefore, Myasthena Gravis presents itself usually in the weaker muscles, such as those that control the eyes, as they have less ACh receptors and therefore a diminished response to signals. Thus, patients may have drooped eyelids (ptosis), double vision (diplopia), or trouble following moving objects with their eyes. The disease worsens with increased activity, as this causes more antibodies to be released onto ACh receptors---but improves on rest. Fascinatingly, men and women ``get" the disease at different times (women typically under 40, while men over 60).\newline
 
-Antibodies may also target other genes (such as MUSK or LRP4) which are involved in ACh receptor localization, or other forms of regulation. 
+Antibodies may also target other genes (such as MUSK or LRP4) which are involved in ACh receptor localization, or other forms of regulation.
+
+
 
 \section{Central Pattern Generation}
 
@@ -2074,7 +2166,7 @@ As you would intuit, exercise is the most common technique, as it preserves musc
 So it seems to me that a good course of treatment would be something like: 
 
 \begin{enumerate}
-    \item Immediately after injury, implant a hydrogen with a good restorative milieu, and immunosuppressants.
+    \item Immediately after injury decompress the spine and implant a hydrogel with a good restorative milieu, and immunosuppressants.
     \item As microglia peak around a week after injury, a few days later the hydrogel can be removed and stem cell implantation can begin. 
     \item Throughout this time, electrical stimulation can be applied. 
     \item Some time after this, rehabilitation through physical therapy can begin. 
@@ -2091,9 +2183,9 @@ So it seems to me that a good course of treatment would be something like:
             \end{center}}
 
 \section{Perspective}
-There is an interesting part of Yoshikawa's Musashi which details how a vagabond had a poor reputation, despite being an incredible swordsman and a generally giving and selfless person. Their reputation came from those who had long-standing, baseless grudges against them, or those that disagreed with their rise to fame, either out of jealousy or other. A monk in the story comments that a vagabond under 30 should almost never have a pure reputation, as they couldn't possibly be established enough to be beyond critique or ridicule. It is implied that for one to accomplish anything great, it is inherent that one must take risks, be bold, and likely ruffle feathers along the way. Irrespective of how kind or personable one is, it is certain that there will be those that dislike them or their approach for one reason or another.\newline
+There is an interesting part of Yoshikawa's Musashi which details how a vagabond had a poor reputation, despite being an incredible swordsman and a generally giving and selfless person. Their reputation came from those who had long-standing, baseless grudges against them, or those that disagreed with their rise to fame, either out of jealousy or other. A monk in the story comments that a vagabond under 30 should almost never have a pure reputation, as they couldn't possibly be established enough to be beyond critique or ridicule. It is implied that for one to accomplish anything great, it is inherent that one must take risks, be bold, and likely ruffle feathers along the way. Irrespective of one's identity, it is certain that there will be those that dislike them or their approach.\newline
 
-I mention this specifically in this section because it is likely that in advancing technology, you will encounter people who want to belittle your ideas. It is only natural that those who have worked in a field for a long time will occasionally be inclined to retain their current way of life, thereby pushing against unseen advancement. I add this to say that it is not unlikely that you will do all the right things, but still find those who disapprove.\newline
+I mention this specifically in this section because it is likely that in advancing technology, you will encounter people who want to belittle your ideas. It is only natural that those who have worked in a field for a long time may be inclined to retain their current way of life, thereby pushing against unseen advancement. The canonical example being those surgeons that resisted the endoscope. I add this to say that it is not unlikely that you will do all the right things, but still find those who disapprove.\newline
 
 Pay them no mind, or better yet, learn from them. Perhaps if you learn from all of those that are unwilling to learn from you: your growth will be unmatched, and real progress can be made. Best of luck. 
 
@@ -2123,9 +2215,20 @@ Restoration of the signals which pervade severance in spinal cord injury through
 
 The ability to generate walking-like movements from electrical stimulation of the lower spine, the T10-L1 region, has been long known\footnote{\url{https://www.sciencedirect.com/science/article/pii/B9780444521378000188}}$^,$\footnote{\url{https://journals.sagepub.com/doi/pdf/10.1177/1073858417699790}}. In these instances, ``tonic" stimulation was able to generate step-like movements. Although the term ``tonic" is dubious because other papers by the same lab identified frequency dependence in their stimulation\footnote{\url{https://link.springer.com/article/10.1007/s00422-004-0511-5}}. While one can generate step-like movements at once frequency, continued extension can be generated with another. 
 
+\section{Electrostimultaion and Accompanying Cells}
+
+
+\subsubsection{Specific Cells.}
+
+Using a simplified device similar to what will be discussed in the upcoming Lorach \textit{et al.} 2023 section, the Courtine group used electrical therapy to re-establish walking in a number of SCI patients\footnote{\url{https://www.nature.com/articles/s41586-022-05385-7}}. Their paper goes into depth on the cell-type specific response to this electrical modulation. They called this model epidural electrical stimulation (EES) + rehab, or EES$^{\mathrm{REHAB}}$. They first approached by measuring metabolic consumption in the spinal cord before and after EES$^{\mathrm{REHAB}}$ using PET scanners, and found that metabolism actually \textbf{decreases} in the face of EES$^{\mathrm{REHAB}}$, despite regaining the ability to walk. Therefore, they hypothesized that EES$^{\mathrm{REHAB}}$ ``cleans up" the circuits a bit, causes activity to become targeted for walking.\newline
+
+To investigate which specific neurons undergo changes, they used a mouse model and performed RNAseq. They found excitatory interneurons as being enriched upon EES$^{\mathrm{REHAB}}$. These neurons were identified by the markers $Vsx2$ and $Hoxa10$. These neurons projected exclusively to the ventral spinal cord and formed synapses with varying neuron types (glutamatergnic, GABAnergic, and cholinergic in no prefered proportion). The synapses were found in dense appositions (i.e., many synapses side-by-side) and SCI caused a reduction in such appositions. Ablating/inactivating these neurons alone in non-SCI mice did not halt their ability to walk. However, inactivating them did halt walking under EES$^{\mathrm{REHAB}}$. Therefore, it is hypothesized that these neurons are specific to the injury condition and required for recovery after SCI.\newline
+
+The main takeaway from this paper, in my opinion, is simply the recapitulation that excitatory interneurons play a key role in recovery from SCI. This has been established now through many routes, and is certainly of considerable interest in the future. There are a few open questions, with the biggest being: how exactly does electric modulation drive circuit reformation through these interneurons? 
+
 \section{Reading Thoughts} 
 
-My personal opinion is that the limiting factor in bridging from the stimulation applied by Tator and Minassian is a reliable way to read ones objective through their brain waves. Lorach and the Courtine group solved this using the WIMAGINE system\footnote{\url{https://www.frontiersin.org/articles/10.3389/fnins.2019.00847/full}}. Let's begin by discussing the options. 
+At present, I am unsure if reading one's thoughts is a requirement at all for overcoming SCI. I am unconvinced that electrical stimulation controlled by one's brain is better than electrical neurorehabilitation---or if it is better by any measurable margin. In investigating this, I believe the limiting factor in bridging from the stimulation applied by Tator and Minassian is a reliable way to read ones objective through their brain waves. The Lorach \textit{et al.} 2023 solved this using the WIMAGINE system\footnote{\url{https://www.frontiersin.org/articles/10.3389/fnins.2019.00847/full}}. But, let's begin by discussing the options and a bit of history.
 
 \subsection{Different Reading Devices} As you would imagine, there is a tradeoff between the resolution and the damage you will confer upon one's brain. This is described well by Schwartz in 2006, so notably technology may have advanced since then\footnote{\url{https://www.sciencedirect.com/science/article/pii/S0896627306007264}}. The four classes of devices are: 
 \begin{enumerate}
@@ -2139,15 +2242,16 @@ EEGs, naturally, are non-invasive and have a reading range on the order of a few
 
 For the moment, I will avoid describing individual technologies between the four groups, as it is likely that the tech progresses greatly each year, and it would be pointless to attempt to describe the reading ranges of any without being totally up-to-date. Instead, we will discuss the WIMAGINE in depth here.
 
+\subsubsection{Soft vs. Hard Electronics}
+The importance of the electronic's physical form has been considered by the Courtine group as well\footnote{\url{https://www.science.org/doi/10.1126/science.1260318}}. In their case, they looked specifically at the electrode paddly inserted into the spinal cord. Notably, they did not use this device in their recent, Lorach \textit{et al}. 2023 paper. One problem I personally find is that in using hard electronics, one immediately resolves to doing massive cranioplasty in order to add their device. If one goes the soft-only electronics route, perhaps you can insert the electronics beneath the skull itself. 
+
 \subsubsection{WIMAGINE ECoG.}
 As the name suggests, the device requires the skull to be torn away and must sit directly upon the cortex. It features 64 electrodes, and a human patient would need to have two implanted in order to read both sides of one's motor cortex.\newline
 
-The device was tested longest in sheep, which was a 10 month trial. Surprisingly, at the end of the 10 month trial, through GFAP staining, they still found a great deal of glial migration/build-up around the site. They did not quantify this, but in my personal opinion, this does not bode well for our patient---as they will have to spend a lifetime with the device. Secondly, calcification of the dura matter over the device had begun. This is not inherently surprising, and perhaps is a good sign that the bone was not irreversibly damaged. However, as the device is wirelessly charged, and wirelessly transmits brain information, one must wonder how years of calcium buildup may impact the ability to send or receive information. Too, if the technology needs a dust-up, the surgeons will have to re-destroy these calcified layers. There is quite a lot of fuss made about the fact that the device is wireless, and how it was a decision made to best serve patient comfort. But, in my opinion, it may spell out more long-term harm than good. It is not clear to me yet whether the $8\times 8$ resolution of the electrodes is sufficient to delineate all necessary information. Though, this is the trade-off one must make in choosing between EEG, ECoG, and LPS.\newline
-
-The WIMAGINE system digitizes information with 12 bits of resolution. Data is processed through pwelch spectral analysis. From what I can gather, this is simply another implementation of the FFT. 
+The device was tested longest in sheep, which was a 10 month trial. Surprisingly, at the end of the 10 month trial, through GFAP staining, they still found a great deal of glial migration/build-up around the site. They did not quantify this, but in my personal opinion, this does not bode well for our patient---as they will have to spend a lifetime with the device. Secondly, calcification of the dura matter over the device had begun. This is not inherently surprising, and perhaps is a good sign that the bone was not irreversibly damaged. However, as the device is wirelessly charged, and wirelessly transmits brain information, one must wonder how years of calcium buildup may impact the ability to send or receive information. Too, if the technology needs a dust-up, the surgeons will have to re-destroy these calcified layers. There is quite a lot of fuss made about the fact that the device is wireless, and how it was a decision made to best serve patient comfort. But, in my opinion, it may spell out more long-term harm than good. It is not clear to me yet whether the $8\times 8$ resolution of the electrodes is sufficient to delineate all necessary information. Though, this is the trade-off one must make in choosing between EEG, ECoG, and LPS. The WIMAGINE system digitizes information with 12 bits of resolution. Data is processed through pwelch spectral analysis. From what I can gather, this is simply another implementation of the FFT. 
 
 
-\section{Lorach and the Courtine Group} This is the most recent iteration of an ongoing project by the Courtine group. 
+\section{Lorach et al. 2023} This is the most recent iteration of an ongoing project by the Courtine group. 
 
 \subsection{Overview} The group used surgical implantation into the skull, over the motor cortex, to record patient movements and wirelessly transmit this to the spinal cord. The technology used to capture these electrocorticographic (ECoG) signals is the WIMAGINE. The design features two antennas, and the second of which transmits motor signals that are to be decoded and sent to a pulse generator. The pulse generator is ACTIVA RC, the same that is used in deep brain stimulation (DBS) or pacemakers in the heart. There is no mention of having the patient replace this in future years, but my assumption is that a new battery will require a new surgery in years to come. 
 
@@ -2202,24 +2306,44 @@ Notably, they did not explicitly mention that one of the progressions could be f
 
 
 
+\part[Project Proposal]{Project Proposal
+            \vspace{0.2in}
+            \begin{center}
+            \begin{minipage}[l]{10cm}\small
+                Man takes up the sword in order to shield the wound in his heart sustained in a far-off time beyond remembrance. Man wields the sword so that he may die smiling in some far-off time beyond perception. \newline
+                -- Berserk by Kentaro Miura
+            \end{minipage}
+            \end{center}}
+
+\chapter{Outline}
+
+This section will largely be messy---likely for the coming years. It is for me to jot down ideas I have through reading.
+
+\begin{enumerate}
+    \item Inhibit L-type VGCCs
+    \item Optimize stiffness of paddles
+    \item Optimize ECoG
+\end{enumerate}
+
+\subsubsection{Inhibit L-type VGCCs.}
+It is well known by now that electrical stimulation combined with rehabilitation improves patient's ability to walk after SCI. 
 
 
 \vfill\pagebreak
 
 \begin{center}
-Thank you. 
+Thank you. There's one thing I'd like to leave you with: 
 \end{center}
 
-\vspace{3in}
-
+\vspace{2in}
             \begin{center}
             \begin{minipage}[l]{10cm}\small
-            
-               \textbf{Man takes up the sword in order to shield the wound in his heart sustained in a far-off time beyond remembrance. Man wields the sword so that he may die smiling in some far-off time beyond perception.} \newline
-                \textbf{-- Berserk by Kentaro Miura}
+            \textbf{The world is always full of the sound of waves.}\newline
+
+            \textbf{The little fishes, abandoning themselves to the waves, dance and sing and play, but who knows the heart of the sea, a hundred feet down? Who knows its depth?}\newline
+            \textbf{-- Musashi by Eiji Yoshikawa}
             \end{minipage}
             \end{center}
-
 \vfill
 
 \end{document}
