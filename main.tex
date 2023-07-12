@@ -898,7 +898,7 @@ to ++(0,0) node[ground]{}
 
 
 
-\chapter{Capacitors}
+\chapter{Capacitors, Inductors, Filters}
 \section{Overview}
 Getting a good intuition of capacitor's behavior is an essential part of understanding electronics. A capacitor is like a storage of charge, which can maintain a voltage for a period after the voltage supplied to the circuit is cut off. The basic structure of a capacitor is an anode and a cathode separated by a dialectric plate. Charge will be stored across it, and is released when the voltage supply dwindles. \newline
 
@@ -1299,7 +1299,7 @@ The way one quantifies this is with the ``corner frequency," which you will more
 
 Notably, filtration causes a phase shift. This shouldn't be surprising when you recall that a low-pass and high-pass filter also integrate and differentiate respectively. Let us take, for example, a $\sin$ input. If it is passed through a low-pass filter, would expect it to be integrated to $-\cos$. If passed to a high-pass, it would be differentiated to $\cos$. Therefore, as $-\cos$ is $-90^{\circ}$ ($\sin(x - \frac{\pi}{2}) = -\cos(x)$) relative to $\sin$, and $\cos$ is $+90^{\circ}$ ($\sin(x + \frac{\pi}{2}) = \cos(x)$), we would expect a low-pass filter to generate an output that lags $\Vi$, while a high-pass will generate one which precedes $\Vi$.\newline
 
-\section{Summarizing Thoughts}
+\subsection{Summarizing Thoughts}
 
 \begin{multicols}{2}
 \begin{center}
@@ -1336,6 +1336,51 @@ For the left circuit, since the current through the resistor and capacitor must 
 For the right circuit, since $\Vi - \Vo = V_C$, we know $CV_C' = I$, so $\Vo = RC\Vi'$. Therefor, it differentiates, which means it mus be a high-pass filter. Too, it must be of the form $R/Z_C + R$. And if it differentiates, then $\sin ' = \cos$, so there must be a $+90^{\circ}$ phase shift at very low frequencies.\newline
 
 In other words, you can tell a lot just at a glance! This is without any math!
+
+\section{Inductors}
+An inductor stores energy in a magnetic field. An inductor is usually a tightly coiled bit of wire, and as you know a wire always has a magnetic field, so by coiling them and running current through it, you are summing these magnetic fields.\newline
+
+To conceptualize an inductor's behavior, as we will consider a water-wheel. An inductor is like a water-wheel in a pipe. As water flows through the pipe and reaches this large, heavy wheel, the speed of flow will be decreased as this wheel is pushed. Eventually, the wheel gets `up to speed' so-to-speak, and its momentum carries it. The water's flow will not be impeded at this point. If you were to stop the flow of water, the momentum of the wheel would allow it to continue spinning, thereby continuing the water's movement for a time. If you were to have an LED in parallel with an inductor, you would expect that the LED would initially shine very brightly, as the inductor functions similarly to a large resistor its early stages. You'll see the LED dim as the inductor becomes fully charged, and now acts like a wire. If you remove the battery from the circuit, the LED will remain on for a time, as the inductor loses its charge. The rate at which the inductor dissipates its charge will depend on the total resistance of the circuit.\newline
+
+In fact, the magnetic field that forms as a reduce of current generates an electromotive force in the opposite direction, essentially opposing the current's flow. This field is held for some time constant, similar to a capacitor. An inductors time constant is $\tau = 2L/R$. The field is generated at at a rate of $V = L\frac{d}{dt}I$, compared to a capacitor's curve of $I = C\frac{d}{dt}V$. Therefore, you can imagine that an inductor may work opposite of a capacitor. Indeed, the impedance of an inductor is $j\omega L$, compared to a capacitors $1/ j\omega C$. The $\fdb$ in this case is $R/2\pi L$. Inductors act like resistors, in that you can add them up in series like resistors, and treat them as you would with resistors in parallel. However, when we consider only impedance, everything functions like a resistor. That makes analyzing our below circuit much nicer. 
+
+\begin{center}
+\begin{circuitikz}
+
+\draw 
+(1,2) to [R] (1,0)
+(-4,2) to [sV] (-4,0)
+(-4,0) -- (0,0)
+(1,2) to [short, -*] (3,2)
+(-2,2) to [C] (1,2)
+(-4,2) to [inductor] (-2,2)
+(3,2.5) node {V$_{out}$}
+(3,0) to [short, *-] (0,0);
+\end{circuitikz}
+
+\end{center}
+
+This can be solved as $Z_2/Z_1 + Z_2$, where $Z_2 = R$, and $Z_1 = j\omega L + 1/j\omega C$. Let me try a bit of math here: 
+
+\begin{equation} \label{filt1}
+\begin{split}
+Z_1 &= j\omega L + \frac{1}{j\omega C} \\
+Z_1 &= \frac{-\omega^2 LC}{j\omega C} + \frac{1}{j\omega C} \\
+Z_1 &= \frac{1 -\omega^2 LC}{j\omega C}\\
+\end{split}
+\end{equation}
+
+The impedance, $Z_1$, goes to zero when $\omega^2 LC = 1$. In other words, at some frequency, $f_0$, the impedance will be minimized. This is called the resonant frequency, and is found at $f_0 = 1/2\pi \sqrt{LC}$. You can think about what would happen when the inductor and capacitor are in parallel in the circuit above:
+
+\begin{equation} \label{filt1}
+\begin{split}
+Z_1 &= j\omega L \: || \: \frac{1}{j\omega C} \\
+Z_1 &= \frac{j\omega L/j\omega C}{j\omega L + 1/j\omega C} \\
+Z_1 &= \frac{j\omega L}{1-\omega^2 LC} \\
+\end{split}
+\end{equation}
+
+Now, impedance will go to infinity at the described $f_0$---and you can filter out a specific frequency. It is useful to know how this filtering will affect the power dissipated by your circuit. At $\pm \Delta f = R/2\pi L$, the power halves, so one would call the bandwidth of this circuit to be $2\Delta f$. A halved power corresponds to an amplitude decrease of $1/\sqrt{2}$ (since $P = V^2/R$). Thus, at the two sides of the bandwidth, you'd expect to see an amplitude that is about $70\%$ as large as at $f_0$. 
 
 
 %%%%%%%%%%%%%%%%%%%%
