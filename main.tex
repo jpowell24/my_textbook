@@ -229,6 +229,9 @@ The purpose of this book is to aggregate all of the content and tools I will nee
 \subsection{Content}
 It is true that total recovery from spinal cord injury, in sever cases, will require both therapeutic and electronic intervention. One must therefore learn of physiology and electronics to be able to solve these problems. I will cover, in some depth, both the electronics, math, and physiology I think I'll need. While programming will likely be an essential tool in this endeavor, I will not discuss programming beyond Verilog (which is an aspect of electronics). This is because programming is something you learn by doing, and writing out C++ algorithms in a PDF would be a waste of time!
 
+\subsection{Someday Never Comes} 
+I found myself often saying something along the lines of ``someday, during medical school, I will understand SCI better," or ``someday, during my PhD, I'll learn how to build a BSI properly." But, I realized recently that \href{https://www.youtube.com/watch?v=NwNuQulK6N0}{someday never comes}. That is the main motivation for writing this. Someday never comes; there is only today. 
+
 \vfill\pagebreak
 
 \part[Electronics]{Electronics
@@ -1353,7 +1356,7 @@ In fact, the magnetic field that forms as a reduce of current generates an elect
 (-4,0) -- (0,0)
 (1,2) to [short, -*] (3,2)
 (-2,2) to [C] (1,2)
-(-4,2) to [inductor] (-2,2)
+(-4,2) to [inductor] (-1,2)
 (3,2.5) node {V$_{out}$}
 (3,0) to [short, *-] (0,0);
 \end{circuitikz}
@@ -1381,6 +1384,11 @@ Z_1 &= \frac{j\omega L}{1-\omega^2 LC} \\
 \end{equation}
 
 Now, impedance will go to infinity at the described $f_0$---and you can filter out a specific frequency. It is useful to know how this filtering will affect the power dissipated by your circuit. At $\pm \Delta f = R/2\pi L$, the power halves, so one would call the bandwidth of this circuit to be $2\Delta f$. A halved power corresponds to an amplitude decrease of $1/\sqrt{2}$ (since $P = V^2/R$). Thus, at the two sides of the bandwidth, you'd expect to see an amplitude that is about $70\%$ as large as at $f_0$. 
+
+\subsubsection{Either or?}
+So why are capacitors much more widely used than inductors? To start, inductors are usually large and heavy. As it must be a coin of wires, usually wrapped around some magnetically-permeable metal, it doesn't easily fit into circuit boards. Too, inductors will continuously dissipate energy, while capacitors that are charged do not. 
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%
@@ -1949,6 +1957,14 @@ Another bit of wisdom comes from Yoshikawa's Musashi. There is a chapter in whic
 
 Surgical intervention is most often an opposition to the way of nature. Indeed, the most clear evidence of this is in today's BSIs which attempt to escape endogenous circuits all together. Perhaps one should focus more on enhancing nature's way first, before opposing it. And to enhance nature's way, one must understand it fully. 
 
+\chapter{Biochemistry}
+
+To be able to interface with the electrophysiology of neurons, one must fully understand it. 
+
+\section{Ion Channels}
+
+
+This section will be filled in better throughout the semester, through more Biochem courses. 
 
 
 \chapter{Muscles}
@@ -1988,11 +2004,22 @@ Initiation of contraction begins the same as skeletal muscle, in that calcium en
 The calcium stored in the SR is maintained in a number of ways. One example being the protein STIM1 responding to lower Ca$^{2+}$ levels within it, moving toward the cell membrane, and activating store operated Ca$^{2+}$ channels, such as Orai1. 
 
 \section{Cardiac Muscle}
+
 \subsection{A Cellular Level}
+
 \subsubsection{Structure.}
+Cardiac cells contain sarcomeres, but the fibers themselves are smaller and often mono-nucleated. Cell edges are called \textit{intercalated disks}, held together by desmosomes and permeated by gap junctions. The role of gap junctions is obvious but essential, and key to the rhythmic firing of the heart. Despite not requiring nervous system input, cardiac muscles have large T-tubules, and a significant amount of mitochondria. 
+
 \subsubsection{Contraction-Relaxation.} 
-\subsection{Nervous system control}
-\subsection{Pacemakers}
+
+Initiation of cardiac muscle contraction requires extracellular calcium, and generation can be graded. The entrance of Ca$^{2+}$ powers the opening of non-mechanical RyR channels, as a method of CICR. Because of this, the sarcoplasmic reticulum is smaller in the myocardium, because some of the Ca$^{2+}$ required for contraction comes from extracellular entry in about a 10:1 ratio of sarcoplasmic reticulum:extracellular origin. Ca$^{2+}$ is removed using the Na$^+$-Ca$^{2+}$ exchanger (NCX).\newline
+
+The electrophysiological profile is marked by Na$^+$ entry but maintained by Ca$^{2+}$ in a plateau phase. The fall occurs via K$^+$ entry. The refractory period is long due to this plateau phase, which prevents Na$^+$ channels from resetting. 
+
+\subsubsection{Pacemakers.}
+Hyperpolarization cyclic nucleotide (HCN) gated channels induce an inward hyperpolarization ($I_h$, or $I_f$) current. Within the hyperpolarization range, HCN channels open and cause steady depolarization rhythmically. HCN channels are typically permeably to multiple cations, and in this case Na$^+$ is the biggest player. When the membrane potential is high enough, VGCCs will open and cause depolarization required to propagate the signal between myocytes. At peak, slow opening K$^+$ channels open and repolarize the membrane. Notably, voltage gated Na channels do not play a role in myocyte depolarization. \newline
+
+Expectedly, as $\beta$-blockers will inhibit a rise in cAMP, HCN channels will be less active. This decreases heart rate, among other things. 
 
 
 
@@ -2011,9 +2038,11 @@ A cross section of the spinal cord would reveal meninges just like the brain and
 Pathways of the autonomic nervous system require two neurons, one that originates in the CNS and terminates at a ganglion, and a post-ganglionic neuron which terminates at the tissue of interest. While the circuit is often considered to have only two neurons, in fact many pre-ganglionic neurons synapse onto many post-ganglionic neurons, which means one neuron can affect many target tissues. Adding to this is the mode of release. The connection between neuron and target tissue is called the \textit{neuroeffector junction}. At this junction, transmitters are secrete indirectly from bulbous varicosities into the interstitial space, meaning neurotransmitters can diffuse over a larger area. Fascinatingly, these neurotransmitters are actually often synthesized within the axon / varicosities of neurons. 
 
 \subsection{Sympathetic Nervous System}
-Pre-ganglionic neurons of the sympathetic nervous system originate in the hypothalamus or reticular formation and extend down to the mid-sections of the spinal cord, from neuron pairs T$_1$ to L$_2$. Sympathetic ganglia are directly beside the spinal cord in a long chain (often called the sympathetic chain). Generally speaking, neurons closer to the T$_1$ section correspond to organs higher in the body, such as the heart or lungs, while neurons closer to the L$_2$ section corresponds to those lower in the body, like one's reproductive organs\footnote{Memorizing which nerves respond to which segments is likely not a good use of your time at this stage..., although it might have some clinical use to know which organs may be affected after SCI.}. Pre-ganglionic neurons release acetylcholine onto nicotinic receptors,  and post-ganglionic neurons release norepinephrine onto adrenergic receptors.\newline
+Pre-ganglionic neurons of the sympathetic nervous system originate in the hypothalamus or reticular formation and extend down to the mid-sections of the spinal cord, from neuron pairs T$_1$ to L$_2$. Sympathetic ganglia are directly beside the spinal cord in a long chain (often called the sympathetic chain). Generally speaking, neurons closer to the T$_1$ section correspond to organs higher in the body, such as the heart or lungs, while neurons closer to the L$_2$ section corresponds to those lower in the body, like one's reproductive organs\footnote{Memorizing which nerves respond to which segments is likely not a good use of your time at this stage..., although it might have some clinical use to know which organs may be affected after SCI.}. 
 
-Norepinepherine is a tyrosine derivative and, like other catecholamines, can be broken down either by monoamine oxidase (MOA) in the neuron's mitochondria, requiring re-uptake, or in the liver by catechol-o-methyltransferase (COMT).\newline
+Pre-ganglionic neurons release acetylcholine onto nicotinic receptors,  and post-ganglionic neurons release norepinephrine onto adrenergic receptors. As all adrenergic receptors are GPCRs, their cellular response will be slower than ion channel transmission and occur at the protein-level primarily. Too, they will occur through secondary messenger, for example through the IP$_3$ path or cAMP. Norepinepherine is a tyrosine derivative and, like other catecholamines, can be broken down either by monoamine oxidase (MOA) in the neuron's mitochondria, requiring re-uptake, or in the liver by catechol-o-methyltransferase (COMT).\newline
+
+Dysregulation of the sympathetic nervous system most often manifests as cardiovascular pathologies, such as low blood pressure. Though, incontinence or impotence may also occur. On a cellular level, a process called \textit{denervation hypersistivity} may also occur, where in response to decreased sympathetic neurotransmitters, the body increases expression adrenergic receptors. This is easily measured as increased response from small doses of norepinephrine. 
 
 \subsubsection{Adrenal Medulla Digression.} 
 It's worth noting that the adrenal medulla secretes epinephrine in a hormone-like manner. However, the adrenal medulla is often considered a collection of pre-ganglionic neurons, meaning epinepherine acts globally like a hormone, but is also a neurotransmitter.\newline
@@ -2217,6 +2246,27 @@ So it seems to me that a good course of treatment would be something like:
     \item Some time after this, rehabilitation through physical therapy can begin. 
 \end{enumerate}
 
+\chapter{Researching SCI}
+\section{Injury Models}
+The bulk of this information comes from\footnote{\url{https://www.nature.com/articles/sc201491}}. Interestingly, most SCI models focus on thoracic level injury, while in humans cervical is more common. 
+
+\subsubsection{Contusion.}
+Contusion is the quick application of a force. Models include dropping a weight on the spinal cord or using an air-gun. One such is called the \textit{NYU (MASCIS) impactor}, where a piece of the bone is removed (laminectomy) and a weight is dropped directly onto the exposed nerves. Severity can be adjusted by the height from which the item was dropped. The most recent iteration is the \textit{MASCIS III}, where an electromagnetic weight is dropped at the push of a button and includes digital measuring to ensure replication. One concern is that the weight dropping may bounce, causing multiple impacts.\newline
+
+Another option is called the \textit{infinite horizon (IH) impactor}. Rather than dropping a weight, a machine applies a set force. A laminectomy is still required\footnote{I suppose repeatability is considered paramount, but I find that these extensive controls may impede investigation. At a certain point, one must wonder if this is an SCI or an axotomy model.}, but one can avoid the bounce effect. The \textit{Ohio State University (OSU) impactor} is essentially the same, but uses an electromagnetic force applier. A more recent development is in the air gun. This requires drilling through the vertebrae, exposing the dura, where air pressure will be applied. 
+
+
+\subsubsection{Compression.}
+Compression occurs over a longer time frame. One interesting application of such models is in first applying contusion, followed by a compression model. This replicates the effects of increased pressure within the spinal cord after SCI, which occurs particularly in the absence of decompression surgery.\newline
+
+A common method is using an aneurysm clip and applying it to an exposed section of the spine, clamping down with some force for a few minutes. The force applied is in the range of 20-50g\footnote{Perhaps I am naive, but this seems remarkably small to me. When you consider that human SCI may result from a car accident, a few grams seems inconsequential.}. An interesting drawback is the velocity of the clip's closing is variable. In the right usage, it can be used to cut off blood supply to simulate ischemia and reperfusion after SCI. Another option is to insert a balloon on a catheter down the spinal cord and inflating it. Another method is called SC-STRAPPER\footnote{Take a look at Fig. 1 in this paper: \url{https://www.sciencedirect.com/science/article/pii/S0165027008000368}}. A string is inserted and wrapped around the spinal cord, and its benefits are that it is relatively noninvasive, and compression is applied to the entire circumference of the spinal cord. 
+
+\subsubsection{Distraction.}
+Distraction is done by stretching the spine. This is more commonly done in larger animals, and is difficult to develop a reproducable model. The Harrington distractor requires laminectomy and the addition of hooks to the upper and lower sides of the removed vertebrae. Motor steps are then applied to pull the spinal cord apart. However, as this occurs slowly and is variable in application, it has drawbacks. The UBC multimechanism device uses a wedge applied between the vertebrae to abruptly apply force. Interestingly, their device can also be used to induce contusion or slipped disc injuries---so learning it provides you with considerable versatility, particularly if dislocated vertebrae is your area of study. The singular wedge applies unidirectional injury, and so the UTA distractor aims to improve this by using clips attached externally (i.e., without laminectomy) and pull apart by a motor. 
+
+\subsubsection{Transection.}
+Transection requires surgical severing of the spinal cord. Transection models may target the ventral, dorsal, or subsections of the spinal cord. Such models are most useful for studying regeneration, as clean transections are rare clinical pathologies. Interestingly, some animals have impressive, natural recovery of locomotion due to spinal cord circuitry post SCI (i.e., more robust central pattern generation or spinal reflex systems). Therefore, it is often that one must re-transect after locomotor recovery. 
+
 
 \part[Brain-Spine-Muscle Interfaces]{Brain-Spine Interfaces
             \vspace{0.2in}
@@ -2234,15 +2284,8 @@ I mention this specifically in this section because it is likely that in advanci
 
 Pay them no mind, or better yet, learn from them. Perhaps if you learn from all of those that are unwilling to learn from you: your growth will be unmatched, and real progress can be made. Best of luck. 
 
-\chapter{Biochemistry}
 
-While one may find it odd to begin an electronics discussion with a chapter on biochemistry, the fact of the matter is an integrated approach is the only way. As such, to be able to interface with the electrophysiology of neurons, one must fully understand it. 
-
-\section{Ion Channels}
-
-
-
-\chapter{The Technology of SCI}
+\chapter{Interfacing with Nerves}
 
 \section{Historical Dealings}
 
@@ -2262,7 +2305,26 @@ The ability to generate walking-like movements from electrical stimulation of th
 
 \section{Electrostimultaion and Accompanying Cells}
 
+\subsection{General Stimulation}
+Stimulating nerves is not straightforward. The amount of current necessary to stimulate a nerve is highly dependent on the location. For electrodes especially close to myelinated fibers, currents as small as 0.1 $\mu A$ have been successful in depolarizing neurons\footnote{\url{https://www.sciencedirect.com/science/article/pii/0006899375903649}}. It seems that as a general trend, the faster conduction velocity of a neuron, the lower amount of current is required to simulate it. Too, throwing off one's measurements is often that you may indirectly stimulate a neuron of interest by depolarizing nearby cells. For direct stimulation, the distance from electrode to the closest Node of Ranvier seems to be essential metric. Figure 3 of the paper footnoted earlier in this paragraph shows a fascinating plot. The current supplied by an electrode resembles something of a double-sided Lenhert-Jones plot. Therefore, for an anode\footnote{Fascinatingly, a quick Google search for `anode' provides two definitions, one stating it is positively charged and one stating it is negative. Regardless, you only need to know that it supplies electrons.}, one would actually expect a core of cells to be depolarized, while those of the periphery would actually be hyperpolarized. The inverse would be true for a cathode. This makes me wonder if oscillating, $\pm$A has been applied, and the outcomes. If one were to use two electrodes (i.e., an anode and a cathode nearby) then one has the option of longitudinal stimulation or transferse simtulation (i.e., either parallel or perpendicular to the axon).
 
+\subsubsection{Ramblings.}
+In a strange sense, the human body can be considered the infinite resistor lattice mentioned in the electronics section. 
+
+
+\subsection{Peripheral Nerve Stimulation} 
+Peripheral nerve stimulation\footnote{Annoyingly, peripheral nerve stimulation is often abbreviated as PNS, so do not get confused with peripheral nervous system vs. nerve stimulation.} has shown promise in treating nerve damage, but naturally is greatly limited by technology. One such limitation is the difficulty in targeting peripheral nerves that may be lodged deep within the body. Too, once reached, one must avoid off-target stimulation, movement of the electrodes over time, and swelling in surrounding regions. Removal of leads after the completion of neurorehabilitation can cause further damage as well, as tissue may become attached to it, resulting in a second injury. 
+
+
+\subsubsection{Adaptive, Conductive, and
+Electrotherapeutic Scaffolds.}
+Adaptive, conductive, and electrotherapeutic scaffolds (ACESs) is one implementation of electrical neurorehabilitation after injury\footnote{\url{https://www.sciencedirect.com/science/article/pii/S2666634023001654?via\%3Dihub}}. The primary structure is electrodes embedded in alginate (an anionic polymer, which creates a maleable gel-like structure when combined with water, and is often used for creating molds) and polyacrylamide (a cationic polymer most known for its use in SDS page gels, and can be used to suspend solvents at various stiffnesses)---which can be dissolved, allowing for removal of leads with minimal damage to tissue. Because the electrodes are located within the gel, glial encapsulation is not to occur (or, if it does, it will be at the borders of the gel and not the electrodes themselves)---therefore, stimulation should be un-dampened. Gold particles were used to increase conductivity of the gel.\newline
+
+In rats, in order to test accessible nerves, sciatic nerve transection was performed, and electrodes were used for 6 weeks. Stimulation was delivered every other day for 30 minutes in \textbf{anesthetized} rats. It was delivered to each electrode at 20 hz (every 200 ms), 2 mA\footnote{It is not clear to me why they choose to deliver current rather than voltage.} amplitude, and a 100 $\mu$s pulse width. They used a stainless steal electrode by Plastics One\footnote{Interestingly, I can't seem to find a product that resembles the one found in their supplemental images. Still it is probably comparable: \url{https://www.protechp1.com/search?q=MS303\&type=products}}. Stimulation was powered using the Intan system\footnote{\url{https://intantech.com/RHS_system.html}}. As two electrodes were used, their pulses were offset by 100 ms. The two stimulating electrodes were proximal and distal to the injury site, and a third, ground electrode was located at the tibialis anterior muscle. EMG recordings and response to sensory stimulation were used to validate functional success of regeneration, as well as axon counts. To test percutaneous nerve stimulation, they performed a similar procedure on the vagus nerve of swine.  
+
+
+
+\subsection{Spinal Cord Injury Stimulation}
 \subsubsection{Specific Cells.}
 
 Using a simplified device similar to what will be discussed in the upcoming Lorach \textit{et al.} 2023 section, the Courtine group used electrical therapy to re-establish walking in a number of SCI patients\footnote{\url{https://www.nature.com/articles/s41586-022-05385-7}}. Their paper goes into depth on the cell-type specific response to this electrical modulation. They called this model epidural electrical stimulation (EES) + rehab, or EES$^{\mathrm{REHAB}}$. They first approached by measuring metabolic consumption in the spinal cord before and after EES$^{\mathrm{REHAB}}$ using PET scanners, and found that metabolism actually \textbf{decreases} in the face of EES$^{\mathrm{REHAB}}$, despite regaining the ability to walk. Therefore, they hypothesized that EES$^{\mathrm{REHAB}}$ ``cleans up" the circuits a bit, causes activity to become targeted for walking.\newline
@@ -2365,14 +2427,17 @@ Notably, they did not explicitly mention that one of the progressions could be f
 This section will largely be messy---likely for the coming years. It is for me to jot down ideas I have through reading.
 
 \begin{enumerate}
-    \item Inhibit L-type VGCCs
-    \item Optimize stiffness of paddles
-    \item Optimize ECoG
+    \item Inhibit L-type VGCCs---likely need to use some kind of hydrogel with antagonists built in. 
+    \item Optimize stiffness of paddles---or hydrogel, if we use the ACES system. 
+    \item Optimize ECoG---that is, take up less space, maintain resolution, etc. to minimize invasiveness of surgery. 
 \end{enumerate}
 
 \subsubsection{Inhibit L-type VGCCs.}
 It is well known by now that electrical stimulation combined with rehabilitation improves patient's ability to walk after SCI. 
 
+\subsubsection{ACES Method.}
+
+I like the ACES method as a starting point. It seems easy enough to implement, and can be built upon to arrive at some SCI method. Of course, I like that it is already integrated into a hydrogel setup. Some mild concerns are the 2 mA applied. It seems like quite a bit. 
 
 \vfill\pagebreak
 
