@@ -166,6 +166,66 @@
 \newcommand{\Vi}{{V}_{in}}
 \newcommand{\fdb}{{f}_{3dB}}
 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% Some macros
+
+\newcommand\myNIA[4]{%1: name of this amplifier, %2 start coordinate, %3 R1, %4 R2
+\draw 
+#2 coordinate(#1-in) to[short] ++(1,0)
+node[op amp, noinv input up, anchor=+](#1-OA){\texttt{#1}}
+(#1-OA.-) -- ++(0,-1) coordinate(#1-FB)
+to[R=#3] ++(0,-2) node[ground]{}
+(#1-FB) to[R=#4, *-] (#1-FB -| #1-OA.out) -- (#1-OA.out)
+to [short, *-] ++(1,0) coordinate(#1-out)
+;
+}
+
+\newcommand\myF[2]{
+%1: name of this follower, %2 start coordinate
+\draw
+#2 node[op amp](#1-OA){\texttt{F1}} (opamp) {}
+(opamp.+) node[left] {}
+
+(opamp.-) node[left] {}
+to[short] ++(0,1)
+
+(opamp.out) node[right] {}
+to[short] ++(0,1.5)
+to[short] ++(-2.4,0) 
+(opamp.out) coordinate(#1-in) to[short] ++(0,0)
+;
+}
+
+\newcommand\myDividers[4]{
+%1: exit of divider 1, %2 exit of divider 2
+\draw
+#3 coordinate(#4-in) to[short] ++(1,0)
+#1 to [battery, l=9 V] ++(0,2)
+to [R, l=1 k$\Omega$] ++(2,0)
+to [R, l=2 k$\Omega$] ++(0,-2) coordinate(#4-out)
+
+
+(2,2) to [short] #2
+
+#1 to [short, -*] ++(9,0)
+
+#3 to [R, l=1 k$\Omega$] ++(2,0)
+to [R, l=2 k$\Omega$] ++(0,-2)
+(8,2) to [short, -*] ++(1,0)
+;
+}
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 \begin{document}
 
 \bigskip
@@ -404,9 +464,7 @@ Another way to think about this is as two successive voltage dividers, and quali
 \begin{multicols}{2}
 
 \begin{center}
-
 \begin{circuitikz}
-
 \draw 
 (1,2) to [R, l=2 k$\Omega$] (1,0)
 (-2,2) to [battery, l=9 V] (-2,0)
@@ -418,13 +476,11 @@ Another way to think about this is as two successive voltage dividers, and quali
 (1,2) to [R, l=1 k$\Omega$] (4,2)
 (4,2) to [R, l=2 k$\Omega$] (4,0);
 \end{circuitikz}
-
 \end{center}
 
+
 \begin{center}
-
 \begin{circuitikz}
-
 \draw 
 (-2,2) to [battery, l=6 V] (-2,0)
 (-2,0) -- (0,0)
@@ -1386,10 +1442,143 @@ Z_1 &= \frac{j\omega L}{1-\omega^2 LC} \\
 Now, impedance will go to infinity at the described $f_0$---and you can filter out a specific frequency. It is useful to know how this filtering will affect the power dissipated by your circuit. At $\pm \Delta f = R/2\pi L$, the power halves, so one would call the bandwidth of this circuit to be $2\Delta f$. A halved power corresponds to an amplitude decrease of $1/\sqrt{2}$ (since $P = V^2/R$). Thus, at the two sides of the bandwidth, you'd expect to see an amplitude that is about $70\%$ as large as at $f_0$. 
 
 \subsubsection{Either or?}
-So why are capacitors much more widely used than inductors? To start, inductors are usually large and heavy. As it must be a coin of wires, usually wrapped around some magnetically-permeable metal, it doesn't easily fit into circuit boards. Too, inductors will continuously dissipate energy, while capacitors that are charged do not. 
+So why are capacitors much more widely used than inductors? To start, inductors are usually large and heavy. As it must be a coin of wires, usually wrapped around some magnetically-permeable metal, it doesn't easily fit into circuit boards. Too, inductors will continuously dissipate energy, while capacitors that are charged do not.\newline
+
+\vfill
+
+\textcolor{red}{The next section should be diodes/LEDs, but I find those to be just so boring. So I'd rather skip to opamps.}
+
+\vfill
+
+\chapter{Opamps}
+
+Operational amplifiers (opamps) are one of the most ubiquitous tools in electronics, just behind classics like the resistor and capacitor. While they themselves are amazing, making CircuitTikz diagrams for them is a nightmare! So wish me luck in the coming parts!
+
+\section{Introduction and Gold}
+
+Opamps are active components, in that they can take a circuit's power and increase it. They have the ability to amplify signal, act as a voltage clamp, do addition and subtraction, and even integration and differentiation. Let's discuss:
+
+\begin{center}
+\begin{circuitikz} 
+\draw
+(0,0) node[op amp] (opamp) {}
+(opamp.+) node[left] {$v_+$}
+(opamp.-) node[left] {$v_-$}
+(opamp.out) node[right] {$\Vo$}
+(opamp.up) --++(0,0.5) node[vcc]{$+V$}
+(opamp.down) --++(0,-0.5) node[vee]{$-V$}
+;
+\end{circuitikz}
+\end{center}
+
+Inside of an opamp is a large network of transistors. It isn't worth trying to understand all the internals, but it is worth understanding all of the externals. An opamp has two inputs ($v_-$ and $v_+$), and two power rails ($+V$ and $-V$). In general, an opamp's goal will be to minimize the difference between the two inputs, and it has some range of power to work with in doing so, which is limited by $+V$ and $-V$. It tries to minimize this input through its $\Vo$. Therefore, one would often connect the $v_-$ to $\Vo$ as a form of negative feedback. This will likely make more sense in the later sections. If there is no connection between $\Vo$ and either of the two inputs, your opamp will oscillate between the two power maximums set by $+V$ and $-V$. As in, if $v_- > v_+$, then $\Vo = +V$. This is an opamp functioning as a \textit{comparator}, in that it makes the somewhat binary comparison of which input is larger, and outputs either high or low voltage. 
 
 
+\section{Golden Rules}
+In adding some form of negative feedback, and keeping your opamp from being saturating (i.e., clamping $\Vo$ to either of the two power rails)\footnote{These two specifications are sometimes called the 0$^\mathrm{th}$ rule.}, an opamp will adhere to two essential rules:
 
+\begin{enumerate}
+    \item $\Vo$ does whatever needed to ensure $v_+ = v_-$. 
+    \item $v_+$ and $v_-$ draw no current.
+\end{enumerate}
+
+\subsection{Simple Opamp Circuits}
+
+Implicit in rule two is that an opamp has immensely high resistance. That means that the input resistance seen by earlier circuit components is effectively an open circuit ($R = \infty$) for an ideal opamp. The simplest opamp circuit is seen as follows\footnote{Get it?}: 
+
+\begin{center}
+\begin{circuitikz} 
+\draw
+(0,0) node[op amp](F1-OA){\texttt{F1}} (opamp) {}
+(opamp.+) node[left] {}
+to[short, -*] ++(-1,0) node[left] {$\Vi$}
+
+(opamp.-) node[left] {}
+to[short] ++(0,1)
+
+(opamp.out) node[right] {}
+to[short] ++(0,1.5)
+to[short] ++(-2.4,0)
+(opamp.out) to[short, -*] (2,0) node[right] {$\Vo$}
+;
+\end{circuitikz}
+\end{center}
+
+This is called a \textit{follower}, or \textit{buffer}. In such diagrams, usually $-V$ and $+V$ are omitted. Based on our golden rules, $v_-$ should match $v_+$, and our ciruit shows $v_+ = \Vi$, so therefore $\Vo$ will be increased by the opamp until it reaches $\Vi$, because $v_-$ is tied to $\Vo$. The point being, the circuit followers as $\Vi = \Vo$. You might say ``\textit{so it's just a wire then?}" In many ways, you are correct! But here is a nice application that shows why a follower would be useful: 
+
+\begin{center}
+\begin{circuitikz}
+\draw 
+(1,2) to [R, l=2 k$\Omega$] (1,0)
+(-2,2) to [battery, l=9 V] (-2,0)
+(-2,0) -- (0,0)
+(-2,2) to [R, l=1 k$\Omega$] (1,2)
+(5,0) to [short, *-] (0,0)
+(5,2) to [short, *-] (4,2)
+
+(1,2) to [R, l=1 k$\Omega$] (4,2)
+(4,2) to [R, l=2 k$\Omega$] (4,0);
+\end{circuitikz}
+\end{center}
+
+Recall this circuit from before. The important principle we learned was that because the $R_{th}$ of the first divider was similar to the $R_{eq}$ of the second, you could not treat this as $\Vi \times \frac{2}{3} \times \frac{2}{3} $. However, if we do the following: 
+
+% \begin{center}
+% \begin{circuitikz}
+% \myDividers{(0,0)}{(3,2)}{(6,2)}{D1}
+% \myF{F2}{D1-out}
+% \draw (F2-in) -| (D1-in);
+% \end{circuitikz}
+% \end{center}
+
+% \begin{center}
+% \begin{circuitikz}
+% \myF{(4,2)}{F2}
+% \end{circuitikz}
+% \end{center}
+
+
+Now, the first voltage divider will ``see" an input resistance of the opamp as being infinite. The opamp's output will be the voltage of the first voltage divider, and apply it to the second voltage divider. As such, we do get $\Vi \times \frac{2}{3} \times \frac{2}{3}$.\newline
+
+$v_-$ is commonly called the \textit{inverting input}, because one can invert with it. An inverting follower would be seen as follows: 
+
+\begin{center}
+\begin{circuitikz} 
+\draw
+(0,0) node[op amp] (opamp) {}
+(opamp.+) node[left] {}
+to[short] ++(0,-0.5) node[ground]{}
+
+(opamp.-) node[left] {}
+to[short] ++(0,1)
+
+(opamp.-) node[below] {$v_g$}
+to[short, -*] ++(0,0)
+
+(opamp.out) node[right] {}
+to[short] ++(0,1.5)
+to[short] ++(-2.4,0)
+(opamp.-) node[right] {}
+to[short, -*] ++(-1,0) node[left] {$\Vi$}
+(opamp.out) to[short, -*] (2,0) node[right] {$\Vo$}
+;
+\end{circuitikz}
+\end{center}
+
+Intuitively, since $v_+$ is grounded (or, $V = 0\V$), to make $v_+ = v_-$, $v_-$ must equal $-\Vi$, and or, $\Vo = -\Vi$. Because of this, this node is sometimes called a \textit{virtual ground}, or $v_g$. 
+
+% \begin{center}
+% \begin{circuitikz}
+% \draw 
+% (0,0) node[above]{$v_i$} to[short, o-] ++(1,0)
+% node[op amp, noinv input up, anchor=+](OA){\texttt{OA1}}
+% (OA.-) -- ++(0,-1) coordinate(FB)
+% to[R=$R_1$] ++(0,-2) node[ground]{}
+% (FB) to[R=$R_2$, *-] (FB -| OA.out) -- (OA.out)
+% to [short, *-o] ++(1,0) node[above]{$v_o$}
+% ;
+% \end{circuitikz}
+% \end{center}
 
 %%%%%%%%%%%%%%%%%%%%
 \chapter{Writing Hardware}
@@ -1831,6 +2020,11 @@ Where I is the identity matrix.
 \subsubsection{Remarks.} 
 Foward Euler's is explicit, and will be preferred whenever the differential equations are non-stiff\footnote{On approximately the same time scale.}. It is the more accurate of the two methods, and can be less computationally intensive if your decay rates are all slow. Backward Euler's is implicit, and can not be used to solve everything, but is doable in most cases. The extra computation required to solve the system of equations more than makes up for potential limitations in your $\Delta t$. 
 
+\subsubsection{Ramblings.} 
+I have this constant wonder if this method can be used to model the spread of voltage over a resistor lattice, by perfecting the $D_c$ value. I am presuming it would work for a sufficiently large lattice, perhaps $100 \times 100$. This would be a good exercise to do sometime in the future. 
+
+
+
 \chapter{Modeling Circuits}
 \label{Modeling Circuits}
 
@@ -2194,11 +2388,21 @@ You will often hear injuries as being complete or incomplete. Another helpful di
     \item Grade E: There is no impairment at all!
 \end{enumerate}
 
-Importantly, the injury site is often designated by the vertebrae that was fractured, but symptoms are due to the nerve pair that is damaged, which may be at a different location than the primary site of bone damage\footnote{\url{https://www.nature.com/articles/nrdp201718}}. \textcolor{red}{Note: this review had quite a bit more on clinical complications and is definitely worth going through in more depth!} This discrepancy seems to be exacerbated the more caudal you go. Injury in the cervical portions can lead to severe bradycardia and hypotension, due to dysregulation of brain-heart communication, particularly regarding baroreceptor feedback. Too, damage to the vagus nerve can occur here, leading to dysregulation of most organs. Injury in the thoracic part may have widespread affects on the symathetic nervous system due to damage both of the spinal cord nerves and the nearby ganglia. Interestingly, an unconsidered byproduct of lower thoracic SCI is damage to motor signals to the legs. The main focus of such being that one loses their ability to walk, but accompanying this is reduced venous return, as veins rely on muscle movement to get blood back to the heart. Dampening of CNS-cardiovascular system communication seems to be one of the primary indicators of poor prognosis.\newline
+The most common and complete method of classification is the International Standards for Neurological Classification of Spinal Cord Injury (ISNCSCI). The ISNCSCI uses the ASIA impairment scale, with ASIA motor and sensory scores. It is recommended that assessment be performed immediately upon hospital admission\footnote{This is interesting, as in other sections I have detailed that various forms of shock can cause misunderstanding in the initial phases of hospital stay.}, with follow-ups in the future to assess improvement. Another important metric is quality of life (QOL) assessment. 
+
+Importantly, the injury site is often designated by the vertebrae that was fractured, but symptoms are due to the nerve pair that is damaged, which may be at a different location than the primary site of bone damage\footnote{\url{https://www.nature.com/articles/nrdp201718}}. This discrepancy seems to be exacerbated the more caudal you go. Injury in the cervical portions can lead to severe bradycardia and hypotension, due to dysregulation of brain-heart communication, particularly regarding baroreceptor feedback. Too, damage to the vagus nerve can occur here, leading to dysregulation of most organs. Injury in the thoracic part may have widespread affects on the symathetic nervous system due to damage both of the spinal cord nerves and the nearby ganglia. Interestingly, an unconsidered byproduct of lower thoracic SCI is damage to motor signals to the legs. The main focus of such being that one loses their ability to walk, but accompanying this is reduced venous return, as veins rely on muscle movement to get blood back to the heart. Dampening of CNS-cardiovascular system communication seems to be one of the primary indicators of poor prognosis.\newline
 
 In evaluating the severity of the injury, a \textit{spinal shock}, marked by temporary paralysis, may muddy the waters. While one may temporarily lose their reflexes, it can sometimes be regained soon later. However, the ability to define this state, and its duration, remains problematic. \textit{Neurogenic shock} manifests similarly, but the cause is hypotension after SCI. This may be caused by hypovolaemia from blood loss, or pooling of blood due to reduced venous return. This occurs most often in SCI above T$_6$, as it is these sympathetic nervous which maintain vascular tone.\newline
 
 A few named pathologies exist, such as Central Cord Syndrome. This is the most common incomplete SCI. Often, this occurs in elderly patients who fall and already had some form of spondylosis\footnote{Weathering of the vertebrae.}. It is marked by more damage to upper extremeties and possible incontinence. Brown-Séquard Syndrome occurs from penetrating SCI, such as a stab wound. It is usually characterized by sensory loss. 
+
+\section{Auxiliary Management}
+
+\subsubsection{Haemodynamics.}
+A steady blood supply to the damaged spinal cord is an essential component of treatment. Tool, system hypotension is a common symptom both from nerve damage and the surgery itself. 
+
+\subsubsection{Methylprednisolone sodium succinate.}
+Evidently, this is controversial! Methylprednisolone sodium succinate (MPSS) has the traditional role of reducing inflammation. The controversy is due to mixed results. Some large clinical trials showed no benefit, while others suggest there was a considerable improvement in ASIA scores, particularly if administered within 8h of injury. The adverse side effects seemed to be minimal, so many surgeons routinely administered it. Follow-up investigations suggest that negative effects are more consistent than previously thought, so the updated guidelines are not to administer MPSS. 
 
 \section{Treatments}
 
@@ -2229,15 +2433,22 @@ To date, implantation of biomaterials have been relatively lackluster in treatin
 Drug treatment primarily follows the same paths, being reduction of inflammation and neuroprotection. Methylprednisolone (MP) is the only drug approved to treat SCI and works through reducing inflammation. Notably, some side effects have been observed and therefore MP has fallen out of favor for treatment. 
 
 \subsection{Surgery}
-I think you'll find that there is a disappointing lack of options---signaling the primitive nature of neurosurgery! Anyway, surgical intervention aims to restabilize the spinal cord as quickly as possible, particularly through decompression. Early surgery seems indicative of shorter ICU stays and better neurological recovery. The first day or so post SCI is the critical time. Interestingly, even after decompression, the pressure within the spine remains high due to fluid build-up within the dura matter. This makes blood reperfusion more difficult, leading to more problems. While durotomy is often a complication of surgery due to progressive CSF leakage after operation, in this case it can be helpful to lessen spinal pressure, which there evidently is a long tradition of\footnote{\url{https://www.sciencedirect.com/science/article/pii/0020138388901325}}. Duroplasty is a more modern and sophisticated alternative, and can allow opening of the dura matter without as much risk\footnote{\url{https://www.liebertpub.com/doi/full/10.1089/neu.2014.3668}}.\newline
+I think you'll find that there is a disappointing lack of options---signaling the primitive nature of neurosurgery!
 
+\subsubsection{Decompression.}
+ Anyway, surgical intervention aims to restabilize the spinal cord as quickly as possible, particularly through decompression. This begins with re-aligning the spine, usually with some kind of hardware to hold bone in place. Early surgery seems indicative of shorter ICU stays and better neurological recovery. The first day or so post SCI is the critical time. Interestingly, even after decompression, the pressure within the spine remains high due to fluid build-up within the dura matter. This makes blood reperfusion more difficult, leading to more problems. 
+ 
+ \subsubsection{Dura Matter Manipulation.}
+ While durotomy is often a complication of surgery due to progressive CSF leakage after operation, in this case it can be helpful to lessen spinal pressure, which there evidently is a long tradition of\footnote{\url{https://www.sciencedirect.com/science/article/pii/0020138388901325}}. Duroplasty is a more modern and sophisticated alternative, and can allow opening of the dura matter without as much risk\footnote{\url{https://www.liebertpub.com/doi/full/10.1089/neu.2014.3668}}.
+
+\subsubsection{Myelotomy.}
 Incision directly into the spinal cord itself, myelotomy, has also been done with some success. The belief is that it helps drain some of the harmful dying tissue. There seems to be time dependence in this, where if performed too late after injury it will simply reinvigorate inflammation. 
 
 \subsection{Rehabilitation}
 As you would intuit, exercise is the most common technique, as it preserves muscle mass and promotes circuit reorganization. Another rehabilitative technique is pumping in a significant amount of oxygen, as ischemia occurs after injury. BSIs have also become more popular. Fascinatingly, decoding of handwriting has been used to generate text\footnote{\url{https://www.nature.com/articles/s41586-021-03506-2}}. Though, these seem to require deep access to the brain. 
 
-\section{Integrated Approach}
-So it seems to me that a good course of treatment would be something like: 
+\subsection{Integrated Approach}
+It seems to me that a good course of treatment would be something like: 
 
 \begin{enumerate}
     \item Immediately after injury decompress the spine and implant a hydrogel with a good restorative milieu, and immunosuppressants.
@@ -2245,6 +2456,36 @@ So it seems to me that a good course of treatment would be something like:
     \item Throughout this time, electrical stimulation can be applied. 
     \item Some time after this, rehabilitation through physical therapy can begin. 
 \end{enumerate}
+
+\section{Complications After SCI}
+
+The multiplexed complications of SCI are, in reality, unending, as any combination of nerve damage can result in any combination of bodily dysfunction. We can discuss some of the standouts below, but note that this covers just a fraction of a fraction. 
+
+\subsubsection{Syringomyelia.}
+Syringomyelia, a cyst forming within the spinal cord, is relatively rare. The fluid filled sac can be large and span far beyond the injury site itself. The symptoms of which may not show for months-years later, and progressively worsen. Cystic cavities are not uncommon, but syringomyelia differs in its size and reach. Symptomatic patients usually undergo a second decompressive surgery, or attempts to connect this cystic space to a drainage site. 
+
+\subsubsection{Neuropathic Arthropathy.}
+After SCI, a patient may become numbed, leading to unnoticed injuries. One such result of this is arthropathy (a joint disease). Over time, a patient's joints may slowly degrade, leading to deformity---which may not present for over a decade after injury. 
+
+\subsubsection{Spasticity.}
+Spasticity is a common side effect of chronic SCI. Spasticity can lead to further complications, such as microfractures. 
+
+\subsubsection{Cardiovascular.}
+As mentioned in previous sections, often the clearest symptom of SCI is in significant changes to the cardiovascular system do to sympathetic nervous system impairment. This manifests often as systemic hypotension. In most cases, this seems to resolve itself within a matter of months. 
+
+\subsubsection{Autonomic Dysreflexia.}
+This condition is an immediate response to \textit{secondary} injury, and most often presents when the SCI is above T$_6$, and some other injury occurs in some peripheral organ, which causes a sympathetic spinal reflex. For example, injury to the gut may cause vasoconstriction to be overstimulated in the absence of spinal cord feedback. Too, it can result in overcompensation by the parasympathetic nervous system, leading to a swift drop in blood pressure. Notably, this can occur either in the acute or chronic stages of SCI. It is most often resolved via resolving this secondary injury. 
+
+\subsubsection{Respiratory.}
+Damage to nerves innervating respiratory muscles, such as the phrenic nerve which controls the diaphragm, can lead to long term reduced lung capacity. Damage to the respiratory system also has big consequences on the effectiveness of rehabilitation. It is said that respiratory complications are one of the leading causes of death after chronic SCI.
+
+\subsubsection{Genitourinary and Gastrointestinal.}
+Dysregulation of the urinary or digestive systems is often the largest psychological consequence of SCI (barring, of course, large locomotor deficits). Quality of life is greatly impacted by this complication. 
+
+\subsubsection{Neurogenic Heterotopic Ossification.}
+Ectopic bone formation can occur on the larger joints\footnote{Funnily enough, this review sites that 10-53\% of people with chronic SCI form ectopic bone. Only a 43\% margin.}. It is not known the exact cause, but physical therapy tends to be the best mitigator. 
+
+
 
 \chapter{Researching SCI}
 \section{Injury Models}
@@ -2259,7 +2500,7 @@ Another option is called the \textit{infinite horizon (IH) impactor}. Rather tha
 \subsubsection{Compression.}
 Compression occurs over a longer time frame. One interesting application of such models is in first applying contusion, followed by a compression model. This replicates the effects of increased pressure within the spinal cord after SCI, which occurs particularly in the absence of decompression surgery.\newline
 
-A common method is using an aneurysm clip and applying it to an exposed section of the spine, clamping down with some force for a few minutes. The force applied is in the range of 20-50g\footnote{Perhaps I am naive, but this seems remarkably small to me. When you consider that human SCI may result from a car accident, a few grams seems inconsequential.}. An interesting drawback is the velocity of the clip's closing is variable. In the right usage, it can be used to cut off blood supply to simulate ischemia and reperfusion after SCI. Another option is to insert a balloon on a catheter down the spinal cord and inflating it. Another method is called SC-STRAPPER\footnote{Take a look at Fig. 1 in this paper: \url{https://www.sciencedirect.com/science/article/pii/S0165027008000368}}. A string is inserted and wrapped around the spinal cord, and its benefits are that it is relatively noninvasive, and compression is applied to the entire circumference of the spinal cord. 
+A common method is using an aneurysm clip and applying it to an exposed section of the spine, clamping down with some force for a few minutes. The force applied is in the range of 20-50g\footnote{Perhaps I am naive, but this seems remarkably small to me. When you consider that human SCI may result from a car accident, a few grams seems inconsequential.}. An interesting drawback is the velocity of the clip's closing is variable. In the right usage, it can be used to cut off blood supply to simulate ischemia and reperfusion after SCI. Another option is to insert a balloon on a catheter down the spinal cord and inflating it. Another method is called SC-STRAPPER\footnote{Take a look at Fig. 1 in this paper: \url{https://www.sciencedirect.com/science/article/pii/S0165027008000368}. I can't figure out why the spacing in this footnote is messed up. Very annoying!}. A string is inserted and wrapped around the spinal cord, and its benefits are that it is relatively noninvasive, and compression is applied to the entire circumference of the spinal cord. 
 
 \subsubsection{Distraction.}
 Distraction is done by stretching the spine. This is more commonly done in larger animals, and is difficult to develop a reproducable model. The Harrington distractor requires laminectomy and the addition of hooks to the upper and lower sides of the removed vertebrae. Motor steps are then applied to pull the spinal cord apart. However, as this occurs slowly and is variable in application, it has drawbacks. The UBC multimechanism device uses a wedge applied between the vertebrae to abruptly apply force. Interestingly, their device can also be used to induce contusion or slipped disc injuries---so learning it provides you with considerable versatility, particularly if dislocated vertebrae is your area of study. The singular wedge applies unidirectional injury, and so the UTA distractor aims to improve this by using clips attached externally (i.e., without laminectomy) and pull apart by a motor. 
@@ -2422,9 +2663,9 @@ Notably, they did not explicitly mention that one of the progressions could be f
             \end{minipage}
             \end{center}}
 
-\chapter{Outline}
+\chapter{Ramblings}
 
-This section will largely be messy---likely for the coming years. It is for me to jot down ideas I have through reading.
+{\large \textcolor{red}{This section will largely be messy---likely for the coming years. It is for me to jot down ideas I have through reading.}}\newline
 
 \begin{enumerate}
     \item Inhibit L-type VGCCs---likely need to use some kind of hydrogel with antagonists built in. 
