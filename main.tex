@@ -186,8 +186,11 @@ to [short, *-] ++(1,0) coordinate(#1-out)
 \newcommand\myF[2]{
 %1: name of this follower, %2 start coordinate
 \draw
-#2 node[op amp](#1-OA){\texttt{F1}} (opamp) {}
+#2 to ++(2,0.5) coordinate(start)
+(start) node[op amp](#1-OA){\texttt{F1}} (opamp) {}
+
 (opamp.+) node[left] {}
+to [short, *-] ++(-1,0) coordinate(#1-in)
 
 (opamp.-) node[left] {}
 to[short] ++(0,1)
@@ -195,18 +198,17 @@ to[short] ++(0,1)
 (opamp.out) node[right] {}
 to[short] ++(0,1.5)
 to[short] ++(-2.4,0) 
-(opamp.out) coordinate(#1-in) to[short] ++(0,0)
+(opamp.out) coordinate(#1-out)
 ;
 }
 
 \newcommand\myDividers[4]{
 %1: exit of divider 1, %2 exit of divider 2
 \draw
-#3 coordinate(#4-in) to[short] ++(1,0)
+#3 coordinate(#4-in)
 #1 to [battery, l=9 V] ++(0,2)
-to [R, l=1 k$\Omega$] ++(2,0)
-to [R, l=2 k$\Omega$] ++(0,-2) coordinate(#4-out)
-
+to [R, l=1 k$\Omega$] ++(2,0) coordinate(#4-out)
+to [R, l=2 k$\Omega$] ++(0,-2) 
 
 (2,2) to [short] #2
 
@@ -1523,13 +1525,13 @@ This is called a \textit{follower}, or \textit{buffer}. In such diagrams, usuall
 
 Recall this circuit from before. The important principle we learned was that because the $R_{th}$ of the first divider was similar to the $R_{eq}$ of the second, you could not treat this as $\Vi \times \frac{2}{3} \times \frac{2}{3} $. However, if we do the following: 
 
-% \begin{center}
-% \begin{circuitikz}
-% \myDividers{(0,0)}{(3,2)}{(6,2)}{D1}
-% \myF{F2}{D1-out}
-% \draw (F2-in) -| (D1-in);
-% \end{circuitikz}
-% \end{center}
+\begin{center}
+\begin{circuitikz}
+\myDividers{(0,0)}{(3,2)}{(6,2)}{D1}
+\myF{F2}{(D1-out)}
+%\draw (F2-out) -| (D1-in);
+\end{circuitikz}
+\end{center}
 
 % \begin{center}
 % \begin{circuitikz}
@@ -2544,13 +2546,25 @@ Restoration of the signals which pervade severance in spinal cord injury through
 
 The ability to generate walking-like movements from electrical stimulation of the lower spine, the T10-L1 region, has been long known\footnote{\url{https://www.sciencedirect.com/science/article/pii/B9780444521378000188}}$^,$\footnote{\url{https://journals.sagepub.com/doi/pdf/10.1177/1073858417699790}}. In these instances, ``tonic" stimulation was able to generate step-like movements. Although the term ``tonic" is dubious because other papers by the same lab identified frequency dependence in their stimulation\footnote{\url{https://link.springer.com/article/10.1007/s00422-004-0511-5}}. While one can generate step-like movements at once frequency, continued extension can be generated with another. 
 
-\section{Electrostimultaion and Accompanying Cells}
+\section{Electrostimultaion}
 
 \subsection{General Stimulation}
 Stimulating nerves is not straightforward. The amount of current necessary to stimulate a nerve is highly dependent on the location. For electrodes especially close to myelinated fibers, currents as small as 0.1 $\mu A$ have been successful in depolarizing neurons\footnote{\url{https://www.sciencedirect.com/science/article/pii/0006899375903649}}. It seems that as a general trend, the faster conduction velocity of a neuron, the lower amount of current is required to simulate it. Too, throwing off one's measurements is often that you may indirectly stimulate a neuron of interest by depolarizing nearby cells. For direct stimulation, the distance from electrode to the closest Node of Ranvier seems to be essential metric. Figure 3 of the paper footnoted earlier in this paragraph shows a fascinating plot. The current supplied by an electrode resembles something of a double-sided Lenhert-Jones plot. Therefore, for an anode\footnote{Fascinatingly, a quick Google search for `anode' provides two definitions, one stating it is positively charged and one stating it is negative. Regardless, you only need to know that it supplies electrons.}, one would actually expect a core of cells to be depolarized, while those of the periphery would actually be hyperpolarized. The inverse would be true for a cathode. This makes me wonder if oscillating, $\pm$A has been applied, and the outcomes. If one were to use two electrodes (i.e., an anode and a cathode nearby) then one has the option of longitudinal stimulation or transferse simtulation (i.e., either parallel or perpendicular to the axon).
 
 \subsubsection{Ramblings.}
 In a strange sense, the human body can be considered the infinite resistor lattice mentioned in the electronics section. 
+
+\subsection{Biomaterials Used}
+A primary focus in finding suitable biomaterials are those that are conducting, flexible, and non-reactive\footnote{\url{https://onlinelibrary.wiley.com/doi/epdf/10.1002/term.383}}. Polypyrrole (PPy) is one such option. PPy alone is quite rigid, but is a good accompaniment with other materials. For example, you may coat some glass or fabric in PPy in order to make it more biocompatable and conducting. Too, PPy seems a good candidate for boosting cell adhesion to your biomaterials. Others have used PPy in a tubular fashion, applied some current, and used it to guide regenerating axons. Another similar product is polyaniline (often called PANI). Polyaniline can be oxidized and reduced, providing an additional usage. PPy and PANI are two of the most studied conducting polymers, but many more exist.\newline
+
+Carbon nanotubules (CNTs) are another way one can manipulate the direction of growth. Interestingly CNTs appear to be cytotoxic when suspended in media, but strongly promote growth when integrated into a scaffold, keeping them immobilized\footnote{I am a bit confused by this. Who would ever leave the tubes just floating around in the media? What would be the point?}. CNTs frequently have diameters similar to axons themselves.\newline
+
+The use of piezo-electric materials too provides interesting avenues of study. Piezo-electric materials being those that convert mechanical energy to electrical energy. An example is poly(vinylidenefluoride) (PVDF). Generally, piezoelectric materials are considered inferior to standard conducting polymers because external control is limited and activation is often too localized. 
+
+\subsubsection{Ramblings.}
+The axon-like size of CNTs seems very interesting to me, as they provide a neat route of usage, i.e., as artificial myelination. Perhaps one can develop a CNT with a membrane permeable enough for extracullar signaling to get through, but conductive enough to function like myelin. I am curious if you could produce a multi-layered scaffold, where certain tracts fit axons, certain tracts fit glia, etc, and it can act like repaired oligodendrocytes after SCI.\newline
+
+Another interesting thought is the deep implantation of Piezoelectric materials and then activating them using sonication. It would be neat to develop some kind of material that can be mechanically stimulated at specific sonic frequencies, preventing random stimulation from body movement. 
 
 
 \subsection{Peripheral Nerve Stimulation} 
@@ -2679,6 +2693,10 @@ It is well known by now that electrical stimulation combined with rehabilitation
 \subsubsection{ACES Method.}
 
 I like the ACES method as a starting point. It seems easy enough to implement, and can be built upon to arrive at some SCI method. Of course, I like that it is already integrated into a hydrogel setup. Some mild concerns are the 2 mA applied. It seems like quite a bit. 
+
+\subsubsection{Biomaterials.}
+
+The biomaterials possibilities are quite cool too. 
 
 \vfill\pagebreak
 
