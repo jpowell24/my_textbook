@@ -84,6 +84,10 @@
     tabsize=4  
 }
 
+\lstnewenvironment{CPP}
+  {\lstset{language=C,basicstyle=\ttfamily\small,frame=none}}
+  {}
+
 %%%%%%%%%%%%%%%% These commands are taken from Professor Ashmanskas!
 \newcommand{\ohm}{\Omega}
 \newcommand{\kohm}{{\rm k}\Omega}
@@ -1582,6 +1586,44 @@ Intuitively, since $v_+$ is grounded (or, $V = 0\V$), to make $v_+ = v_-$, $v_-$
 % \end{circuitikz}
 % \end{center}
 
+
+
+
+
+
+
+
+
+
+\chapter{Transistors}
+
+\textcolor{red}{Yes, it is way too early to be making this Chapter. But, I want to write myself this note: go over current sources vs. sinks in considerable detail, also comparing to voltage sources would be useful here too. This will be useful in supplying electrodes in the future. I am untrusting of the commercially available sources/sinks, so It would be nice to build our own. }\newline
+
+\textcolor{red}{Yes I know I am skipping a lot, but I want to write about a bit first because I have an idea in mind. I'll fill in the gaps later.}
+
+\subsection{Current Source}
+
+\begin{center}
+\begin{circuitikz}
+\ctikzset{tripoles/mos style=arrows}
+\ctikzset{transistors/arrow pos=end}
+\draw 
+(0.3,-0.5) node[] {E}
+(-1.2,0) node[] {B}
+(0.3,0.5) node[] {C}
+(0,0) node[npn, ](npn){}
+;
+\end{circuitikz}
+\end{center}
+
+Some reminders: The current through the collector is set by the emitter. The voltage at the emitter is set by the base. $V_E$ will be one diode drop below the base. So if the resistance at the emitter, $R_E$, is 1 k$\Omega$, then we would want $V_E$ to be 2 V, and $V_B$ to be 2.6 V. Note that the transistors input resistance is $\beta(r_e + R_E) \approx 100k\Omega$.  
+
+
+\subsubsection{Current Mirror}
+From this video\footnote{\url{https://www.youtube.com/watch?v=VnJHXQCPIvs\&ab_channel=ALLABOUTELECTRONICS}}. Amplifiers can be biased using current sources, which allows the biasing current to become very stable. This is important, because as voltage or temperature fluctuates, the current can be maintained. Adding a current source to every amplifier would require too much annoying circuit building, so one way to avoid this is using a current mirror. 
+
+
+
 %%%%%%%%%%%%%%%%%%%%
 \chapter{Writing Hardware}
 
@@ -2549,7 +2591,9 @@ The ability to generate walking-like movements from electrical stimulation of th
 \section{Electrostimultaion}
 
 \subsection{General Stimulation}
-Stimulating nerves is not straightforward. The amount of current necessary to stimulate a nerve is highly dependent on the location. For electrodes especially close to myelinated fibers, currents as small as 0.1 $\mu A$ have been successful in depolarizing neurons\footnote{\url{https://www.sciencedirect.com/science/article/pii/0006899375903649}}. It seems that as a general trend, the faster conduction velocity of a neuron, the lower amount of current is required to simulate it. Too, throwing off one's measurements is often that you may indirectly stimulate a neuron of interest by depolarizing nearby cells. For direct stimulation, the distance from electrode to the closest Node of Ranvier seems to be essential metric. Figure 3 of the paper footnoted earlier in this paragraph shows a fascinating plot. The current supplied by an electrode resembles something of a double-sided Lenhert-Jones plot. Therefore, for an anode\footnote{Fascinatingly, a quick Google search for `anode' provides two definitions, one stating it is positively charged and one stating it is negative. Regardless, you only need to know that it supplies electrons.}, one would actually expect a core of cells to be depolarized, while those of the periphery would actually be hyperpolarized. The inverse would be true for a cathode. This makes me wonder if oscillating, $\pm$A has been applied, and the outcomes. If one were to use two electrodes (i.e., an anode and a cathode nearby) then one has the option of longitudinal stimulation or transferse simtulation (i.e., either parallel or perpendicular to the axon).
+Stimulating nerves is not straightforward. The amount of current necessary to stimulate a nerve is highly dependent on the location. For electrodes especially close to myelinated fibers, currents as small as 0.1 $\mu A$ have been successful in depolarizing neurons\footnote{\url{https://www.sciencedirect.com/science/article/pii/0006899375903649}}. It seems that as a general trend, the faster conduction velocity of a neuron, the lower amount of current is required to simulate it. Too, throwing off one's measurements is often that you may indirectly stimulate a neuron of interest by depolarizing nearby cells. For direct stimulation, the distance from electrode to the closest Node of Ranvier seems to be essential metric. Figure 3 of the paper footnoted earlier in this paragraph shows a fascinating plot. The current supplied by an electrode resembles something of a double-sided Lenhert-Jones plot. Therefore, for an anode\footnote{Fascinatingly, a quick Google search for `anode' provides two definitions, one stating it is positively charged and one stating it is negative. Regardless, you only need to know that it supplies electrons.}, one would actually expect a core of cells to be depolarized, while those of the periphery would actually be hyperpolarized. The inverse would be true for a cathode. This makes me wonder if oscillating, $\pm$A has been applied, and the outcomes. If one were to use two electrodes (i.e., an anode and a cathode nearby) then one has the option of longitudinal stimulation or transverse stimulation (i.e., either parallel or perpendicular to the axon).\newline
+
+\textcolor{red}{Note: Perhaps it would be good to go through the different electrode options? I.e., where one places ground, whether current or voltage is applied, etc. Though, I have had trouble finding information on this.}
 
 \subsubsection{Ramblings.}
 In a strange sense, the human body can be considered the infinite resistor lattice mentioned in the electronics section. 
@@ -2576,7 +2620,138 @@ Electrotherapeutic Scaffolds.}
 Adaptive, conductive, and electrotherapeutic scaffolds (ACESs) is one implementation of electrical neurorehabilitation after injury\footnote{\url{https://www.sciencedirect.com/science/article/pii/S2666634023001654?via\%3Dihub}}. The primary structure is electrodes embedded in alginate (an anionic polymer, which creates a maleable gel-like structure when combined with water, and is often used for creating molds) and polyacrylamide (a cationic polymer most known for its use in SDS page gels, and can be used to suspend solvents at various stiffnesses)---which can be dissolved, allowing for removal of leads with minimal damage to tissue. Because the electrodes are located within the gel, glial encapsulation is not to occur (or, if it does, it will be at the borders of the gel and not the electrodes themselves)---therefore, stimulation should be un-dampened. Gold particles were used to increase conductivity of the gel.\newline
 
 In rats, in order to test accessible nerves, sciatic nerve transection was performed, and electrodes were used for 6 weeks. Stimulation was delivered every other day for 30 minutes in \textbf{anesthetized} rats. It was delivered to each electrode at 20 hz (every 200 ms), 2 mA\footnote{It is not clear to me why they choose to deliver current rather than voltage.} amplitude, and a 100 $\mu$s pulse width. They used a stainless steal electrode by Plastics One\footnote{Interestingly, I can't seem to find a product that resembles the one found in their supplemental images. Still it is probably comparable: \url{https://www.protechp1.com/search?q=MS303\&type=products}}. Stimulation was powered using the Intan system\footnote{\url{https://intantech.com/RHS_system.html}}. As two electrodes were used, their pulses were offset by 100 ms. The two stimulating electrodes were proximal and distal to the injury site, and a third, ground electrode was located at the tibialis anterior muscle. EMG recordings and response to sensory stimulation were used to validate functional success of regeneration, as well as axon counts. To test percutaneous nerve stimulation, they performed a similar procedure on the vagus nerve of swine.  
+\subsubsection{Ramblings.}
 
+I felt personally offended when I saw that the device used in this paper was around $\$10,000$, and all I an tell is that it supplies current and can measure impedance. Given this personal offense, I wanted to illustrate how one could build exactly that for just a couple of bucks. Here it is: 
+
+\begin{multicols}{2}
+
+\begin{center}
+\begin{circuitikz}
+\ctikzset{tripoles/mos style=arrows}
+\ctikzset{transistors/arrow pos=end}
+\draw 
+
+%%%%%% OPAMP
+(0,0) node[above]{+$2\V$} to[short, *-] ++(1,0)
+node[op amp, noinv input up, anchor=+](OA){}
+(OA.-) to[short] ++(0,-1) coordinate(feedback)
+
+%%%% NPN transistor
+(OA.out) ++(1,0) node[npn, ](npn)(T1){}
+(OA.out) -- (T1.B)
+(T1.C) to[short,-*] ++(0,0)
+
+(T1.C) ++(0,2) coordinate(Vcc)
+(Vcc) to[short,*-*] ++(0,1) node[above]{+$10\V$}
+
+(T1.C) to[R, l_=$R_{load}$] (Vcc)
+(T1.C) to[short] ++(-1,0)
+to [voltmeter] ++(0,2)
+to [short] (Vcc)
+
+%%%% PNP transistor
+(T1.E) ++(0,-0.5) node[pnp, ](pnp)(T2){}
+(T1.E) -- (T2.E)
+(T2.B) to[short,-*] ++(-0.5,0) node[above]{+$1\V$}
+(T2.C) -| (feedback)
+(T2.C) to[R,l=$1\mathrm{k}\Omega$] ++(0,-2)
+to ++(0,0) node[ground]{} 
+
+;
+\end{circuitikz}
+\end{center}
+
+
+\begin{center}
+\begin{circuitikz}
+\ctikzset{tripoles/mos style=arrows}
+\ctikzset{transistors/arrow pos=end}
+\draw 
+
+%%%%%% OPAMP
+(0,0) node[above]{+$2\V$} to[short, *-] ++(1,0)
+node[op amp, noinv input up, anchor=+](OA){}
+(OA.-) to[short] ++(0,-0.5) coordinate(feedback)
+
+%%%% NPN transistor
+(OA.out) ++(1,0.6) node[nmos](M1){}
+(OA.out) -| (M1.B)
+(M1.C) to[short,-*] ++(0,0)
+
+(M1.C) ++(0,2) coordinate(Vcc)
+(Vcc) to[short,*-*] ++(0,1) node[above]{+$10\V$}
+
+(M1.C) to[R, l_=$R_{load}$] (Vcc)
+(M1.C) to[short] ++(-1,0)
+to [voltmeter] ++(0,2)
+to [short] (Vcc)
+
+%%%% PNP transistor
+(M1.E) ++(0,-0.5) node[pmos](M2){}
+(OA.out) -| (M2.G)
+(M2.C) -| (feedback)
+(M2.C) to[R,l=$1\mathrm{k}\Omega$] ++(0,-2)
+to ++(0,0) node[ground]{} 
+
+;
+\end{circuitikz}
+\end{center}
+
+\end{multicols}
+
+There you go, saved you $\$10,000$. The opamp is useful for a few reasons. One nice benefit is looping the two transistors into the opamp's feedback loop allows you to avoid playing some silly game trying to get the right voltage with the diode drops. The voltmeter is added because we need some way to measure the impedance of the load. This may be a product of the electrodes dislodging from the nerves, or glial encapsulation. Measuring the voltage drop across the load gives us this information. Another easy way to accomplish this would be to measure the voltage at the collector and subtract from $10\V$. \newline
+
+Presumably, their device comes with some extra bells and whistles, and a nice software. But, I'd much rather swap a resistor every now and then than pay. Notably, in testing two things have shown themselves: [1] the biasing point for the PNP transistor should be tied to some low voltage, to limit $I_{bias}$. Considerable warping occurred at $5\V$. Secondly, $R_{load}$ should be high enough that the power dissipated is not huge, lest your output will warp. Around $1k\Omega$ seemed to work well. Around $100\Omega$ showed warping\footnote{I recall reading somewhere that the internal resistance of neuronsis around $100\Omega$. Therefore, it would be useful to have a resistor in series with the electrode.}. Too, at frequencies above 20kHz, there is breakdown. Another design of a similar flavor is the right one, using MOSFETs.
+
+In both cases, breakdown seems to occur around 20kHz. Both might work at the desired $100\mu$s, but from CircuitLab it seems that the BJT will work better. Anyway, let's think about how we could write some Arduino code to control this\footnote{Unfortunately, it doesn't seem like there is an Arduino package in Listings, so we will settle for C.}: 
+
+\begin{CPP}
+const int out = 13;  
+int out_state = LOW;  
+
+int in = A0;
+
+unsigned long last_time = 0; // In micros
+
+const long pulse_time = 100;
+const long time_between_pulses = 1000;
+
+int pulse_counter = 0;
+int intervals = 30;
+
+bool on_off = LOW;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(out, OUTPUT);
+  pinMode(in, INPUT);
+}
+
+void loop() {
+  unsigned long current_time = micros(); 
+
+  if ((current_micros - last_micros >= time_between_pulses) && (!on_off)) {
+    last_time = current_time;
+    on_off = HIGH;
+    pulse_counter++;
+    digitalWrite(out_state, on_off);
+  }
+   if ((current_micros - last_micros >= pulse_time) && (on_off)) {
+    last_time = current_time;
+    on_off = LOW;
+    digitalWrite(out_state, on_off);
+  }
+  if (on_off) {
+  int unconverted_Vdrop = analogRead(in);
+  float Vdrop = unconverted_Vdrop * (5.0 / 1023.0);
+  Serial.println(Vdrop);
+  }
+  if(pulse_counter >= intervals){
+    break;
+  }
+}
+\end{CPP}
 
 
 \subsection{Spinal Cord Injury Stimulation}
@@ -2618,7 +2793,7 @@ The device was tested longest in sheep, which was a 10 month trial. Surprisingly
 \subsection{Overview} The group used surgical implantation into the skull, over the motor cortex, to record patient movements and wirelessly transmit this to the spinal cord. The technology used to capture these electrocorticographic (ECoG) signals is the WIMAGINE. The design features two antennas, and the second of which transmits motor signals that are to be decoded and sent to a pulse generator. The pulse generator is ACTIVA RC, the same that is used in deep brain stimulation (DBS) or pacemakers in the heart. There is no mention of having the patient replace this in future years, but my assumption is that a new battery will require a new surgery in years to come. 
 
 
-\subsection{Shortcomings} The three shortcomings explicitly mentioned in the \textbf{Introduction} are that \textbf{(1)} one using this BSI must have motion sensors on in order to compensate (a sort of PID controller, perhaps),  \textbf{(2)} that the patient's movement was not perceived as natural, and \textbf{(3)} that there was still considerable hurdles in traversing variable terrain. Many more shortcomings exist than this, and we will go through them below.\newline
+\subsection{Shortcomings} The three shortcomings explicitly mentioned in the \textbf{Introduction} are that \textbf{(1)} one using this BSI must have motion sensors on in order to compensate (a sort of PID controller, perhaps),  \textbf{(2)} that the patient's movement was not perceived as natural, and \textbf{(3)} that there was still considerable hurdles in traversing variable terrain. Many more shortcomings exist than this, and we will go through them below.
 
 \subsubsection{Motion Sensors} I suppose it is obvious why one would use a motion sensor rather than an EMG---as it would be too difficult to discern whether the motion itself, or strength of contraction, is too high using an EMG alone. Still, though, I wonder if this is a feasible alternative. Perhaps one can simply predict motion based on EMG patterns.\newline
 
