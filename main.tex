@@ -1411,7 +1411,6 @@ In fact, the magnetic field that forms as a reduce of current generates an elect
 
 \begin{center}
 \begin{circuitikz}
-
 \draw 
 (1,2) to [R] (1,0)
 (-4,2) to [sV] (-4,0)
@@ -1422,7 +1421,6 @@ In fact, the magnetic field that forms as a reduce of current generates an elect
 (3,2.5) node {V$_{out}$}
 (3,0) to [short, *-] (0,0);
 \end{circuitikz}
-
 \end{center}
 
 This can be solved as $Z_2/Z_1 + Z_2$, where $Z_2 = R$, and $Z_1 = j\omega L + 1/j\omega C$. Let me try a bit of math here: 
@@ -1449,6 +1447,49 @@ Now, impedance will go to infinity at the described $f_0$---and you can filter o
 
 \subsubsection{Either or?}
 So why are capacitors much more widely used than inductors? To start, inductors are usually large and heavy. As it must be a coin of wires, usually wrapped around some magnetically-permeable metal, it doesn't easily fit into circuit boards. Too, inductors will continuously dissipate energy, while capacitors that are charged do not.\newline
+
+\section{Peak Detection}
+
+An interesting application of a low-pass filter is peak detection. There may be times where you are only interested in extremes, and not the little fluctuations in between. For example, perhaps you're interested in neural activity. You probably don't care too much about individual peaks, but instead you want to get a measure of the overall activity. This is one such way to do so\footnote{These capactwo examples are from Tom Hayes' Chapter 3N.}: 
+
+\begin{multicols}{2}
+    
+\begin{center}
+\begin{circuitikz}
+\draw 
+(0,0) to[diode, *-] (2,0) coordinate(diode)
+to[R] ++(2,0) coordinate(resistor)
+to[C] ++(0,-2)
+node[ground]{}
+(diode) to[R] ++(0,-2)
+node[ground]{}
+(resistor) to[short, -*] ++(1,0) node[above] {$\Vo$}
+(0,0) node[above] {$\Vi$}
+;
+\end{circuitikz}
+\end{center}
+
+
+\begin{center}
+\begin{circuitikz}
+\draw 
+(0,0) to[diode, *-] (2,0) coordinate(diode)
+to[short] ++(2,0) coordinate(resistor)
+to[R] ++(0,-2)
+node[ground]{}
+(diode) to[C] ++(0,-2)
+node[ground]{}
+(resistor) to[short, -*] ++(1,0) node[above] {$\Vo$}
+(0,0) node[above] {$\Vi$}
+;
+\end{circuitikz}
+\end{center}
+
+\end{multicols}
+
+
+You can conceptually imagine that to create some form of peak detection, you want the $RC$ decay value to be slow relative to the minute fluctuations, but fast relative to the longer term fluctuations you are interested in capturing. 
+
 
 \vfill
 
@@ -2260,6 +2301,25 @@ Hyperpolarization cyclic nucleotide (HCN) gated channels induce an inward hyperp
 Expectedly, as $\beta$-blockers will inhibit a rise in cAMP, HCN channels will be less active. This decreases heart rate, among other things. 
 
 
+\chapter{Sensory Processing}
+
+Somatic senses are picked up by receptors on \textit{primary sensory neurons}, whose cell bodies reside in the dorsal root ganglia and project to CNS interneurons. Such interneurons are considered \textit{secondary sensory neurons} and they location depends on function. Fast traveling senses, like proprioception, are sent to the medulla before reaching interneurons (cross the body's midline in the brain), while slower traveling senses, like temperature, synapse onto interneurons upon enterring the spinal cord (immediately crossing the midline). Neurons of the thalamus are considered \textit{tertiary sensory neurons} and project to the somatosensory cortex. 
+
+
+\section{Various Senses}
+
+\subsection{Touch}
+
+\subsection{Temperature}
+
+\subsection{Pain}
+Nociceptive neurons respond to a variety of stimuli that can cause damage to cells. Afferent pain signals are carried either by myelinated A$\delta$ and unmyelinated C fibers. A$\delta$ carried pain is faster and perceived as sharp, local pain. C fiber carried pain is less sharp and less localized.\newline
+
+Transient receptor potential (TRP) channels are the most canonical class of ion channels, and are responsible for a great deal of pain sensation. Vanilloid (TRPV$_1$) channels respond to heat, while TRPM8 respond to cold. An immediate response to cell damage is lysing, causing marked increase in K$^+$ in the surrounding areas. Other released chemicals include histamine and prostaglandins. Upon activation, nociceptive neurons can trigger two responses. The first being reflexes that are integrated at the spinal cord, and the second being somatosensory cortex integration\footnote{This ended up being much less interesting to write than I thought it would be.}. 
+
+
+
+
 
 
 
@@ -2276,7 +2336,7 @@ A cross section of the spinal cord would reveal meninges just like the brain and
 Pathways of the autonomic nervous system require two neurons, one that originates in the CNS and terminates at a ganglion, and a post-ganglionic neuron which terminates at the tissue of interest. While the circuit is often considered to have only two neurons, in fact many pre-ganglionic neurons synapse onto many post-ganglionic neurons, which means one neuron can affect many target tissues. Adding to this is the mode of release. The connection between neuron and target tissue is called the \textit{neuroeffector junction}. At this junction, transmitters are secrete indirectly from bulbous varicosities into the interstitial space, meaning neurotransmitters can diffuse over a larger area. Fascinatingly, these neurotransmitters are actually often synthesized within the axon / varicosities of neurons. 
 
 \subsection{Sympathetic Nervous System}
-Pre-ganglionic neurons of the sympathetic nervous system originate in the hypothalamus or reticular formation and extend down to the mid-sections of the spinal cord, from neuron pairs T$_1$ to L$_2$. Sympathetic ganglia are directly beside the spinal cord in a long chain (often called the sympathetic chain). Generally speaking, neurons closer to the T$_1$ section correspond to organs higher in the body, such as the heart or lungs, while neurons closer to the L$_2$ section corresponds to those lower in the body, like one's reproductive organs\footnote{Memorizing which nerves respond to which segments is likely not a good use of your time at this stage..., although it might have some clinical use to know which organs may be affected after SCI.}. 
+Pre-ganglionic neurons of the sympathetic nervous system originate in the hypothalamus or reticular formation and extend down to the mid-sections of the spinal cord, from neuron pairs T$_1$ to L$_2$. Sympathetic ganglia are directly beside the spinal cord in a long chain (often called the sympathetic chain). Generally speaking, neurons closer to the T$_1$ section correspond to organs higher in the body, such as the heart or lungs, while neurons closer to the L$_2$ section corresponds to those lower in the body, like one's reproductive organs\footnote{Memorizing which nerves respond to which segments is likely not a good use of your time at this stage..., although it might have some clinical use to know which organs may be affected after SCI.}.\newline
 
 Pre-ganglionic neurons release acetylcholine onto nicotinic receptors,  and post-ganglionic neurons release norepinephrine onto adrenergic receptors. As all adrenergic receptors are GPCRs, their cellular response will be slower than ion channel transmission and occur at the protein-level primarily. Too, they will occur through secondary messenger, for example through the IP$_3$ path or cAMP. Norepinepherine is a tyrosine derivative and, like other catecholamines, can be broken down either by monoamine oxidase (MOA) in the neuron's mitochondria, requiring re-uptake, or in the liver by catechol-o-methyltransferase (COMT).\newline
 
@@ -2758,10 +2818,10 @@ void loop() {
 \end{CPP}
 
 
-\subsection{Spinal Cord Injury Stimulation}
+\subsection{Spinal Cord Stimulation}
 
-\subsubsection{Reduction of Pain Overview.}
-This is from this video\footnote{\url{https://www.youtube.com/watch?v=MuLbgftczf8\&ab_channel=CongressofNeurologicalSurgeons}}. In reducing neuropathic pain, the mechanism by which it works is postulated to be Gate-Control Theory\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/5320816/}}. That is, painful signals can be overridden by other pathways. Namely, large A$\beta$ nerves can override the smaller, pain carrying $\alpha$, $\delta$, and C fibers. It is thought to occur at the level of the dorsal horn through inhibitory interneurons, but this is not known with certainty.\newline
+\subsubsection{Reduction of Pain.}
+This is from this video\footnote{\url{https://www.youtube.com/watch?v=MuLbgftczf8\&ab_channel=CongressofNeurologicalSurgeons}}. In reducing neuropathic pain, the mechanism by which it works is postulated to be Gate-Control Theory\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/5320816/}}. That is, painful signals can be overridden by other pathways. Namely, fast, large A$\beta$ nerves can override the smaller, pain carrying A$\delta$ and C fibers. It is thought to occur at the level of the dorsal horn through inhibitory interneurons, but this is not known with certainty.\newline
 
 \textit{Failed back surgery} is the most common need for spinal stimulation of this kind. Stimulation is a good treatment option if the patient's pain is localized, and no identifiable structural defects are found. That is, if one's spinal cord is still improperly aligned, stimulation should not be considered. It is essential to attain extensive pre-operative imaging, as structural issues can also lead to hardware malfunction. For example, a slipped disc may cause unforeseen warping of hardware. Interestingly, psychiatric symptoms is a common indicator of poor patient outcome. Repeated operations usually indicate less effects as well.\newline
 
@@ -2775,7 +2835,7 @@ A variety of stimulators exist, ranging from linear leads to paddles. Paddles wi
 
 The stimulation itself has changed greatly. That is, the frequency, amplitude, etc. has been widely investigated. For example, bursts of stimulation, as opposed to continuous stimulation, has been recently tried. Notably, burst stimulation is usually imperceptible to patients, making it preferable in many cases. It is hypothesized that burst stimulation may inhibit both the physical and emotional aspects of pain. 
 
-\subsubsection{Specific Cells.}
+\subsubsection{SCI Specific Cells.}
 
 Using a simplified device similar to what will be discussed in the upcoming Lorach \textit{et al.} 2023 section, the Courtine group used electrical therapy to re-establish walking in a number of SCI patients\footnote{\url{https://www.nature.com/articles/s41586-022-05385-7}}. Their paper goes into depth on the cell-type specific response to this electrical modulation. They called this model epidural electrical stimulation (EES) + rehab, or EES$^{\mathrm{REHAB}}$. They first approached by measuring metabolic consumption in the spinal cord before and after EES$^{\mathrm{REHAB}}$ using PET scanners, and found that metabolism actually \textbf{decreases} in the face of EES$^{\mathrm{REHAB}}$, despite regaining the ability to walk. Therefore, they hypothesized that EES$^{\mathrm{REHAB}}$ ``cleans up" the circuits a bit, causes activity to become targeted for walking.\newline
 
@@ -2894,7 +2954,7 @@ I like the ACES method as a starting point. It seems easy enough to implement, a
 The biomaterials possibilities are quite cool too. 
 
 \subsubsection{Waveforms for Neuropathic Pain.}
-Perhaps one can use a feedback mechanism, where the frequency of stimulation can be altered in order to dampen neural signals. You'd need to both read and write, essentially. Surely you can record brain waves responsible for feeling pain, and have a circuit edit itself to minimize them?
+Perhaps one can use a feedback mechanism, where the frequency of stimulation can be altered in order to dampen neural signals. You'd need to both read and write, essentially. Surely you can record brain waves responsible for feeling pain, and have a circuit edit itself to minimize them? $-->$ actually, dampening neural signals is a great example of a time to use the peak detection method, because you're only interested in magnitude. 
 
 \vfill\pagebreak
 
