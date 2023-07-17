@@ -2635,27 +2635,26 @@ I felt personally offended when I saw that the device used in this paper was aro
 %%%%%% OPAMP
 (0,0) node[above]{+$2\V$} to[short, *-] ++(1,0)
 node[op amp, noinv input up, anchor=+](OA){}
-(OA.-) to[short] ++(0,-1) coordinate(feedback)
+(OA.-) to[short] ++(0,-0.5) coordinate(feedback)
 
 %%%% NPN transistor
-(OA.out) ++(1,0) node[npn, ](npn)(T1){}
-(OA.out) -- (T1.B)
-(T1.C) to[short,-*] ++(0,0)
+(OA.out) ++(1,0.6) node[npn](M1){}
+(OA.out) -| (M1.B)
+(M1.C) to[short,-*] ++(0,0)
 
-(T1.C) ++(0,2) coordinate(Vcc)
+(M1.C) ++(0,2) coordinate(Vcc)
 (Vcc) to[short,*-*] ++(0,1) node[above]{+$10\V$}
 
-(T1.C) to[R, l_=$R_{load}$] (Vcc)
-(T1.C) to[short] ++(-1,0)
+(M1.C) to[R, l_=$R_{load}$] (Vcc)
+(M1.C) to[short] ++(-1,0)
 to [voltmeter] ++(0,2)
 to [short] (Vcc)
 
 %%%% PNP transistor
-(T1.E) ++(0,-0.5) node[pnp, ](pnp)(T2){}
-(T1.E) -- (T2.E)
-(T2.B) to[short,-*] ++(-0.5,0) node[above]{+$1\V$}
-(T2.C) -| (feedback)
-(T2.C) to[R,l=$1\mathrm{k}\Omega$] ++(0,-2)
+(M1.E) ++(0,-0.5) node[pnp](M2){}
+(OA.out) -| (M2.G)
+(M2.C) -| (feedback)
+(M2.C) to[R,l=$1\mathrm{k}\Omega$] ++(0,-2)
 to ++(0,0) node[ground]{} 
 
 ;
@@ -2712,15 +2711,16 @@ int out_state = LOW;
 
 int in = A0;
 
-unsigned long last_time = 0; // In micros
+unsigned long last_time = 0; // In microsecs
 
-const long pulse_time = 100;
-const long time_between_pulses = 1000;
+const long pulse_time = 100; 
+const long time_between_pulses = 499950; 
 
 int pulse_counter = 0;
-int intervals = 30;
+int intervals = 1000;
 
 bool on_off = LOW;
+bool complete = false;
 
 void setup() {
   Serial.begin(9600);
@@ -2731,30 +2731,50 @@ void setup() {
 void loop() {
   unsigned long current_time = micros(); 
 
-  if ((current_micros - last_micros >= time_between_pulses) && (!on_off)) {
+  if ((current_time - last_time >= time_between_pulses) && (!on_off) && (!complete)) {
     last_time = current_time;
     on_off = HIGH;
     pulse_counter++;
-    digitalWrite(out_state, on_off);
+    digitalWrite(out, on_off);
+    int unconverted_Vdrop = analogRead(in);
+    float Vdrop = unconverted_Vdrop * (5.0 / 1023.0);
+    Vdrop = 10 - (2 * Vdrop); 
+    float impedance = Vdrop / 0.002; // For 2mA
+    Serial.println(impedance);
   }
-   if ((current_micros - last_micros >= pulse_time) && (on_off)) {
+   if ((current_time - last_time >= pulse_time) && (on_off) && (!complete)) {
     last_time = current_time;
     on_off = LOW;
-    digitalWrite(out_state, on_off);
-  }
-  if (on_off) {
-  int unconverted_Vdrop = analogRead(in);
-  float Vdrop = unconverted_Vdrop * (5.0 / 1023.0);
-  Serial.println(Vdrop);
+    digitalWrite(out, on_off);
   }
   if(pulse_counter >= intervals){
-    break;
+    complete = true;
+    on_off = LOW;
+  }
+  if(complete){
+    Serial.println("DONE");
   }
 }
 \end{CPP}
 
 
 \subsection{Spinal Cord Injury Stimulation}
+
+\subsubsection{Reduction of Pain Overview.}
+This is from this video\footnote{\url{https://www.youtube.com/watch?v=MuLbgftczf8\&ab_channel=CongressofNeurologicalSurgeons}}. In reducing neuropathic pain, the mechanism by which it works is postulated to be Gate-Control Theory\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/5320816/}}. That is, painful signals can be overridden by other pathways. Namely, large A$\beta$ nerves can override the smaller, pain carrying $\alpha$, $\delta$, and C fibers. It is thought to occur at the level of the dorsal horn through inhibitory interneurons, but this is not known with certainty.\newline
+
+\textit{Failed back surgery} is the most common need for spinal stimulation of this kind. Stimulation is a good treatment option if the patient's pain is localized, and no identifiable structural defects are found. That is, if one's spinal cord is still improperly aligned, stimulation should not be considered. It is essential to attain extensive pre-operative imaging, as structural issues can also lead to hardware malfunction. For example, a slipped disc may cause unforeseen warping of hardware. Interestingly, psychiatric symptoms is a common indicator of poor patient outcome. Repeated operations usually indicate less effects as well.\newline
+
+Implanting an electrodes is done in two stages:
+\begin{enumerate}
+    \item Trial: A lead is inserted in order to find the site of pain. That is, exactly where to place the electrode permanently is found first in a trial. In the trial phase, patients are usually kept awake. 
+    \item Permanent: After such place is found, a permanent surgery can be scheduled for long-term treatment. 
+\end{enumerate}
+
+A variety of stimulators exist, ranging from linear leads to paddles. Paddles will require laminectomy by a neurosurgeon, but less invasive leads do not necessarily need this.\newline
+
+The stimulation itself has changed greatly. That is, the frequency, amplitude, etc. has been widely investigated. For example, bursts of stimulation, as opposed to continuous stimulation, has been recently tried. Notably, burst stimulation is usually imperceptible to patients, making it preferable in many cases. It is hypothesized that burst stimulation may inhibit both the physical and emotional aspects of pain. 
+
 \subsubsection{Specific Cells.}
 
 Using a simplified device similar to what will be discussed in the upcoming Lorach \textit{et al.} 2023 section, the Courtine group used electrical therapy to re-establish walking in a number of SCI patients\footnote{\url{https://www.nature.com/articles/s41586-022-05385-7}}. Their paper goes into depth on the cell-type specific response to this electrical modulation. They called this model epidural electrical stimulation (EES) + rehab, or EES$^{\mathrm{REHAB}}$. They first approached by measuring metabolic consumption in the spinal cord before and after EES$^{\mathrm{REHAB}}$ using PET scanners, and found that metabolism actually \textbf{decreases} in the face of EES$^{\mathrm{REHAB}}$, despite regaining the ability to walk. Therefore, they hypothesized that EES$^{\mathrm{REHAB}}$ ``cleans up" the circuits a bit, causes activity to become targeted for walking.\newline
@@ -2872,6 +2892,9 @@ I like the ACES method as a starting point. It seems easy enough to implement, a
 \subsubsection{Biomaterials.}
 
 The biomaterials possibilities are quite cool too. 
+
+\subsubsection{Waveforms for Neuropathic Pain.}
+Perhaps one can use a feedback mechanism, where the frequency of stimulation can be altered in order to dampen neural signals. You'd need to both read and write, essentially. Surely you can record brain waves responsible for feeling pain, and have a circuit edit itself to minimize them?
 
 \vfill\pagebreak
 
