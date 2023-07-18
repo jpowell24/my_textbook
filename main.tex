@@ -88,6 +88,12 @@
   {\lstset{language=C,basicstyle=\ttfamily\small,frame=none}}
   {}
 
+\usepackage{lmodern}
+\usepackage{afterpage}
+\usepackage{adjustbox}
+\usepackage{helvet}
+
+
 %%%%%%%%%%%%%%%% These commands are taken from Professor Ashmanskas!
 \newcommand{\ohm}{\Omega}
 \newcommand{\kohm}{{\rm k}\Omega}
@@ -240,23 +246,33 @@ to [R, l=2 k$\Omega$] ++(0,-2)
 \bigskip
 \begin{titlepage}
 
-   \begin{center}
-       \vspace*{2in}
+\pagecolor{black}\afterpage{\nopagecolor}
 
-       \textbf{\Huge Forcing a meaninful future: \\ Brain-spine-muscle interfaces\\
-       \smallskip }
+
+       \vspace*{1in}
+       
+\begin{adjustbox}{minipage=10cm,scale={2}{3}}
+
+       \textbf{\fontsize{40}{40}\selectfont \textcolor{white}{BRAIN-\\SPINE-\\MUSCLE}}\newline
+       \vspace{-0.2in}
+       \textbf{\fontsize{30}{30}\selectfont \textcolor{white}{INTERFACES}}\\
+
+\end{adjustbox}
+
+       \smallskip 
 
        \vspace{0.5in}
 
-       {\large By Jackson Powell \\ \small For future Jackson}
+       {\fontfamily{phv}\selectfont \textbf{\Large \textcolor{white}{BY: JACKSON POWELL \\ \small FOR: \textcolor{red}{FUTURE} JACKSON}}}
 
     \vspace{1cm}
 
-    \begin{center}
-        \textbf{Once you know the way broadly, you can see it in all things.\\
-        -- The Book of Five Rings by Miyamoto Musashi}
+\begin{flushright}
+
+        {\fontfamily{phv}\selectfont\textbf{\large \textcolor{white}{Once you know the way broadly, you can see it in all things.\\
+        -- The Book of Five Rings by Miyamoto Musashi}}}
     
-    \end{center}
+\end{flushright} 
 
 
 \vspace{0.5cm}
@@ -267,7 +283,6 @@ to [R, l=2 k$\Omega$] ++(0,-2)
             
        \vspace{0.8cm}
      
-       \end{center}
 
 
 \end{titlepage}
@@ -2958,19 +2973,30 @@ Perhaps one can use a feedback mechanism, where the frequency of stimulation can
 
 \vfill\pagebreak
 
-\begin{center}
-Thank you. There's one thing I'd like to leave you with: 
-\end{center}
 
-\vspace{2in}
-            \begin{center}
-            \begin{minipage}[l]{10cm}\small
-            \textbf{The world is always full of the sound of waves.}\newline
 
-            \textbf{The little fishes, abandoning themselves to the waves, dance and sing and play, but who knows the heart of the sea, a hundred feet down? Who knows its depth?}\newline
-            \textbf{-- Musashi by Eiji Yoshikawa}
-            \end{minipage}
-            \end{center}
-\vfill
+\pagecolor{black}\afterpage{\nopagecolor}
+
+
+       \vspace*{1in}
+       
+\begin{adjustbox}{minipage=10cm,scale={2}{3}}
+
+       \textbf{\fontsize{30}{30}\selectfont \textcolor{white}{THANK YOU.}}\newline
+\\
+
+\end{adjustbox}
+
+       \smallskip 
+
+       \vspace{0.5in}
+
+       {\fontfamily{phv}\selectfont \textbf{\Large \textcolor{white}{A FINAL NOTE: }}}
+
+    \vspace{2cm}
+
+        {\fontfamily{phv}\selectfont\textbf{\large \textcolor{white}{The world is always full of the sound of waves.\\ \\ The little fishes, abandoning themselves to the waves, dance and sing and play, but who knows the \textcolor{red}{heart} of the sea, a hundred feet down? Who knows its depth? \\ \\ -- Musashi by Eiji Yoshikawa}}}
+    
+
 
 \end{document}
