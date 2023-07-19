@@ -776,8 +776,6 @@ to ++(0,0) node[ground]{}
 
 Firstly, apologies for the mess in labeling. The most difficult thing about this problem, in actuality, is how you look at it. Redrawing the circuit helps a great deal. I'll guide you through how one might do this. In truth, the four grounded resistors are in parallel and can be simplified to one wire ($R_g || R_g || R_g || R_g$, or $R_g/4$). You can probably realize that the edge resistors, for example the pair of $R_{e1}$, are also in parallel and are in series with $R_{c1}$. Therefore, we have $\pr{R_{e1} || R_{e1}} + R_{c1}$. I'll call this $R^{eq}_1$. Then you'll realize simply that all of the equivalent $R$ are also in parallel. This gives us $R^{eq}_1 || R^{eq}_2 || R^{eq}_3 ||  R^{eq}_4$, which I will call $R^{eq}_{total}$. Now, our circuit simplifies to: 
 
-\vfill\pagebreak
-
 \begin{multicols}{2}
 \begin{center}
 \begin{circuitikz}
@@ -1345,7 +1343,7 @@ I_c\frac{1}{j\omega C} = A \\
 
 This is the equivalent of Ohm's law, where ${1} /{j\omega C}$ is the resistance. Understanding this, we can find our high-pass filter's equation to be: 
 
-\begin{equation} \label{imp3}
+\begin{equation} \label{imp5}
 \begin{split}
 \Vo = \frac{R}{Z_C + R}\Vi
 \end{split}
@@ -1354,7 +1352,7 @@ This is the equivalent of Ohm's law, where ${1} /{j\omega C}$ is the resistance.
 \section{Filtration Quantitatively}
 We are finally prepared to talk about filtration quantitatively! As was mentioned in the impedance discussion, resistor-capacitor (RC) circuits can be formulated as voltage dividers. We know that the impedance of a capacitor is ${1} /{j\omega C}$, which has some frequency dependence from $\omega$ (or, $2\pi f$). Therefore, we can get the sense that $\Vo$ may change depending on this frequency. With a bit of re-writing, we find: 
 
-\begin{equation} \label{filt1}
+\begin{equation} \label{imp6}
 \begin{split}
 \frac{\Vo}{\Vi} &= \frac{Z_C}{Z_C + R} \\
 \frac{\Vo}{\Vi} &= \frac{1}{1 + j\omega RC} \\
@@ -1364,7 +1362,7 @@ We are finally prepared to talk about filtration quantitatively! As was mentione
 
 We can see that as the frequency goes up, this converges to $1 / \infty$, or $1/1$ as frequency goes down. Whereas, for a high pass filter: 
 
-\begin{equation} \label{filt1}
+\begin{equation} \label{imp7}
 \begin{split}
 \frac{\Vo}{\Vi} &= \frac{R}{Z_C + R} \\
 \frac{\Vo}{\Vi} &= \frac{j\omega RC}{1 + j\omega RC} \\
@@ -1450,7 +1448,7 @@ Z_1 &= \frac{1 -\omega^2 LC}{j\omega C}\\
 
 The impedance, $Z_1$, goes to zero when $\omega^2 LC = 1$. In other words, at some frequency, $f_0$, the impedance will be minimized. This is called the resonant frequency, and is found at $f_0 = 1/2\pi \sqrt{LC}$. You can think about what would happen when the inductor and capacitor are in parallel in the circuit above:
 
-\begin{equation} \label{filt1}
+\begin{equation} \label{filt2}
 \begin{split}
 Z_1 &= j\omega L \: || \: \frac{1}{j\omega C} \\
 Z_1 &= \frac{j\omega L/j\omega C}{j\omega L + 1/j\omega C} \\
@@ -1514,7 +1512,9 @@ You can conceptually imagine that to create some form of peak detection, you wan
 
 \chapter{Opamps}
 
-Operational amplifiers (opamps) are one of the most ubiquitous tools in electronics, just behind classics like the resistor and capacitor. While they themselves are amazing, making CircuitTikz diagrams for them is a nightmare! So wish me luck in the coming parts!
+Operational amplifiers (opamps) are one of the most ubiquitous tools in electronics, just behind classics like the resistor and capacitor. While they themselves are amazing, making CircuitTikz diagrams for them is a nightmare! So wish me luck in the coming parts!\newline
+
+As there are countless opamp applications, it can become muddled why you'd want a circuit to do such things. Thus, I'll do my best to think of interesting biological applications for the less obvious ones. 
 
 \section{Introduction and Gold}
 
@@ -1544,7 +1544,7 @@ In adding some form of negative feedback, and keeping your opamp from being satu
     \item $v_+$ and $v_-$ draw no current.
 \end{enumerate}
 
-\subsection{Simple Opamp Circuits}
+\section{Simple Opamp Circuits}
 
 Implicit in rule two is that an opamp has immensely high resistance. That means that the input resistance seen by earlier circuit components is effectively an open circuit ($R = \infty$) for an ideal opamp. The simplest opamp circuit is seen as follows\footnote{Get it?}: 
 
@@ -1553,7 +1553,7 @@ Implicit in rule two is that an opamp has immensely high resistance. That means 
 \draw
 (0,0) node[op amp](F1-OA){\texttt{F1}} (opamp) {}
 (opamp.+) node[left] {}
-to[short, -*] ++(-1,0) node[left] {$\Vi$}
+to[short, -*] ++(-1,0) node[above] {$\Vi$}
 
 (opamp.-) node[left] {}
 to[short] ++(0,1)
@@ -1561,7 +1561,7 @@ to[short] ++(0,1)
 (opamp.out) node[right] {}
 to[short] ++(0,1.5)
 to[short] ++(-2.4,0)
-(opamp.out) to[short, -*] (2,0) node[right] {$\Vo$}
+(opamp.out) to[short, -*] (2,0) node[above] {$\Vo$}
 ;
 \end{circuitikz}
 \end{center}
@@ -1587,17 +1587,34 @@ Recall this circuit from before. The important principle we learned was that bec
 
 \begin{center}
 \begin{circuitikz}
-\myDividers{(0,0)}{(3,2)}{(6,2)}{D1}
-\myF{F2}{(D1-out)}
-%\draw (F2-out) -| (D1-in);
+\draw 
+(0,2) to [battery, l=9 V] ++(0,-2)
+
+(0,2) to [R, l=1 k$\Omega$] ++(2,0)
+to [R, l=2 k$\Omega$] ++(0,-2) 
+
+(0,0) to [short, -*] ++(9,0)
+
+(6,2) to [R, l=1 k$\Omega$] ++(2,0)
+to [R, l=2 k$\Omega$] ++(0,-2)
+(8,2) to [short, -*] ++(1,0)
+
+(4,2.5) node[op amp](opamp){} (opamp) {}
+
+(opamp.+) node[left] {}
+(opamp.+) node[left] {} 
+
+(opamp.-) node[left] {}
+to[short] ++(0,1)
+(opamp.+) -| (2,2)
+
+(opamp.out) node[right] {} 
+to[short] ++(0,1.5)
+to[short] ++(-2.4,0)
+(opamp.out) |- (6,2)
+;
 \end{circuitikz}
 \end{center}
-
-% \begin{center}
-% \begin{circuitikz}
-% \myF{(4,2)}{F2}
-% \end{circuitikz}
-% \end{center}
 
 
 Now, the first voltage divider will ``see" an input resistance of the opamp as being infinite. The opamp's output will be the voltage of the first voltage divider, and apply it to the second voltage divider. As such, we do get $\Vi \times \frac{2}{3} \times \frac{2}{3}$.\newline
@@ -1621,30 +1638,241 @@ to[short, -*] ++(0,0)
 to[short] ++(0,1.5)
 to[short] ++(-2.4,0)
 (opamp.-) node[right] {}
-to[short, -*] ++(-1,0) node[left] {$\Vi$}
-(opamp.out) to[short, -*] (2,0) node[right] {$\Vo$}
+to[short, -*] ++(-1,0) node[above] {$\Vi$}
+(opamp.out) to[short, -*] (2,0) node[above] {$\Vo$}
 ;
 \end{circuitikz}
 \end{center}
 
-Intuitively, since $v_+$ is grounded (or, $V = 0\V$), to make $v_+ = v_-$, $v_-$ must equal $-\Vi$, and or, $\Vo = -\Vi$. Because of this, this node is sometimes called a \textit{virtual ground}, or $v_g$. 
+Intuitively, since $v_+$ is grounded (or, $V = 0\V$), to make $v_+ = v_-$, $v_-$ must equal $-\Vi$, and or, $\Vo = -\Vi$. Because of this, this node is sometimes called a \textit{virtual ground}, or $v_g$.\newline
 
-% \begin{center}
-% \begin{circuitikz}
-% \draw 
-% (0,0) node[above]{$v_i$} to[short, o-] ++(1,0)
-% node[op amp, noinv input up, anchor=+](OA){\texttt{OA1}}
-% (OA.-) -- ++(0,-1) coordinate(FB)
-% to[R=$R_1$] ++(0,-2) node[ground]{}
-% (FB) to[R=$R_2$, *-] (FB -| OA.out) -- (OA.out)
-% to [short, *-o] ++(1,0) node[above]{$v_o$}
-% ;
-% \end{circuitikz}
-% \end{center}
+Given some of these ideas, we can imagine some special opamp uses. Like:
 
 
+\begin{center}
+\begin{circuitikz}
+\draw 
+node[op amp, anchor=+](OA){}
+(OA.-) to[R=$R_1$, -*] ++(-2,0) node[above]{$\Vi$}
+(OA.-) to[short] ++(0,1) 
+to[R=$R_2$] ++(2.5,0) 
+to ++(0,-1.5) 
+
+(OA.+) to[short] ++(0,0) node[ground]{}
+
+(OA.out) to [short, -*] ++(1,0) node[above]{$\Vo$}
+;
+\end{circuitikz}
+\end{center}
+
+This is called an \textit{inverting amplifier}. Sometimes you'll see circuits like this overcomplicated in explanation. In reality, you should just recognize that the current across $R_1$ must equal the current across $R_2$, since no current flows into $v_-$. Automatically, this means since $\Vi = R_1I$, and $\Vo = -R_2I$ (due to direction of flow), you'll find that:
+
+\begin{equation} \label{oa1}
+\begin{split}
+\Vo = -\frac{R_2}{R_1}\Vi
+\end{split}
+\end{equation}
+
+A slightly more complex application is: 
+
+\begin{center}
+\begin{circuitikz}
+\draw 
+(0,0) node[above]{$\Vi$} to[short, *-] ++(1,0)
+node[op amp, noinv input up, anchor=+](OA){}
+(OA.-) -- ++(0,-1) coordinate(FB)
+to[R=$R_1$] ++(0,-2) node[ground]{}
+(FB) to[R=$R_2$, *-] (FB -| OA.out) -- (OA.out)
+to [short, -*] ++(1,0) node[above]{$\Vo$}
+;
+\end{circuitikz}
+\end{center}
+
+This is called a \textit{non-inverting amplifier}. In this case, you can see that $R_1$ and $R_2$ form something of a voltage divider. That is, $V_- = R_1/(R_2 + R_1) \times \Vo$. Knowing that an opamp always wants to ensure $v_- = v_+$, we can say: 
+
+\begin{equation} \label{oa2}
+\begin{split}
+\Vi & = \frac{R_1}{R_2 + R_1}\Vo \\
+\Vi \pr{\frac{R_2}{R_1} + 1} & = \Vo \\
+\end{split}
+\end{equation}
+
+The output resistance of an ideal opamp should be 0. That is, ideally an opamp would be able to drive any voltage irrespective of the current. The input resistance of the inverting amplifier will be whatever value we have for $R_1$, while the input resistance for the non-inverting amplifier is $\infty$, as it is directly connected to the opamp's $v_+$.\newline
+
+Another thing you may wonder is if we can drive an infinite voltage at $\Vo$. Recall that we are limited by whatever voltage is provided to the opamp's power rails, shown at the start of this section.\newline
+
+An expansion of the inverting amplifier is the \textit{summing amplifier}:
+
+\begin{center}
+\begin{circuitikz}
+\draw 
+node[op amp, anchor=+](OA){}
+(OA.-) to[short] ++(-1,0) coordinate(cord)
+(cord) to[short] ++(0,0.5)
+to[R, l_=$R_1^A$, -*] ++(-2,0) node[above]{$V_A$}
+(cord) to[short] ++(0,-0.5) 
+to[R=$R_1^B$, -*] ++(-2,0) node[below]{$V_B$}
+(OA.-) to[short] ++(0,1) 
+to[R=$R_2$] ++(2.5,0) 
+to ++(0,-1.5) 
+
+(OA.+) to[short] ++(0,0) node[ground]{}
+
+(OA.out) to [short, -*] ++(1,0) node[above]{$\Vo$}
+;
+\end{circuitikz}
+\end{center}
+
+The interpretation is largely the same. Given that all of the currents through individual resistors will sum together through $R_2$: 
+
+\begin{equation} \label{oa3}
+\begin{split}
+\Vo & = -R_2 \pr{\frac{1}{R_1^A}V_A + \frac{1}{R_1^B}V_B} \\
+\Vo & = -\frac{R_2 }{R_1^A}V_A - \frac{R_2 }{R_1^B}V_B \\
+\end{split}
+\end{equation}
+
+Perhaps one application would be if you were interested in measuring the overall activity within the brain, and you are not so interested in discriminating individual electrodes in an EEG. Because the voltage changes measured by an EEG are so small, you'll need to amplify it. Thus, you throw them all together into a summing amplifier.\newline
+
+Next is a \textit{differential amplifier} (not to be confused with derivative).
+
+\begin{center}
+\begin{circuitikz}
+\draw 
+node[op amp, anchor=+](OA){}
+(OA.-) to[R, l_=$R_1^A$, -*] ++(-2,0) node[above]{$V_A$}
+(OA.+) to[R=$R_1^B$, -*] ++(-2,0) node[below]{$V_B$}
+(OA.-) to[short] ++(0,1) 
+to[R=$R_2^A$] ++(2.5,0) 
+to ++(0,-1.5) 
+
+(OA.+) to[R=$R_2^B$] ++(0,-2) node[ground]{}
+
+(OA.out) to [short, -*] ++(1,0) node[above]{$\Vo$}
+;
+\end{circuitikz}
+\end{center}
+
+Knowing that $v_- = v_+$, and that $v_- = V_A - I_AR_1^A$ and $v_- = \Vo + I_AR_2^A$: 
+
+\begin{equation} \label{oa4}
+\begin{split}
+\frac{V_A - v_-}{R_1^A} &= \frac{v_- - \Vo}{R_2^A} \\
+{R_2^A}(V_A - v_-) &= {R_1^A}(v_- - \Vo) \\
+{R_2^A}V_A + {R_1^A}\Vo &= {R_1^A}v_- + {R_2^A}v_- \\
+\frac{R_2^A}{R_1^A + R_2^A}V_A + \frac{R_1^A}{R_1^A + R_2^A}\Vo &= v_- \\
+v_+ = v_- &= V_B\pr{\frac{R_2^B}{R_1^B + R_2^B}}  \\
+\frac{R_2^A}{R_1^A + R_2^A}V_A + \frac{R_1^A}{R_1^A + R_2^A}\Vo &= V_B\pr{\frac{R_2^B}{R_1^B + R_2^B}} \\
+{R_2^A}V_A + {R_1^A}\Vo &= {R_2^B}V_B \\
+R_1^A\Vo &= {R_2^B}V_B - {R_2^A}V_A\\
+\Vo &= \frac{R_2^B}{R_1^A}V_B - \frac{R_2^A}{R_1^A}V_A\\
+\end{split}
+\end{equation}
+
+So that if $R_2^A = R_2^B$, you get $\Vo = \frac{R_2}{R_1}(V_B - V_A)$. An important application of this is most physiological signals. Physiological signals are accompanied by an incredible amount of background noise, so it is useful to subtract an electrode placed on your location of interest with some other reference electrode. For example, if someone sustained damage to their left bicep, and doctors were using EMG recordings to measure recovery, an electrode should be placed on the left bicep and the right bicep. While the left bicep flexes, the right bicep can remain relaxed, and one can subtract the two signals to get the signal specific to the left bicep's flex. Because we are reading muscle depolarization through the skin, the measurable $\Delta V$ will be extremely small, hence the need to amplify it.\newline
+
+Next we will show the \textit{current-to-voltage amplifier}. $\Vo$ will simply be $I_{in} \times R$:
 
 
+\begin{center}
+\begin{circuitikz}
+\draw 
+node[op amp, anchor=+](OA){}
+(OA.-) to[short, -*, f<_=$I_{in}$] ++(-2,0)
+(OA.-) to[short] ++(0,1) 
+to[R=$R$] ++(2.5,0) 
+to ++(0,-1.5) 
+
+(OA.-) node[below] {$v_g$}
+to[short, -*] ++(0,0)
+
+(OA.+) to[short] ++(0,0) node[ground]{}
+
+
+(OA.out) to [short, -*] ++(1,0) node[above]{$\Vo$}
+;
+\end{circuitikz}
+\end{center}
+
+
+
+Using an opamp is particularly beneficial, in this case, because if your current source is weak, you will not further inhibit it by adding a resistor in its path. Whatever current source you use will essentially drive a short circuit, due to the opamp's virtual ground ($v_g$)---and current sources love short circuits.\newline
+
+You may ask why you would ever need to convert current to voltage? Or, when would you be able to read current as opposed to voltage? An example from Prof. Ashmanskas is in PET scanners---photons emitted from fluorodeoxyglucose (18F) hit the walls of the PET scanner, and excite atoms enough to release electrons, generating an extremely small current. Really all piezo-electric compounds can be measured in this way. You can imagine one mode of stimulation would be implanting some piezo-electric compound and inducing electron release through low-intensity ultrasound. In testing, you'll need to measure such electron release using a current-to-voltage amplifier.\newline
+
+The next circuits are both integrators. 
+
+\begin{multicols}{2}
+
+\begin{center}
+\begin{circuitikz}
+\draw 
+node[op amp, anchor=+](OA){}
+(OA.-) to[R=$R$, -*] ++(-2,0) node[above]{$\Vi$}
+(OA.-) to[short] ++(0,1) 
+to[C] ++(2.5,0) 
+to ++(0,-1.5) 
+
+(OA.+) to[short] ++(0,0) node[ground]{}
+
+(OA.out) to [short, -*] ++(1,0) node[above]{$\Vo$}
+;
+\end{circuitikz}
+\end{center}
+
+\begin{center}
+\begin{circuitikz}
+\draw 
+node[op amp, anchor=+](OA){}
+(OA.-) to[R=$R$, -*] ++(-2,0) node[above]{$\Vi$}
+(OA.-) to[short] ++(0,1) coordinate(cord1)
+to[C] ++(2.5,0) 
+to ++(0,-1.5) 
+
+(cord1) to[short] ++(0,1) 
+to[R=$R_{\mathrm{bleed}}$] ++(2.5,0) 
+to ++(0,-1.5) 
+
+(OA.+) to[short] ++(0,0) node[ground]{}
+
+(OA.out) to [short, -*] ++(1,0) node[above]{$\Vo$}
+;
+\end{circuitikz}
+\end{center}
+    
+\end{multicols}
+
+Both function as integrators (and low-pass filters), much like the low-pass filter discussion from long ago. That is, the current through the resistor is the same as through the capacitor, allowing us to use $I = C Vdt$ to solve. Usefully, though, there is not a voltage limit as there is with the low-pass filter of the earlier parts. If you recall our opamp Golden Rules from section \textbf{(3.2)} you'll recall that one of the requirements is that there will be feedback. You may then realize that if $\Vi$'s average over time is non-zero, there cannot be proper feedback in the left circuit, as the capacitor will block DC. Therefore, the second circuit uses a bleed resistor to allow for feedback when the capacitor is fully charged. This can be a bit dubious, as it is not expressly clear how this will affect your integration, but you can imagine that if your $R_{\mathrm{bleed}}C$ value is large, it will drain charge from the capacitor over some long time scale. Intuitively, as the frequency applied to $\Vi$ increases, the amplification converges to $R_{\mathrm{bleed}} / R$. \newline
+
+Another option is to use a switch to replace $R_{\mathrm{bleed}}$.  Therefore, whenever you want to begin integration you can flip the switch to zero the charge on the capacitor. Of course, the capacitor will saturate eventually, but you can ``reset" it as desired.\newline
+
+As for applications, one interesting thing you can imagine is using an analog circuit to determine total muscle activity over time. Rather than digitally recording thousands of data points using an EMG and averaging them, you can use an integrator and record one voltage value at the end of your flexion---thus, giving some idea of total muscle output on a relative scale.\newline
+
+The last of this section will be the \textit{logarithmic amplifier}: 
+
+\begin{center}
+\begin{circuitikz}
+\draw 
+node[op amp, anchor=+](OA){}
+(OA.-) to[R=$R$, -*] ++(-2,0) node[above]{$\Vi$}
+(OA.out) to[short] ++(0,1.5) 
+to[D] ++(-2.5,0) 
+to ++(0,-1) 
+
+(OA.+) to[short] ++(0,0) node[ground]{}
+
+(OA.out) to [short, -*] ++(1,0) node[above]{$\Vo$}
+;
+\end{circuitikz}
+\end{center}
+
+I'll not explain the math so much, but you can think about the LED example from the very first section. A diode's current curve is exponential in nature, so the voltage will approach asymptotically toward the diode's diode-drop\footnote{I still haven't done a Part on diodes yet, so the term ''diode-drop" is not yet explored.}.\newline
+
+Biological applications of this are more obscure, but perhaps you can imagine a scenario where you'd really only care about the lower bounds of some stimulus. For example, if measuring the sub-threshold oscillations of a neuron, you may not want a linear curve---because once the neuron reaches it's threshold, the voltage rises dramatically. However, a logarithmic graph of the voltages between hyperpolarization and threshold might be quite useful, and you can configure it so that your circuit approaches its asymptote as the neuron approaches its threshold voltage. 
+
+\subsubsection{In Summary.}
+
+Some of the circuits here are pretty neat. We learned some ways in which analog circuits can perform relatively complex functions, like multiplication, subtraction, addition, integrals and even logs. 
 
 
 
@@ -1861,7 +2089,7 @@ Transition matrix:
 
 \bigskip
 
-\begin{equation} \label{eq8}
+\begin{equation} \label{hh1}
 \begin{split}
 C\dot{V} = I - I_{Na} - I_{K} - I_{Leak}
 \end{split}
@@ -1873,7 +2101,7 @@ Because the equations can be found in nearly any textbook\footnote{Izhikevich, \
 
 \bigskip
 
-\begin{equation} \label{eq8}
+\begin{equation} \label{hh2}
 \begin{split}
 C\dot{V} = I - \bar{g}_{Na}m^3h(V - E_{Na}) - \bar{g}_{K}n^4(V - E_{K}) - \bar{g}_{L}(V - E_{L})
 \end{split}
@@ -1922,7 +2150,7 @@ You'd probably want to divide up the neuron into segments on the order of 1 $\mu
 
 This helps us arrive at least at the following: 
 
-\begin{equation} \label{eq8}
+\begin{equation} \label{fn1}
 \begin{split}
 \dot{V} &= V \times f(x)
 \end{split}
@@ -1931,7 +2159,7 @@ This helps us arrive at least at the following:
 
 Simply meaning that the derivative should scale with voltage in some way. We also know that there are at least two ``equilibrium points" in a neuron. Meaning, when the neuron is at rest, the $\dot{V}$ will be zero. And, when the neuron reaches the peak of the action potential, the same is true. This will allow us to immediately assume something interesting:
 
-\begin{equation} \label{eq8}
+\begin{equation} \label{fn2}
 \begin{split}
 \dot{V} &= V(V - V_{rest})(V - V_{max})
 \end{split}
@@ -1941,7 +2169,7 @@ We are already almost there. What we have just done is said that when either $V 
 
 On our second time scale, the slow time scale, we have the inactivation/repolarization function. How will this look like? Just as with the first equation, we will want this curve to increase in magnitude with voltage. Because $n$ represented the potassium channel activation in the previous segment, we can use that as our repolarization function here. 
 
-\begin{equation} \label{eq8}
+\begin{equation} \label{fn3}
 \begin{split}
 \dot{n} &= V - \gamma n
 \end{split}
@@ -1951,7 +2179,7 @@ What does this say? It says that our repolarization curve $\dot{n}$ will increas
 
 Now we have reduced our function down to two dimensions and can combine terms: 
     
-\begin{equation} \label{eq8}
+\begin{equation} \label{fn4}
 \begin{split}
     \dot{V} &= V(V - V_{rest})(V - V_{max}) - n\\ 
     \dot{n} &= V - \gamma n\\
@@ -1960,7 +2188,7 @@ Now we have reduced our function down to two dimensions and can combine terms:
 
 But, we still want voltage to be affected by an injected current, so we can simply add this term back in. And it is also in this equation that we will add our spatial dependence to reach the following: 
 
-\begin{equation} \label{eq8}
+\begin{equation} \label{fn5}
 \begin{split}
     \dot{V} &= I_{app} + [V(V - V_{rest})(V - V_{max}) - n] +  D\frac{\partial V^2}{\partial x^2}\\
 \end{split}
@@ -2024,7 +2252,7 @@ One may wonder how one would solve for an edge case, as the general form of a se
 
 This method has some slight issues in which the $[f]$ can occasionally go negative. The way in which this occurs is stated below (note that now $[f]$ is used instead of $f$ to signify concentration at a value $x$ and time $t$). We can first describe a simplified version of the problem:
 
-\begin{equation} \label{eq8}
+\begin{equation} \label{diff2}
 \begin{split}
 [f]_i & = f_0\exp(-mt) \\
 \frac{d[f]}{dt} & = \frac{[f]_{i+1} - [f]_{i}}{\Delta t} = -m[f]_i \\
@@ -2036,7 +2264,7 @@ This method has some slight issues in which the $[f]$ can occasionally go negati
 
 You can see easily, from this, that if $\Delta t$ is too big, you will abandon the characteristic decay you'd expect from $f_0\exp(-mt)$, and instead get some diverging oscillatory function. How this applies to our interest in diffusion is described below: 
 
-\begin{equation} \label{eq8}
+\begin{equation} \label{diff3}
 \begin{split}
 \frac{[f]^{t+1}_{x} - [f]^{t}_{x}}{\Delta t} &= \frac{[f]^{t}_{x+1} - 2[f]^{t}_x + [f]^{t}_{x - 1}}{x^2}\\
 [f]^{t+1}_{x} - [f]^{t}_{x} &= \frac{\Delta t}{x^2} \pr{[f]^{t}_{x+1} - 2[f]^{t}_x + [f]^{t}_{x - 1}} \\
@@ -2046,7 +2274,7 @@ You can see easily, from this, that if $\Delta t$ is too big, you will abandon t
 
 Therefore, if we want to ensure that the concentration is always positive, we are constrained by: 
 
-\begin{equation} \label{eq8}
+\begin{equation} \label{diff4}
 \begin{split}
 1 - 2\frac{\Delta t}{x^2} & = 0\\
 \Delta t & < \frac{x^2}{2}\\
@@ -2057,7 +2285,7 @@ The relevance of this being that if one were interested in modeling on a very sm
 
 \subsection{Backward Euler's} This form serves to solve the time-scale dilemma by swapping $[f]_{x+1}$, and can be used with any $\Delta t$. Let us consider the same example from above: 
 
-\begin{equation} \label{eq8}
+\begin{equation} \label{diff5}
 \begin{split}
 [f]_i & = f_0\exp(-mt) \\
 \frac{d[f]}{dt} & = \frac{[f]_{i+1} - [f]_{i}}{\Delta t} = -m[f]_{i+1} \\
@@ -2068,7 +2296,7 @@ The relevance of this being that if one were interested in modeling on a very sm
 
 Naturally, there is no longer a concern of the size of $\Delta t$. Though, one immediate concern is the difficulty of solving your equation for $[f]_{i+1}$. Getting back to the diffusion interest, we now have:
 
-\begin{equation} \label{eq8}
+\begin{equation} \label{diff6}
 \begin{split}
 \frac{[f]^{t+1}_{x} - [f]^{t}_{x}}{\Delta t} &= \frac{[f]^{t+1}_{x+1} - 2[f]^{t+1}_x + [f]^{t+1}_{x - 1}}{x^2}\\
 [f]^{t+1}_{x} - [f]^{t}_{x} &= \frac{\Delta t}{x^2} \pr{[f]^{t+1}_{x+1} - 2[f]^{t}_x + [f]^{t-1}_{x - 1}} \\
@@ -2107,7 +2335,7 @@ and
 
 The corners $1,1$ and $x,x$ were intentionally omitted, as what one desires to do with this is dependent on how they would prefer to treat their edges. As described before in the \textit{Forward Euler's} method, one can use instead of the $(1,-2,1)$ pattern, simply $(\varnothing,-1,1)$ pattern, which signifies a closed edge. Therefore, together now we get: 
 
-\begin{equation} \label{eq8}
+\begin{equation} \label{diff7}
 \begin{split}
 \vec{[f]}^{t+1} - \vec{[f]}^{t} & = \mathrm{A} \vec{[f]}^{t+1} \\
 \mathrm{I}\vec{[f]}^{t+1} - \mathrm{A}\vec{[f]}^{t+1} & = \vec{[f]}^{t} \\
@@ -2644,6 +2872,12 @@ I mention this specifically in this section because it is likely that in advanci
 
 Pay them no mind, or better yet, learn from them. Perhaps if you learn from all of those that are unwilling to learn from you: your growth will be unmatched, and real progress can be made. Best of luck. 
 
+\subsubsection{Paper to Read.}
+\href{https://www.science.org/doi/10.1126/sciadv.abg7833}{Electronics with shape actuation for minimally invasive spinal cord stimulation}
+
+\href{https://www.nature.com/articles/s41593-022-01196-1}{Natural and targeted circuit reorganization after spinal cord injury}
+
+\href{https://www.science.org/doi/10.1126/science.1164901}{Spinal Cord Stimulation Restores Locomotion in Animal Models of Parkinson's Disease}\footnote{How fascinating! Paper from 2009, but haven't heard much about this recently. }
 
 \chapter{Interfacing with Nerves}
 
@@ -2695,7 +2929,10 @@ Electrotherapeutic Scaffolds.}
 Adaptive, conductive, and electrotherapeutic scaffolds (ACESs) is one implementation of electrical neurorehabilitation after injury\footnote{\url{https://www.sciencedirect.com/science/article/pii/S2666634023001654?via\%3Dihub}}. The primary structure is electrodes embedded in alginate (an anionic polymer, which creates a maleable gel-like structure when combined with water, and is often used for creating molds) and polyacrylamide (a cationic polymer most known for its use in SDS page gels, and can be used to suspend solvents at various stiffnesses)---which can be dissolved, allowing for removal of leads with minimal damage to tissue. Because the electrodes are located within the gel, glial encapsulation is not to occur (or, if it does, it will be at the borders of the gel and not the electrodes themselves)---therefore, stimulation should be un-dampened. Gold particles were used to increase conductivity of the gel.\newline
 
 In rats, in order to test accessible nerves, sciatic nerve transection was performed, and electrodes were used for 6 weeks. Stimulation was delivered every other day for 30 minutes in \textbf{anesthetized} rats. It was delivered to each electrode at 20 hz (every 200 ms), 2 mA\footnote{It is not clear to me why they choose to deliver current rather than voltage.} amplitude, and a 100 $\mu$s pulse width. They used a stainless steal electrode by Plastics One\footnote{Interestingly, I can't seem to find a product that resembles the one found in their supplemental images. Still it is probably comparable: \url{https://www.protechp1.com/search?q=MS303\&type=products}}. Stimulation was powered using the Intan system\footnote{\url{https://intantech.com/RHS_system.html}}. As two electrodes were used, their pulses were offset by 100 ms. The two stimulating electrodes were proximal and distal to the injury site, and a third, ground electrode was located at the tibialis anterior muscle. EMG recordings and response to sensory stimulation were used to validate functional success of regeneration, as well as axon counts. To test percutaneous nerve stimulation, they performed a similar procedure on the vagus nerve of swine.  
+
 \subsubsection{Ramblings.}
+
+\textcolor{red}{Self-reminder: Please don't be lazy and remember to clean (and fix) this section.}
 
 I felt personally offended when I saw that the device used in this paper was around $\$10,000$, and all I an tell is that it supplies current and can measure impedance. Given this personal offense, I wanted to illustrate how one could build exactly that for just a couple of bucks. Here it is: 
 
@@ -2850,6 +3087,22 @@ A variety of stimulators exist, ranging from linear leads to paddles. Paddles wi
 
 The stimulation itself has changed greatly. That is, the frequency, amplitude, etc. has been widely investigated. For example, bursts of stimulation, as opposed to continuous stimulation, has been recently tried. Notably, burst stimulation is usually imperceptible to patients, making it preferable in many cases. It is hypothesized that burst stimulation may inhibit both the physical and emotional aspects of pain. 
 
+\subsubsection{Application to Parkinson's Disease.}
+
+In large part, tremors induced by PD have already been well solved through deep brain stimulation and high intensity focused ultrasound. However, this paper focuses on some of the non-tremor symptoms of PD, and the idea that one can use spinal cord stimulation to fix degenerative diseases is generally interesting, so let us learn from\footnote{\url{https://www.science.org/doi/10.1126/science.1164901}}.The premise of this experiment is somewhat surprising, as stimulation is often thought to interrupt signals (as is the case in deep brain stimulation for PD, and SCS for neuropathy). In this case, though, they believe SCS \textbf{enhances locomotor signals}. That is, they are not treating PD tremors, but rather are treating PD induced akinesia. Experiments were performed in mice using dopamine-transporter knockout (DAT-KO) as their PD model. They also injected tyrosine hydrolase inhibitor (called AMPT)\footnote{I didn't bother Googling what this is, but intuition would suggest is aids in the conversion of tyrosine to catecholamines.} to further deplete dopamine. Dorsal root stimulation was performed using electrodes into the upper thoracic levels of the spinal cord. The greatest locomotor improvement in locomotion was found at 300 Hz stimulation. 
+
+\subsubsection{Electronics with Shape Actuation.}
+
+The goal of this paper is to address the gap in stimulation devices\footnote{\url{https://www.science.org/doi/10.1126/sciadv.abg7833}}. That is, one can choose either percutaneous electrodes (i.e., puncturing through the skin and covering a small area) or a large paddle requiring invasive surgery. This paper developed a flexible paddle, which can be rolled up to a diameter of less than 2 mm, and injected similar to an electrode but expands upon entrance. Too, the flexible shape is fitted with microchannels. Applying air pressure to such channels causes expansion. It is composed of materials like gold, parylene-C, silicone, polyethylene, and polyimide.\newline 
+
+The device is made in two stages, but is monolithic. The first silicone layer is laid, and before it is fully cured, secondary materials are added. Then, the final layer of silicone is laid, and the entire device cures together. To validate it electrically, they used ``electrical impedance spectroscopy techniques\footnote{It is not clear to me what they are referring to, beyond simply driving different currents. There is a paper discussing this \href{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8512860/}{here}, though.}" Interestingly, the impedance was calculated to be around 1000 $\Omega$! And it was quite variable; their box plots show an IQR of about 600 to 1200 $\Omega$. This is, indeed, not ideal. One concern is how much power will be dissipated by current running through the device, thereby generating heat (and possibly causing device expansion). They also tracked increase in impedance due to mechanical stress, and it seems to increase from about 500 to 1000 $\Omega$---representative of an approximately new device vs. approximately 6 years old within the body\footnote{How they could approximate a 6 year old device is questionable to me.}.\newline
+
+The device has a diode-like IV curve\footnote{For lack of a better word, the IV curves look insane.}. They look exactly like a diode would in the positive half (i.e., current exponentially increases at about 0.8V). But the negative voltage range looks quite strange. To apply voltage, they used the Intan device, like in the ACES paper.\newline
+
+The claim is that they are able to implant the entire device using a syringe (presumably under the lamina) into cadavers and then expand the device over the dura mater. Somehow, the how the device is able to spread over the spinal cord while, despite all of the connective tissue and fat filling the lamina-dura space\footnote{All of this is very odd to me. I am having trouble understanding how this is possible mechanically.}. To find the desired site of implantation required fluoroscopy, meaning the device itself had to be visible under fluoroscopy. Another confusing aspect of this paper is the biphasic nature of SCS to treat neuropathy. As one always undergoes a trial period, the question is will this device complement the trial phase properly?
+
+The big takeaways, to me, are that expansive devices seem possible, and fitting it with microfluidic channels is a fascinating way to apply therapeutics in addition to electrical stimulation. The next question is, of course, can we do the same thing with ECoG---thereby not requiring a highly invasive procedure to record brain waves? 
+
 \subsubsection{SCI Specific Cells.}
 
 Using a simplified device similar to what will be discussed in the upcoming Lorach \textit{et al.} 2023 section, the Courtine group used electrical therapy to re-establish walking in a number of SCI patients\footnote{\url{https://www.nature.com/articles/s41586-022-05385-7}}. Their paper goes into depth on the cell-type specific response to this electrical modulation. They called this model epidural electrical stimulation (EES) + rehab, or EES$^{\mathrm{REHAB}}$. They first approached by measuring metabolic consumption in the spinal cord before and after EES$^{\mathrm{REHAB}}$ using PET scanners, and found that metabolism actually \textbf{decreases} in the face of EES$^{\mathrm{REHAB}}$, despite regaining the ability to walk. Therefore, they hypothesized that EES$^{\mathrm{REHAB}}$ ``cleans up" the circuits a bit, causes activity to become targeted for walking.\newline
@@ -2970,6 +3223,46 @@ The biomaterials possibilities are quite cool too.
 
 \subsubsection{Waveforms for Neuropathic Pain.}
 Perhaps one can use a feedback mechanism, where the frequency of stimulation can be altered in order to dampen neural signals. You'd need to both read and write, essentially. Surely you can record brain waves responsible for feeling pain, and have a circuit edit itself to minimize them? $-->$ actually, dampening neural signals is a great example of a time to use the peak detection method, because you're only interested in magnitude. 
+
+\chapter{Device Idea}
+
+\subsection{Motivation}
+Much is made of the frequency and amplitude of neuropathic pain stimulators. Dr. Ben-Haim even called the search for such as being the ``waveform revolution." Perhaps one can avoid this investigation altogether by simply connecting the entire pain pathway to the feedback loop of an opamp. That is, an opamps $v_+$ is grounded, the $\Vo$ is tied to a electrode in the spine, and the $v_-$ is connected to some form of ECoG in the brain. Theoretically, the opamp's $\Vo$ will do whatever it can to cause the signal read at the brain to go to 0. Of course, you cannot assume the opamp's feedback will be predictive, nor can you assume it will fix sharp pains. But, it may be able to fix chronic pain. Let's think of an overall build. 
+
+\subsection{Framework}
+
+\subsubsection{Processing Brain Waves.}
+To process the brain waves we will likely:
+
+\begin{enumerate}
+    \item Filter out background from individual electrodes. 
+    \item Subtract and amplify from some reference.
+    \item Do some summing amplification from each of our electrodes.
+    \item Rectify our signal.
+    \item Convert via peak detection.
+\end{enumerate}
+
+\subsubsection{Feedback.}
+To implement, we will then: 
+
+\begin{enumerate}
+    \item Feed processed signal to a PID controller of some sort.
+\end{enumerate}
+
+The only thing I am not sure about is if we will need a separate PID controller for each electrode in the spinal cord. I am not sure if we can just take all of the brain signals and combine them together, but I would assume that is fine. Another question is how much current we will need. If too low, we can add a push-pull to boost, but I doubt we will need a high current. 
+
+
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \vfill\pagebreak
 
