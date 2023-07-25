@@ -3168,6 +3168,19 @@ For the moment, I will avoid describing individual technologies between the four
 \subsubsection{Soft vs. Hard Electronics.}
 The importance of the electronic's physical form has been considered by the Courtine group as well\footnote{\url{https://www.science.org/doi/10.1126/science.1260318}}. In their case, they looked specifically at the electrode paddly inserted into the spinal cord. Notably, they did not use this device in their recent, Lorach \textit{et al}. 2023 paper. One problem I personally find is that in using hard electronics, one immediately resolves to doing massive cranioplasty in order to add their device. If one goes the soft-only electronics route, perhaps you can insert the electronics beneath the skull itself. 
 
+\subsubsection{Reading LFPs Without Surgery.}
+
+A very recent article devised injectable electrodes for reading brain activity\footnote{\url{https://www.science.org/doi/10.1126/science.adh3916}}. It is injected through blood vessels, and requires vessels of $\approx 100 \mu$m. For reference, the smallest arteries are around $\approx 100 \mu$m, and arterioles below this threshold. Therefore, this is usable in a wide range of vasculatures. Such a device is considered a micro-endovascular (MEV) probe. Other attempts at this have been done in the past, but a primary limiting feature is that metal electrodes are inflexible and thus cannot be navigated through the array of vessels in the brain. One of this paper's primary advancements, then, was making it ultra-flexible. I'm actually having trouble understanding how many electrodes the device has---in some graphs they show 16, in others only 5. It seems that they too use an Intan device to read and process data.\newline
+
+The device is injected through a microcatheter, which itself has a much wider diameter. Therefore, the location of implantation is limited in that it must be accessible by a wider vessel nearby. In their example, a large vessel branched off into two directions. To select between the two branches, they had to change the mechanical properties of the device itself\footnote{This is likely a considerable limitation. It is unlikely that this sort of device will ever become generalized or patient specific. However, its use in research might be considerable.}. My understanding of their method of inducing this was by stressing part of the mesh making up the device.\newline
+
+Their testing was done in anesthetized mice in both wildtype and disease models (such as induced seizures). In such circumstances, they were able to record local LFPs. In some instances, though, they were able to get single AP recordings on individual electrodes. Interestingly, this paper included both the filtered and unfiltered readings, providing some nice insight into the benefit of bandpass filtering!\newline
+
+Some confusions: I'm not sure exactly if this is meant to be a permanent addition or not, or if it is removable atraumatically. Similarly, I'm not understanding how they are actually reading from the device. Their setup in the supplements seems to require anesthetizing the mice and doing surgery to attach the electrodes to the Intan device---which I assume cannot be true, lest the whole purpose is defeated. So my wonder is: are the mice walking around with wires hanging from their skulls, or are the wires inaccessible without surgery? I should probably read more closely to understand.\newline
+
+
+\textcolor{red}{NOTE: A K. Cullen paper cited in the above article\footnote{\url{https://www.frontiersin.org/articles/10.3389/fnins.2019.00269/full}}. Read later.}
+
 \subsubsection{WIMAGINE ECoG.}
 As the name suggests, the device requires the skull to be torn away and must sit directly upon the cortex. It features 64 electrodes, and a human patient would need to have two implanted in order to read both sides of one's motor cortex.\newline
 
