@@ -2901,11 +2901,7 @@ I mention this specifically in this section because it is likely that in advanci
 Pay them no mind, or better yet, learn from them. Perhaps if you learn from all of those that are unwilling to learn from you: your growth will be unmatched, and real progress can be made. Best of luck. 
 
 \subsubsection{Paper to Read.}
-\href{https://www.science.org/doi/10.1126/sciadv.abg7833}{Electronics with shape actuation for minimally invasive spinal cord stimulation}
 
-\href{https://www.nature.com/articles/s41593-022-01196-1}{Natural and targeted circuit reorganization after spinal cord injury}
-
-\href{https://www.science.org/doi/10.1126/science.1164901}{Spinal Cord Stimulation Restores Locomotion in Animal Models of Parkinson's Disease}\footnote{How fascinating! Paper from 2009, but haven't heard much about this recently. }
 
 \chapter{Interfacing with Nerves}
 
@@ -3146,7 +3142,21 @@ To investigate which specific neurons undergo changes, they used a mouse model a
 The main takeaway from this paper, in my opinion, is simply the recapitulation that excitatory interneurons play a key role in recovery from SCI. This has been established now through many routes, and is certainly of considerable interest in the future. There are a few open questions, with the biggest being: how exactly does electric modulation drive circuit reformation through these interneurons? 
 
 
+\subsection{Brain Stimulation}
 
+\subsubsection{Living Electrodes.}
+
+This is from the work by Dr. K. Cullen, and featuring Dr. I. Chen\footnote{\url{https://www.science.org/doi/full/10.1126/sciadv.aay5347}}. Part of the problem they are trying to solve is the rigidity of standard, mechanical electrodes. To solve it, they developed implantable cortical neurons embedded within a hydrogel tract. This paper mentioned another drawback of standard, inorganic designs causing overheating of surrounding tissues---this is the first time I've seen this mentioned, and I have frequently wondered about it.\newline
+
+The platform they use is called microtissue engineered neural networks ($\mu$TENN). The gist is they make a hydrogel tube, culture neurons in kind of a cluster (or, aggregate), place this aggregate at one end of the tube, fill the tube with ECM-like compounds to promote axonal growth across it, and then implant the tubes where the synapses will be formed at the end opposite of the cell bodies. The columns are $\approx 400\mu$m wide, with only the inner $\approx 180\mu$m being made up of cells. They are made between 2 and 9mm in length. Action potentials can propagate bi-directionally in some models, or uni-directionally, depending on how it is made. Their experimental setup in this paper, for example, is to use a uni-directional setup with optically activated neurons, and record the induced activity through a second, bi-directional column (that is not optically activated). Channelrhodopsin-2 (ChR2) was used as their optic input, while RCaMP was used as their output reader. \newline
+
+\textit{In vitro}, interestingly, they show that the max $\Delta F/F$ increases with increased optic power. However, they do not show it levelling off at any point---which would have good to know (i.e., where the point of max stimulation is). They also didn't show the baseline intensity over time (for more than 20 seconds, that is), which might have been interesting to see. The fluoresence plots over time seem quite variable. That is, RCaMP $\Delta F/F$ is not uniformly affected at the point of each stimulation. \textit{In vivo}, the non-uniformity is even worse. I would assume there is some accumulation of RCaMP fluoresence over time, as repeat stimulations slowly build up more calcium. Parallelly, one might expect the baseline intensity to go down as RCaMP becomes bleached. \newline
+
+There are many limitations to consider. For example, RCaMP's $k_{on}$ or $k_{off}$, reset time for ChR2, refractory period of neurons, the time it takes to grow neurons (which seems to be closer to a week or more), necrosis within the aggregate, etc. Too, you lack any real understanding of the neuron if using living electrodes as sensors. That is, you don't get much localization or intensity information (if any). Confusingly, from watching their supplemental videos, the potential seem to be wave-like, flowing horizontally across the columns rather than one instantaneous pulse. Perhaps this is due to the $k_{on}$ of the calcium indicator used, but it seems to indicate some strange temporal differences in activation---i.e., the depolarizing of one neuron within the aggregate may cause the depolarization of another nearby that is independent of its intent as a sensor. This would be comparable to a spreading depression one might expect in a migraine, but instead of being within a brain, it is within this cultured cluster.\newline
+
+\subsubsection{Ramblings.}
+
+What is fascinating about reading papers like this is I go into them every time thinking ``Wow, this method sounds remarkable! Perhaps this will be the secret to next-gen BCIs." Yet, I always finish the paper with more questions / critiques than I began with. 
  
 
 \section{Reading Thoughts} 
