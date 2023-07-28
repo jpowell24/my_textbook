@@ -2958,144 +2958,165 @@ Adaptive, conductive, and electrotherapeutic scaffolds (ACESs) is one implementa
 
 In rats, in order to test accessible nerves, sciatic nerve transection was performed, and electrodes were used for 6 weeks. Stimulation was delivered every other day for 30 minutes in \textbf{anesthetized} rats. It was delivered to each electrode at 20 hz (every 200 ms), 2 mA\footnote{It is not clear to me why they choose to deliver current rather than voltage.} amplitude, and a 100 $\mu$s pulse width. They used a stainless steal electrode by Plastics One\footnote{Interestingly, I can't seem to find a product that resembles the one found in their supplemental images. Still it is probably comparable: \url{https://www.protechp1.com/search?q=MS303\&type=products}}. Stimulation was powered using the Intan system\footnote{\url{https://intantech.com/RHS_system.html}}. As two electrodes were used, their pulses were offset by 100 ms. The two stimulating electrodes were proximal and distal to the injury site, and a third, ground electrode was located at the tibialis anterior muscle. EMG recordings and response to sensory stimulation were used to validate functional success of regeneration, as well as axon counts. To test percutaneous nerve stimulation, they performed a similar procedure on the vagus nerve of swine.  
 
-\subsubsection{Ramblings.}
+% \subsubsection{Ramblings.}
 
-\textcolor{red}{Self-reminder: Please don't be lazy and remember to clean (and fix) this section.}
+% \textcolor{red}{Self-reminder: Please don't be lazy and remember to clean (and fix) this section.}
 
-I felt personally offended when I saw that the device used in this paper was around $\$10,000$, and all I an tell is that it supplies current and can measure impedance. Given this personal offense, I wanted to illustrate how one could build exactly that for just a couple of bucks. Here it is: 
+% I felt personally offended when I saw that the device used in this paper was around $\$10,000$, and all I an tell is that it supplies current and can measure impedance. Given this personal offense, I wanted to illustrate how one could build exactly that for just a couple of bucks. Here it is: 
 
-\begin{multicols}{2}
+% \begin{multicols}{2}
 
-\begin{center}
-\begin{circuitikz}
-\ctikzset{tripoles/mos style=arrows}
-\ctikzset{transistors/arrow pos=end}
-\draw 
+% \begin{center}
+% \begin{circuitikz}
+% \ctikzset{tripoles/mos style=arrows}
+% \ctikzset{transistors/arrow pos=end}
+% \draw 
 
-%%%%%% OPAMP
-(0,0) node[above]{+$2\V$} to[short, *-] ++(1,0)
-node[op amp, noinv input up, anchor=+](OA){}
-(OA.-) to[short] ++(0,-0.5) coordinate(feedback)
+% %%%%%% OPAMP
+% (0,0) node[above]{+$2\V$} to[short, *-] ++(1,0)
+% node[op amp, noinv input up, anchor=+](OA){}
+% (OA.-) to[short] ++(0,-0.5) coordinate(feedback)
 
-%%%% NPN transistor
-(OA.out) ++(1,0.6) node[npn](M1){}
-(OA.out) -| (M1.B)
-(M1.C) to[short,-*] ++(0,0)
+% %%%% NPN transistor
+% (OA.out) ++(1,0.6) node[npn](M1){}
+% (OA.out) -| (M1.B)
+% (M1.C) to[short,-*] ++(0,0)
 
-(M1.C) ++(0,2) coordinate(Vcc)
-(Vcc) to[short,*-*] ++(0,1) node[above]{+$10\V$}
+% (M1.C) ++(0,2) coordinate(Vcc)
+% (Vcc) to[short,*-*] ++(0,1) node[above]{+$10\V$}
 
-(M1.C) to[R, l_=$R_{load}$] (Vcc)
-(M1.C) to[short] ++(-1,0)
-to [voltmeter] ++(0,2)
-to [short] (Vcc)
+% (M1.C) to[R, l_=$R_{load}$] (Vcc)
+% (M1.C) to[short] ++(-1,0)
+% to [voltmeter] ++(0,2)
+% to [short] (Vcc)
 
-%%%% PNP transistor
-(M1.E) ++(0,-0.5) node[pnp](M2){}
-(OA.out) -| (M2.G)
-(M2.C) -| (feedback)
-(M2.C) to[R,l=$1\mathrm{k}\Omega$] ++(0,-2)
-to ++(0,0) node[ground]{} 
+% %%%% PNP transistor
+% (M1.E) ++(0,-0.5) node[pnp](M2){}
+% (OA.out) -| (M2.G)
+% (M2.C) -| (feedback)
+% (M2.C) to[R,l=$1\mathrm{k}\Omega$] ++(0,-2)
+% to ++(0,0) node[ground]{} 
 
-;
-\end{circuitikz}
-\end{center}
+% ;
+% \end{circuitikz}
+% \end{center}
 
 
-\begin{center}
-\begin{circuitikz}
-\ctikzset{tripoles/mos style=arrows}
-\ctikzset{transistors/arrow pos=end}
-\draw 
+% \begin{center}
+% \begin{circuitikz}
+% \ctikzset{tripoles/mos style=arrows}
+% \ctikzset{transistors/arrow pos=end}
+% \draw 
 
-%%%%%% OPAMP
-(0,0) node[above]{+$2\V$} to[short, *-] ++(1,0)
-node[op amp, noinv input up, anchor=+](OA){}
-(OA.-) to[short] ++(0,-0.5) coordinate(feedback)
+% %%%%%% OPAMP
+% (0,0) node[above]{+$2\V$} to[short, *-] ++(1,0)
+% node[op amp, noinv input up, anchor=+](OA){}
+% (OA.-) to[short] ++(0,-0.5) coordinate(feedback)
 
-%%%% NPN transistor
-(OA.out) ++(1,0.6) node[nmos](M1){}
-(OA.out) -| (M1.B)
-(M1.C) to[short,-*] ++(0,0)
+% %%%% NPN transistor
+% (OA.out) ++(1,0.6) node[nmos](M1){}
+% (OA.out) -| (M1.B)
+% (M1.C) to[short,-*] ++(0,0)
 
-(M1.C) ++(0,2) coordinate(Vcc)
-(Vcc) to[short,*-*] ++(0,1) node[above]{+$10\V$}
+% (M1.C) ++(0,2) coordinate(Vcc)
+% (Vcc) to[short,*-*] ++(0,1) node[above]{+$10\V$}
 
-(M1.C) to[R, l_=$R_{load}$] (Vcc)
-(M1.C) to[short] ++(-1,0)
-to [voltmeter] ++(0,2)
-to [short] (Vcc)
+% (M1.C) to[R, l_=$R_{load}$] (Vcc)
+% (M1.C) to[short] ++(-1,0)
+% to [voltmeter] ++(0,2)
+% to [short] (Vcc)
 
-%%%% PNP transistor
-(M1.E) ++(0,-0.5) node[pmos](M2){}
-(OA.out) -| (M2.G)
-(M2.C) -| (feedback)
-(M2.C) to[R,l=$1\mathrm{k}\Omega$] ++(0,-2)
-to ++(0,0) node[ground]{} 
+% %%%% PNP transistor
+% (M1.E) ++(0,-0.5) node[pmos](M2){}
+% (OA.out) -| (M2.G)
+% (M2.C) -| (feedback)
+% (M2.C) to[R,l=$1\mathrm{k}\Omega$] ++(0,-2)
+% to ++(0,0) node[ground]{} 
 
-;
-\end{circuitikz}
-\end{center}
+% ;
+% \end{circuitikz}
+% \end{center}
 
-\end{multicols}
+% \end{multicols}
 
-There you go, saved you $\$10,000$. The opamp is useful for a few reasons. One nice benefit is looping the two transistors into the opamp's feedback loop allows you to avoid playing some silly game trying to get the right voltage with the diode drops. The voltmeter is added because we need some way to measure the impedance of the load. This may be a product of the electrodes dislodging from the nerves, or glial encapsulation. Measuring the voltage drop across the load gives us this information. Another easy way to accomplish this would be to measure the voltage at the collector and subtract from $10\V$. \newline
+% There you go, saved you $\$10,000$. The opamp is useful for a few reasons. One nice benefit is looping the two transistors into the opamp's feedback loop allows you to avoid playing some silly game trying to get the right voltage with the diode drops. The voltmeter is added because we need some way to measure the impedance of the load. This may be a product of the electrodes dislodging from the nerves, or glial encapsulation. Measuring the voltage drop across the load gives us this information. Another easy way to accomplish this would be to measure the voltage at the collector and subtract from $10\V$. \newline
 
-Presumably, their device comes with some extra bells and whistles, and a nice software. But, I'd much rather swap a resistor every now and then than pay. Notably, in testing two things have shown themselves: [1] the biasing point for the PNP transistor should be tied to some low voltage, to limit $I_{bias}$. Considerable warping occurred at $5\V$. Secondly, $R_{load}$ should be high enough that the power dissipated is not huge, lest your output will warp. Around $1k\Omega$ seemed to work well. Around $100\Omega$ showed warping\footnote{I recall reading somewhere that the internal resistance of neuronsis around $100\Omega$. Therefore, it would be useful to have a resistor in series with the electrode.}. Too, at frequencies above 20kHz, there is breakdown. Another design of a similar flavor is the right one, using MOSFETs.
+% Presumably, their device comes with some extra bells and whistles, and a nice software. But, I'd much rather swap a resistor every now and then than pay. Notably, in testing two things have shown themselves: [1] the biasing point for the PNP transistor should be tied to some low voltage, to limit $I_{bias}$. Considerable warping occurred at $5\V$. Secondly, $R_{load}$ should be high enough that the power dissipated is not huge, lest your output will warp. Around $1k\Omega$ seemed to work well. Around $100\Omega$ showed warping\footnote{I recall reading somewhere that the internal resistance of neuronsis around $100\Omega$. Therefore, it would be useful to have a resistor in series with the electrode.}. Too, at frequencies above 20kHz, there is breakdown. Another design of a similar flavor is the right one, using MOSFETs.\newline
 
-In both cases, breakdown seems to occur around 20kHz. Both might work at the desired $100\mu$s, but from CircuitLab it seems that the BJT will work better. Anyway, let's think about how we could write some Arduino code to control this\footnote{Unfortunately, it doesn't seem like there is an Arduino package in Listings, so we will settle for C.}: 
+% In both cases, breakdown seems to occur around 20kHz. Both might work at the desired $100\mu$s, but from CircuitLab it seems that the BJT will work better. Anyway, let's think about how we could write some Arduino code to control this\footnote{Unfortunately, it doesn't seem like there is an Arduino package in Listings, so we will settle for C.}: 
 
-\begin{CPP}
-const int out = 13;  
-int out_state = LOW;  
+% \begin{CPP}
+% const int out = 13;  
+% int out_state = LOW;  
 
-int in = A0;
+% int in = A0;
 
-unsigned long last_time = 0; // In microsecs
+% unsigned long last_time = 0; // In microsecs
 
-const long pulse_time = 100; 
-const long time_between_pulses = 499950; 
+% const long pulse_time = 100; 
+% const long time_between_pulses = 499950; 
 
-int pulse_counter = 0;
-int intervals = 1000;
+% int pulse_counter = 0;
+% int intervals = 1000;
 
-bool on_off = LOW;
-bool complete = false;
+% bool on_off = LOW;
+% bool complete = false;
 
-void setup() {
-  Serial.begin(9600);
-  pinMode(out, OUTPUT);
-  pinMode(in, INPUT);
-}
+% void setup() {
+%   Serial.begin(9600);
+%   pinMode(out, OUTPUT);
+%   pinMode(in, INPUT);
+% }
 
-void loop() {
-  unsigned long current_time = micros(); 
+% void loop() {
+%   unsigned long current_time = micros(); 
 
-  if ((current_time - last_time >= time_between_pulses) && (!on_off) && (!complete)) {
-    last_time = current_time;
-    on_off = HIGH;
-    pulse_counter++;
-    digitalWrite(out, on_off);
-    int unconverted_Vdrop = analogRead(in);
-    float Vdrop = unconverted_Vdrop * (5.0 / 1023.0);
-    Vdrop = 10 - (2 * Vdrop); 
-    float impedance = Vdrop / 0.002; // For 2mA
-    Serial.println(impedance);
-  }
-   if ((current_time - last_time >= pulse_time) && (on_off) && (!complete)) {
-    last_time = current_time;
-    on_off = LOW;
-    digitalWrite(out, on_off);
-  }
-  if(pulse_counter >= intervals){
-    complete = true;
-    on_off = LOW;
-  }
-  if(complete){
-    Serial.println("DONE");
-  }
-}
-\end{CPP}
+%   if ((current_time - last_time >= time_between_pulses) && (!on_off) && (!complete)) {
+%     last_time = current_time;
+%     on_off = HIGH;
+%     pulse_counter++;
+%     digitalWrite(out, on_off);
+%     int unconverted_Vdrop = analogRead(in);
+%     float Vdrop = unconverted_Vdrop * (5.0 / 1023.0);
+%     Vdrop = 10 - (2 * Vdrop); 
+%     float impedance = Vdrop / 0.002; // For 2mA
+%     Serial.println(impedance);
+%   }
+%    if ((current_time - last_time >= pulse_time) && (on_off) && (!complete)) {
+%     last_time = current_time;
+%     on_off = LOW;
+%     digitalWrite(out, on_off);
+%   }
+%   if(pulse_counter >= intervals){
+%     complete = true;
+%     on_off = LOW;
+%   }
+%   if(complete){
+%     Serial.println("DONE");
+%   }
+% }
+% \end{CPP}
+
+\subsubsection{Vagus Nerve Modulates Circuits via Acetylcholine.}
+
+Vagus nerve stimulation seems to be much more complex than you'd expect on surface. One such example is\footnote{\url{https://www.cell.com/neuron/fulltext/S0896-6273(22)00555-4\#\%20}}. Vagus nerve stimulation (VNS) has shown to enhance motor recovery after nerve injury when paired with rehabilitation. Canonically, VNS is used to treat epilepsy and depression---but new treatment options are expanding, such as recent papers looking into treatment after a stroke. Notably, VNS leads to widespread brain activity, but seemingly had a narrow, targeted effect. This paper identifies M1 neurons as being partly responsible for enhanced motor control following VNS. \textbf{Importantly, this was tested only in healthy mice, and not any form of nerve injury.} Their work found that VNS specifically \textit{after} successful completion of a task helped reinforce learning of this task---therefore, it may not work as a therapeutic in the case of total injury, but could help recover partial injuries back to normal levels.\newline
+
+Awake, active mice were stimulated via cuff which wrapped the Vagnus nerve. Machinery was mounted on the skull, from which wires would extend. They tested a few different methods, and found stimulation following success to be the only positive difference from the sham. Stimulation was done with $100\mu$s pulses at a frequency of 30hz (or, every 33.3ms) a total of 15 times (entire duration summing to 500ms) at an amplitude of $\approx 0.5$mA. Looking at their figure 1, there are some questions. Firstly, what they decide as early and late in the training days seems arbitrary (i.e., first 4 days is early, second 10 is late). I am curious if you thresholded this differently, if their significance levels would change. Secondly, the VNS stimulation results were significant, but the \% increase in task completion from WT to stimulated seems only to be about 10-15\%. Similarly, the difference in early vs. late trials seems to be about 10\% as well---making me wonder how physiologically relevant this is\footnote{I.e., would a patient consider brain surgery to have a 10\% increase in some motor activity? Absolutely not.}.\newline
+
+To determine what is downstream of VNS, they used a tetrode implanted into the brain to read the response of neurons in the basal formation, as they wondered if it was here that encoded for reinforcement. They found that about 43\% of neurons showed some response (either suppression or activation), and about 28\% showed an increased activity due to VNS. Now, I'm no expert, but those don't seem like great odds to me. That seems like a coin toss. I didn't see much mention in this paper of trying different VNS parameters. I would postulate that they'd get a much better response in tweaking this. An experiment they could run right away is using the tetrode, and varying peak duration, amplitude, and frequency of stimulation to maximize this increased activity parameter. They could then repeat their behavioral studies and see if it increases success rate. Interestingly, they did something similar in the motor cortex, investigating temporal relationship of activation or suppression of neurons over a range of amplitudes. They found that neuronal activation and suppression occurred at disparate times succeeding VNS. Fascinatingly, to test if this oberved interaction was ACh dependent, they injected ACh antagonists and allowed them to act globally---effectively invalidating the entire experiment\footnote{I must be missing something, because this experiment makes no sense.}.\newline
+
+As a concluding remark, it seems from their data that VNS may contribute to motor learning reinforcement, but certainly is not the essential driving factor. Similarly, I did not see a ``negative control" anywhere in their paper (i.e., a vagotomy, for example) demonstrating that motor learning was severely hindered when this pathway was stopped\footnote{Perhaps it is buried in the supplements, or done in a previous paper, though.}. Many of the decisions made in this paper are quite confusing to me. 
+
+\subsubsection{Hand Movement Recovery via Intrafascicular Stimulation.}
+
+This group utilized intrafascicular, rather than intramuscular, stimulation as a means to recover fine motor skills in the hand of primates\footnote{\url{https://www.science.org/doi/10.1126/scitranslmed.abg6463}}. Of course, Courtine is also on this paper. A drawback to intramuscular surgery is it requires electrodes placed on multiple muscles and is typically quite invasive. Very interestingly, intramuscular stimulation has been found to recruit large efferent nerves before small, contrary to normal function and leading to faster fatigue. In other words, faster fatiguing muscles are activated earlier than expected in this case. Stimulating an entire nerve fascicle requires high amplitude and is prone to overstimulation or recruitment of unintended nerve fibers. Intrafascicular stimulation is an opportunity to resolve this.\newline
+
+Such a method requires first identifying the ideal implantation site and building an electrode design accordingly. They call their device a transverse intrafascicular multichannel electrode (TIME). They developed a model of the monkey's fascicles in order to model recruitment\footnote{I don't know how they did this, but it would be good to learn.}. They settled on a 16-electrode design, withheld in a polyimide shaft.\newline
+
+The bulk of the paper is stimulating individual or combination fibers to initiate a variety of different grips. The end is when they take it to the next level, so-to-speak, in giving the monkeys some voluntary control. They pharmacologically block the monkey's spinal cord circuitry. They used intracortical recordings to modulate hand stimulating, using what they describe as a simple program. Their design was too simplified to activate complex grips, but did prove to work in simple grasping tasks. 
+
+
+
 
 
 \subsection{Spinal Cord Stimulation}
