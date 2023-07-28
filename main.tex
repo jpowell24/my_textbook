@@ -1536,7 +1536,7 @@ Opamps are active components, in that they can take a circuit's power and increa
 Inside of an opamp is a large network of transistors. It isn't worth trying to understand all the internals, but it is worth understanding all of the externals. An opamp has two inputs ($v_-$ and $v_+$), and two power rails ($+V$ and $-V$). In general, an opamp's goal will be to minimize the difference between the two inputs, and it has some range of power to work with in doing so, which is limited by $+V$ and $-V$. It tries to minimize this input through its $\Vo$. Therefore, one would often connect the $v_-$ to $\Vo$ as a form of negative feedback. This will likely make more sense in the later sections. If there is no connection between $\Vo$ and either of the two inputs, your opamp will oscillate between the two power maximums set by $+V$ and $-V$. As in, if $v_- > v_+$, then $\Vo = +V$. This is an opamp functioning as a \textit{comparator}, in that it makes the somewhat binary comparison of which input is larger, and outputs either high or low voltage. 
 
 
-\section{Golden Rules}
+\subsection{Golden Rules}
 In adding some form of negative feedback, and keeping your opamp from being saturating (i.e., clamping $\Vo$ to either of the two power rails)\footnote{These two specifications are sometimes called the 0$^\mathrm{th}$ rule.}, an opamp will adhere to two essential rules:
 
 \begin{enumerate}
@@ -1875,6 +1875,21 @@ Biological applications of this are more obscure, but perhaps you can imagine a 
 Some of the circuits here are pretty neat. We learned some ways in which analog circuits can perform relatively complex functions, like multiplication, subtraction, addition, integrals and even logs. 
 
 
+\section{Opamp Imperfections}
+
+It is important to understand the slight opamp imperfections that cause them to deviate from being a perfect voltage source, etc. The first two clear deviations from ideality are that the opamp's \textit{input resistance} is not truly infinite, but is something on the order of $10^{10}\Omega$. Secondly, an opamp does not have infinite gain, $A$, that it can use to drive $\Vo$. I.e., $\Vo = A(v_+ - v_-)$ has some limit in that $A \neq \infty$.\newline
+
+Another difference is a slight offset that will always exist between $v_+$ and $v_-$, called the \textit{offset voltage}. In modern opamps, this number might be immeasurably small, but in the canonical LM741 used in most electronics classrooms, it is close to 1mV. This is simply due to difficulty in creating two distinct nodes of exactly the same potential. \newline
+
+As mentioned, the opamp's input resistance cannot be infinite, meaning it will draw some small but non-zero current. This current is called the \textit{bias current}, or $I_{bias}$, or $I_{b+}$ and $I_{b-}$ for individual inputs. $I_{b+}$ and $I_{b-}$ are slightly different, so $I_{bias}$ typically refers to $1/2 (I_{b+} + I_{b-})$. There is also a current due to the offset voltage, which is typically an order of magnitude or two below $I_{bias}$. $I_{bias}$ for the LM741 is $\approx 100$nA. The LM741's internal make-up is largely bipolar junction transistors (BJT), while higher-end opamps will use field effect transistors (FET), which allow for many orders of magnitude higher input resistance. \newline
+
+The LM741 is only capable of driving a small current of about 25mA. This is actually a very considerable point to keep in mind. Of course, this means an opamp cannot directly power any meaningfully high power devices without the help of some external transistors.\newline
+
+Notably, all transistors have some finite capacitance, so it implies that the inner workings of an opamp may demonstrate some of the same phase shift or filtration we saw in the capacitors section. This is indeed true, and is worth considering at exceptionally high frequencies. Fascinatingly, at such exceptionally high frequencies, where the phase shift extends beyond $180^{\circ}$, the negative feedback switches to positive feedback. This effectively switches your opamp to comparator mode as $\Vo$ oscillates from its $V_+$ to $V_-$. Intentionally, opamp designers include a low-pass filter within it to avoid this, reducing the gain, $A$, before you can reach $180^{\circ}$. This is called \textit{frequency compensation}, and again is an intentional feature. This is potentially quite interesting, as the small, immensely fast oscillations at physiological levels could theoretically exceed the opamp's $180^{\circ}$. So, it is curious to consider if such situations would cause positive feedback.\newline
+
+Opamps also have a \textit{slew rate} which defines some max $\Vo dt$. That is, if the input is a square wave, the $\Vo$ cannot instantaneously follow it, and there will be some slight slope. For the LM741 it is $\approx 0.5\V / \mu$s. The result is related to the internal capacitance and its charge time, making the effect non-linear and giving it some amplitude dependence. Driving a high amplitude and high frequency can therefore introduce considerable distortion.\newline 
+
+\textcolor{red}{NOTE: It would maybe be useful to make comments about the \textit{output resistance}. Though, it is not immensely interesting.}
 
 
 
