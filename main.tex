@@ -1286,6 +1286,16 @@ v_c &= \frac{\Vpp}{\sqrt{1 + \omega^2 R^2C^2}} \cos(\omega t + \phi) \\
 \end{split}
 \end{equation}
 
+This is equivalent to saying:
+
+\begin{equation} \label{imag5}
+\begin{split}
+A_{out} &= A_{in}\sin(\omega t + \phi) \\
+\end{split}
+\end{equation}
+
+Where $A$ is the amplitude at either time. 
+
 This is one way to go about this problem. Another way, which will be discussed in the next section, is using impedance. 
 
 \section{Impedance}
@@ -1373,9 +1383,11 @@ We can see that as the frequency goes up, this converges to $1 / \infty$, or $1/
 Which converges to $\infty / \infty$ as frequency goes up, and $0 / 1$ as frequency goes down.
 
 \subsection{Corner Frequency and Phase Shift}
-The way one quantifies this is with the ``corner frequency," which you will more often heart as $\fdb$. You'll notice that for both the high-pass and low-pass filter equations described above, the ratio of $\Vo$ to $\Vi$ is $1/\sqrt{2}$ when the frequency inputted is $f = 1/2\pi RC$. $1/\sqrt{2}$ corresponds to about 0.7, meaning that at this $\fdb$, the output is about 70\% the amplitude of the input. Thus, it is a good marker of how well your filter will work. If you are trying to pick a low pass filter that filters out anything at 1000 kHz and higher, you'll want to pick an RC circuit combination that is well below it.\newline
+The way one quantifies this is with the ``corner frequency," which you will more often hear as $\fdb$. You'll notice that for both the high-pass and low-pass filter equations described above, the ratio of $\Vo$ to $\Vi$ is $1/\sqrt{2}$ when the frequency inputted is $f = 1/2\pi RC$. $1/\sqrt{2}$ corresponds to about 0.7, meaning that at this $\fdb$, the output is about 70\% the amplitude of the input. Thus, it is a good marker of how well your filter will work. If you are trying to pick a low pass filter that filters out anything at 1000 kHz and higher, you'll want to pick an RC circuit combination that is well below it.\newline
 
 Notably, filtration causes a phase shift. This shouldn't be surprising when you recall that a low-pass and high-pass filter also integrate and differentiate respectively. Let us take, for example, a $\sin$ input. If it is passed through a low-pass filter, would expect it to be integrated to $-\cos$. If passed to a high-pass, it would be differentiated to $\cos$. Therefore, as $-\cos$ is $-90^{\circ}$ ($\sin(x - \frac{\pi}{2}) = -\cos(x)$) relative to $\sin$, and $\cos$ is $+90^{\circ}$ ($\sin(x + \frac{\pi}{2}) = \cos(x)$), we would expect a low-pass filter to generate an output that lags $\Vi$, while a high-pass will generate one which precedes $\Vi$.\newline
+
+The filtration at $\fdb$ is $45^{\circ}$. I don't think this has a straightfoward math explanation, but conceptually it is when the real and imaginary parts are equal. Maybe don't think about this too hard. 
 
 \subsection{Summarizing Thoughts}
 
@@ -2915,7 +2927,7 @@ I mention this specifically in this section because it is likely that in advanci
 
 Pay them no mind, or better yet, learn from them. Perhaps if you learn from all of those that are unwilling to learn from you: your growth will be unmatched, and real progress can be made. Best of luck. 
 
-\subsubsection{Paper to Read.}
+\subsubsection{Papers to Read.}
 
 
 \chapter{Interfacing with Nerves}
@@ -3157,6 +3169,43 @@ The stimulation itself has changed greatly. That is, the frequency, amplitude, e
 
 In large part, tremors induced by PD have already been well solved through deep brain stimulation and high intensity focused ultrasound. However, this paper focuses on some of the non-tremor symptoms of PD, and the idea that one can use spinal cord stimulation to fix degenerative diseases is generally interesting, so let us learn from\footnote{\url{https://www.science.org/doi/10.1126/science.1164901}}.The premise of this experiment is somewhat surprising, as stimulation is often thought to interrupt signals (as is the case in deep brain stimulation for PD, and SCS for neuropathy). In this case, though, they believe SCS \textbf{enhances locomotor signals}. That is, they are not treating PD tremors, but rather are treating PD induced akinesia. Experiments were performed in mice using dopamine-transporter knockout (DAT-KO) as their PD model. They also injected tyrosine hydrolase inhibitor (called AMPT)\footnote{I didn't bother Googling what this is, but intuition would suggest is aids in the conversion of tyrosine to catecholamines.} to further deplete dopamine. Dorsal root stimulation was performed using electrodes into the upper thoracic levels of the spinal cord. The greatest locomotor improvement in locomotion was found at 300 Hz stimulation. 
 
+\subsubsection{Electronic Dura Mater.}
+
+A couple years ago now, Courtine and Lacour groups developed a framework for electronic dura mater\footnote{\url{https://www.science.org/doi/abs/10.1126/science.1260318}}. One of the primary problems addressed here is that dura mater is hard and protective while neural tissue is soft---so if one were to remove the dura and replace it with an electronic, it would need to meet both of these criteria. Their ``invention" is called e-dura. It is meant to go beneath the dura mater, and is composed of silicone with gold wiring\footnote{I didn't realize this until just now, but the increased impedance over time is due to micro-cracks in the gold. Interesting to keep in mind.}. The silicone has a similar kPa to the dura itself. Most implant are done above the dura, so the soft nature allows for implantation beneath it.\newline
+
+One of their comparisons is in implantation of soft vs. hard electronics in locomotion (this is without spinal cord injury). Notably, the soft electronics performed the same as the sham---while the hard electronics were much worse. They similarly quantified damage to the spinal cord, and expectedly found that soft electronics did less damage, and similarly that there was more inflammation in hard electronics. They also made a model of the linak cord using a hydrogel to show similar effects---perhaps useful to keep in mind.\newline
+
+I've noticed this same thing in a few papers. But, they make the claim that impedance stays constant over the course of a few weeks. However, the error bars show an impedance of $\approx 50\mathrm{k}\Omega \pm 30\mathrm{k}\Omega$. Firstly, this is quite high impedance---but that may be a protective feature. Secondly, and more crucially, the spread is humongous. My wonder is if the Reviewers did not notice or understand this, and saw that the average stayed around the same. Impedance does seem to be quite variable / strange in every paper. So it also may be that controlling this is quite hard. There is also quite a large phase angle, reaching $\approx -30^{\circ}$. Notably, \textit{in vitro} there is no phase shift nor is the impedance near $50\mathrm{k}\Omega$. The $\approx -40^{\circ}$ shift is suggestive of this being a  low-pass filter at their tested 1kHz. Very fascinatingly, the circuit may look something like this\footnote{This is why you should read the electronics section.}: 
+
+
+\begin{center}
+\begin{circuitikz}
+\draw 
+(1,2) to [C, l=Neuron membranes] (1,0)
+(-2,2) to [sV, l=V$_{in}$] (-2,0)
+(-2,0) -- (0,0)
+(1,2) to [short, -*] (3,2)
+(-2,2) to [R, l=Gold wires] (1,2)
+(3,0) to [short, *-] (0,0)
+(3,2.5) node {$\Vo$};
+\end{circuitikz}
+\end{center}
+
+\textit{In vitro}, you would see this phase shift because there are no capacitors to ground. Let us take this a step further, even. If: 
+
+\begin{equation} \label{court1}
+\begin{split}
+A_{out} &= A_{in}\sin(\omega t + \phi) \\
+\frac{\Vo}{\Vi} &= \frac{1}{\sqrt{1 + (2\pi f RC)^2}} \\
+\sin(\omega t + \phi) &= \frac{1}{\sqrt{1 + (2\pi f RC)^2}} \\
+\sin(-40^{\circ}) &= \frac{1}{\sqrt{1 + (2\pi \times 1\mathrm{kHz} \times 6\mathrm{k}\Omega \times C)^2}} \\
+\end{split}
+\end{equation}
+
+I estimated $R$ to be $6\mathrm{k}\Omega$ by eyeballing their graphs. I couldn't find any raw data in the paper. Solving this gives us a $C$ value of $3.16\times10^{-8}$F, or $31.6$nF. This does seem a bit low, as I believe the standard estimate for a cell membrane is around $100\mu$F. However, there are likely many factors at play. 
+
+I digress. The functional tests they did were using a $3\times3$ array of electrodes, and the motor cortex of mice were stimulated using channelrhodopsin-2. The e-dura demonstrated the ability to record signals sent from the cortex. They then tried delivering stimulation after spinal cord injury, induced via severe contusion. They delivered serotonergic replacement therapy through microfluidic chambers in the e-dura and delivered continous stimulation at 40hz, 0.2ms, and 50 to 150$\mu$A. Naturally, stimulation improved locomotion. 
+
 \subsubsection{Electronics with Shape Actuation.}
 
 The goal of this paper is to address the gap in stimulation devices\footnote{\url{https://www.science.org/doi/10.1126/sciadv.abg7833}}. That is, one can choose either percutaneous electrodes (i.e., puncturing through the skin and covering a small area) or a large paddle requiring invasive surgery. This paper developed a flexible paddle, which can be rolled up to a diameter of less than 2 mm, and injected similar to an electrode but expands upon entrance. Too, the flexible shape is fitted with microchannels. Applying air pressure to such channels causes expansion. It is composed of materials like gold, parylene-C, silicone, polyethylene, and polyimide.\newline 
@@ -3240,7 +3289,7 @@ The device was tested longest in sheep, which was a 10 month trial. Surprisingly
 
 \subsection{Shortcomings} The three shortcomings explicitly mentioned in the \textbf{Introduction} are that \textbf{(1)} one using this BSI must have motion sensors on in order to compensate (a sort of PID controller, perhaps),  \textbf{(2)} that the patient's movement was not perceived as natural, and \textbf{(3)} that there was still considerable hurdles in traversing variable terrain. Many more shortcomings exist than this, and we will go through them below.
 
-\subsubsection{Motion Sensors} I suppose it is obvious why one would use a motion sensor rather than an EMG---as it would be too difficult to discern whether the motion itself, or strength of contraction, is too high using an EMG alone. Still, though, I wonder if this is a feasible alternative. Perhaps one can simply predict motion based on EMG patterns.\newline
+\subsubsection{Motion Sensors.} I suppose it is obvious why one would use a motion sensor rather than an EMG---as it would be too difficult to discern whether the motion itself, or strength of contraction, is too high using an EMG alone. Still, though, I wonder if this is a feasible alternative. Perhaps one can simply predict motion based on EMG patterns.\newline
 
 The largest drawback, in my opinion, is their desire to make it quickly programmed/calibrated. As with DBS, one would actually prefer longer calibration time. That is, one would be happy to wait a few extra hours or days if it makes their ability to walk improve.\newline
 
@@ -3248,7 +3297,7 @@ Similarly, they commented that the patient tested was able to walk without the B
 
 A comment regarding the surgery itself: The patient's are having two large, 50mm arrays placed into their skull. Naturally, most would agree to this in order to restore their ability to walk. However, it surprises me that they chose to make the device wireless, given that the surgery is already quite invasive. 
 
-\subsubsection{Seven States} 
+\subsubsection{Seven States.} 
 
 Data is processed and used to edit the probability distribution of a Markov chain, which progresses the electrode paddle through seven defined states defined below.
 
