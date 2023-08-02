@@ -1518,6 +1518,102 @@ You can conceptually imagine that to create some form of peak detection, you wan
 
 \vfill
 
+\section{Input and Output Resistance}
+
+Now that we have a better understanding of impedance, let's discuss the idea of input and output resistance again. This concept is actually quite interesting and important, because when you are supplying a voltage to the body (say, in stimulating the spinal cord) you'll see impedance drifts, and phase shifts over time. Therefore, having a strong conceptual understanding of voltage sources \& sinks, and input \& output resistances is useful in quantifying this.\newline
+
+So for: 
+
+\begin{center}
+\begin{circuitikz}
+\draw 
+(0,2) to [battery, l_=$V_{th}$] (0,0)
+(0,2) to [R, l=$R_{th}$,-*] (3,2) node[right] {A}
+(3,0) to [short, *-] (0,0) 
+(3,0) to [R,l_=$R_{in}$] (3,2)
+(3,0) node[right] {B}
+
+;
+\end{circuitikz}
+\end{center}
+
+
+We get: 
+
+\begin{multicols}{2}
+
+
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+    xlabel=$I_{out}$,
+    ylabel=$V_{out}$,
+    xmin=0, xmax=30,
+    ymin=0, ymax=100,
+    xtick={0},
+    ytick={0}
+            ]
+\addplot[smooth,color=red]
+    plot coordinates {
+        (15,0)
+        (7.5, 45)
+        (0,90)
+    };
+    \draw (3,90) node {$V_{oc}$};
+    \draw (15,10) node {$I_{sc}$};
+    \draw (13,50) node {Slope = $-R_{th}$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+    xlabel=$I_{out}$,
+    ylabel=$V_{out}$,
+    xmin=0, xmax=30,
+    ymin=0, ymax=100,
+    xtick={0},
+    ytick={0}
+            ]
+\addplot[smooth,color=red]
+    plot coordinates {
+        (0,0)
+        (7.5, 45)
+        (15,90)
+    };
+    \draw (16,50) node {Slope = $1/R_{in}$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+   
+\end{multicols}
+
+The left graph was presented in an earlier section. The important takeaway is that for a linear system, $R{th} = -\Delta V_{\mathrm{AB}}/\Delta I_{\mathrm{A}}$. For a non-linear system, we can generalize this to include the impedance: 
+
+
+\begin{equation} \label{out}
+\begin{split}
+Z_{out} = -\frac{dV_{AB}}{dI_A}\\
+\end{split}
+\end{equation}
+
+Where $V_{AB}$ is across the voltage source, and $I_A$ is from the voltage source, and when we are varying the load resistance. Then, the input resistance of the load can be defined as: 
+
+
+\begin{equation} \label{in}
+\begin{split}
+\frac{1}{Z_{in}} = \frac{dI_{A}}{dV_{AB}}\\
+\end{split}
+\end{equation}
+
+For the $I_A$ into the load and the $V_{AB}$ across the load when we are varying the voltage source. 
+
+
 \textcolor{red}{The next section should be diodes/LEDs, but I find those to be just so boring. So I'd rather skip to opamps.}
 
 \vfill
@@ -1911,6 +2007,112 @@ Opamps also have a \textit{slew rate} which defines some max $\Vo dt$. That is, 
 \textcolor{red}{Yes, it is way too early to be making this Chapter. But, I want to write myself this note: go over current sources vs. sinks in considerable detail, also comparing to voltage sources would be useful here too. This will be useful in supplying electrodes in the future. I am untrusting of the commercially available sources/sinks, so It would be nice to build our own. }\newline
 
 \textcolor{red}{Yes I know I am skipping a lot, but I want to write about a bit first because I have an idea in mind. I'll fill in the gaps later.}
+
+\subsection{Transistor Overview}
+
+The prime purpose of a transistor is to use a small current to control a large one. A straightfoward example being using the turning of a key to start a car. Naturally, you wouldn't want a humongous current, capable of powering your car, to be connected to the keyhole---so you use this small current to control the flow of a larger one.\newline
+
+Bipolar junction transistors (BJTs) are 3-terminal devices either composed as NPN or PNP. The three terminals are the emitter (E), base (B), and collector (C). The large current you are interested in controlling flows from the collector to the emitter, and is operable by flow at the base. Though, the current at E will indeed be $I_C + I_B$, but you'd expect $I_B$ to be many orders of magnitude below $I_C$. The relationship between $I_C$ and $I_B$ is called $\beta$, where $I_C = \beta I_B$.\newline
+
+\begin{center}
+\begin{circuitikz}
+\ctikzset{tripoles/mos style=arrows}
+\ctikzset{transistors/arrow pos=end}
+\draw 
+(0.3,-0.5) node[] {E}
+(-1.2,0) node[] {B}
+(0.3,0.5) node[] {C}
+(0,0) node[npn, ](npn){}
+;
+\end{circuitikz}
+\end{center}
+
+For an NPN transistor, it can either be off, where $I_B = 0$, it can be active, where $I_B \neq 0$ and $I_C \leq \mathrm{max}$, or it can be saturated, where $I_B \neq 0$ and $I_C = \mathrm{max}$. You can probably imagine: active mode is useful if you'd like to make a transistor-based amplifier, while the saturation mode might be more useful in making a switch. 
+
+\section{Transistor Circuits}
+
+\subsection{A Follower}
+
+A follower, as with the opamp follower, is useful in building a high-input impendance, low output impedance element in your circuit. Again, this is useful as it will draw minimal current and preserve the voltage at that point in the circuit.\newline
+
+\begin{center}
+\begin{circuitikz}
+\ctikzset{tripoles/mos style=arrows}
+\ctikzset{transistors/arrow pos=end}
+\draw 
+
+
+%%%% NPN transistor
+(0,0) node[npn](M1){}
+(M1.E) to[R,l=$R_E$] ++(0,-2)
+to ++(0,0) node[ground]{}
+(M1.C) to[short,-*] ++(0,1) node[above] {$+$V}
+(M1.E) to[short,-*] ++(1,0) node[above] {$\Vo$}
+(-2,0) to[sV,l=V$_{in}$]  (M1.B)
+(-2,0) to ++(0,-1) node[ground]{}
+;
+\end{circuitikz}
+\end{center}
+
+Alrighty, so in active mode, if this functions properly as a follower, we would expect that as $\Vi$ changes by $\Delta V$, so too would $\Vo$. Too, it will function very much like a diode---meaning $\Vo$ will feature a diode drop and cannot drop below 0. In later circuits, we'll show how to fix this by tying E to some negative voltage, $-\V$. Thus, we get that: $\Delta I_B = \Delta I_E / (\beta + 1) = \Delta V / R_E(\beta + 1)$. Since $R_{in} = d\Vi/dI_{in}$, we get: 
+
+\begin{equation} \label{trans1}
+\begin{split}
+R_{in} = (\beta + 1)R_E\\
+\end{split}
+\end{equation}
+
+Therefore, from the perspective of $\Vi$, the load, which would be attached at $\Vo$ now appears to be much higher. More explicitly, it appears as: 
+
+\begin{equation} \label{trans2}
+\begin{split}
+R_{in} = (\beta + 1)(R_E || R_{load})
+\end{split}
+\end{equation}
+
+Again, this is preferable for the source. As we explored in the very early voltage divider section, if you were to have the following circuit: 
+
+
+\begin{center}
+\begin{circuitikz}
+\ctikzset{tripoles/mos style=arrows}
+\ctikzset{transistors/arrow pos=end}
+\draw 
+
+%%%% NPN transistor
+(0,0) node[npn](M1){}
+(M1.E) to[R,l=$R_E$,-*] ++(0,-3) node[below] {$-$V}
+(M1.C) to[short,-*] ++(0,1) node[above] {$+$V}
+(M1.E) to[short,-*] ++(1,0) node[above] {$\Vo$}
+(-5,0) to[sV,l=V$_{in}$] (-3,0) 
+(-3,0) to[R,l=$R_1$] (-1,0) 
+(-1,0) -- (M1.B)
+(-1,0) to[R,l_=$R_2$] ++(0,-2) node[ground]{}
+(-5,0) to ++(0,-1) node[ground]{}
+;
+\end{circuitikz}
+\end{center}
+
+Now we have $R_2 || (\beta + 1)R_E$, which we would expect to be $\approx R_2$. Therefore, the voltage divider acts as it would if there were no load there at all. The output impedance will be that which exists at $\Vo$. Since the current at $\Delta\Vo$ varies with $\Delta\Vi$, and $\Delta I_{out}$ varies with $(\beta + 1)\Delta I_B$. So, $\Delta\Vo = \Delta I_B (R_1 || R_2)$ or $\Delta\Vo = \Delta I_B R_{th}$. Since $R_{out} = d\Vo / dI_{out}$, we get: 
+
+\begin{equation} \label{trans3}
+\begin{split}
+R_{out} = \frac{R_{th}}{\beta + 1}
+\end{split}
+\end{equation}
+
+Which we expect to be quite small. Therefore, the output resistance is quite small. Since technically $R_{load}$ is again in parallel with $R_E$, it should actually be: 
+
+\begin{equation} \label{trans4}
+\begin{split}
+R_{out} = \frac{R_{th}}{\beta + 1} || R_E
+\end{split}
+\end{equation}
+
+Which again we expect to be $\approx {R_{th}} / {\beta + 1}$, and or, a very small value. 
+
+
+
 
 \subsection{Current Source}
 
@@ -2489,6 +2691,17 @@ V_{s2} \\
 
 You may, rightfully, say ``\textit{Uh, who cares?}," since we arleady know that each row corresponds to a different equation. Well, there are a few reasons. Firstly, doing this algorithmically allows us to avoid accidentally underdetermining our matrix using the ol' eye-balling it technique. More importantly, though, the algorithmic approach allows us to solve this via code. Once I can write a bit more neatly, I'll likely upload some snippets here. 
 
+
+
+\chapter{Cell Motility}
+
+I have an idea. I'm wondering if you can use cell motility models, with a bit of adaptation, and use it to model growth cone motility. I.e., model an ensemble of neurons after injury. The motivation being that the architecture of the neurons after injury is quite important to recovery. This was explored in a Courtine review, regarding circuit reorganization, and discussed in a later section. \newline
+
+There have been a number of papers that have gathered the 3D structure of axons after injury---so it is not impossible to verify models\footnote{\url{https://www.sciencedirect.com/science/article/pii/S0896627321007753?via\%3Dihub}}$^,$\footnote{\url{https://www.sciencedirect.com/science/article/pii/S2211124720308883?via\%3Dihub\#app2}}. 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \part[Physiology]{Physiology
             \vspace{0.2in}
             \begin{center}
@@ -2534,8 +2747,20 @@ A steady supply of ATP is needed to maintain pumping, and it is said that at any
 
 Notably, it is very difficult to fully deplete a muscle of its ATP. Other forms of fatigue begin before this can possibly occur, which include CNS or PNS feedback. An example of this may be that acetylcholine is not synthesized fast enough to continually stimulate muscle fibers. Continual simulation of muscle fibers, beyond what is allowable under normal conditions, \textbf{will fully deplete ATP levels and therefore cause damage to muscles}. Another consideration is the continuous use of ATP may result in P$_i$ buildup in the sarcoplasm, making release of ADP $+$ P$_i$ from myosin less likely to occur. Too, this opens the possibility of calcium phosphate forming, which can be quite damaging if it crystallizes further. There are also ion concentration changes to consider, and continued stimulation can result it tetanus.
 
-\subsubsection{Disorders Digression.}
-There are many ways one can lose control of their muscles. Nerve damage, for example, will halt the release of acetylcholine onto the motor plate. In a similar manner, botulism is a result of the botulinum toxin blocking release of acetylcholine, resembling the effect of nerve damage. In muscular dystrophy, the protein dystrophin is absent, which would normally attach actin to the cell membrane. Evidently, this can result in membrane permeability, calcium influx, and thus activation of digestive enzymes that breakdown muscle fibers. In McArdle's disease, muscles simply cannot convert glycogen to glucose-6-phosphase, causing the energy supply to be limited. 
+\subsection{Disorders Digression}
+There are many ways one can lose control of their muscles. Nerve damage, for example, will halt the release of acetylcholine onto the motor plate. In a similar manner, botulism is a result of the botulinum toxin blocking release of acetylcholine, resembling the effect of nerve damage. In McArdle's disease, muscles simply cannot convert glycogen to glucose-6-phosphase, causing the energy supply to be limited. 
+
+\subsubsection{Muscular Dystrophy.}
+
+Muscular dystrophy is an umbrella term\footnote{\url{https://www.youtube.com/watch?v=S6gPsYVmIEI\&ab_channel=MayoClinic}}. There are more than 30 types, and in modern times the lines between muscular dystrophy and other disorders is more blurred. Duchenne muscular dystrophy (DMD) is the canonical type, which presents in children. Early signs include weakness in the shoulders or hips---i.e., the larger muscles. In DMD, the protein dystrophin is absent, which would normally attach actin to the cell membrane. This can result in membrane permeability, calcium influx, and thus activation of digestive enzymes that breakdown muscle fibers.\newline
+
+Treatment of muscular dystrophy is centered on symptom management. For DMD, steroid usage seems to help. It is thought that muscle breakdown leads to immune responses, which can be aided by steroids. But, there is no cure, and eventually these steroids become less effective. 
+
+\subsubsection{Multiple Sclerosis.}
+
+Multiple sclerosis (MS) is a CNS disorder, thought to be autoimmune in origin, and resulting in degradation of the myelin. It can be identified by plaques, and or, scar-looking lesions in the brain.\newline
+
+MS is rapidly developing. Over the course of days or weeks, one might slowly find numbness in a limb. A clinician would follow-up with an MRI of the brain and spinal cord, looking for lesions within the myelin. 
 
 
 \section{Smooth Muscle}
@@ -3150,24 +3375,11 @@ The bulk of the paper is stimulating individual or combination fibers to initiat
 
 A large part of spinal cord stimulation, particularly epidural electrical stimulation (EES), is in fact not neural stimulation directly, but rather CSF stimulation\footnote{\url{https://www.jneurosci.org/content/33/49/19326.short}}. As was identified through this computational model, depolarizing signals spreading through the CSF are capable of triggering large, afferent fibers. Such fibers are most easily accessible at their dorsal root entry zones. Their activation leads to motor neuron activation, or the conversion of an inactive circuit to an excitatory one. The bulk of this investigation is done at the lumbar level, as its focus is on restoring walking after SCI. However, other studies have replicated the idea in hand dexterity when stimulating the cervical dorsal root entry zones. 
 
-\subsubsection{Reduction of Pain.}
-This is from this video\footnote{\url{https://www.youtube.com/watch?v=MuLbgftczf8\&ab_channel=CongressofNeurologicalSurgeons}}. In reducing neuropathic pain, the mechanism by which it works is postulated to be Gate-Control Theory\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/5320816/}}. That is, painful signals can be overridden by other pathways. Namely, fast, large A$\beta$ nerves can override the smaller, pain carrying A$\delta$ and C fibers. It is thought to occur at the level of the dorsal horn through inhibitory interneurons, but this is not known with certainty.\newline
-
-\textit{Failed back surgery} is the most common need for spinal stimulation of this kind. Stimulation is a good treatment option if the patient's pain is localized, and no identifiable structural defects are found. That is, if one's spinal cord is still improperly aligned, stimulation should not be considered. It is essential to attain extensive pre-operative imaging, as structural issues can also lead to hardware malfunction. For example, a slipped disc may cause unforeseen warping of hardware. Interestingly, psychiatric symptoms is a common indicator of poor patient outcome. Repeated operations usually indicate less effects as well.\newline
-
-Implanting an electrodes is done in two stages:
-\begin{enumerate}
-    \item Trial: A lead is inserted in order to find the site of pain. That is, exactly where to place the electrode permanently is found first in a trial. In the trial phase, patients are usually kept awake. 
-    \item Permanent: After such place is found, a permanent surgery can be scheduled for long-term treatment. 
-\end{enumerate}
-
-A variety of stimulators exist, ranging from linear leads to paddles. Paddles will require laminectomy by a neurosurgeon, but less invasive leads do not necessarily need this.\newline
-
-The stimulation itself has changed greatly. That is, the frequency, amplitude, etc. has been widely investigated. For example, bursts of stimulation, as opposed to continuous stimulation, has been recently tried. Notably, burst stimulation is usually imperceptible to patients, making it preferable in many cases. It is hypothesized that burst stimulation may inhibit both the physical and emotional aspects of pain. 
-
 \subsubsection{Application to Parkinson's Disease.}
 
-In large part, tremors induced by PD have already been well solved through deep brain stimulation and high intensity focused ultrasound. However, this paper focuses on some of the non-tremor symptoms of PD, and the idea that one can use spinal cord stimulation to fix degenerative diseases is generally interesting, so let us learn from\footnote{\url{https://www.science.org/doi/10.1126/science.1164901}}.The premise of this experiment is somewhat surprising, as stimulation is often thought to interrupt signals (as is the case in deep brain stimulation for PD, and SCS for neuropathy). In this case, though, they believe SCS \textbf{enhances locomotor signals}. That is, they are not treating PD tremors, but rather are treating PD induced akinesia. Experiments were performed in mice using dopamine-transporter knockout (DAT-KO) as their PD model. They also injected tyrosine hydrolase inhibitor (called AMPT)\footnote{I didn't bother Googling what this is, but intuition would suggest is aids in the conversion of tyrosine to catecholamines.} to further deplete dopamine. Dorsal root stimulation was performed using electrodes into the upper thoracic levels of the spinal cord. The greatest locomotor improvement in locomotion was found at 300 Hz stimulation. 
+In large part, tremors induced by PD have already been well solved through deep brain stimulation and high intensity focused ultrasound. However, this paper focuses on some of the non-tremor symptoms of PD, and the idea that one can use spinal cord stimulation to fix degenerative diseases is generally interesting, so let us learn from\footnote{\url{https://www.science.org/doi/10.1126/science.1164901}}.The premise of this experiment is somewhat surprising, as stimulation is often thought to interrupt signals (as is the case in deep brain stimulation for PD, and SCS for neuropathy). In this case, though, they believe SCS \textbf{enhances locomotor signals}. That is, they are not treating PD tremors, but rather are treating PD induced akinesia. Experiments were performed in mice using dopamine-transporter knockout (DAT-KO) as their PD model. They also injected tyrosine hydrolase inhibitor (called AMPT)\footnote{I didn't bother Googling what this is, but intuition would suggest is aids in the conversion of tyrosine to catecholamines.} to further deplete dopamine. Dorsal root stimulation was performed using electrodes into the upper thoracic levels of the spinal cord. The greatest locomotor improvement in locomotion was found at 300 Hz stimulation.\newline
+
+Notably, some hospitals are currently attempting clinical trials for spinal cord stimulation's use in treating Parkinson's. Some efforts include blocking pain and treating akinesia. 
 
 \subsubsection{Electronic Dura Mater.}
 
@@ -3202,7 +3414,7 @@ A_{out} &= A_{in}\sin(\omega t + \phi) \\
 \end{split}
 \end{equation}
 
-I estimated $R$ to be $6\mathrm{k}\Omega$ by eyeballing their graphs. I couldn't find any raw data in the paper. Solving this gives us a $C$ value of $3.16\times10^{-8}$F, or $31.6$nF. This does seem a bit low, as I believe the standard estimate for a cell membrane is around $100\mu$F. However, there are likely many factors at play. 
+I estimated $R$ to be $6\mathrm{k}\Omega$ by eyeballing their graphs. I couldn't find any raw data in the paper. Solving this gives us a $C$ value of $3.16\times10^{-8}$F, or $31.6$nF. This does seem a bit low, as I believe the standard estimate for a cell membrane is around $100\mu$F. However, there are likely many factors at play.\newline
 
 I digress. The functional tests they did were using a $3\times3$ array of electrodes, and the motor cortex of mice were stimulated using channelrhodopsin-2. The e-dura demonstrated the ability to record signals sent from the cortex. They then tried delivering stimulation after spinal cord injury, induced via severe contusion. They delivered serotonergic replacement therapy through microfluidic chambers in the e-dura and delivered continous stimulation at 40hz, 0.2ms, and 50 to 150$\mu$A. Naturally, stimulation improved locomotion. 
 
@@ -3214,7 +3426,7 @@ The device is made in two stages, but is monolithic. The first silicone layer is
 
 The device has a diode-like IV curve\footnote{For lack of a better word, the IV curves look insane.}. They look exactly like a diode would in the positive half (i.e., current exponentially increases at about 0.8V). But the negative voltage range looks quite strange. To apply voltage, they used the Intan device, like in the ACES paper.\newline
 
-The claim is that they are able to implant the entire device using a syringe (presumably under the lamina) into cadavers and then expand the device over the dura mater. Somehow, the how the device is able to spread over the spinal cord while, despite all of the connective tissue and fat filling the lamina-dura space\footnote{All of this is very odd to me. I am having trouble understanding how this is possible mechanically.}. To find the desired site of implantation required fluoroscopy, meaning the device itself had to be visible under fluoroscopy. Another confusing aspect of this paper is the biphasic nature of SCS to treat neuropathy. As one always undergoes a trial period, the question is will this device complement the trial phase properly?
+The claim is that they are able to implant the entire device using a syringe (presumably under the lamina) into cadavers and then expand the device over the dura mater. Somehow, the how the device is able to spread over the spinal cord while, despite all of the connective tissue and fat filling the lamina-dura space\footnote{All of this is very odd to me. I am having trouble understanding how this is possible mechanically.}. To find the desired site of implantation required fluoroscopy, meaning the device itself had to be visible under fluoroscopy. Another confusing aspect of this paper is the biphasic nature of SCS to treat neuropathy. As one always undergoes a trial period, the question is will this device complement the trial phase properly?\newline
 
 The big takeaways, to me, are that expansive devices seem possible, and fitting it with microfluidic channels is a fascinating way to apply therapeutics in addition to electrical stimulation. The next question is, of course, can we do the same thing with ECoG---thereby not requiring a highly invasive procedure to record brain waves? 
 
@@ -3225,6 +3437,31 @@ Using a simplified device similar to what will be discussed in the upcoming Lora
 To investigate which specific neurons undergo changes, they used a mouse model and performed RNAseq. They found excitatory interneurons as being enriched upon EES$^{\mathrm{REHAB}}$. These neurons were identified by the markers $Vsx2$ and $Hoxa10$, and thought to be \textit{V2a} neurons. These neurons projected exclusively to the ventral spinal cord and formed synapses with varying neuron types (glutamatergnic, GABAnergic, and cholinergic in no prefered proportion). The synapses were found in dense appositions (i.e., many synapses side-by-side) and SCI caused a reduction in such appositions. Ablating/inactivating these neurons alone in non-SCI mice did not halt their ability to walk. However, inactivating them did halt walking under EES$^{\mathrm{REHAB}}$. Therefore, it is hypothesized that these neurons are specific to the injury condition and required for recovery after SCI.\newline
 
 The main takeaway from this paper, in my opinion, is simply the recapitulation that excitatory interneurons play a key role in recovery from SCI. This has been established now through many routes, and is certainly of considerable interest in the future. There are a few open questions, with the biggest being: how exactly does electric modulation drive circuit reformation through these interneurons? 
+
+\subsubsection{Clinic: Reduction of Pain.}
+This is from this video\footnote{\url{https://www.youtube.com/watch?v=MuLbgftczf8\&ab_channel=CongressofNeurologicalSurgeons}}. In reducing neuropathic pain, the mechanism by which it works is postulated to be Gate-Control Theory\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/5320816/}}. That is, painful signals can be overridden by other pathways. Namely, fast, large A$\beta$ nerves can override the smaller, pain carrying A$\delta$ and C fibers. It is thought to occur at the level of the dorsal horn through inhibitory interneurons, but this is not known with certainty.\newline
+
+\textit{Failed back surgery} is the most common need for spinal stimulation of this kind. Stimulation is a good treatment option if the patient's pain is localized, and no identifiable structural defects are found. That is, if one's spinal cord is still improperly aligned, stimulation should not be considered. It is essential to attain extensive pre-operative imaging, as structural issues can also lead to hardware malfunction. For example, a slipped disc may cause unforeseen warping of hardware. Interestingly, psychiatric symptoms is a common indicator of poor patient outcome. Repeated operations usually indicate less effects as well.\newline
+
+Implanting an electrodes is done in two stages:
+\begin{enumerate}
+    \item Trial: A lead is inserted in order to find the site of pain. That is, exactly where to place the electrode permanently is found first in a trial. In the trial phase, patients are usually kept awake. 
+    \item Permanent: After such place is found, a permanent surgery can be scheduled for long-term treatment. 
+\end{enumerate}
+
+A variety of stimulators exist, ranging from linear leads to paddles. Paddles will require laminectomy by a neurosurgeon, but less invasive leads do not necessarily need this.\newline
+
+The stimulation itself has changed greatly. That is, the frequency, amplitude, etc. has been widely investigated. For example, bursts of stimulation, as opposed to continuous stimulation, has been recently tried. Notably, burst stimulation is usually imperceptible to patients, making it preferable in many cases. It is hypothesized that burst stimulation may inhibit both the physical and emotional aspects of pain. 
+
+\subsubsection{Clinic: Regaining Motor Control.}
+
+This is from this video\footnote{\url{https://www.youtube.com/watch?v=OubpMu-2EcE\&ab_channel=MayoClinic}}. EES is performed on SCI patients following a long period of physical therapy. The physical therapy has two purposes. First, it is to determine whether or not someone can recover at all without surgery. Two, it is to ``prime" the cells for rehabilitative EES.\newline
+
+The operation requires complete anesthesia, placement of the electrode on the outside of the dura (i.e., epidural stimulation). It requires a laminectomy. The device they used is the same one as is used in treatment of chronic neuropathies. Importantly, the electrode is not placed nearby the injury site. In this patient, the injury was in the upper thoracic area, but the electrode was placed in the $T_{12}$ area. They also used an EMG with electrodes in the muscles in order to trial and error the placement of the electrode. The entire surgery took $\approx 6$h. The battery pack is also added within the patient a few days later.\newline
+
+Absolutely remarkably, the patient was able to regain some motor control the first time the device was turned on. 
+
+
 
 
 \subsection{Brain Stimulation}
