@@ -1974,7 +1974,7 @@ to ++(0,-1)
 \end{circuitikz}
 \end{center}
 
-I'll not explain the math so much, but you can think about the LED example from the very first section. A diode's current curve is exponential in nature, so the voltage will approach asymptotically toward the diode's diode-drop\footnote{I still haven't done a Part on diodes yet, so the term ''diode-drop" is not yet explored.}.\newline
+I'll not explain the math so much, but you can think about the LED example from the very first section. A diode's current curve is exponential in nature, so the voltage will approach asymptotically toward the diode's diode-drop\footnote{I still haven't done a Part on diodes yet, so the term ``diode-drop" is not yet explored.}.\newline
 
 Biological applications of this are more obscure, but perhaps you can imagine a scenario where you'd really only care about the lower bounds of some stimulus. For example, if measuring the sub-threshold oscillations of a neuron, you may not want a linear curve---because once the neuron reaches it's threshold, the voltage rises dramatically. However, a logarithmic graph of the voltages between hyperpolarization and threshold might be quite useful, and you can configure it so that your circuit approaches its asymptote as the neuron approaches its threshold voltage. 
 
@@ -2697,7 +2697,7 @@ You may, rightfully, say ``\textit{Uh, who cares?}," since we arleady know that 
 
 I have an idea. I'm wondering if you can use cell motility models, with a bit of adaptation, and use it to model growth cone motility. I.e., model an ensemble of neurons after injury. The motivation being that the architecture of the neurons after injury is quite important to recovery. This was explored in a Courtine review, regarding circuit reorganization, and discussed in a later section. \newline
 
-There have been a number of papers that have gathered the 3D structure of axons after injury---so it is not impossible to verify models\footnote{\url{https://www.sciencedirect.com/science/article/pii/S0896627321007753?via\%3Dihub}}$^,$\footnote{\url{https://www.sciencedirect.com/science/article/pii/S2211124720308883?via\%3Dihub\#app2}}. 
+There have been a number of papers that have gathered the 3D structure of axons after injury---so it is not impossible to verify models\footnote{\url{https://www.sciencedirect.com/science/article/pii/S0896627321007753?via\%3Dihub}}$^,$\footnote{\url{https://www.sciencedirect.com/science/article/pii/S2211124720308883?via\%3Dihub}}. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2944,7 +2944,7 @@ The adaptive immunity is fairly universally regarded as harmful to regeneration 
 
 \subsection{Neural Response}
 
-Apoptosis of neurons initiates at around 4 HAI, but peaks at only 8 HAI\footnote{It is worth noting that these times are likely quite inaccurate, or very injury-type specific. But, they do give a good indication of the approximate timeframe---such as that the majority of this apoptosis occurs within the first day or so after injury.}. 
+Apoptosis of neurons initiates at around 4 h AI, but peaks at only 8 h AI\footnote{It is worth noting that these times are likely quite inaccurate, or very injury-type specific. But, they do give a good indication of the approximate timeframe---such as that the majority of this apoptosis occurs within the first day or so after injury.}. 
 
 \subsubsection{Interneurons.}
 Fascinatingly, it was shown that the ability of neonatal mice to fully recover from SCI was due, in part, to interneurons maintaining excitatory conditions. In adult mice, these interneurons switch to inhibitory after SCI, which dampens signals to motor neurons. A paper investigating this can be found here\footnote{\url{https://www.nature.com/articles/s41593-022-01067-9}}. One must wonder, can you electronically mimic the excitatory interneurons in fully grown mice? Similar approaches have been done therapeutically, such as with potassium-chloride cotransporter-2 (KCC2) agonist CLP290\footnote{\url{https://www.sciencedirect.com/science/article/pii/S009286741830730X}} which seems to dampen the overexcited, inhibitory interneurons. Perhaps one could simply use something like DBS (or in this case, DSS?) on these interneurons.  
@@ -2967,7 +2967,7 @@ Of course, when damaged neurons regrow in their previous locations it can cause 
 
 In a similar vein, otherwise non-essential neurons, like propriospinal neurons in the cervical region, can be reprogrammed to improve hand dexterity. While one may think that information must be conveyed directly from the motor cortex to the muscles on interest, in this case propriospinal neurons relay information past the injury site. KCC2 downregulation leads to inhibition of such circuits. \textcolor{red}{Note: this is a reminder to read that KCC2 inhibitory interneuron paper.} Much remains unkown about such neurons, what allows them to transmit beyond the injury site, and what recruits them to do so.\newline
 
-Rehabilitation proves to consistently aid circuit reformation, but lack of care causes poor reorganization that can worsen pathologies. Notably, when supraspinal\footnote{Supra meaning ''above" the spine, i.e., brain-to-spine neurons.} connections are severed, motor control relies on sensory signals only. One example being \textit{V2a} neurons discussed in a previous section. Another similar set of neurons includes \textit{dI3} neurons\footnote{\url{lhttps://elifesciences.org/articles/21715}}, another set of interneurons. While these aid in recovery, many changes are harmful to it. As a general trend, it appears that generally less activity, due to injury conditions like hypoxia, immune cells, etc. leads to greatly increased sensitivity of receptors and ion channels alike. Below the injury site often sees large increases in excitatory synapses. This combination leads to abnormal reflex responses, spasms, neuropathic pain, etc. 
+Rehabilitation proves to consistently aid circuit reformation, but lack of care causes poor reorganization that can worsen pathologies. Notably, when supraspinal\footnote{Supra meaning ``above" the spine, i.e., brain-to-spine neurons.} connections are severed, motor control relies on sensory signals only. One example being \textit{V2a} neurons discussed in a previous section. Another similar set of neurons includes \textit{dI3} neurons\footnote{\url{lhttps://elifesciences.org/articles/21715}}, another set of interneurons. While these aid in recovery, many changes are harmful to it. As a general trend, it appears that generally less activity, due to injury conditions like hypoxia, immune cells, etc. leads to greatly increased sensitivity of receptors and ion channels alike. Below the injury site often sees large increases in excitatory synapses. This combination leads to abnormal reflex responses, spasms, neuropathic pain, etc. 
 
 \subsubsection{Effects of Neuromodulation.}
 
@@ -2986,6 +2986,21 @@ Another application commented in earlier sections is the conversion of inhibitor
 Reversion to a state of biological development too is another core route of investigation\footnote{\url{https://www.nature.com/articles/s41586-018-0467-6}}. As proprioceptive neurons have been found to be possible relay neurons, these researchers targeted such neurons and were able to achieve growth across the injury site. This required the use of growth factors applied to the neurons, fibroblasts, and attracted molecules downstream of the injury site. Release was done in a spatially and temporally controlled manner. Fascinatingly, \textbf{no functional recovery was found}. Therefore, while neurons were able to bridge this gap, they were unable to form useful synapses. Authors postulate this may be due to inactivity or lack of myelin, among other things. In a similar vein, the grafting of stem cells is often successful in allowing for axonal growth across the injury site, but retains the inability to restore function.\newline
 
 If, someday, you decide to become truly big, you should read \href{https://www.cell.com/issue/S0896-6273(22)X0015-9}{this paper} as well.
+
+\subsubsection{Interneurons and KCC2.}
+
+This is from the paper\footnote{\url{https://www.sciencedirect.com/science/article/pii/S009286741830730X}}, but it seems KCC2 is an interesting topic of research in a couple different pathologies, such as in minimizing neuropathic pain, and downregulation increases spasticity after SCI. Some of the background for this paper is in better understanding how spinal cord stimulation leads to regain of function, with one hypothesis being that it helps reawaken ``dormant" circuits.\newline
+
+To investigate, they used staggered, lateral hemisections performed at the T$_7$ and T$_{10}$ sites. This injury meant all neurons would be severed, except those crossing the midline between T$_7$ and T$_{10}$. They verified near complete paralysis after injury, and used this to conclude that while some neurons were spared, they must be ``dormant" and or unable to recover function. They performed a mini-screen of drugs known to modulate neural activity, and landed on CLP290 as the only one showing a phenotype. CLP290 is known to activate KCC2, among other things. They determined that CLP290's function required some preserved axons---as in their complete lesion tests, no functional recovery was found. They further verified this by determining no enhanced regrowth was found due to CLP290 in their hemisection model. To determine if CLP290's function was through KCC2, they tried a KCC2 overexpression line and verified similar functional recoveries.\newline
+
+They then used the Cre-Lox system to verify that KCC2's expression specifically in inhibitory interneurons (driven by Vgat-Cre) leads to recovery. They presumed these neurons interact with / enhance the ability of propriospinal neurons to transmit information, and to resolve the spatial component, they tried local injection of AAV-KCC2 in the lumbar segments and did not find recovery. They believe it is specifically interneurons within the relay site between the two lesions that are required for repair. Their explanation being that when administering systemically, the blood-brain-barrier is compromised only at the lesion site.\newline
+
+In development, intracellular Cl$^-$ is high. During this period, Cl$^-$ channel opening is excitatory, rather than inibitory in fully-developed cells. KCC2 upregulation is important in removing this Cl$^-$, converting Cl$^-$ channel opening into being inhibitory. They believe activating KCC2 helps restore a more physiological state. They also did work to inhibit inhibitory interneurons, and excite excitatory interneurons, and determined that only the former was beneficial in achieving recovery after SCI. 
+
+
+
+
+
 
 \section{Side comments} 
 This section serves to allow me to comment random things until I find a place for them later.
