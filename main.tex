@@ -2004,10 +2004,6 @@ Opamps also have a \textit{slew rate} which defines some max $\Vo dt$. That is, 
 
 \chapter{Transistors}
 
-\textcolor{red}{Yes, it is way too early to be making this Chapter. But, I want to write myself this note: go over current sources vs. sinks in considerable detail, also comparing to voltage sources would be useful here too. This will be useful in supplying electrodes in the future. I am untrusting of the commercially available sources/sinks, so It would be nice to build our own. }\newline
-
-\textcolor{red}{Yes I know I am skipping a lot, but I want to write about a bit first because I have an idea in mind. I'll fill in the gaps later.}
-
 \subsection{Transistor Overview}
 
 The prime purpose of a transistor is to use a small current to control a large one. A straightfoward example being using the turning of a key to start a car. Naturally, you wouldn't want a humongous current, capable of powering your car, to be connected to the keyhole---so you use this small current to control the flow of a larger one.\newline
@@ -2027,7 +2023,7 @@ Bipolar junction transistors (BJTs) are 3-terminal devices either composed as NP
 \end{circuitikz}
 \end{center}
 
-For an NPN transistor, it can either be off, where $I_B = 0$, it can be active, where $I_B \neq 0$ and $I_C \leq \mathrm{max}$, or it can be saturated, where $I_B \neq 0$ and $I_C = \mathrm{max}$. You can probably imagine: active mode is useful if you'd like to make a transistor-based amplifier, while the saturation mode might be more useful in making a switch. 
+For an NPN transistor, it can either be off, where $I_B = 0$ (in this case, the voltage at the base will be below a diode drop), it can be active, where $I_B \neq 0$ and $I_C \leq \mathrm{max}$, or it can be saturated, where $I_B \neq 0$ and $I_C = \mathrm{max}$. You can probably imagine: active mode is useful if you'd like to make a transistor-based amplifier, while the saturation mode might be more useful in making a switch. 
 
 \section{Transistor Circuits}
 
@@ -2109,31 +2105,235 @@ R_{out} = \frac{R_{th}}{\beta + 1} || R_E
 \end{split}
 \end{equation}
 
-Which again we expect to be $\approx {R_{th}} / {\beta + 1}$, and or, a very small value. 
-
-
-
-
-\subsection{Current Source}
+Which again we expect to be $\approx {R_{th}} / {\beta + 1}$, and or, a very small value. You could build a more complete BJT follower in this way: 
 
 \begin{center}
 \begin{circuitikz}
 \ctikzset{tripoles/mos style=arrows}
 \ctikzset{transistors/arrow pos=end}
 \draw 
-(0.3,-0.5) node[] {E}
-(-1.2,0) node[] {B}
-(0.3,0.5) node[] {C}
-(0,0) node[npn, ](npn){}
+
+%%%% NPN transistor
+(0,0) node[npn](M1){}
+(M1.E) to[R,l=$R_E$] ++(0,-2) node[ground]{}
+(M1.C) to[short,-*] ++(0,1) node[above] {$+$V}
+to[short] ++(-1,0)
+to [R] (-1,0)
+(M1.E) to[C,-*] ++(2,0) node[above] {$\Vo$}
+(-5,0) to[sV,l=V$_{in}$] (-3,0) 
+(-3,0) to[C] (-1,0) 
+(-1,0) -- (M1.B)
+(-1,0) to[R] ++(0,-2) node[ground]{}
+(-5,0) to ++(0,-1) node[ground]{}
 ;
 \end{circuitikz}
 \end{center}
 
-Some reminders: The current through the collector is set by the emitter. The voltage at the emitter is set by the base. $V_E$ will be one diode drop below the base. So if the resistance at the emitter, $R_E$, is 1 k$\Omega$, then we would want $V_E$ to be 2 V, and $V_B$ to be 2.6 V. Note that the transistors input resistance is $\beta(r_e + R_E) \approx 100k\Omega$.  
+I'll not walk through the entire idea, using explicit values, but you should be able to get the gist. The capacitors are used to remove the DC. The +V adds a DC-offset, so that the oscillations of $\Vi$ can be all positive, removing the restriction of keeping $V_E$ above 0. The two resistors are used as a voltage divider, stemming from +V, allowing us to pick our DC offset. One of the largest takeaways from this is simply that it is much more complex, and annoying, than opamp-based followers. However, it should give insight into what might be within an opamp.\newline
+
+\subsubsection{Push-Pull Follower.}
+
+A neater way to avoid some of the drawbacks to the preceeding designs is to use what is called a \textit{push-pull follower}. It takes advantage of using two BJTs. Where the first NPN handles the positive half, and the second, now a PNP, handles the negative half. It is seen as below: 
+
+\begin{center}
+\begin{circuitikz}
+\ctikzset{tripoles/mos style=arrows}
+\ctikzset{transistors/arrow pos=end}
+\draw 
 
 
-\subsubsection{Current Mirror}
-From this video\footnote{\url{https://www.youtube.com/watch?v=VnJHXQCPIvs\&ab_channel=ALLABOUTELECTRONICS}}. Amplifiers can be biased using current sources, which allows the biasing current to become very stable. This is important, because as voltage or temperature fluctuates, the current can be maintained. Adding a current source to every amplifier would require too much annoying circuit building, so one way to avoid this is using a current mirror. 
+%%%% NPN transistor
+(0,0) node[npn](T1){}
+(0,-1) to[short,-*] (1,-1) node[above]{$\Vo$}
+(T1.C) to[short,-*] ++(0,0.2) node[above]{$+$V}
+
+%%%% PNP transistor
+(0,-2) node[pnp](T2){}
+(T1.E) to[short] (T2.E)
+(T1.B) to[short] (T2.B)
+(-0.85,-1) to[short,-*] ++(-1,0) node[above]{$\Vi$}
+(T2.C) to[short,-*] ++(0,-0.2) node[below]{$-$V}
+
+;
+\end{circuitikz}
+\end{center}
+
+The problem, of course, is that you will still have two diode drops in either direction. This is called \textit{crossover distortion}. 
+
+\subsection{Amplifiers}
+
+The first iteration is the common emitter amplifier, seen as follows:
+
+\begin{center}
+\begin{circuitikz}
+\ctikzset{tripoles/mos style=arrows}
+\ctikzset{transistors/arrow pos=end}
+\draw 
+
+%%%% NPN transistor
+(0,0) node[npn](M1){}
+(M1.E) to[R,l=$R_E$] ++(0,-2) node[ground]{}
+(M1.C) to[R,l_=$R_C$,-*] ++(0,2) node[above] {$+$V}
+to[short] ++(-1,0)
+to [R] (-1,0)
+(M1.C) to[short,-*] ++(2,0) node[above] {$\Vo{}_1$}
+(M1.E) to[short,-*] ++(2,0) node[above] {$\Vo{}_2$}
+(-5,0) to[sV,l=V$_{in}$] (-3,0) 
+(-3,0) to[C] (-1,0) 
+(-1,0) -- (M1.B)
+(-1,0) to[R] ++(0,-2.5) node[ground]{}
+(-5,0) to ++(0,-1) node[ground]{}
+;
+\end{circuitikz}
+\end{center}
+
+Let's again analyze solely by glancing at the circuit. We know that the voltage at $V_E$ will be one diode drop (say, 0.6V) below $V_B$ in the active mode. We know that the current through $R_E$ must therefore be $(V_B - 0.6) / R_E$. We know that $I_C \approx I_E$, therefore $I_C = (V_B - 0.6) / R_E$. If $V_B = \Vi$, this must mean that the voltage at C: 
+
+\begin{equation} \label{trans3}
+\begin{split}
+\Vo{}_1 = +\V - (\Vi - 0.6)\frac{R_C}{R_E}
+\end{split}
+\end{equation}
+
+Since the voltage drop across $R_C$ will be $I_CR_C$. This, $d\Vo{}_1/d\Vi = -R_E/R_C$. Using a capacitor to remove the DC offset will further make it function like the amplifier you desire. 
+
+
+
+
+\vfill\pagebreak
+
+
+\subsection{Current Sources}
+
+Let's take this circuit: 
+
+\begin{multicols}{2}
+    
+
+\begin{center}
+\begin{circuitikz}
+\ctikzset{tripoles/mos style=arrows}
+\ctikzset{transistors/arrow pos=end}
+\draw 
+
+%%%% NPN transistor
+(0,0) node[npn](M1){}
+(M1.E) to[R,l=$R_E$] ++(0,-2) node[ground]{}
+(M1.C) to[R,l_=$R_{load}$,-*] ++(0,2) node[above] {$+$V}
+to[short] ++(-1,0)
+to [R] (-1,0)
+(-1,0) -- (M1.B)
+(-1,0) to[R] ++(0,-2.5) node[ground]{}
+;
+\end{circuitikz}
+\end{center}
+
+\begin{center}
+\begin{circuitikz}
+\ctikzset{tripoles/mos style=arrows}
+\ctikzset{transistors/arrow pos=end}
+\draw 
+
+%%%% NPN transistor
+(0,0) node[pnp](M1){}
+(M1.C) to[R,l=$R_{load}$] ++(0,-2) node[ground]{}
+(M1.E) to[R,l_=$R_{E}$,-*] ++(0,2) node[above] {$+$V}
+to[short] ++(-1,0)
+to [R] (-1,0)
+(-1,0) -- (M1.B)
+(-1,0) to[R] ++(0,-2.5) node[ground]{}
+;
+\end{circuitikz}
+\end{center}
+
+
+
+\end{multicols}
+
+Recall that the current through the collector is set by the emitter. The voltage at the emitter is set by the base. $V_E$ will be one diode drop below the base (for the leftward circuit, that is---for the rightward, it will be one diode drop above). So if the resistance at the emitter, $R_E$, is 1 k$\Omega$, then we would want $V_E$ to be 2 V, and $V_B$ to be 2.6 V. Note that the transistors input resistance is $\beta(r_e + R_E) \approx 100k\Omega$.\newline
+
+Keeping a small $R_E$ is important here, as the larger that $R_E$ gets, the closer you will be to saturating your $R_{load}$. Let's try to consider an example. Covered much, much later in this book, we discuss a Courtine lab paper that used electronic dura mater. The load value appeared to vary all the way from 5k$\Omega$ to 100k$\Omega$. If you wanted to supply a constant 2mA over this entire impedance range, you would need the following:\newline
+
+\begin{equation} \label{trans3}
+\begin{split}
+V_B &= 2.6\V \\
+R_E &= 1\mathrm{k}\Omega \\
+I_C &= 2\mathrm{mA} \\
+V_C &= +\V - R_{load}I_C \\
+V_C &= +\V - (100k\Omega \times 1\mathrm{mA}) \\
+\end{split}
+\end{equation}
+
+It looks like you'll need a $100\V$ supply to keep your transistor from saturating. That is... not good! 
+
+\vfill\pagebreak
+
+\subsubsection{Current Mirror.}
+
+
+\begin{multicols}{2}
+
+\begin{center}
+\begin{circuitikz}
+\ctikzset{tripoles/mos style=arrows}
+\ctikzset{transistors/arrow pos=end}
+\draw 
+
+
+%%%% NPN transistor
+(-2,0) node[npn, xscale=-1](M2){}
+(M2.B) |- (M2.C)
+(M2.C) to[R,l=$R_{program}$] ++(0,2)
+
+
+%%%% NPN transistor
+(0,0) node[npn](M1){}
+(M1.E) to[short]  ++(0,-2) node[ground]{} 
+(M1.C) to[R,l_=$R_{load}$] ++(0,2)
+to[short,-*] ++(-4,0) node[above] {$+$V}
+
+(M2.B) to[short] (M1.B)
+(M2.E) to[short] ++(0,-2) to[short] ++(2,0)
+
+(-1,0) -- (M1.B)
+
+;
+\end{circuitikz}
+\end{center}
+    
+\begin{center}
+\begin{circuitikz}
+\ctikzset{tripoles/mos style=arrows}
+\ctikzset{transistors/arrow pos=end}
+\draw 
+
+
+%%%% NPN transistor
+(-2,0) node[npn, xscale=-1](M2){}
+(M2.B) |- (M2.C)
+(M2.C) to[R,l=$R_{program}$] ++(0,2)
+
+
+%%%% NPN transistor
+(0,0) node[npn](M1){}
+(M1.E) to[R,l=$R_{E2}$]  ++(0,-2) node[ground]{} 
+(M1.C) to[R,l_=$R_{load}$] ++(0,2)
+to[short,-*] ++(-4,0) node[above] {$+$V}
+
+(M2.B) to[short] (M1.B)
+(M2.E) to[R,l_=$R_{E1}$] ++(0,-2) to[short] ++(2,0)
+
+(-1,0) -- (M1.B)
+
+;
+\end{circuitikz}
+\end{center}
+
+\end{multicols}
+
+On the left circuit, your $R_{program}$ sets the current via the fact that the voltage drop between $+\V$ and ground happens only across $R_{program}$, so the current flowing through the emitter is $+\V / R_{program}$. The same current will be pulled through $R_{load}$. Adding in the $R_E$ on the rightward circuit gives a path to bleed and allows your programmed current to stay flat for longer. However, even in this case, $R_{load}$ cannot exceed $R_{program}$. \newline
+
+So why would you want a current mirror? Here's an example from this video\footnote{\url{https://www.youtube.com/watch?v=VnJHXQCPIvs\&ab_channel=ALLABOUTELECTRONICS}}. Amplifiers can be biased using current sources, which allows the biasing current to become very stable. This is important, because as voltage or temperature fluctuates, the current can be maintained. Adding a current source to every amplifier would require too much annoying circuit building, so one way to avoid this is using a current mirror. 
 
 
 
@@ -2963,9 +3163,9 @@ Circuit reorganization naturally and with neuromodulation is covered in-depth he
 
 Circuit reorganization can occur in many ways, both above and below the injury site. Examples seen in our own lab include damage to axons causing retraction and thus sprouting of the axon in seemingly random directions far above the injury site. Too, below the injury site, axons that once filled this space will fade away, and uninjured axons may grow into this now empty space. Interestingly, growth into this empty space has been shown to augment hand function after recovery\footnote{This is all very interesting when it comes to BSMIs---as one usually focuses on or around the injury site, or the dorsal root exit zones that generate walking. This suggests many sites along the spinal cord may be worth stimulating.}.\newline
 
-Of course, when damaged neurons regrow in their previous locations it can cause functional recovery. However, fascinatingly, even when all corticospinal tract neurons are damaged, motor cortex signals can be sent through alternative, surviving paths. Here are two \textbf{Brainstem examples}: (1) After SCI, cortical neurons can synapse onto the reticular formation and recover walking. (2) Activation of the mesencephalic locomotor region (MLR) after SCI can recover walking. This region is evolutionrily ancient and unable to generate walking on its own, but is able to recruit reticulospinal neurons and generate walking.\newline
+Of course, when damaged neurons regrow in their previous locations it can cause functional recovery. However, fascinatingly, even when all corticospinal tract neurons are damaged, motor cortex signals can be sent through alternative, surviving paths. Here are two brainstem examples: (1) After SCI, cortical neurons can synapse onto the reticular formation and recover walking. (2) Activation of the mesencephalic locomotor region (MLR) after SCI can recover walking. This region is evolutionrily ancient and unable to generate walking on its own, but is able to recruit reticulospinal neurons and generate walking.\newline
 
-In a similar vein, otherwise non-essential neurons, like propriospinal neurons in the cervical region, can be reprogrammed to improve hand dexterity. While one may think that information must be conveyed directly from the motor cortex to the muscles on interest, in this case propriospinal neurons relay information past the injury site. KCC2 downregulation leads to inhibition of such circuits. \textcolor{red}{Note: this is a reminder to read that KCC2 inhibitory interneuron paper.} Much remains unkown about such neurons, what allows them to transmit beyond the injury site, and what recruits them to do so.\newline
+In a similar vein, otherwise non-essential neurons, like propriospinal neurons in the cervical region, can be reprogrammed to improve hand dexterity. While one may think that information must be conveyed directly from the motor cortex to the muscles on interest, in this case propriospinal neurons relay information past the injury site. KCC2 downregulation leads to inhibition of such circuits. This is expanded on in a later section. Much remains unknown about such neurons, what allows them to transmit beyond the injury site, and what recruits them to do so.\newline
 
 Rehabilitation proves to consistently aid circuit reformation, but lack of care causes poor reorganization that can worsen pathologies. Notably, when supraspinal\footnote{Supra meaning ``above" the spine, i.e., brain-to-spine neurons.} connections are severed, motor control relies on sensory signals only. One example being \textit{V2a} neurons discussed in a previous section. Another similar set of neurons includes \textit{dI3} neurons\footnote{\url{lhttps://elifesciences.org/articles/21715}}, another set of interneurons. While these aid in recovery, many changes are harmful to it. As a general trend, it appears that generally less activity, due to injury conditions like hypoxia, immune cells, etc. leads to greatly increased sensitivity of receptors and ion channels alike. Below the injury site often sees large increases in excitatory synapses. This combination leads to abnormal reflex responses, spasms, neuropathic pain, etc. 
 
@@ -2985,7 +3185,7 @@ Another application commented in earlier sections is the conversion of inhibitor
 
 Reversion to a state of biological development too is another core route of investigation\footnote{\url{https://www.nature.com/articles/s41586-018-0467-6}}. As proprioceptive neurons have been found to be possible relay neurons, these researchers targeted such neurons and were able to achieve growth across the injury site. This required the use of growth factors applied to the neurons, fibroblasts, and attracted molecules downstream of the injury site. Release was done in a spatially and temporally controlled manner. Fascinatingly, \textbf{no functional recovery was found}. Therefore, while neurons were able to bridge this gap, they were unable to form useful synapses. Authors postulate this may be due to inactivity or lack of myelin, among other things. In a similar vein, the grafting of stem cells is often successful in allowing for axonal growth across the injury site, but retains the inability to restore function.\newline
 
-If, someday, you decide to become truly big, you should read \href{https://www.cell.com/issue/S0896-6273(22)X0015-9}{this paper} as well.
+If, someday, you decide to become truly big, you should read \href{https://www.cell.com/neuron/fulltext/S0896-6273(23)00341-0}{this paper} as well.
 
 \subsubsection{Interneurons and KCC2.}
 
@@ -3167,7 +3367,9 @@ I mention this specifically in this section because it is likely that in advanci
 
 Pay them no mind, or better yet, learn from them. Perhaps if you learn from all of those that are unwilling to learn from you: your growth will be unmatched, and real progress can be made. Best of luck. 
 
-\subsubsection{Papers to Read.}
+\subsubsection{Papers to Read:}
+
+-- \url{https://www.cell.com/neuron/fulltext/S0896-6273(23)00341-0}
 
 
 \chapter{Interfacing with Nerves}
