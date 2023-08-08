@@ -263,7 +263,11 @@ to [R, l=2 k$\Omega$] ++(0,-2)
 
        \vspace{0.5in}
 
-       {\fontfamily{phv}\selectfont \textbf{\Large \textcolor{white}{BY: JACKSON POWELL \\ \small FOR: \textcolor{red}{FUTURE} JACKSON}}}
+       {\fontfamily{phv}\selectfont \textbf{\Large \textcolor{white}{BY: JACKSON POWELL \\ \small FOR: 
+       \textcolor{red}{FUTURE} JACKSON}}} \\
+       \begin{flushright}
+       \textcolor{white}{\texttt {root@/last$\_$updated:}} \textcolor{red}{\texttt{\today}}
+       \end{flushright}
 
     \vspace{1cm}
 
@@ -3135,6 +3139,26 @@ Distraction is done by stretching the spine. This is more commonly done in large
 \subsubsection{Transection.}
 Transection requires surgical severing of the spinal cord. Transection models may target the ventral, dorsal, or subsections of the spinal cord. Such models are most useful for studying regeneration, as clean transections are rare clinical pathologies. Interestingly, some animals have impressive, natural recovery of locomotion due to spinal cord circuitry post SCI (i.e., more robust central pattern generation or spinal reflex systems). Therefore, it is often that one must re-transect after locomotor recovery. 
 
+\section{The Basso Scale}
+
+The Basso scale\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/16689667/}} has a few variations, such as the Basso, Beattie, Bresnahan (BBB) scale. It is a mode of characterizing injury after SCI in mouse models, specifically in the hindlimbs. You will often see Basso scale comparisons between treatment groups, or as a means to tract recovery over time after SCI. The scale is as follows (directly from the paper): 
+
+\begin{itemize}
+    \item Rating 0: No ankle movement.
+    \item Rating 1: Slight ankle movement. 
+    \item Rating 2: Extensive ankle movement. 
+    \item Rating 3: Plantar placing of the paw, without stepping, OR consistent or frequent dorsal stepping (without plantar stepping). 
+    \item Rating 4: Occasional plantar stepping. 
+    \item Rating 5: Frequent or consistent plantar stepping, without coordination, OR some coordination with paws rotated at contact and lift off. 
+    \item Rating 6: Frequent or consistent plantar stepping, some coordination, and parallel paws at contact, OR mostly coordinated, paws rotated at contact and lift off. 
+    \item Rating 7: Frequent or consistent plantar stepping, mostly coordinated, parallel paws at contact, rotated at lift off, OR mostly coordinated with, parallel at contact and lift off, severe trunk instability. 
+    \item Rating 8: Frequent or consistent plantar stepping, mostly coordinated, parallel paws at contact and lift off, mild instability, OR mostly coordinated with paws rotated at contact and lift off, normal trunk stability, and tail up or down. 
+    \item Rating 9: Frequent or consistent plantar stepping, mostly coordinated, parallel paws, normal trunk stability, and tail always up. 
+\end{itemize}
+
+\textit{Slight} is defined as less than half joint excursion. \textit{Extensive} is defined as more than half joint excursion. \textit{Plantar stepping} is defined as placing both the thumb and the last toe touching the ground. \textit{Consistent} is defined as without missing more than 5 steps. \textit{Frequent} is defined as more than half the time. \textit{Occasional} is defined as less than half the time moving forward. \textit{Coordination} is defined as proper alternations between feet, and hindlimb and forelimb movements occurring at proper times, and the mouse must move at a consistent, non-slow pace. Some coordination meaning less than half the movements are coordinated, while most is more than half. \textit{Severe trunk instability} is defined as an extreme waddle and collapsing during the test.\newline
+
+It is almost certain that I misworded some of those (as in accidentally wrote most instead of some a few times). But, I think you get the overall gist! Essentially, above 5 seems to have some degree of uncoordinated walking. Around 7-9 seem to have regained functional walking. 
 
 \chapter{The Injury Itself}
 
@@ -3146,7 +3170,7 @@ The traditional aim of treatment is to bridge the corticospinal tract with dista
 
 
 \section{Cell Specific Responses}
-The discussion, for the moment, will mostly use information gathered from Hu \textit{et al.} 2023.
+The discussion, for the moment, will mostly use information gathered from\footnote{\url{https://www.nature.com/articles/s41392-023-01477-6}}.
 
 
 \subsection{Immune Response}
@@ -3162,7 +3186,7 @@ In mouse SCI models, it seems that there are two peaks of microglial activity. T
 Macrophages are considered to be the dominant immune cell located around the injury site. Microglia, conversely, are scattered around the borders of the injury. Depending on the type of glial scar that is formed, different types of macrophages have been found. Macrophages mediate the corralling\footnote{Corralling is a term used to describe the formation of a barrier around the injury, preventing further injury. It is composed astrocytes, and other cells, and is important in repair.} of cells around the injury site. The phagocyotitic abilities of macrophages are of key importance, as loose fragments of cells must be removed, and microglia are incapable of keeping up such a high demand for removal. As a large part of this includes the destroyed mylein of oligodendrocytes, macrophages uptake great amounts of lipids. This can result in the formation of lipid droplets, which causes macrophages to become ``foamy." This foamy phenotype impairs further repair. 
 
 \subsubsection{Lymphocytes.} 
-The adaptive immunity is fairly universally regarded as harmful to regeneration (with some exceptions, of course). T cells further break down the spine-blood barrier and increase immune cell invasion. Evidently, T cell entry is also a major sourse of neuropathic pain in SCI patients. In general, it seems established that the overall immune response after injury impairs further regeneration, and a good example of this can be found here\footnote{\url{https://www.science.org/doi/full/10.1126/science.abd5926}}. 
+The adaptive immunity is fairly universally regarded as harmful to regeneration (with some exceptions, of course). T cells further break down the spine-blood barrier and increase immune cell invasion. Evidently, T cell entry is also a major sourse of neuropathic pain in SCI patients. In general, it seems established that the overall immune response after injury impairs further regeneration, and a good example of this can be found here\footnote{\url{https://www.science.org/doi/full/10.1126/science.abd5926}}. \textcolor{red}{NOTE: It would be good to read this entire article.}
 
 \subsection{Neural Response}
 
@@ -3179,7 +3203,12 @@ The astrocyte scar is surprisingly thin, only a few layers of cells. Though, its
 \subsubsection{Oligodendrocytes.}
 Oligodendrocytes reportedly begin apoptosis around 1 DPI and it peaks around 8 DPI. Oligodendrocyte precursor cells (OPCs) are may differentiate into oligodendrocytes or Schwann cells after SCI. OPCs have been show to remyelinate neurons after SCI, but fascinatingly, it has been shown that locomotor recovery after SCI does not necessarily require remyelination by oligodendrocytes\footnote{\url{https://www.nature.com/articles/s41467-018-05473-1}}. Though, plenty of other research suggests it is required---so it is likely context dependent. 
 
-\section{Circuit Reorganization}
+\chapter{Circuit Reorganization}
+
+We will cover circuit reorganization in considerable depth, not necessarily in the context of spinal cord injury, in this section. 
+
+\section{Reorganization After Injury}
+
 
 Circuit reorganization naturally and with neuromodulation is covered in-depth here\footnote{\url{https://www.nature.com/articles/s41593-022-01196-1}}. Part of this paper is framed on the fact that spinal cord circuits are much more complex than previously thought. That is, some computation is done at the level of the spinal cord. Too, the paper attempts to motivate investigating the specific neurons involved in recovery, and that previous investigations have not used the resolution necessary to investigate such matters. One constraint on the field is that, while the brain's cellular profile has been extensively investigated, detailed profiling of spinal cord cells is less explored---particularly in the injury condition.\newline
 
@@ -3220,7 +3249,7 @@ They then used the Cre-Lox system to verify that KCC2's expression specifically 
 In development, intracellular Cl$^-$ is high. During this period, Cl$^-$ channel opening is excitatory, rather than inibitory in fully-developed cells. KCC2 upregulation is important in removing this Cl$^-$, converting Cl$^-$ channel opening into being inhibitory. They believe activating KCC2 helps restore a more physiological state. They also did work to inhibit inhibitory interneurons, and excite excitatory interneurons, and determined that only the former was beneficial in achieving recovery after SCI. 
 
 
-\subsection{Non-coding RNA in Rewiring}
+\section{Non-coding RNA in Rewiring}
 
 \subsubsection{Background.}
 
@@ -3234,7 +3263,17 @@ Local translation was first determined to be mediated through miRNAs in the case
 
 In the dendrites, miR-9 has also been implicated. miR-9 is under a negative feedback loop, in which the repressor element 1 (RE-1) silencing transcription (REST) factor is activated by miR-9, which in turn decreases its expression. miR-9 downregulated the actin regulator Diap1, inhibiting further growth. In short, miR-9 inhibits growth of both dendrites and axons.\newline
 
-In mice, loss of miR-101 led to increased network excitability and impaired memory through increased expression of Na-K-Cl cotransporter 1 (NKCC1) and increased synaptogenesis, thought to be mediated through \textit{Kif1a} and \textit{Ank2}. Fascinatingly, miR-101 acute loss did not lead to such a result, but rather only when lost in development\footnote{I think part of the issue with this kind of paper is it is almost purposeless trying actually learn this. It is simply letters followed by numbers doing things redundantly.}.
+In mice, loss of miR-101 led to increased network excitability and impaired memory through increased expression of Na-K-Cl cotransporter 1 (NKCC1) and increased synaptogenesis, thought to be mediated through \textit{Kif1a} and \textit{Ank2}. Fascinatingly, miR-101 acute loss did not lead to such a result, but rather only when lost in development. The lincRNA ALAE was the first example of an lncRNA that locally regulates mRNA translation during growth by blocking the function of RNA-binding protein, and therere allowing GAP43 synthesis, causing axons to grow\footnote{I think part of the issue with this kind of paper is it is almost purposeless trying actually learn this. It is simply letters followed by numbers doing things redundantly.}.\newline
+
+\subsubsection{Circuit Remodeling.}
+
+In general, it appears that miRNA expression is bad for remodeling, and long-term potentiation (LTP) specifically. miR-134 expression was found to inhibit long-term potentiation through inhibition of CREB1. Under physiological conditions, SIRT1 inhibits miR-134 expression. miR-26a and miR-384 also inhibit LTP by different means. Many such other examples exist\footnote{I hate to kind of ``yada-yada" through this, but again, it's just miR-$xxx$ does different, harmful things.}.\newline
+
+Interestingly, miR-153 was upregulated in the dentate gyrus during LTP. It seems to be required for exocytosis, suggesting it has a role in excitatory coupling. miR-218 and miR-137 were also named as promoting LTP. I think that's about all that's worth saying, for now. 
+
+
+
+
 
 
 
@@ -3285,7 +3324,7 @@ Evidently, this is controversial! Methylprednisolone sodium succinate (MPSS) has
 
 \section{Treatments}
 
-For this section, I will largely ignore the uninteresting, obvious approaches to axon/neuron regeneration. This includes the often successful implantation of stem cells and or treatment with various neurotrophic factors. While these represent important measures in the field, they are largely intuitive and still face the broad issue of improper circuit reformation.\newline
+This section will cover some of the basic, in a broad overview manner. Complex research, such as the discussion of stem cells and the research surrounding them, will be covered in a different section. \newline
 
 \subsection{Electrical Stimulation}
 Fascinatingly, electrical stimulation has been used in conjunction with physical therapy in the past with good resuts\footnote{\url{https://www.nejm.org/doi/pdf/10.1056/NEJMoa1803588?articleTools=true}}. The reasons may be that this promotes stem cell differentiation\footnote{\url{https://www.mdpi.com/2073-4409/11/5/846}}, or disrupts inhibitory interneuron signaling. The optimal electrical application for differentiation has been explored extensively\footnote{\url{https://www.frontiersin.org/articles/10.3389/fbioe.2021.591838/full}}. One may wonder if the benefits of BSI are in the interface itself, or simply the stimulation. Combining stem cell implantation and electronics is, likely, the future.\newline
@@ -3326,15 +3365,6 @@ Incision directly into the spinal cord itself, myelotomy, has also been done wit
 \subsection{Rehabilitation}
 As you would intuit, exercise is the most common technique, as it preserves muscle mass and promotes circuit reorganization. Another rehabilitative technique is pumping in a significant amount of oxygen, as ischemia occurs after injury. BSIs have also become more popular. Fascinatingly, decoding of handwriting has been used to generate text\footnote{\url{https://www.nature.com/articles/s41586-021-03506-2}}. Though, these seem to require deep access to the brain. 
 
-\subsection{Integrated Approach}
-It seems to me that a good course of treatment would be something like: 
-
-\begin{enumerate}
-    \item Immediately after injury decompress the spine and implant a hydrogel with a good restorative milieu, and immunosuppressants.
-    \item As microglia peak around a week after injury, a few days later the hydrogel can be removed and stem cell implantation can begin. 
-    \item Throughout this time, electrical stimulation can be applied. 
-    \item Some time after this, rehabilitation through physical therapy can begin. 
-\end{enumerate}
 
 \section{Complications After SCI}
 
@@ -3366,6 +3396,18 @@ Ectopic bone formation can occur on the larger joints\footnote{Funnily enough, t
 
 
 
+\chapter{Stem Cell and Tissue Engineering}
+
+
+\subsection{Long Distance Growth of Stem Cells}
+
+Stated in the 2019 Giovanni Review: ``We believe that the most promising preclinical strategy to promote long-distance regeneration of axons in the spinal cord has come from recent studies in the \textbf{Tuszynski laboratory}, which used human spinal cord-derived NSC grafts combined with a cocktail of growth factors." Indeed---let's begin with such a study\footnote{\url{https://www.cell.com/fulltext/S0092-8674(12)01018-5}}. The idea of this paper is to use stem cells cultured in a fibrin matrix, containing a cocktail of growth factors, and then graft this entity into rats after SCI. Growth was mTOR dependent, but not Nogo dependent\footnote{Dr. Strittmatter will be upset!}.\newline
+
+Rats underwent complete T$_3$ transection. Rat embryonic stem cells were labeled with GFP and differentiated primarily into neurons after grafting. Cells did not migrate much beyond the graft / lesion site either. Grafted neurons were capable of growing long distances, with axons extending multiple vertebrae away both rostrally and caudally. They determined approximately 29,000 axons grown after grafting, and a similar density among all subjects tested. In fact, grafted neurons even became wrapped by host oligodendrocytes! Their justification for the growth not being Nogo dependent is that grafted cells still expressed Nogo, so therefore it is unlikely that Nogo inhibition promoted the growth. They tried inhibiting mTOR and found a significant decrease in axonal growth.\newline
+
+They then repeated these studies using human-derived stem cells. I didn't see this quesiton answered directly in the text (maybe I just missed it) but I am wondering how much the neurons actually matter, especially for functional recovery. I.e., the matrix contained growth factors---could the growth factors alone be promoting growth, independent of the stem cells?
+
+
 
 
 \part[Brain-Spine-Muscle Interfaces]{Brain-Spine Interfaces
@@ -3386,8 +3428,9 @@ Pay them no mind, or better yet, learn from them. Perhaps if you learn from all 
 
 \subsubsection{Papers to Read:}
 
--- \url{https://www.cell.com/neuron/fulltext/S0896-6273(23)00341-0}
--- \url{https://www.nature.com/articles/s41928-021-00631-8}
+-- \url{https://www.cell.com/fulltext/S0092-8674(12)01018-5}\\
+-- \url{https://www.nature.com/articles/s41591-018-0296-z}\\
+-- \url{https://www.science.org/doi/full/10.1126/science.1201148?casa_token=uLMREs94rBkAAAAA\%3A1NmnZVf4FLG49XYmfcOCtvTzyVpUknxP4f9gqI2-Z7POshyrMdB5UbukEmf1xS86OY7unpyI97eOwJQ}\\
 
 
 \chapter{Interfacing with Nerves}
