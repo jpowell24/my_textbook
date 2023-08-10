@@ -317,6 +317,24 @@ It is true that total recovery from spinal cord injury, in sever cases, will req
 \subsection{Someday Never Comes} 
 I found myself often saying something along the lines of ``someday, during medical school, I will understand SCI better," or ``someday, during my PhD, I'll learn how to build a BSI properly." But, I realized recently that \href{https://www.youtube.com/watch?v=NwNuQulK6N0}{someday never comes}. That is the main motivation for writing this. Someday never comes; there is only today. 
 
+\section{To Do:}
+
+\footnotesize
+\begin{enumerate}
+    \item More neuron regeneration models (SCN, etc.).
+    \item Wrap-up electronics intro (Thev., Nort., etc.). 
+    \item Diodes section :(
+    \item Markov Models :(
+    \item Sensory processing :(
+    \item Better breakdown of cellular localization in the spinal cord. 
+    \item Clinical outcomes section. 
+    \item Giovanni age-dependent regeneration article.
+    \item Sections for: Minassian, Rossignol, and the other titans. 
+    
+\end{enumerate}
+
+\normalsize
+
 \vfill\pagebreak
 
 \part[Electronics]{Electronics
@@ -3118,48 +3136,6 @@ Defining the central pattern generator is still somewhat contested. Computationa
             \end{minipage}
             \end{center}}
 
-\chapter{Researching SCI}
-\section{Injury Models}
-The bulk of this information comes from\footnote{\url{https://www.nature.com/articles/sc201491}}. Interestingly, most SCI models focus on thoracic level injury, while in humans cervical is more common. 
-
-\subsubsection{Contusion.}
-Contusion is the quick application of a force. Models include dropping a weight on the spinal cord or using an air-gun. One such is called the \textit{NYU (MASCIS) impactor}, where a piece of the bone is removed (laminectomy) and a weight is dropped directly onto the exposed nerves. Severity can be adjusted by the height from which the item was dropped. The most recent iteration is the \textit{MASCIS III}, where an electromagnetic weight is dropped at the push of a button and includes digital measuring to ensure replication. One concern is that the weight dropping may bounce, causing multiple impacts.\newline
-
-Another option is called the \textit{infinite horizon (IH) impactor}. Rather than dropping a weight, a machine applies a set force. A laminectomy is still required\footnote{I suppose repeatability is considered paramount, but I find that these extensive controls may impede investigation. At a certain point, one must wonder if this is an SCI or an axotomy model.}, but one can avoid the bounce effect. The \textit{Ohio State University (OSU) impactor} is essentially the same, but uses an electromagnetic force applier. A more recent development is in the air gun. This requires drilling through the vertebrae, exposing the dura, where air pressure will be applied. 
-
-
-\subsubsection{Compression.}
-Compression occurs over a longer time frame. One interesting application of such models is in first applying contusion, followed by a compression model. This replicates the effects of increased pressure within the spinal cord after SCI, which occurs particularly in the absence of decompression surgery.\newline
-
-A common method is using an aneurysm clip and applying it to an exposed section of the spine, clamping down with some force for a few minutes. The force applied is in the range of 20-50g\footnote{Perhaps I am naive, but this seems remarkably small to me. When you consider that human SCI may result from a car accident, a few grams seems inconsequential.}. An interesting drawback is the velocity of the clip's closing is variable. In the right usage, it can be used to cut off blood supply to simulate ischemia and reperfusion after SCI. Another option is to insert a balloon on a catheter down the spinal cord and inflating it. Another method is called SC-STRAPPER\footnote{Take a look at Fig. 1: \url{https://www.sciencedirect.com/science/article/pii/S0165027008000368} }. A string is inserted and wrapped around the spinal cord, and its benefits are that it is relatively noninvasive, and compression is applied to the entire circumference of the spinal cord. 
-
-\subsubsection{Distraction.}
-Distraction is done by stretching the spine. This is more commonly done in larger animals, and is difficult to develop a reproducable model. The Harrington distractor requires laminectomy and the addition of hooks to the upper and lower sides of the removed vertebrae. Motor steps are then applied to pull the spinal cord apart. However, as this occurs slowly and is variable in application, it has drawbacks. The UBC multimechanism device uses a wedge applied between the vertebrae to abruptly apply force. Interestingly, their device can also be used to induce contusion or slipped disc injuries---so learning it provides you with considerable versatility, particularly if dislocated vertebrae is your area of study. The singular wedge applies unidirectional injury, and so the UTA distractor aims to improve this by using clips attached externally (i.e., without laminectomy) and pull apart by a motor. 
-
-\subsubsection{Transection.}
-Transection requires surgical severing of the spinal cord. Transection models may target the ventral, dorsal, or subsections of the spinal cord. Such models are most useful for studying regeneration, as clean transections are rare clinical pathologies. Interestingly, some animals have impressive, natural recovery of locomotion due to spinal cord circuitry post SCI (i.e., more robust central pattern generation or spinal reflex systems). Therefore, it is often that one must re-transect after locomotor recovery. 
-
-\section{The Basso Scale}
-
-The Basso scale\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/16689667/}} has a few variations, such as the Basso, Beattie, Bresnahan (BBB) scale. It is a mode of characterizing injury after SCI in mouse models, specifically in the hindlimbs. You will often see Basso scale comparisons between treatment groups, or as a means to tract recovery over time after SCI. The scale is as follows (directly from the paper): 
-
-\begin{itemize}
-    \item Rating 0: No ankle movement.
-    \item Rating 1: Slight ankle movement. 
-    \item Rating 2: Extensive ankle movement. 
-    \item Rating 3: Plantar placing of the paw, without stepping, OR consistent or frequent dorsal stepping (without plantar stepping). 
-    \item Rating 4: Occasional plantar stepping. 
-    \item Rating 5: Frequent or consistent plantar stepping, without coordination, OR some coordination with paws rotated at contact and lift off. 
-    \item Rating 6: Frequent or consistent plantar stepping, some coordination, and parallel paws at contact, OR mostly coordinated, paws rotated at contact and lift off. 
-    \item Rating 7: Frequent or consistent plantar stepping, mostly coordinated, parallel paws at contact, rotated at lift off, OR mostly coordinated with, parallel at contact and lift off, severe trunk instability. 
-    \item Rating 8: Frequent or consistent plantar stepping, mostly coordinated, parallel paws at contact and lift off, mild instability, OR mostly coordinated with paws rotated at contact and lift off, normal trunk stability, and tail up or down. 
-    \item Rating 9: Frequent or consistent plantar stepping, mostly coordinated, parallel paws, normal trunk stability, and tail always up. 
-\end{itemize}
-
-\textit{Slight} is defined as less than half joint excursion. \textit{Extensive} is defined as more than half joint excursion. \textit{Plantar stepping} is defined as placing both the thumb and the last toe touching the ground. \textit{Consistent} is defined as without missing more than 5 steps. \textit{Frequent} is defined as more than half the time. \textit{Occasional} is defined as less than half the time moving forward. \textit{Coordination} is defined as proper alternations between feet, and hindlimb and forelimb movements occurring at proper times, and the mouse must move at a consistent, non-slow pace. Some coordination meaning less than half the movements are coordinated, while most is more than half. \textit{Severe trunk instability} is defined as an extreme waddle and collapsing during the test.\newline
-
-It is almost certain that I misworded some of those (as in accidentally wrote most instead of some a few times). But, I think you get the overall gist! Essentially, above 5 seems to have some degree of uncoordinated walking. Around 7-9 seem to have regained functional walking. 
-
 \chapter{The Injury Itself}
 
 Spinal cord injury is composed of the primary injury, prototypically, but not restrictively, due to some kind of high impact action. This is usually unpredictable and highly variable. Secondary injury, resulting from inflammation, oxidative stress, and other biological responses is much more predictable and potentially lends itself better to therapeutic intervention.\newline
@@ -3170,6 +3146,9 @@ The traditional aim of treatment is to bridge the corticospinal tract with dista
 
 
 \section{Cell Specific Responses}
+
+\label{sec:Cell-Specific-Responses}
+
 The discussion, for the moment, will mostly use information gathered from\footnote{\url{https://www.nature.com/articles/s41392-023-01477-6}}.
 
 
@@ -3203,133 +3182,6 @@ The astrocyte scar is surprisingly thin, only a few layers of cells. Though, its
 \subsubsection{Oligodendrocytes.}
 Oligodendrocytes reportedly begin apoptosis around 1 DPI and it peaks around 8 DPI. Oligodendrocyte precursor cells (OPCs) are may differentiate into oligodendrocytes or Schwann cells after SCI. OPCs have been show to remyelinate neurons after SCI, but fascinatingly, it has been shown that locomotor recovery after SCI does not necessarily require remyelination by oligodendrocytes\footnote{\url{https://www.nature.com/articles/s41467-018-05473-1}}. Though, plenty of other research suggests it is required---so it is likely context dependent. 
 
-
-
-
-
-
-
-\chapter{Broad Coverage of the Translational Landscape}
-
-Let's discuss\footnote{\url{https://www.nature.com/articles/s41582-019-0280-3}}. Endogenous plasticity after spinal cord injury can and does occur, but in large part results in spasticity and neuropathic pain after SCI. An in-depth discussion on circuit reorganization is covered later---so for the moment, let's consider endogenous plasticity to be negligible or harmful.\newline
-
-\section{Intrinsic Factors}
-
-\subsubsection{Growth Cone Manipulation.}
-
-Stabilizing the growth cone, or trending microtubule dynamics toward polymerization, is key to axonal extension. Epothilone B and D are microtubule stabilizers, which have been shown to promote recovery after SCI. Epothilone B is also an anti-cancer drug as it inhibits mitosis, and similarly seemed to reduce glial scarring, likely by inhibiting glial mitosis. Other similar, anti-cancer microtubule stabilizing drugs, like taxol, have shown similar outcomes. Importantly, other studies have called these findings into question, and some have shown quite negative outcomes in their usage. However, given that they are already used in cancer treatment entices researchers to find a use for them in treating SCI. To this point, though, their conclusive function is unclear.\newline
-
-RhoA GTPase, a protein localized to the growth cone and functions in microtubule activity through Rho kinase (ROCK), has also been studied in an attempt to maintain the growth cone. Inhibition of RhoA or ROCK have promoted regeneration---specifically in acute SCI. If it is helpful in treating chronic SCI remains unclear. 
-
-\subsubsection{Translation.}
-
-Target of rapamycin (mTOR) is all too familiar now, as it has been identified as an active translator in the axon and growth cone. mTOR phosphorylates 4EBP1, thereby inhibiting it, preventing it from repressing translation. Phosphatase and tensin homolgue (PTEN) is a negative regulator of mTOR. PTEN is likely the most famous regeneration blocker---and for good reason! Inhibition of PTEN even a year after SCI has been shown to promote enhanced recovery. Currently, developing therapeutics against PTEN are marred by worries that it will produce malignancies within the tissues, as PTEN is also an essential tumor suppressor. \textcolor{red}{NOTE: At a later date, it would be wise to look into PTEN clinical investigations.}\newline
-
-Interestingly, PTEN inhibition alone strikes somewhat variable results. Co-inhibition with suppressor of cytokine signaling 3 (SOCS3) provided more consistent, enhanced growth---especially in the critical corticospinal tract. 
-
-The insulin-like growth factor 1 promotes regeneration. \\
-
-CREB activation by TTK21 promotes recovery after SCI. \\
-
-
-
-
-\section{Extrinsic Factors}
-
-Inhibiting the Nogo receptor, such as by NogoA antibodies promotes growth. \\
-
-Promotion or delivery of chondroitinase ABS promotes plasticity and growth. \\
-
-Inhibiting protein tyrosine phosphatase $\sigma$ enhances serotonergic axon recovery and fuctional outcomes. \\
-
-
-
-
-
-
-
-
-\chapter{Circuit Reorganization}
-
-We will cover circuit reorganization in considerable depth, not necessarily in the context of spinal cord injury, in this section. 
-
-\section{Reorganization After Injury}
-
-
-Circuit reorganization naturally and with neuromodulation is covered in-depth here\footnote{\url{https://www.nature.com/articles/s41593-022-01196-1}}. Part of this paper is framed on the fact that spinal cord circuits are much more complex than previously thought. That is, some computation is done at the level of the spinal cord. Too, the paper attempts to motivate investigating the specific neurons involved in recovery, and that previous investigations have not used the resolution necessary to investigate such matters. One constraint on the field is that, while the brain's cellular profile has been extensively investigated, detailed profiling of spinal cord cells is less explored---particularly in the injury condition.\newline
-
-Circuit reorganization can occur in many ways, both above and below the injury site. Examples seen in our own lab include damage to axons causing retraction and thus sprouting of the axon in seemingly random directions far above the injury site. Too, below the injury site, axons that once filled this space will fade away, and uninjured axons may grow into this now empty space. Interestingly, growth into this empty space has been shown to augment hand function after recovery\footnote{This is all very interesting when it comes to BSMIs---as one usually focuses on or around the injury site, or the dorsal root exit zones that generate walking. This suggests many sites along the spinal cord may be worth stimulating.}.\newline
-
-Of course, when damaged neurons regrow in their previous locations it can cause functional recovery. However, fascinatingly, even when all corticospinal tract neurons are damaged, motor cortex signals can be sent through alternative, surviving paths. Here are two brainstem examples: (1) After SCI, cortical neurons can synapse onto the reticular formation and recover walking. (2) Activation of the mesencephalic locomotor region (MLR) after SCI can recover walking. This region is evolutionrily ancient and unable to generate walking on its own, but is able to recruit reticulospinal neurons and generate walking.\newline
-
-In a similar vein, otherwise non-essential neurons, like propriospinal neurons in the cervical region, can be reprogrammed to improve hand dexterity. While one may think that information must be conveyed directly from the motor cortex to the muscles on interest, in this case propriospinal neurons relay information past the injury site. KCC2 downregulation leads to inhibition of such circuits. This is expanded on in a later section. Much remains unknown about such neurons, what allows them to transmit beyond the injury site, and what recruits them to do so.\newline
-
-Rehabilitation proves to consistently aid circuit reformation, but lack of care causes poor reorganization that can worsen pathologies. Notably, when supraspinal\footnote{Supra meaning ``above" the spine, i.e., brain-to-spine neurons.} connections are severed, motor control relies on sensory signals only. One example being \textit{V2a} neurons discussed in a previous section. Another similar set of neurons includes \textit{dI3} neurons\footnote{\url{lhttps://elifesciences.org/articles/21715}}, another set of interneurons. While these aid in recovery, many changes are harmful to it. As a general trend, it appears that generally less activity, due to injury conditions like hypoxia, immune cells, etc. leads to greatly increased sensitivity of receptors and ion channels alike. Below the injury site often sees large increases in excitatory synapses. This combination leads to abnormal reflex responses, spasms, neuropathic pain, etc. 
-
-\subsubsection{Effects of Neuromodulation.}
-
-Both activity and artificial stimulation of the motor cortex promote regrowth of the corticospinal tract. This can be done non-invasively. Timing this with spinal cord stimulation enhances connections. There are a couple of paper's exploring this in depth in NHP\footnote{\url{https://www.cell.com/neuron/pdf/S0896-6273(13)00762-9.pdf}}, and in humans\footnote{\url{https://www.pnas.org/doi/abs/10.1073/pnas.1505383112}}. \textcolor{red}{It would be good to look through these papers in the future.} Fascinatingly, indirect neuromodulation, such as through the vagus nerve, too has been shown to enhance response to rehabilitation. Too, deep brain stimulation has been done on the MLR\footnote{Another example of DBS promoting rather than inhibiting---kind of interesting.}, and when positive yielded results comparable to stimulating the motor cortex\footnote{It would be nice to build a patient profile of those who may benefit the most from motor cortex vs. MLR vs. vagus nerve etc. stimulation.}. Though, the MLR's region is less clearly defined, and results were more variable.\newline
-
-Stimulating the spinal cord is primarily done at the dorsal root entry zones or through EES. Damage to the sympathetic nervous system is an essential problem to solve, as it can lead to life threatening drops in blood pressure. One such way to do so is in stimulating the low thoracic spinal cord's pre-ganglionic sympathetic neurons, causing release of norepinepherine and thereby constrict vessels. Similarly, EES can restore the sympathetic response via large afferents recruiting sympathetic neurons. 
-
-\subsubsection{Effects of Biological Manipulation.}
-
-Biological strategies seem most successful when attempting to enhance the projectome of surviving supraspinal neurons. One such way to do this is through removing damaged tissue and grafting in more malleable, healthy tissue. As part of this, physicians may attempt to ablate the fibrotic scar. Interestingly, partial ablation, and not complete ablation, has shown symptom improvement after SCI. \newline
-
-Pharmacological promotion of axon regeneration has inherent limitations. For example, the canonical player PTEN (discussed in other sections) has shown robust regeneration, capable of penetrating the astrocytic border, but only in certain neuronal populations. Too, even in this case neurons abruptly halt when reaching the fibrotic scar. Somehow, one must induce global, or brilliantly targeted, growth to achieve true functional recovery. \newline
-
-Another application commented in earlier sections is the conversion of inhibitory neurons into excitatory, or the deletion of inhibitory neurons. One way to do so is via chondroitinase (ChABC) which dissolves glycosaminoglycan sid chains of chondroitin sulfate proteoglycans (CSPGs). CSPGs are known for their role in stem cell differentiation, and bookend the periods of neurogenesis. Another such attempt is in inhibiting nogo receptor reticulon 4 (RTN4). \newline
-
-Reversion to a state of biological development too is another core route of investigation\footnote{\url{https://www.nature.com/articles/s41586-018-0467-6}}. As proprioceptive neurons have been found to be possible relay neurons, these researchers targeted such neurons and were able to achieve growth across the injury site. This required the use of growth factors applied to the neurons, fibroblasts, and attracted molecules downstream of the injury site. Release was done in a spatially and temporally controlled manner. Fascinatingly, \textbf{no functional recovery was found}. Therefore, while neurons were able to bridge this gap, they were unable to form useful synapses. Authors postulate this may be due to inactivity or lack of myelin, among other things. In a similar vein, the grafting of stem cells is often successful in allowing for axonal growth across the injury site, but retains the inability to restore function.\newline
-
-If, someday, you decide to become truly big, you should read \href{https://www.cell.com/neuron/fulltext/S0896-6273(23)00341-0}{this paper} as well.
-
-\subsection{Interneurons and KCC2}
-
-This is from the paper\footnote{\url{https://www.sciencedirect.com/science/article/pii/S009286741830730X}}, but it seems KCC2 is an interesting topic of research in a couple different pathologies, such as in minimizing neuropathic pain, and downregulation increases spasticity after SCI. Some of the background for this paper is in better understanding how spinal cord stimulation leads to regain of function, with one hypothesis being that it helps reawaken ``dormant" circuits.\newline
-
-To investigate, they used staggered, lateral hemisections performed at the T$_7$ and T$_{10}$ sites. This injury meant all neurons would be severed, except those crossing the midline between T$_7$ and T$_{10}$. They verified near complete paralysis after injury, and used this to conclude that while some neurons were spared, they must be ``dormant" and or unable to recover function. They performed a mini-screen of drugs known to modulate neural activity, and landed on CLP290 as the only one showing a phenotype. CLP290 is known to activate KCC2, among other things. They determined that CLP290's function required some preserved axons---as in their complete lesion tests, no functional recovery was found. They further verified this by determining no enhanced regrowth was found due to CLP290 in their hemisection model. To determine if CLP290's function was through KCC2, they tried a KCC2 overexpression line and verified similar functional recoveries.\newline
-
-They then used the Cre-Lox system to verify that KCC2's expression specifically in inhibitory interneurons (driven by Vgat-Cre) leads to recovery. They presumed these neurons interact with / enhance the ability of propriospinal neurons to transmit information, and to resolve the spatial component, they tried local injection of AAV-KCC2 in the lumbar segments and did not find recovery. They believe it is specifically interneurons within the relay site between the two lesions that are required for repair. Their explanation being that when administering systemically, the blood-brain-barrier is compromised only at the lesion site.\newline
-
-In development, intracellular Cl$^-$ is high. During this period, Cl$^-$ channel opening is excitatory, rather than inibitory in fully-developed cells. KCC2 upregulation is important in removing this Cl$^-$, converting Cl$^-$ channel opening into being inhibitory. They believe activating KCC2 helps restore a more physiological state. They also did work to inhibit inhibitory interneurons, and excite excitatory interneurons, and determined that only the former was beneficial in achieving recovery after SCI. 
-
-
-\section{Non-coding RNA in Rewiring}
-
-\subsubsection{Background.}
-
-Non-coding RNAs (ncRNAs) have been studied quite a bit in recent years\footnote{\url{https://www.cell.com/neuron/fulltext/S0896-6273(23)00341-0}}. ncRNAs are classified as small (less than 100 nt) or long (above 500 nt), and among the small ncRNAs are microRNAs (miRNAs) of $\approx$ 20nt. They are typically produced through canonical means and play a role in post-transcriptional regulation within the cytoplasm.\newline
-
-As for miRNAs, gene silencing occurs by binding to a complementary untranslated region of an mRNA. This region is sometimes called a \textit{seed region}. From here, a miRNA-induced silencing complex (miRISC) forms. Then, some of the standard RNA degredation mechanisms can occur like decapping. Some of the relevant long ncRNAs include long intergenic RNAS (lincRNAs), which are linear, circlar RNAs (circRNAs), and antisense (AS) RNAs. CircRNAs are produced but noncanonical means, and generally seem to function in tandem with miRNA in some manner, and or, they regulate miRNAs. AS RNAs are born of the opposite DNA strand, most often modulate this specific locus, and may be thousands of nt long. They are particularly relevant in early development. ncRNAs work in a symphonious way, usually involving multiple types coordinating together. This Review makes it a point to state that recent data has been overwhelming, due to advancements in technology. Therefore, it remains difficult to stay up to date or understand the complexities as new functions continuously emerge.
-
-\subsubsection{Regulation of Local Growth.}
-
-Local translation was first determined to be mediated through miRNAs in the case of miR-9's ability to decrease the expression of microtubule protein MAP1B via the brain-derived neurotrophic factor (BDNF) path within growing axons. Similarly, BDNF increased presence of miR-132, leading to increased axonal branching. In Xenopus, miR-182 was shown to be necessary for axon targeting via multiple modes of tublulin and actin regulations and their usage in the growth cone's guidance.\newline
-
-In the dendrites, miR-9 has also been implicated. miR-9 is under a negative feedback loop, in which the repressor element 1 (RE-1) silencing transcription (REST) factor is activated by miR-9, which in turn decreases its expression. miR-9 downregulated the actin regulator Diap1, inhibiting further growth. In short, miR-9 inhibits growth of both dendrites and axons.\newline
-
-In mice, loss of miR-101 led to increased network excitability and impaired memory through increased expression of Na-K-Cl cotransporter 1 (NKCC1) and increased synaptogenesis, thought to be mediated through \textit{Kif1a} and \textit{Ank2}. Fascinatingly, miR-101 acute loss did not lead to such a result, but rather only when lost in development. The lincRNA ALAE was the first example of an lncRNA that locally regulates mRNA translation during growth by blocking the function of RNA-binding protein, and therere allowing GAP43 synthesis, causing axons to grow\footnote{I think part of the issue with this kind of paper is it is almost purposeless trying actually learn this. It is simply letters followed by numbers doing things redundantly.}.\newline
-
-\subsubsection{Circuit Remodeling.}
-
-In general, it appears that miRNA expression is bad for remodeling, and long-term potentiation (LTP) specifically. miR-134 expression was found to inhibit long-term potentiation through inhibition of CREB1. Under physiological conditions, SIRT1 inhibits miR-134 expression. miR-26a and miR-384 also inhibit LTP by different means. Many such other examples exist\footnote{I hate to kind of ``yada-yada" through this, but again, it's just miR-$xxx$ does different, harmful things.}.\newline
-
-Interestingly, miR-153 was upregulated in the dentate gyrus during LTP. It seems to be required for exocytosis, suggesting it has a role in excitatory coupling. miR-218 and miR-137 were also named as promoting LTP. I think that's about all that's worth saying, for now. 
-
-
-
-
-
-
-
-\section{Side comments} 
-This section serves to allow me to comment random things until I find a place for them later.
-
-\begin{enumerate}
-    \item Non-neuronal cells secrete a collagen protein (Cthrc1), which is pro-regenerative and affects the ECM\footnote{\url{https://www.cell.com/developmental-cell/pdf/S1534-5807(20)30984-9.pdf}}. 
-    \item The ependyma is a source of stem cells, which contributes to glial scar formation after SCI. Connexin (gap junction) signaling between ependymal cells is supposedly a factor involved in their differentiation. 
-\end{enumerate}
 
 
 \chapter{In The Clinic \& Therapeutic Approaches}
@@ -3370,10 +3222,11 @@ Evidently, this is controversial! Methylprednisolone sodium succinate (MPSS) has
 
 \section{Treatments}
 
-This section will cover some of the basic, in a broad overview manner. Complex research, such as the discussion of stem cells and the research surrounding them, will be covered in a different section. \newline
+This section will cover some of the basic, in a broad overview manner. Complex research, such as the discussion of stem cells and the research surrounding them, will be covered in chapter \textbf{\ref{sec:Stem-Cells}}. \newline
 
 \subsection{Electrical Stimulation}
-Fascinatingly, electrical stimulation has been used in conjunction with physical therapy in the past with good resuts\footnote{\url{https://www.nejm.org/doi/pdf/10.1056/NEJMoa1803588?articleTools=true}}. The reasons may be that this promotes stem cell differentiation\footnote{\url{https://www.mdpi.com/2073-4409/11/5/846}}, or disrupts inhibitory interneuron signaling. The optimal electrical application for differentiation has been explored extensively\footnote{\url{https://www.frontiersin.org/articles/10.3389/fbioe.2021.591838/full}}. One may wonder if the benefits of BSI are in the interface itself, or simply the stimulation. Combining stem cell implantation and electronics is, likely, the future.\newline
+
+This will, of course, be covered in excruciating detail in later sections (and or, Parts, like Part \textbf{\ref{sec:Interfaces}}). Fascinatingly, electrical stimulation has been used in conjunction with physical therapy in the past with good resuts\footnote{\url{https://www.nejm.org/doi/pdf/10.1056/NEJMoa1803588?articleTools=true}}. The reasons may be that this promotes stem cell differentiation\footnote{\url{https://www.mdpi.com/2073-4409/11/5/846}}, or disrupts inhibitory interneuron signaling. The optimal electrical application for differentiation has been explored extensively\footnote{\url{https://www.frontiersin.org/articles/10.3389/fbioe.2021.591838/full}}. One may wonder if the benefits of BSI are in the interface itself, or simply the stimulation. Combining stem cell implantation and electronics is, likely, the future.\newline
 
 A slightly different rose by the same name is functional electrical stimulation (FES). Many trials have shown improvement in patients treated with either external stimulation or internal stimulation. 
 
@@ -3442,7 +3295,181 @@ Ectopic bone formation can occur on the larger joints\footnote{Funnily enough, t
 
 
 
+
+\chapter{Approaches to Researching SCI}
+
+\textcolor{red}{NOTE: It would be good to include some of the other approaches to researching neural regeneration in general---such sciatic nerve crush, optic nerve crush, \textit{Drosophila} axon injury, etc.}
+
+\section{SCI Injury Models}
+The bulk of this information comes from\footnote{\url{https://www.nature.com/articles/sc201491}}, and focuses on injuries applied to mice---but similar principles can be done in other mammals. Interestingly, most SCI models focus on thoracic level injury, while in humans cervical is more common. 
+
+\subsubsection{Contusion.}
+Contusion is the quick application of a force. Models include dropping a weight on the spinal cord or using an air-gun. One such is called the \textit{NYU (MASCIS) impactor}, where a piece of the bone is removed (laminectomy) and a weight is dropped directly onto the exposed nerves. Severity can be adjusted by the height from which the item was dropped. The most recent iteration is the \textit{MASCIS III}, where an electromagnetic weight is dropped at the push of a button and includes digital measuring to ensure replication. One concern is that the weight dropping may bounce, causing multiple impacts.\newline
+
+Another option is called the \textit{infinite horizon (IH) impactor}. Rather than dropping a weight, a machine applies a set force. A laminectomy is still required\footnote{I suppose repeatability is considered paramount, but I find that these extensive controls may impede investigation. At a certain point, one must wonder if this is an SCI or an axotomy model.}, but one can avoid the bounce effect. The \textit{Ohio State University (OSU) impactor} is essentially the same, but uses an electromagnetic force applier. A more recent development is in the air gun. This requires drilling through the vertebrae, exposing the dura, where air pressure will be applied. 
+
+
+\subsubsection{Compression.}
+Compression occurs over a longer time frame. One interesting application of such models is in first applying contusion, followed by a compression model. This replicates the effects of increased pressure within the spinal cord after SCI, which occurs particularly in the absence of decompression surgery.\newline
+
+A common method is using an aneurysm clip and applying it to an exposed section of the spine, clamping down with some force for a few minutes. The force applied is in the range of 20-50g\footnote{Perhaps I am naive, but this seems remarkably small to me. When you consider that human SCI may result from a car accident, a few grams seems inconsequential.}. An interesting drawback is the velocity of the clip's closing is variable. In the right usage, it can be used to cut off blood supply to simulate ischemia and reperfusion after SCI. Another option is to insert a balloon on a catheter down the spinal cord and inflating it. Another method is called SC-STRAPPER\footnote{Take a look at Fig. 1: \url{https://www.sciencedirect.com/science/article/pii/S0165027008000368} }. A string is inserted and wrapped around the spinal cord, and its benefits are that it is relatively noninvasive, and compression is applied to the entire circumference of the spinal cord. 
+
+\subsubsection{Distraction.}
+Distraction is done by stretching the spine. This is more commonly done in larger animals, and is difficult to develop a reproducable model. The Harrington distractor requires laminectomy and the addition of hooks to the upper and lower sides of the removed vertebrae. Motor steps are then applied to pull the spinal cord apart. However, as this occurs slowly and is variable in application, it has drawbacks. The UBC multimechanism device uses a wedge applied between the vertebrae to abruptly apply force. Interestingly, their device can also be used to induce contusion or slipped disc injuries---so learning it provides you with considerable versatility, particularly if dislocated vertebrae is your area of study. The singular wedge applies unidirectional injury, and so the UTA distractor aims to improve this by using clips attached externally (i.e., without laminectomy) and pull apart by a motor. 
+
+\subsubsection{Transection.}
+Transection requires surgical severing of the spinal cord. Transection models may target the ventral, dorsal, or subsections of the spinal cord. Such models are most useful for studying regeneration, as clean transections are rare clinical pathologies. Interestingly, some animals have impressive, natural recovery of locomotion due to spinal cord circuitry post SCI (i.e., more robust central pattern generation or spinal reflex systems). Therefore, it is often that one must re-transect after locomotor recovery. 
+
+\section{The Basso Scale}
+
+The Basso scale\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/16689667/}} has a few variations, such as the Basso, Beattie, Bresnahan (BBB) scale. It is a mode of characterizing injury after SCI in mouse models, specifically in the hindlimbs. You will often see Basso scale comparisons between treatment groups, or as a means to tract recovery over time after SCI. The scale is as follows (directly from the paper): 
+
+\begin{itemize}
+    \item Rating 0: No ankle movement.
+    \item Rating 1: Slight ankle movement. 
+    \item Rating 2: Extensive ankle movement. 
+    \item Rating 3: Plantar placing of the paw, without stepping, OR consistent or frequent dorsal stepping (without plantar stepping). 
+    \item Rating 4: Occasional plantar stepping. 
+    \item Rating 5: Frequent or consistent plantar stepping, without coordination, OR some coordination with paws rotated at contact and lift off. 
+    \item Rating 6: Frequent or consistent plantar stepping, some coordination, and parallel paws at contact, OR mostly coordinated, paws rotated at contact and lift off. 
+    \item Rating 7: Frequent or consistent plantar stepping, mostly coordinated, parallel paws at contact, rotated at lift off, OR mostly coordinated with, parallel at contact and lift off, severe trunk instability. 
+    \item Rating 8: Frequent or consistent plantar stepping, mostly coordinated, parallel paws at contact and lift off, mild instability, OR mostly coordinated with paws rotated at contact and lift off, normal trunk stability, and tail up or down. 
+    \item Rating 9: Frequent or consistent plantar stepping, mostly coordinated, parallel paws, normal trunk stability, and tail always up. 
+\end{itemize}
+
+\textit{Slight} is defined as less than half joint excursion. \textit{Extensive} is defined as more than half joint excursion. \textit{Plantar stepping} is defined as placing both the thumb and the last toe touching the ground. \textit{Consistent} is defined as without missing more than 5 steps. \textit{Frequent} is defined as more than half the time. \textit{Occasional} is defined as less than half the time moving forward. \textit{Coordination} is defined as proper alternations between feet, and hindlimb and forelimb movements occurring at proper times, and the mouse must move at a consistent, non-slow pace. Some coordination meaning less than half the movements are coordinated, while most is more than half. \textit{Severe trunk instability} is defined as an extreme waddle and collapsing during the test.\newline
+
+It is almost certain that I misworded some of those (as in accidentally wrote most instead of some a few times). But, I think you get the overall gist! Essentially, above 5 seems to have some degree of uncoordinated walking. Around 7-9 seem to have regained functional walking. 
+
+
+
+
+
+
+\chapter{Broad Coverage of the Translational Landscape}
+
+\label{sec:TranslationalLandscape}
+
+Let's discuss\footnote{\url{https://www.nature.com/articles/s41582-019-0280-3}}. Endogenous plasticity after spinal cord injury can and does occur, but in large part results in spasticity and neuropathic pain after SCI. An in-depth discussion on circuit reorganization is covered later---so for the moment, let's consider endogenous plasticity to be negligible or harmful.\newline
+
+\section{Intrinsic Factors}
+
+\subsubsection{Growth Cone Manipulation.}
+
+Stabilizing the growth cone, or trending microtubule dynamics toward polymerization, is key to axonal extension. Epothilone B and D are microtubule stabilizers, which have been shown to promote recovery after SCI. Epothilone B is also an anti-cancer drug as it inhibits mitosis, and similarly seemed to reduce glial scarring, likely by inhibiting glial mitosis. Other similar, anti-cancer microtubule stabilizing drugs, like taxol, have shown similar outcomes. Importantly, other studies have called these findings into question, and some have shown quite negative outcomes in their usage. However, given that they are already used in cancer treatment entices researchers to find a use for them in treating SCI. To this point, though, their conclusive function is unclear.\newline
+
+RhoA GTPase, a protein localized to the growth cone and functions in microtubule activity through Rho kinase (ROCK), has also been studied in an attempt to maintain the growth cone. Inhibition of RhoA or ROCK have promoted regeneration---specifically in acute SCI. If it is helpful in treating chronic SCI remains unclear. 
+
+\subsubsection{Promising Proteins.}
+
+Target of rapamycin (mTOR) is all too familiar now, as it has been identified as an active translator in the axon and growth cone. mTOR phosphorylates 4EBP1, thereby inhibiting it, preventing it from repressing translation. Phosphatase and tensin homolgue (PTEN) is a negative regulator of mTOR. PTEN is likely the most famous regeneration blocker---and for good reason! Inhibition of PTEN even a year after SCI has been shown to promote enhanced recovery. Currently, developing therapeutics against PTEN are marred by worries that it will produce malignancies within the tissues, as PTEN is also an essential tumor suppressor. \textcolor{red}{NOTE: At a later date, it would be wise to look into PTEN clinical investigations.} Interestingly, PTEN inhibition alone strikes somewhat variable results. Co-inhibition with suppressor of cytokine signaling 3 (SOCS3) provided more consistent, enhanced growth---especially in the critical corticospinal tract.\newline 
+
+Another canonical finding is that the insulin-like growth factor 1 (IGF1) promotes regeneration. This may be partly due to its ability to promote mTOR activity, but the many potential outcomes of IGF1 overexpression are unknown. IGF1 injection has been used to treat autism in the past with relatively safe and promising outcomes, however the fear of tumor production remains a barrier to its use in treating SCI.\newline
+
+Inhibition of certain calcium channel components, like the $\alpha2\delta2$ subunit of voltage gated calcium channels, promote axon regeneration. One such method of doing so is through pregabalin, which limits spasms. Further evidence by administration of gabapentinoids enhancing regeneration shows promise in using anti-convulsants to treat SCI. Our lab has identified the pore forming subunit of L-type voltage gated calcium channels, $\alpha1$, to be necessary for regeneration. Therefore, the role of VGCCs in regeneration is likely multiplexed.\newline
+
+Other proteins, like KCC2 (\textbf{\ref{sec:KCC2}}), are discussed in-depth in other sections. 
+
+\subsubsection{Transcriptional Possibilities.}
+
+Many transcription factors can be used to boost regeneration. One such is the cAMP-responsive element-binding protein (CREB) is necessary for axon growth in development. CREB activation by TTK21 promotes recovery after SCI. Another is signal transducer and activator of transcription (STAT3). Determining the biochemical barriers to CREB or STAT3 activation has been done through investigating histone deacetylases (HDACs) and DNA methyltransferases. It was shown that in peripheral nerves, where regeneration occurs naturally, histones were acetylated at specific, pro-regenerative sites. TTK21's activation of CREB is done through CREB-binding protein (CBP) acetyltransferase.  
+
+
+
+\section{Extrinsic Factors}
+
+The cell-specific responses surrounding neurons is covered in-depth in section \textbf{\ref{sec:Cell-Specific-Responses}}. Many of the modifiers exist in the ECM, such as secretion of collagen protein (Cthrc1), a pro-regenerative protein \footnote{\url{https://www.cell.com/developmental-cell/pdf/S1534-5807(20)30984-9.pdf}}. Other non-neuronal cells, like astrocytes and fibroblasts, secrete chondroitin sulfate proteoglycans (CPSGs) after injury, which accumulate around the injury site and limit growth. They can do so through the protein tyrosine phosphatase $\sigma$ (PTP$\sigma$) receptor or Nogo, which may trigger RhoA.\newline
+
+Administration of chondroitinase ABC (ChABC) has shown to promote plasticity and growth by degrading CPSGs. ChABC administration in non-human primates promoted hand dexterity recovery without negative side effects. ChABC has poor stability and is difficult to produce in large quantities, making its clinical applications somewhat limited.\newline  
+
+Interestingly, many myelin-associated proteins are inhibitory, called myelin-associated inhibitory (MAI) proteins. Many bind to the Nogo receptor complex, and blocking this interaction, such as by NogoA antibodies, promotes growth, especially in the acute phase. 
+
+
+
+\chapter{Circuit Reorganization}
+
+We will cover circuit reorganization in considerable depth, not necessarily in the context of spinal cord injury, in this section. 
+
+\section{Reorganization After Injury}
+
+
+Circuit reorganization naturally and with neuromodulation is covered in-depth here\footnote{\url{https://www.nature.com/articles/s41593-022-01196-1}}. Part of this paper is framed on the fact that spinal cord circuits are much more complex than previously thought. That is, some computation is done at the level of the spinal cord. Too, the paper attempts to motivate investigating the specific neurons involved in recovery, and that previous investigations have not used the resolution necessary to investigate such matters. One constraint on the field is that, while the brain's cellular profile has been extensively investigated, detailed profiling of spinal cord cells is less explored---particularly in the injury condition.\newline
+
+Circuit reorganization can occur in many ways, both above and below the injury site. Examples seen in our own lab include damage to axons causing retraction and thus sprouting of the axon in seemingly random directions far above the injury site. Too, below the injury site, axons that once filled this space will fade away, and uninjured axons may grow into this now empty space. Interestingly, growth into this empty space has been shown to augment hand function after recovery\footnote{This is all very interesting when it comes to BSMIs---as one usually focuses on or around the injury site, or the dorsal root exit zones that generate walking. This suggests many sites along the spinal cord may be worth stimulating.}.\newline
+
+Of course, when damaged neurons regrow in their previous locations it can cause functional recovery. However, fascinatingly, even when all corticospinal tract neurons are damaged, motor cortex signals can be sent through alternative, surviving paths. Here are two brainstem examples: (1) After SCI, cortical neurons can synapse onto the reticular formation and recover walking. (2) Activation of the mesencephalic locomotor region (MLR) after SCI can recover walking. This region is evolutionrily ancient and unable to generate walking on its own, but is able to recruit reticulospinal neurons and generate walking.\newline
+
+In a similar vein, otherwise non-essential neurons, like propriospinal neurons in the cervical region, can be reprogrammed to improve hand dexterity. While one may think that information must be conveyed directly from the motor cortex to the muscles on interest, in this case propriospinal neurons relay information past the injury site. KCC2 downregulation leads to inhibition of such circuits. This is expanded on in a later section. Much remains unknown about such neurons, what allows them to transmit beyond the injury site, and what recruits them to do so.\newline
+
+Rehabilitation proves to consistently aid circuit reformation, but lack of care causes poor reorganization that can worsen pathologies. Notably, when supraspinal\footnote{Supra meaning ``above" the spine, i.e., brain-to-spine neurons.} connections are severed, motor control relies on sensory signals only. One example being \textit{V2a} neurons discussed in a previous section. Another similar set of neurons includes \textit{dI3} neurons\footnote{\url{lhttps://elifesciences.org/articles/21715}}, another set of interneurons. While these aid in recovery, many changes are harmful to it. As a general trend, it appears that generally less activity, due to injury conditions like hypoxia, immune cells, etc. leads to greatly increased sensitivity of receptors and ion channels alike. Below the injury site often sees large increases in excitatory synapses. This combination leads to abnormal reflex responses, spasms, neuropathic pain, etc. 
+
+\subsubsection{Effects of Neuromodulation.}
+
+Again, neuromodulation is covered in considerable depth in Part \textbf{\ref{sec:Interfaces}}. Both activity and artificial stimulation of the motor cortex promote regrowth of the corticospinal tract. This can be done non-invasively. Timing this with spinal cord stimulation enhances connections. There are a couple of paper's exploring this in depth in NHP\footnote{\url{https://www.cell.com/neuron/pdf/S0896-6273(13)00762-9.pdf}}, and in humans\footnote{\url{https://www.pnas.org/doi/abs/10.1073/pnas.1505383112}}. \textcolor{red}{It would be good to look through these papers in the future.} Fascinatingly, indirect neuromodulation, such as through the vagus nerve, too has been shown to enhance response to rehabilitation. Too, deep brain stimulation has been done on the MLR\footnote{Another example of DBS promoting rather than inhibiting---kind of interesting.}, and when positive yielded results comparable to stimulating the motor cortex\footnote{It would be nice to build a patient profile of those who may benefit the most from motor cortex vs. MLR vs. vagus nerve etc. stimulation.}. Though, the MLR's region is less clearly defined, and results were more variable.\newline
+
+Stimulating the spinal cord is primarily done at the dorsal root entry zones or through EES. It is thought that low-frequency EES works through propriocetive afferents, which help circuit reorganization. Damage to the sympathetic nervous system is an essential problem to solve, as it can lead to life threatening drops in blood pressure. One such way to do so is in stimulating the low thoracic spinal cord's pre-ganglionic sympathetic neurons, causing release of norepinepherine and thereby constrict vessels. Similarly, EES can restore the sympathetic response via large afferents recruiting sympathetic neurons. 
+
+\subsubsection{Effects of Biological Manipulation.}
+
+Biological strategies seem most successful when attempting to enhance the projectome of surviving supraspinal neurons. One such way to do this is through removing damaged tissue and grafting in more malleable, healthy tissue. As part of this, physicians may attempt to ablate the fibrotic scar. Interestingly, partial ablation, and not complete ablation, has shown symptom improvement after SCI. \newline
+
+Pharmacological promotion of axon regeneration has inherent limitations. Such investigations into axon regeneration is covered in better depth in chapter \textbf{\ref{sec:TranslationalLandscape}}. For example, the canonical player PTEN (discussed in other sections) has shown robust regeneration, capable of penetrating the astrocytic border, but only in certain neuronal populations. Too, even in this case neurons abruptly halt when reaching the fibrotic scar. Somehow, one must induce global, or brilliantly targeted, growth to achieve true functional recovery. \newline
+
+Another application commented in earlier sections is the conversion of inhibitory neurons into excitatory, or the deletion of inhibitory neurons. One way to do so is via chondroitinase (ChABC) which dissolves glycosaminoglycan sid chains of chondroitin sulfate proteoglycans (CSPGs). CSPGs are known for their role in stem cell differentiation, and bookend the periods of neurogenesis. Another such attempt is in inhibiting nogo receptor reticulon 4 (RTN4). \newline
+
+Reversion to a state of biological development too is another core route of investigation\footnote{\url{https://www.nature.com/articles/s41586-018-0467-6}}. As proprioceptive neurons have been found to be possible relay neurons, these researchers targeted such neurons and were able to achieve growth across the injury site. This required the use of growth factors applied to the neurons, fibroblasts, and attracted molecules downstream of the injury site. Release was done in a spatially and temporally controlled manner. Fascinatingly, \textbf{no functional recovery was found}. Therefore, while neurons were able to bridge this gap, they were unable to form useful synapses. Authors postulate this may be due to inactivity or lack of myelin, among other things. In a similar vein, the grafting of stem cells is often successful in allowing for axonal growth across the injury site, but retains the inability to restore function.\newline
+
+\subsection{Interneurons and KCC2}
+\label{sec:KCC2}
+
+This is from the paper\footnote{\url{https://www.sciencedirect.com/science/article/pii/S009286741830730X}}, but it seems KCC2 is an interesting topic of research in a couple different pathologies, such as in minimizing neuropathic pain, and downregulation increases spasticity after SCI. Some of the background for this paper is in better understanding how spinal cord stimulation leads to regain of function, with one hypothesis being that it helps reawaken ``dormant" circuits.\newline
+
+To investigate, they used staggered, lateral hemisections performed at the T$_7$ and T$_{10}$ sites. This injury meant all neurons would be severed, except those crossing the midline between T$_7$ and T$_{10}$. They verified near complete paralysis after injury, and used this to conclude that while some neurons were spared, they must be ``dormant" and or unable to recover function. They performed a mini-screen of drugs known to modulate neural activity, and landed on CLP290 as the only one showing a phenotype. CLP290 is known to activate KCC2, among other things. They determined that CLP290's function required some preserved axons---as in their complete lesion tests, no functional recovery was found. They further verified this by determining no enhanced regrowth was found due to CLP290 in their hemisection model. To determine if CLP290's function was through KCC2, they tried a KCC2 overexpression line and verified similar functional recoveries.\newline
+
+They then used the Cre-Lox system to verify that KCC2's expression specifically in inhibitory interneurons (driven by Vgat-Cre) leads to recovery. They presumed these neurons interact with / enhance the ability of propriospinal neurons to transmit information, and to resolve the spatial component, they tried local injection of AAV-KCC2 in the lumbar segments and did not find recovery. They believe it is specifically interneurons within the relay site between the two lesions that are required for repair. Their explanation being that when administering systemically, the blood-brain-barrier is compromised only at the lesion site.\newline
+
+In development, intracellular Cl$^-$ is high. During this period, Cl$^-$ channel opening is excitatory, rather than inibitory in fully-developed cells. KCC2 upregulation is important in removing this Cl$^-$, converting Cl$^-$ channel opening into being inhibitory. They believe activating KCC2 helps restore a more physiological state. They also did work to inhibit inhibitory interneurons, and excite excitatory interneurons, and determined that only the former was beneficial in achieving recovery after SCI. 
+
+
+\section{Non-coding RNA in Rewiring and Plasticity}
+
+\subsubsection{Background.}
+
+Non-coding RNAs (ncRNAs) have been studied quite a bit in recent years\footnote{\url{https://www.cell.com/neuron/fulltext/S0896-6273(23)00341-0}}. ncRNAs are classified as small (less than 100 nt) or long (above 500 nt), and among the small ncRNAs are microRNAs (miRNAs) of $\approx$ 20nt. They are typically produced through canonical means and play a role in post-transcriptional regulation within the cytoplasm.\newline
+
+As for miRNAs, gene silencing occurs by binding to a complementary untranslated region of an mRNA. This region is sometimes called a \textit{seed region}. From here, a miRNA-induced silencing complex (miRISC) forms. Then, some of the standard RNA degredation mechanisms can occur like decapping. Some of the relevant long ncRNAs include long intergenic RNAS (lincRNAs), which are linear, circlar RNAs (circRNAs), and antisense (AS) RNAs. CircRNAs are produced but noncanonical means, and generally seem to function in tandem with miRNA in some manner, and or, they regulate miRNAs. AS RNAs are born of the opposite DNA strand, most often modulate this specific locus, and may be thousands of nt long. They are particularly relevant in early development. ncRNAs work in a symphonious way, usually involving multiple types coordinating together. This Review makes it a point to state that recent data has been overwhelming, due to advancements in technology. Therefore, it remains difficult to stay up to date or understand the complexities as new functions continuously emerge.
+
+\subsubsection{Regulation of Local Growth.}
+
+Local translation was first determined to be mediated through miRNAs in the case of miR-9's ability to decrease the expression of microtubule protein MAP1B via the brain-derived neurotrophic factor (BDNF) path within growing axons. Similarly, BDNF increased presence of miR-132, leading to increased axonal branching. In Xenopus, miR-182 was shown to be necessary for axon targeting via multiple modes of tublulin and actin regulations and their usage in the growth cone's guidance.\newline
+
+In the dendrites, miR-9 has also been implicated. miR-9 is under a negative feedback loop, in which the repressor element 1 (RE-1) silencing transcription (REST) factor is activated by miR-9, which in turn decreases its expression. miR-9 downregulated the actin regulator Diap1, inhibiting further growth. In short, miR-9 inhibits growth of both dendrites and axons.\newline
+
+In mice, loss of miR-101 led to increased network excitability and impaired memory through increased expression of Na-K-Cl cotransporter 1 (NKCC1) and increased synaptogenesis, thought to be mediated through \textit{Kif1a} and \textit{Ank2}. Fascinatingly, miR-101 acute loss did not lead to such a result, but rather only when lost in development. The lincRNA ALAE was the first example of an lncRNA that locally regulates mRNA translation during growth by blocking the function of RNA-binding protein, and therere allowing GAP43 synthesis, causing axons to grow\footnote{I think part of the issue with this kind of paper is it is almost purposeless trying actually learn this. It is simply letters followed by numbers doing things redundantly.}.\newline
+
+\subsubsection{Circuit Remodeling.}
+
+In general, it appears that miRNA expression is bad for remodeling, and long-term potentiation (LTP) specifically. miR-134 expression was found to inhibit long-term potentiation through inhibition of CREB1. Under physiological conditions, SIRT1 inhibits miR-134 expression. miR-26a and miR-384 also inhibit LTP by different means. Many such other examples exist\footnote{I hate to kind of ``yada-yada" through this, but again, it's just miR-$xxx$ does different, harmful things.}.\newline
+
+Interestingly, miR-153 was upregulated in the dentate gyrus during LTP. It seems to be required for exocytosis, suggesting it has a role in excitatory coupling. miR-218 and miR-137 were also named as promoting LTP. I think that's about all that's worth saying, for now. 
+
+
+
+
+
+
+
+
+
 \chapter{Stem Cell and Tissue Engineering}
+
+\label{sec:Stem-Cells}
+
+
+My understanding is that most researchers would agree stem cells alone are likely to be insufficient to attain functional recovery after SCI. Even the most staunch supporters would agree an integrated approach, combining neuromodulation and rehabilitation, is certain to be better. The ependyma is a source of stem cells, which contributes to glial scar formation after SCI. Connexin (gap junction) signaling between ependymal cells is a factor involved in their differentiation, notable because it opens up the possibility of manipulation through epidural electrical stimulation, discussed in \textbf{\ref{sec:SpinalCordStimulation}}.\newline
+
+Injections of both oligodendrocyte progenitor cells and spinal-cord derived neural stem cells have been grafted into patients without complications, demonstrating promise. 
+
 
 
 \subsection{Long Distance Growth of Stem Cells}
@@ -3456,7 +3483,12 @@ They then repeated these studies using human-derived stem cells. I didn't see th
 
 
 
+
+
+
+
 \part[Brain-Spine-Muscle Interfaces]{Brain-Spine Interfaces
+            \label{sec:Interfaces}
             \vspace{0.2in}
             \begin{center}
             \begin{minipage}[l]{10cm}\small
@@ -3477,7 +3509,8 @@ Pay them no mind, or better yet, learn from them. Perhaps if you learn from all 
 -- \url{https://www.cell.com/fulltext/S0092-8674(12)01018-5}\\
 -- \url{https://www.nature.com/articles/s41591-018-0296-z}\\
 -- \url{https://www.science.org/doi/full/10.1126/science.1201148?casa_token=uLMREs94rBkAAAAA\%3A1NmnZVf4FLG49XYmfcOCtvTzyVpUknxP4f9gqI2-Z7POshyrMdB5UbukEmf1xS86OY7unpyI97eOwJQ}\\
--- I alreay read this, but looking back I feel I did not read it in the depth that it deserves: \url{https://www.nature.com/articles/s41582-019-0280-3}
+-- \url{https://www.sciencedirect.com/science/article/pii/S0022510X05000808}
+-- \url{https://www.nature.com/articles/nature20118}
 
 
 \chapter{Interfacing with Nerves}
@@ -3525,7 +3558,7 @@ The axon-like size of CNTs seems very interesting to me, as they provide a neat 
 Another interesting thought is the deep implantation of Piezoelectric materials and then activating them using sonication. It would be neat to develop some kind of material that can be mechanically stimulated at specific sonic frequencies, preventing random stimulation from body movement. 
 
 
-\subsection{Peripheral Nerve Stimulation} 
+\chapter{Peripheral Nerve Stimulation} 
 Peripheral nerve stimulation\footnote{Annoyingly, peripheral nerve stimulation is often abbreviated as PNS, so do not get confused with peripheral nervous system vs. nerve stimulation.} has shown promise in treating nerve damage, but naturally is greatly limited by technology. One such limitation is the difficulty in targeting peripheral nerves that may be lodged deep within the body. Too, once reached, one must avoid off-target stimulation, movement of the electrodes over time, and swelling in surrounding regions. Removal of leads after the completion of neurorehabilitation can cause further damage as well, as tissue may become attached to it, resulting in a second injury. 
 
 
@@ -3696,9 +3729,13 @@ The bulk of the paper is stimulating individual or combination fibers to initiat
 
 
 
-\subsection{Spinal Cord Stimulation}
+\chapter{Spinal Cord Stimulation}
 
-A large part of spinal cord stimulation, particularly epidural electrical stimulation (EES), is in fact not neural stimulation directly, but rather CSF stimulation\footnote{\url{https://www.jneurosci.org/content/33/49/19326.short}}. As was identified through this computational model, depolarizing signals spreading through the CSF are capable of triggering large, afferent fibers. Such fibers are most easily accessible at their dorsal root entry zones. Their activation leads to motor neuron activation, or the conversion of an inactive circuit to an excitatory one. The bulk of this investigation is done at the lumbar level, as its focus is on restoring walking after SCI. However, other studies have replicated the idea in hand dexterity when stimulating the cervical dorsal root entry zones. 
+\label{sec:SpinalCordStimulation}
+
+A large part of spinal cord stimulation, particularly epidural electrical stimulation (EES), is in fact not neural stimulation directly, but rather CSF stimulation\footnote{\url{https://www.jneurosci.org/content/33/49/19326.short}}. EES requires the implantation of electrodes onto the dorsal surface of the spinal cord. As was identified through this computational model, depolarizing signals spreading through the CSF are capable of triggering large, afferent fibers. Such fibers are most easily accessible at their dorsal root entry zones. Their activation leads to motor neuron activation, or the conversion of an inactive circuit to an excitatory one. The bulk of this investigation is done at the lumbar level, as its focus is on restoring walking after SCI. However, other studies have replicated the idea in hand dexterity when stimulating the cervical dorsal root entry zones.\newline
+
+An unsung hero which operates by similar means is transcutaneous stimulation---done through the skin, making it non-invasive and easily performed. Of course, it lacks the precision of EES, but has been used to promote motor recovery after SCI. 
 
 \subsubsection{Application to Parkinson's Disease.}
 
@@ -3763,7 +3800,9 @@ To investigate which specific neurons undergo changes, they used a mouse model a
 
 The main takeaway from this paper, in my opinion, is simply the recapitulation that excitatory interneurons play a key role in recovery from SCI. This has been established now through many routes, and is certainly of considerable interest in the future. There are a few open questions, with the biggest being: how exactly does electric modulation drive circuit reformation through these interneurons? 
 
-\subsubsection{Clinic: Reduction of Pain.}
+\subsection{Clinical Applications}
+
+\subsubsection{Reduction of Pain.}
 This is from this video\footnote{\url{https://www.youtube.com/watch?v=MuLbgftczf8\&ab_channel=CongressofNeurologicalSurgeons}}. In reducing neuropathic pain, the mechanism by which it works is postulated to be Gate-Control Theory\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/5320816/}}. That is, painful signals can be overridden by other pathways. Namely, fast, large A$\beta$ nerves can override the smaller, pain carrying A$\delta$ and C fibers. It is thought to occur at the level of the dorsal horn through inhibitory interneurons, but this is not known with certainty.\newline
 
 \textit{Failed back surgery} is the most common need for spinal stimulation of this kind. Stimulation is a good treatment option if the patient's pain is localized, and no identifiable structural defects are found. That is, if one's spinal cord is still improperly aligned, stimulation should not be considered. It is essential to attain extensive pre-operative imaging, as structural issues can also lead to hardware malfunction. For example, a slipped disc may cause unforeseen warping of hardware. Interestingly, psychiatric symptoms is a common indicator of poor patient outcome. Repeated operations usually indicate less effects as well.\newline
@@ -3778,7 +3817,7 @@ A variety of stimulators exist, ranging from linear leads to paddles. Paddles wi
 
 The stimulation itself has changed greatly. That is, the frequency, amplitude, etc. has been widely investigated. For example, bursts of stimulation, as opposed to continuous stimulation, has been recently tried. Notably, burst stimulation is usually imperceptible to patients, making it preferable in many cases. It is hypothesized that burst stimulation may inhibit both the physical and emotional aspects of pain. 
 
-\subsubsection{Clinic: Regaining Motor Control.}
+\subsubsection{Regaining Motor Control.}
 
 This is from this video\footnote{\url{https://www.youtube.com/watch?v=OubpMu-2EcE\&ab_channel=MayoClinic}}. EES is performed on SCI patients following a long period of physical therapy. The physical therapy has two purposes. First, it is to determine whether or not someone can recover at all without surgery. Two, it is to ``prime" the cells for rehabilitative EES.\newline
 
@@ -3789,7 +3828,9 @@ Absolutely remarkably, the patient was able to regain some motor control the fir
 
 
 
-\subsection{Brain Stimulation}
+\chapter{Brain Stimulation}
+
+Noninvasive methods like transcranial direct current stimulation and transcranial magnetic stimulation have been done with some success, especially when combined with rehabilitation, particularly in recovery of hand dexterity after injury. It is thought that recovery occurs through growth of descending corticospinal tract neurons. 
 
 \subsubsection{Living Electrodes.}
 
@@ -3806,7 +3847,7 @@ There are many limitations to consider. For example, RCaMP's $k_{on}$ or $k_{off
 What is fascinating about reading papers like this is I go into them every time thinking ``Wow, this method sounds remarkable! Perhaps this will be the secret to next-gen BCIs." Yet, I always finish the paper with more questions / critiques than I began with. 
  
 
-\section{Reading Thoughts} 
+\chapter{Reading Thoughts} 
 
 At present, I am unsure if reading one's thoughts is a requirement at all for overcoming SCI. I am unconvinced that electrical stimulation controlled by one's brain is better than electrical neurorehabilitation---or if it is better by any measurable margin. In investigating this, I believe the limiting factor in bridging from the stimulation applied by Tator and Minassian is a reliable way to read ones objective through their brain waves. The Lorach \textit{et al.} 2023 solved this using the WIMAGINE system\footnote{\url{https://www.frontiersin.org/articles/10.3389/fnins.2019.00847/full}}. But, let's begin by discussing the options and a bit of history.
 
@@ -3853,14 +3894,18 @@ The bulk of the paper is very electronics heavy, so it will be good to reference
 
 
 \subsubsection{WIMAGINE ECoG.}
-As the name suggests, the device requires the skull to be torn away and must sit directly upon the cortex. It features 64 electrodes, and a human patient would need to have two implanted in order to read both sides of one's motor cortex.\newline
+As the name suggests, the device requires the skull to be torn away and must sit directly upon the dura, above the motor cortex. It features 64 electrodes, and a human patient would need to have two implanted in order to read both sides of one's cortex. The device lacks a bit of the spatial resolution, as it does not directly touch the brain---but it is surely an improvement on current clinical devices.\newline
 
-The device was tested longest in sheep, which was a 10 month trial. Surprisingly, at the end of the 10 month trial, through GFAP staining, they still found a great deal of glial migration/build-up around the site. They did not quantify this, but in my personal opinion, this does not bode well for our patient---as they will have to spend a lifetime with the device. Secondly, calcification of the dura matter over the device had begun. This is not inherently surprising, and perhaps is a good sign that the bone was not irreversibly damaged. However, as the device is wirelessly charged, and wirelessly transmits brain information, one must wonder how years of calcium buildup may impact the ability to send or receive information. Too, if the technology needs a dust-up, the surgeons will have to re-destroy these calcified layers. There is quite a lot of fuss made about the fact that the device is wireless, and how it was a decision made to best serve patient comfort. But, in my opinion, it may spell out more long-term harm than good. It is not clear to me yet whether the $8\times 8$ resolution of the electrodes is sufficient to delineate all necessary information. Though, this is the trade-off one must make in choosing between EEG, ECoG, and LPS. The WIMAGINE system digitizes information with 12 bits of resolution. Data is processed through pwelch spectral analysis. From what I can gather, this is simply another implementation of the FFT. 
+The device was tested longest in sheep, which was a 10 month trial. Surprisingly, at the end of the 10 month trial, through GFAP staining, they still found a great deal of glial migration/build-up around the site. They did not quantify this, but in my personal opinion, this does not bode well for our patient---as they will have to spend a lifetime with the device. Secondly, calcification of the skull over the device had begun. This is not inherently surprising, and perhaps is a good sign that the bone was not irreversibly damaged. However, as the device is wirelessly charged, and wirelessly transmits brain information, one must wonder how years of calcium buildup may impact the ability to send or receive information. Too, if the technology needs a dust-up, the surgeons will have to re-destroy these calcified layers. There is quite a lot of fuss made about the fact that the device is wireless, and how it was a decision made to best serve patient comfort. But, in my opinion, it may spell out more long-term harm than good. It is not clear to me yet whether the $8\times 8$ resolution of the electrodes is sufficient to delineate all necessary information. Though, this is the trade-off one must make in choosing between EEG, ECoG, and LPS. The WIMAGINE system digitizes information with 12 bits of resolution. Data is processed through pwelch spectral analysis. From what I can gather, this is simply another implementation of the FFT. 
 
 
-\section{Lorach et al. 2023} This is the most recent iteration of an ongoing project by the Courtine group. 
+\chapter{Synthesis}
 
-\subsection{Overview} The group used surgical implantation into the skull, over the motor cortex, to record patient movements and wirelessly transmit this to the spinal cord. The technology used to capture these electrocorticographic (ECoG) signals is the WIMAGINE. The design features two antennas, and the second of which transmits motor signals that are to be decoded and sent to a pulse generator. The pulse generator is ACTIVA RC, the same that is used in deep brain stimulation (DBS) or pacemakers in the heart. There is no mention of having the patient replace this in future years, but my assumption is that a new battery will require a new surgery in years to come. 
+The purpose of synthesizing the aforementioned parts together to create a brain-machine interface is so that you may skip over the injury altogether, and transmit from brain to body. 
+
+
+\section{Lorach et al. 2023} 
+\subsection{Overview} This is the most recent iteration of an ongoing project by the Courtine group. The group used surgical implantation into the skull, over the motor cortex, to record patient movements and wirelessly transmit this to the spinal cord. The technology used to capture these electrocorticographic (ECoG) signals is the WIMAGINE. The design features two antennas, and the second of which transmits motor signals that are to be decoded and sent to a pulse generator. The pulse generator is ACTIVA RC, the same that is used in deep brain stimulation (DBS) or pacemakers in the heart. There is no mention of having the patient replace this in future years, but my assumption is that a new battery will require a new surgery in years to come. 
 
 
 \subsection{Shortcomings} The three shortcomings explicitly mentioned in the \textbf{Introduction} are that \textbf{(1)} one using this BSI must have motion sensors on in order to compensate (a sort of PID controller, perhaps),  \textbf{(2)} that the patient's movement was not perceived as natural, and \textbf{(3)} that there was still considerable hurdles in traversing variable terrain. Many more shortcomings exist than this, and we will go through them below.
