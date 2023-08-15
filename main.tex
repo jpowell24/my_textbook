@@ -3122,6 +3122,20 @@ Myasthena Gravis, an autoimmune disorder, is an example of an actylcholine dysre
 Antibodies may also target other genes (such as MUSK or LRP4) which are involved in ACh receptor localization, or other forms of regulation.
 
 
+\section{Cerebrospinal Fluid}
+
+\subsection{CSF Contacting Cells}
+
+This topic may appear niche, but it is indeed of considerable interest! To start, epidural electrical stimulation (EES), which is covered in considerable detail later, does not stimulate specific neurons but rather depolarizes the entire CSF. Therefore, the cells in direct contact with the CSF may be the key modulators in restoration and regeneration.\newline
+
+To begin, let us discuss this paper\footnote{\url{https://www.nature.com/articles/s41583-023-00723-8}}. CSF contacting neurons (CSF-cNs) are described as being chemosensitive, mechanosensitive, and may even act as stem cells. As mechanosensors, they inhibit motor neurons (i.e., in normal walking they are used to prevent over-compression of the spinal cord). Canonically, they are ciliated and function in tandem with the Reissner fiber to sense spinal curvature. The Reissner fiber is a protein fiber that extends along the spinal cord, and its breakdown is a known cause of scoliosis in model organisms\footnote{Very interestingly, no studies have been done to show the existence or lack of a Reissner fiber in humans.}. CSF-cNs cells modulate excitatory interneurons and reticulospinal neurons. Because of their location, CSF-cNs cells are very difficult to study. They are seated in the ependymal layer of the central canal. The Review cited above discusses their investigation primarily in zebrafish. An important advancement in their study was in discovering the marker polycystic kidney disease 2-like 1 (PDK2L1), which labels all CSF-cNs.\newline
+
+Given their hair-like structures that extend into the apical side of the central canal, their discoverors compared them to hair cells of the ear (though, these hairs are disordered, unlike inner or outer cells). Interestingly, though, these cells are GABAergic, and thus inhibit rather than excite. In spinal curvature tests, to the surprise of the experimenters, only those that were on the concaved side of the spinal cord responded, meaning they response to compression. Restated, those cells on the left side of the body respond to bending of the spinal cord toward the left side.\newline 
+
+Remarkably: PDK2L1 is an ion channel with a quite high conductance (hundreds of pS) and the high membrane resistance of CSF-cNs neurons (on the order of G$\Omega$)... \underline{the opening of a single PDK2L1 is}  \underline{able to depolarize a cell}! It was demonstrated that mechanical force opens PDK2L1 channels, and that in the absence of such channels, CSF-cNs do not respond. Another responder to mechanical force seems to be acid-sensing ion channels (ASICs), which is indirectly affected when an ASICs modulator is altered by force. An unanswered question was what PDK2L1 is actually responding to, as the response did not correlate with the calculated CSF flow. Instead, evidence suggests it is coupled to the Reissner fiber. Structural analysis revealed vesicles on both the apical and basolateral sides, suggesting they can secrete both neurotransmitters, namely GABA, onto neurons or peptides into the CSF. Notably, after SCI it is said that CSF-cNs secrete monoamines. While neurotransmitter containing vesicles have been shown to release after a single depolarization, the root of apically released vesicles is not known.\newline
+
+CSF-cNs-connected neurons ascend ispilaterally a couple hundred microns. Those that are particularly rostral may connect directly to the midbrain. Driving CSF-cNs also modulate activation of the central pattern generator, suggesting neural connection there as well. Their connection to V2a spinal interneurons is not especially conclusive yet, but is quite a promising possibility. Similar connections have been shown with reticulospinal neurons and propriospinal neurons. 
+
 
 \section{Central Pattern Generation}
 
@@ -3537,7 +3551,7 @@ The ability to generate walking-like movements from electrical stimulation of th
 
 \section{Electrostimultaion}
 
-\subsection{General Stimulation}
+\subsection{Background}
 Stimulating nerves is not straightforward. The amount of current necessary to stimulate a nerve is highly dependent on the location. For electrodes especially close to myelinated fibers, currents as small as 0.1 $\mu A$ have been successful in depolarizing neurons\footnote{\url{https://www.sciencedirect.com/science/article/pii/0006899375903649}}. It seems that as a general trend, the faster conduction velocity of a neuron, the lower amount of current is required to simulate it. Too, throwing off one's measurements is often that you may indirectly stimulate a neuron of interest by depolarizing nearby cells. For direct stimulation, the distance from electrode to the closest Node of Ranvier seems to be essential metric. Figure 3 of the paper footnoted earlier in this paragraph shows a fascinating plot. The current supplied by an electrode resembles something of a double-sided Lenhert-Jones plot. Therefore, for an anode\footnote{Fascinatingly, a quick Google search for `anode' provides two definitions, one stating it is positively charged and one stating it is negative. Regardless, you only need to know that it supplies electrons.}, one would actually expect a core of cells to be depolarized, while those of the periphery would actually be hyperpolarized. The inverse would be true for a cathode. This makes me wonder if oscillating, $\pm$A has been applied, and the outcomes. If one were to use two electrodes (i.e., an anode and a cathode nearby) then one has the option of longitudinal stimulation or transverse stimulation (i.e., either parallel or perpendicular to the axon).\newline
 
 \textcolor{red}{Note: Perhaps it would be good to go through the different electrode options? I.e., where one places ground, whether current or voltage is applied, etc. Though, I have had trouble finding information on this.}
@@ -3562,8 +3576,8 @@ Another interesting thought is the deep implantation of Piezoelectric materials 
 Peripheral nerve stimulation\footnote{Annoyingly, peripheral nerve stimulation is often abbreviated as PNS, so do not get confused with peripheral nervous system vs. nerve stimulation.} has shown promise in treating nerve damage, but naturally is greatly limited by technology. One such limitation is the difficulty in targeting peripheral nerves that may be lodged deep within the body. Too, once reached, one must avoid off-target stimulation, movement of the electrodes over time, and swelling in surrounding regions. Removal of leads after the completion of neurorehabilitation can cause further damage as well, as tissue may become attached to it, resulting in a second injury. 
 
 
-\subsubsection{Adaptive, Conductive, and
-Electrotherapeutic Scaffolds.}
+\subsection{Adaptive, Conductive, and
+Electrotherapeutic Scaffolds}
 Adaptive, conductive, and electrotherapeutic scaffolds (ACESs) is one implementation of electrical neurorehabilitation after injury\footnote{\url{https://www.sciencedirect.com/science/article/pii/S2666634023001654?via\%3Dihub}}. The primary structure is electrodes embedded in alginate (an anionic polymer, which creates a maleable gel-like structure when combined with water, and is often used for creating molds) and polyacrylamide (a cationic polymer most known for its use in SDS page gels, and can be used to suspend solvents at various stiffnesses)---which can be dissolved, allowing for removal of leads with minimal damage to tissue. Because the electrodes are located within the gel, glial encapsulation is not to occur (or, if it does, it will be at the borders of the gel and not the electrodes themselves)---therefore, stimulation should be un-dampened. Gold particles were used to increase conductivity of the gel.\newline
 
 In rats, in order to test accessible nerves, sciatic nerve transection was performed, and electrodes were used for 6 weeks. Stimulation was delivered every other day for 30 minutes in \textbf{anesthetized} rats. It was delivered to each electrode at 20 hz (every 200 ms), 2 mA\footnote{It is not clear to me why they choose to deliver current rather than voltage.} amplitude, and a 100 $\mu$s pulse width. They used a stainless steal electrode by Plastics One\footnote{Interestingly, I can't seem to find a product that resembles the one found in their supplemental images. Still it is probably comparable: \url{https://www.protechp1.com/search?q=MS303\&type=products}}. Stimulation was powered using the Intan system\footnote{\url{https://intantech.com/RHS_system.html}}. As two electrodes were used, their pulses were offset by 100 ms. The two stimulating electrodes were proximal and distal to the injury site, and a third, ground electrode was located at the tibialis anterior muscle. EMG recordings and response to sensory stimulation were used to validate functional success of regeneration, as well as axon counts. To test percutaneous nerve stimulation, they performed a similar procedure on the vagus nerve of swine.  
@@ -3707,7 +3721,7 @@ In rats, in order to test accessible nerves, sciatic nerve transection was perfo
 % }
 % \end{CPP}
 
-\subsubsection{Vagus Nerve Modulates Circuits via Acetylcholine.}
+\subsection{Vagus Nerve Modulates Circuits via Acetylcholine}
 
 Vagus nerve stimulation seems to be much more complex than you'd expect on surface. One such example is\footnote{\url{https://www.cell.com/neuron/fulltext/S0896-6273(22)00555-4\#\%20}}. Vagus nerve stimulation (VNS) has shown to enhance motor recovery after nerve injury when paired with rehabilitation. Canonically, VNS is used to treat epilepsy and depression---but new treatment options are expanding, such as recent papers looking into treatment after a stroke. Notably, VNS leads to widespread brain activity, but seemingly had a narrow, targeted effect. This paper identifies M1 neurons as being partly responsible for enhanced motor control following VNS. \textbf{Importantly, this was tested only in healthy mice, and not any form of nerve injury.} Their work found that VNS specifically \textit{after} successful completion of a task helped reinforce learning of this task---therefore, it may not work as a therapeutic in the case of total injury, but could help recover partial injuries back to normal levels.\newline
 
@@ -3717,7 +3731,7 @@ To determine what is downstream of VNS, they used a tetrode implanted into the b
 
 As a concluding remark, it seems from their data that VNS may contribute to motor learning reinforcement, but certainly is not the essential driving factor. Similarly, I did not see a ``negative control" anywhere in their paper (i.e., a vagotomy, for example) demonstrating that motor learning was severely hindered when this pathway was stopped\footnote{Perhaps it is buried in the supplements, or done in a previous paper, though.}. Many of the decisions made in this paper are quite confusing to me. 
 
-\subsubsection{Hand Movement Recovery via Intrafascicular Stimulation.}
+\subsection{Hand Movement Recovery via Intrafascicular Stimulation}
 
 This group utilized intrafascicular, rather than intramuscular, stimulation as a means to recover fine motor skills in the hand of primates\footnote{\url{https://www.science.org/doi/10.1126/scitranslmed.abg6463}}. Of course, Courtine is also on this paper. A drawback to intramuscular surgery is it requires electrodes placed on multiple muscles and is typically quite invasive. Very interestingly, intramuscular stimulation has been found to recruit large efferent nerves before small, contrary to normal function and leading to faster fatigue. In other words, faster fatiguing muscles are activated earlier than expected in this case. Stimulating an entire nerve fascicle requires high amplitude and is prone to overstimulation or recruitment of unintended nerve fibers. Intrafascicular stimulation is an opportunity to resolve this.\newline
 
@@ -3737,13 +3751,13 @@ A large part of spinal cord stimulation, particularly epidural electrical stimul
 
 An unsung hero which operates by similar means is transcutaneous stimulation---done through the skin, making it non-invasive and easily performed. Of course, it lacks the precision of EES, but has been used to promote motor recovery after SCI. 
 
-\subsubsection{Application to Parkinson's Disease.}
+\subsection{Application to Parkinson's Disease}
 
 In large part, tremors induced by PD have already been well solved through deep brain stimulation and high intensity focused ultrasound. However, this paper focuses on some of the non-tremor symptoms of PD, and the idea that one can use spinal cord stimulation to fix degenerative diseases is generally interesting, so let us learn from\footnote{\url{https://www.science.org/doi/10.1126/science.1164901}}.The premise of this experiment is somewhat surprising, as stimulation is often thought to interrupt signals (as is the case in deep brain stimulation for PD, and SCS for neuropathy). In this case, though, they believe SCS \textbf{enhances locomotor signals}. That is, they are not treating PD tremors, but rather are treating PD induced akinesia. Experiments were performed in mice using dopamine-transporter knockout (DAT-KO) as their PD model. They also injected tyrosine hydrolase inhibitor (called AMPT)\footnote{I didn't bother Googling what this is, but intuition would suggest is aids in the conversion of tyrosine to catecholamines.} to further deplete dopamine. Dorsal root stimulation was performed using electrodes into the upper thoracic levels of the spinal cord. The greatest locomotor improvement in locomotion was found at 300 Hz stimulation.\newline
 
 Notably, some hospitals are currently attempting clinical trials for spinal cord stimulation's use in treating Parkinson's. Some efforts include blocking pain and treating akinesia. 
 
-\subsubsection{Electronic Dura Mater.}
+\subsection{Electronic Dura Mater}
 
 A couple years ago now, Courtine and Lacour groups developed a framework for electronic dura mater\footnote{\url{https://www.science.org/doi/abs/10.1126/science.1260318}}. One of the primary problems addressed here is that dura mater is hard and protective while neural tissue is soft---so if one were to remove the dura and replace it with an electronic, it would need to meet both of these criteria. Their ``invention" is called e-dura. It is meant to go beneath the dura mater, and is composed of silicone with gold wiring\footnote{I didn't realize this until just now, but the increased impedance over time is due to micro-cracks in the gold. Interesting to keep in mind.}. The silicone has a similar kPa to the dura itself. Most implant are done above the dura, so the soft nature allows for implantation beneath it.\newline
 
@@ -3780,7 +3794,7 @@ I estimated $R$ to be $6\mathrm{k}\Omega$ by eyeballing their graphs. I couldn't
 
 I digress. The functional tests they did were using a $3\times3$ array of electrodes, and the motor cortex of mice were stimulated using channelrhodopsin-2. The e-dura demonstrated the ability to record signals sent from the cortex. They then tried delivering stimulation after spinal cord injury, induced via severe contusion. They delivered serotonergic replacement therapy through microfluidic chambers in the e-dura and delivered continous stimulation at 40hz, 0.2ms, and 50 to 150$\mu$A. Naturally, stimulation improved locomotion. 
 
-\subsubsection{Electronics with Shape Actuation.}
+\subsection{Electronics with Shape Actuation}
 
 The goal of this paper is to address the gap in stimulation devices\footnote{\url{https://www.science.org/doi/10.1126/sciadv.abg7833}}. That is, one can choose either percutaneous electrodes (i.e., puncturing through the skin and covering a small area) or a large paddle requiring invasive surgery. This paper developed a flexible paddle, which can be rolled up to a diameter of less than 2 mm, and injected similar to an electrode but expands upon entrance. Too, the flexible shape is fitted with microchannels. Applying air pressure to such channels causes expansion. It is composed of materials like gold, parylene-C, silicone, polyethylene, and polyimide.\newline 
 
@@ -3792,7 +3806,7 @@ The claim is that they are able to implant the entire device using a syringe (pr
 
 The big takeaways, to me, are that expansive devices seem possible, and fitting it with microfluidic channels is a fascinating way to apply therapeutics in addition to electrical stimulation. The next question is, of course, can we do the same thing with ECoG---thereby not requiring a highly invasive procedure to record brain waves? 
 
-\subsubsection{SCI Specific Cells.}
+\subsection{SCI Specific Cells}
 
 Using a simplified device similar to what will be discussed in the upcoming Lorach \textit{et al.} 2023 section, the Courtine group used electrical therapy to re-establish walking in a number of SCI patients\footnote{\url{https://www.nature.com/articles/s41586-022-05385-7}}. Their paper goes into depth on the cell-type specific response to this electrical modulation. They called this model epidural electrical stimulation (EES) + rehab, or EES$^{\mathrm{REHAB}}$. They first approached by measuring metabolic consumption in the spinal cord before and after EES$^{\mathrm{REHAB}}$ using PET scanners, and found that metabolism actually \textbf{decreases} in the face of EES$^{\mathrm{REHAB}}$, despite regaining the ability to walk. Therefore, they hypothesized that EES$^{\mathrm{REHAB}}$ ``cleans up" the circuits a bit, causes activity to become targeted for walking.\newline
 
@@ -3832,7 +3846,7 @@ Absolutely remarkably, the patient was able to regain some motor control the fir
 
 Noninvasive methods like transcranial direct current stimulation and transcranial magnetic stimulation have been done with some success, especially when combined with rehabilitation, particularly in recovery of hand dexterity after injury. It is thought that recovery occurs through growth of descending corticospinal tract neurons. 
 
-\subsubsection{Living Electrodes.}
+\subsection{Living Electrodes}
 
 This is from the work by Dr. K. Cullen, and featuring Dr. I. Chen\footnote{\url{https://www.science.org/doi/full/10.1126/sciadv.aay5347}}. Part of the problem they are trying to solve is the rigidity of standard, mechanical electrodes. To solve it, they developed implantable cortical neurons embedded within a hydrogel tract. This paper mentioned another drawback of standard, inorganic designs causing overheating of surrounding tissues---this is the first time I've seen this mentioned, and I have frequently wondered about it.\newline
 
@@ -3866,7 +3880,7 @@ For the moment, I will avoid describing individual technologies between the four
 \subsubsection{Soft vs. Hard Electronics.}
 The importance of the electronic's physical form has been considered by the Courtine group as well\footnote{\url{https://www.science.org/doi/10.1126/science.1260318}}. In their case, they looked specifically at the electrode paddly inserted into the spinal cord. Notably, they did not use this device in their recent, Lorach \textit{et al}. 2023 paper. One problem I personally find is that in using hard electronics, one immediately resolves to doing massive cranioplasty in order to add their device. If one goes the soft-only electronics route, perhaps you can insert the electronics beneath the skull itself. 
 
-\subsubsection{Reading LFPs Without Surgery.}
+\subsection{Reading LFPs Without Surgery}
 
 A very recent article devised injectable electrodes for reading brain activity\footnote{\url{https://www.science.org/doi/10.1126/science.adh3916}}. It is injected through blood vessels, and requires vessels of $\approx 100 \mu$m. For reference, the smallest arteries are around $\approx 100 \mu$m, and arterioles below this threshold. Therefore, this is usable in a wide range of vasculatures. Such a device is considered a micro-endovascular (MEV) probe. Other attempts at this have been done in the past, but a primary limiting feature is that metal electrodes are inflexible and thus cannot be navigated through the array of vessels in the brain. One of this paper's primary advancements, then, was making it ultra-flexible. I'm actually having trouble understanding how many electrodes the device has---in some graphs they show 16, in others only 5. It seems that they too use an Intan device to read and process data.\newline
 
@@ -3879,7 +3893,7 @@ Some confusions: I'm not sure exactly if this is meant to be a permanent additio
 
 \textcolor{red}{NOTE: A K. Cullen paper cited in the above article\footnote{\url{https://www.frontiersin.org/articles/10.3389/fnins.2019.00269/full}}. Read later.}
 
-\subsubsection{Neurograin.}
+\subsection{Neurograin}
 
 Neurograin (a type of ECoG) is an interesting development that includes both the ability to read and stimulate the brain from small, rice-grain sized chips\footnote{\url{https://www.nature.com/articles/s41928-021-00631-8}}. Neurograins are individual pieces, providing the immensely powerful ability to scale your device. They verified their method using 48 electrodes, but suggested the ability to scale to up to 770---providing quite impressive resolution.\newline
 
@@ -3893,7 +3907,7 @@ The bulk of the paper is very electronics heavy, so it will be good to reference
 
 
 
-\subsubsection{WIMAGINE ECoG.}
+\subsection{WIMAGINE ECoG}
 As the name suggests, the device requires the skull to be torn away and must sit directly upon the dura, above the motor cortex. It features 64 electrodes, and a human patient would need to have two implanted in order to read both sides of one's cortex. The device lacks a bit of the spatial resolution, as it does not directly touch the brain---but it is surely an improvement on current clinical devices.\newline
 
 The device was tested longest in sheep, which was a 10 month trial. Surprisingly, at the end of the 10 month trial, through GFAP staining, they still found a great deal of glial migration/build-up around the site. They did not quantify this, but in my personal opinion, this does not bode well for our patient---as they will have to spend a lifetime with the device. Secondly, calcification of the skull over the device had begun. This is not inherently surprising, and perhaps is a good sign that the bone was not irreversibly damaged. However, as the device is wirelessly charged, and wirelessly transmits brain information, one must wonder how years of calcium buildup may impact the ability to send or receive information. Too, if the technology needs a dust-up, the surgeons will have to re-destroy these calcified layers. There is quite a lot of fuss made about the fact that the device is wireless, and how it was a decision made to best serve patient comfort. But, in my opinion, it may spell out more long-term harm than good. It is not clear to me yet whether the $8\times 8$ resolution of the electrodes is sufficient to delineate all necessary information. Though, this is the trade-off one must make in choosing between EEG, ECoG, and LPS. The WIMAGINE system digitizes information with 12 bits of resolution. Data is processed through pwelch spectral analysis. From what I can gather, this is simply another implementation of the FFT. 
