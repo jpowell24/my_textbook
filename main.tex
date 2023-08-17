@@ -2945,10 +2945,127 @@ Surgical intervention is most often an opposition to the way of nature. Indeed, 
 
 To be able to interface with the electrophysiology of neurons, one must fully understand it. 
 
+\section{Membranes, Ions, and Potentials}
+
+This will be a general overview of some of the electrophysiology of neurons. This should probably precede the math and models section, but here we are anyway.\newline
+
+Of course, the ion composition of cells varies a bit, but a good enough approximation is as follows:\newline 
+
+
+$[\mathrm{Na}^+]_i = 15\mathrm{mM}, [\mathrm{Na}^+]_e = 150\mathrm{mM}$\\
+$[\mathrm{K}^+]_i = 120\mathrm{mM}, [\mathrm{K}^+]_e = 5\mathrm{mM}$ \\
+$[\mathrm{Ca}^{2+}]_i = 100\mathrm{nM}, 
+[\mathrm{Ca}^{2+}]_e = 2.5\mathrm{mM}$\\
+$[\mathrm{Cl}^-]_i = 15\mathrm{mM}, [\mathrm{Cl}^-]_e = 120\mathrm{mM}$ 
+\newline
+
+Where $[\mathrm{X}^+]_i$ and $[\mathrm{X}^+]_e$ refer to the intracellular and extracellular concentrations respectively. Building up a strong intuition for electrophysiology is quite important to approaching the field. Some of the absolutely key facts to recall include:
+
+\begin{enumerate}
+\item \textbf{The intracellular and extracellular spaces are electro-neutral.} If this weren't the case, cell membranes would be under constant force. This means the sum of positive and negative ions must be equal between the intracellular and extracellular spaces. 
+\item \textbf{[Na$^+$] and [Cl$^-$] are high outside, [K$^+$] is high inside.} This will tell you which directions the ions flow during an action potential---when the gates open, Na$^+$ wants to enter, K$^+$ wants to exit\footnote{A slight nuance is that this does not preclude ions from flowing against their gradient. It can certainly still happen, but the net movement will be out if channels are open in either direction.}. In other words, $[\mathrm{Na}^+]_i < [\mathrm{Na}^+]_e$, $[\mathrm{K}^+]_i > [\mathrm{K}^+]_e$.  
+\item \textbf{The concentration of ions is approximately static.} The amount of ions that actually flow in an action potential and or through ion channels is quite small relative to the total amount.
+\item \textbf{Intracellular Ca$^{2+}$ is extremely regulated, and its concentration is small (around 100nM).} Ca$^{2+}$ is the ion responsible for most cellular processes, so its tight regulation is essential. In other words, $[\mathrm{Ca}^{2+}]_i << [\mathrm{Ca}^{2+}]_e$. 
+\end{enumerate}
+
+Expanding on the calcium regulation, much of the free $[\mathrm{Ca}^{2+}]_i$ is stored within the endoplasmic reticulum (ER), whose concentration will be many orders of magnitude higher than the cytosol. This is important for cells like myocytes who require a large influx of calcium to contract. Rather than attaining all of this $\mathrm{Ca}^{2+}$ from the extracellular space, the cells can used $\mathrm{Ca}^{2+}$-induced-$\mathrm{Ca}^{2+}$-release in order to drive the opening of the ER.\newline
+
+\subsubsection{Ramblings.}
+
+As a complete aside, it is hypothesized that our cells control ions in this way because we originate from the ocean. As the ocean is salty, cells learned how to pump out as much Na$^+$ as possible, and based their electrophyiology off of this potential. When evolution allowed us to exit the ocean, we maintained this machinery and keep sodium in the extracellular space. 
+
+\subsubsection{Direction of Flow.}
+
+Knowing the general concentrations of ions is a very imporant way to intuit ion behavior under different conditions. However, the Nernst Potential offers a way to quantify it as: 
+
+\begin{equation} \label{Nernst1}
+\begin{split}
+E_X &= \frac{RT}{zF}\ln\frac{[X]_e}{[X]_i}\\
+\end{split}
+\end{equation}
+
+Where $z$ is the charge of the ion. This allows you to solve the electromotive force, $E$, for your ion of interest. Knowing the $E$ values for your ions allows you to determine the overall membrane potential using the Goldman–Hodgkin–Katz flux equation:
+
+\begin{equation} \label{GHK}
+\begin{split}
+v &= \frac{g_{n_1}E_{n_1} + g_{n_2}E_{n_2} + ... + g_{n_k}E_{n_k}}{g_{n_1} + g_{n_2} + ... + g_{n_k}}
+\end{split}
+\end{equation}
+
+The GHK formula is essentially like taking a weighted average of each ion's ($n_i$) membrane potential, giving us the total membrane voltage. The conductance, $g$, is the opposite of resistance. In this case, you can think of conductance as being a measure of the membrane's permeability to an ion. That is, a neuron with a lot of Na$^+$ channels will have a very high total sodium conductance. Conductance is measured in terms of its maximum, meaning that although sodium channels will open and close, the value $g_{Na}$ refers to when all of them are open. When calculating membrane voltage, generally we only use sodium and potassium (though, the GHK formula technically requests using all charged molecules). The reason being because the conductance of all of the other ions is essentially negligible in comparison.\newline
+
+In most cases, the GHK equation is simplified to only include Na$^+$ and K$^+$. The reason is because these two ions have the highest conductances, by far, making them hold the most weight. For example, even though cells may contain $\mathrm{HCO}_3^-$, there aren't tons and tons of ion channels for it like there are for sodium and potassium---thus it does not contribute to $v$ to nearly the same degree. If this concept is confusing, simply consider $\V = \mathrm{IR}$. If there is no current, there is no voltage. Therefore, we can use the equation below as a good enough approximation of the resting membrane potential:\newline
+
+\begin{equation} \label{GHK2}
+\begin{split}
+v &= \frac{g_{Na}E_{Na} + g_{K}E_{K}}{g_{Na} + g_{K}}
+\end{split}
+\end{equation}
+
+Now, let's assume a membrane is at rest around -55mV and that the sodium concentrations are what we listed above (150mM and 15mM). We can use the Nernst equation as follows: 
+
+\begin{equation} \label{Nernst1}
+\begin{split}
+E_{Na} &= \frac{(8.314)(310.15)}{(96,485)(1)}\ln\frac{150}{15} \rightarrow 0.062\mathrm{V}
+\end{split}
+\end{equation}
+
+Because 0.062V (62mV) $>$ the resting -55mV, we can assume Na$^+$ will (on average) flow into the cell if sodium channels open. However, if the cell were to massively depolarize all the way to 100mV, we would actually expect Na$^+$ to leave the cell, despite its gradient seemingly telling you otherwise. This is, of course, because ions will be subject to both their chemical and electrical gradients. 
+
+\subsection{Action Potentials}
+
+\subsubsection{Overview.}
+
+When considering an action potential, likely you'll want to focus on the flux of Na$^+$, K$^+$, and Ca$^{2+}$. The standard description is that some kind of stimuli causes an influx of positive ions into the neuron's dendrites or soma, which leads to opening of voltage gated sodium channels in the initial segment of the axon. Sodium flows inward, which causes this segment of the axon to greatly depolarize (causing it to shoot up from $\approx -55$mV to $\approx +20$mV). When the membrane reaches these more positive voltages, voltage gated calcium channels will begin to open and sodium channels will begin to close. More slowly (i.e., delayed in respect to sodium channel opening) in the depolarization process, potassium channels will open which allow for the efflux of potassium ions, causing the membrane to repolarize.  Similarly, the depolarization will cause, the next set of sodium channels further along the axon to open, causing the depolarization to propagate down the axon. After the action potential is complete, active transport can somewhat quickly restore the ionic composition to exactly what it was before.\newline
+
+
+\subsubsection{A Common Misconception.}
+
+The concentration of ions really does not change during an action potential. It is only a negligibly small amount of ions that are required to change the membrane voltage of the neuron. So, for example, $[\mathrm{Na}^+]_e$ really only goes from 120mM to 119.999...mM during an action potential. Therefore, the membrane potentials that you calculate here are roughly true at any point in an action potential. What changes is the membrane voltage of the neuron, causing channels to open and close, which is what leads to the characteristic peaking of an action potential.\newline
+
+This idea is quite important. Many assume that ions flowing in and out substantially impacts their concentrations, and that is what leads to the in and outflowing of ions. It is often said that ion channels always pass ions ``with their concentration gradient." While ``transporters" pass ions or molecules against their gradient. But this is not true! Firstly, you can imagine that if channels are unidirectional, there will always be some stochastic passage against a concentration gradient. But more explicitly, many channels solely exist to passively pass ions against this gradient. For example: there are many ``inward rectifying potassium channels," meaning they pass potassium ions into the cell (a famous example being the Kir family of channels). Importantly, the concentration of K$^+$ outside of the cell will \textit{never} exceed the concentration inside the cell. Therefore, any and all inward pointing K$^+$ channels will inherently be against the chemical concentration gradient.\newline
+
+You may be slightly puzzled about why such a small concentration of ions is able to generate an action potential. This is because the voltage generated is hyper-localized to the membrane. The lipid composition of the membrane is also very strictly controlled. The hydrophobic heads of the lipids on the outside monolayer of the membrane (thus, those facing the extracellular space) are most often neutral in charge---still polar, though. Those on the inner monolayer (the cytoplasmic side) have a higher proportion of negatively charged heads. This helps create a partial membrane voltage and is incredibly important for ion behavior, as well as how transmembrane proteins orient themselves in the membrane.\newline
+
+Let's motivate this a little bit: The capacitance of a cell ($C$) is around $1\mathrm{\mu F}/\mathrm{cm}^2$. If the radius of the cell is $10\mathrm{\mu m}$. Given that the voltage swings by around 100mV during an action potential, we can determine that:
+
+
+\begin{equation} \label{smallchange1}
+\begin{split}
+C_{total} &= C_m \times 4\pi r^2\\
+q &= C_{total}\Delta V \\
+q &= 1.3 \times 10^{-12}\mathrm{C}
+\end{split}
+\end{equation}
+
+\bigskip
+
+Dividing this number by Faraday's constant, $\mathrm{F}$, gives you the moles of charge, $\mathrm{m}$. You can divide the moles by the volume to approximate $\Delta C$ (i.e., the change in total charge):
+
+\begin{equation} \label{eq8}
+\begin{split}
+\Delta C = \frac{\mathrm{m}}{4\pi r^3 /3} \rightarrow 3.1 \times 10^{-7} \mathrm{mM}
+\end{split}
+\end{equation}
+
+Don't forget to convert the volume into units of liters.\newline
+
+$3.1 \times 10^{-7} \mathrm{mM}$ is a very small number, many orders of magnitude below the concentrations of either sodium or potassium. Therefore, in theory, to generate an action potential you'd require a nearly 0\% change in ion concentration. However, what this actually describes is the \textit{net} movement. That is, if the concentration of sodium inside the cell increases by $x$ when sodium channels open, the concentration of K$^+$ must decrease by no more than $x - 3.1 \times 10^{-7} \mathrm{mM}$ to depolarization the cell by 100mV. Thus, by this logic, $x$ can be nearly any value---and perhaps the change in sodium and potassium is actually quite large? To verify that the general idea of this exercise is true, I simulated an action potential using the Hodgkin-Huxley model to find some approximations of ion currents, and found that the sodium concentration changes by $\approx 0.002$mM. This is only a small fraction of a percentage of the total concentration, so the principle holds. 
+
+
+
+
 \section{Ion Channels}
 
 
 This section will be filled in better throughout the semester, through more Biochem courses. 
+
+
+\subsection{Voltage Gated Channels}
+
+
+\subsubsection{Voltage Sensing.}
+You may ask yourself "how does an ion channel know when the voltage is positive or negative?" Structure informs us of almost every puzzle in biology, and this case is no different! Let us consider one potassium channel called KvAP. KvAP is hypothesized to be voltage gated due to the presence arginine side chains (as positively charged amino acid)\footnote{\url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1253646/}}. Because of the positive charge on arginine, you can imagine that if the outer membrane voltage becomes especially negative, it will pull the arginines outward, almost like opening the lid of the channel.
 
 
 \chapter{Muscles}
@@ -4017,6 +4134,11 @@ I like the ACES method as a starting point. It seems easy enough to implement, a
 \subsubsection{Biomaterials.}
 
 The biomaterials possibilities are quite cool too. 
+
+\subsubsection{CSF-cNs.}
+
+A great, easy experiment is CSF-cNs ablation with EES, compare vs. WT, and see if recovery is similar.  
+
 
 \subsubsection{Waveforms for Neuropathic Pain.}
 Perhaps one can use a feedback mechanism, where the frequency of stimulation can be altered in order to dampen neural signals. You'd need to both read and write, essentially. Surely you can record brain waves responsible for feeling pain, and have a circuit edit itself to minimize them? $-->$ actually, dampening neural signals is a great example of a time to use the peak detection method, because you're only interested in magnitude. 
