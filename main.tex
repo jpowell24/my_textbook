@@ -93,6 +93,7 @@
 \usepackage{adjustbox}
 \usepackage{helvet}
 
+\counterwithout{footnote}{chapter} % makes footnotes count over document rather than by chapter
 
 %%%%%%%%%%%%%%%% These commands are taken from Professor Ashmanskas!
 \newcommand{\ohm}{\Omega}
@@ -1031,6 +1032,52 @@ RC will be 1k$\Omega \times 1 \mu$F $ = 1 \times 10^{-3}$, or $\tau = 1$ms. What
 
 This was meant to serve as a basic intro to what a capacitor is. Now we can begin discussing the nuances. 
 
+
+\section{Capacitor Behavior}
+
+Let's look at the circuit below and its output\footnote{I really dislike needing to include .png images in works like this, but I believe I have no choice in this case.}. All we are doing here is thinking about the shape of the output to build up a bit of intuition.  
+
+\begin{multicols}{2}
+    \begin{center}
+    \begin{circuitikz}
+    \draw 
+    (1,2) to [C, l=1 $\mu$F] (1,0)
+    (-2,2) to [sqV] (-2,0)
+    (-2,0) -- (0,0)
+    (1,2) to [short, -*] (3,2)
+    (-2,2) to [R, l=1 k$\Omega$] (1,2) 
+    (3,0) to [short, *-] (0,0)
+    (3,2.5) node {$\Vo$};;
+    \end{circuitikz}
+    \end{center}
+    
+    \includegraphics[width=0.5\textwidth]{images/Lowpassfilter1.png}
+\end{multicols}
+
+Think about how the capacitor will behave. At time $t=0$, the capacitor is fully charged. No current will flow at this time, meaning it will act as an open circuit, and therefore have a ``resistance" of $\infty$. Therefore, you can think of the circuit as being like a voltage divider whose $R_2 = \infty$, and or $\Vo = \Vi$. At $t = 1/2f$, the capacitor is able to discharge, and dissipates charge accord to its decay curve. At $t = 1/f$, the capacitor is subject to voltage again and begins to charge up. At first it acts like a wire, since it draws current proportional to the input voltage. As it becomes fully charged, it will again act like an open circuit.\newline
+
+Let's now consider swapping positions: 
+
+\begin{multicols}{2}
+    \begin{center}
+    \begin{circuitikz}
+    \draw 
+    (1,2) to [R, l=1 k$\Omega$] (1,0)
+    (-2,2) to [sqV] (-2,0)
+    (-2,0) -- (0,0)
+    (1,2) to [short, -*] (3,2)
+    (-2,2) to [C, l=1 $\mu$F] (1,2) 
+    (3,0) to [short, *-] (0,0)
+    (3,2.5) node {$\Vo$};;
+    \end{circuitikz}
+    \end{center}
+    
+    \includegraphics[width=0.5\textwidth]{images/Highpassfilter1.png}
+\end{multicols}
+
+At $t=0$, the capacitor is fully charged, so no current flows at all, and $\Vo = 0$. This is expected, since capacitors are meant to filter out DC voltage. At $t = 1/2f$, the capacitor shoots down to $-\Vpp$. This is because $\Vi$ becomes negative relative to the voltage that the capacitor is held at. I.e., one plate of the capacitor is held at this $\Vpp$ value, so when $\Vi$ goes to 0, the voltage is negative between the plates of the capacitor. It then undergoes its standard decay curve, following this rule. Again, the decay will end at 0 because capacitors filter out DC voltage like this. 
+
+
 \section{Filtration Conceptually}
 
 Firstly, what is filtration? Filtration refers to our filtering out of background signal, or any undesigned signal, in order to isolate our signal of interest. For example, perhaps you are interested in a sine wave whose period is 1 ms, but this is superimposed by a bunch of other sine waves of variable periods. You can extract the 1ms sine wave with some clever circuits, and build your following circuit fragments based on it. 
@@ -1110,9 +1157,9 @@ V_{out2} &= R_2{C_2}\frac{d V_{in}}{dt}\\
 
 Thus, in this case $\V_{out}$ approximates the derivative of $\V_{in}$. 
 
-\subsubsection{Qualitative thinking.}
+\subsubsection{Qualitative Thinking.}
 
-The best lead in to thinking about filtration, to me, is thinking simply about how the graphs look like when something integrates or differentiates a square wave. Let us not do any math, and think only qualitatively. 
+The best lead in to thinking about filtration, to me, is thinking simply about how the graphs look like when something integrates or differentiates a square wave, combined with our understanding of capacitor behavior from above. Let us not do any math, and think only qualitatively. 
 
 \begin{centering}
 \begin{tikzpicture}
@@ -2532,7 +2579,16 @@ Transition matrix:
 \end{bmatrix}
 \end{align}
 
+
+
+
+
+
+
 \chapter{Neuron Modeling}
+
+It would certainly be worth reviewing the electrophysiology contained in Part \textbf{\ref{sec:Physiology}} before trying this, unless you already have a strong understanding of biochemistry.  
+
 
 \section{Hodgkin-Huxley} 
 
@@ -2562,7 +2618,11 @@ C\dot{V} = I - \bar{g}_{Na}m^3h(V - E_{Na}) - \bar{g}_{K}n^4(V - E_{K}) - \bar{g
 
 There are a few main points to make here. Firstly, this model considers only 3 currents. $Na$ and $K$ are self explanatory, but $Leak$ represents the small amount of current that will always occur in cells due to the many routes of charged particles passing through the membrane. It is restorative, in that it pushes the membrane potential back to the resting voltage.\newline
 
-\subsection{Gating and Conductance} The $\bar{g}$ represent the maximal conductance of these ions. But, shouldn't conductance be variable, depending on how many channels are open? Yes, that is what $m$, $h$, and $n$ are for. These three variables are effectively kinetic fits of the opening and closing dynamics of sodium and potassium channels. Again, I will not mention these equations explicitly as they can be found anywhere. Conceptually, there are three things to know:\newline
+\subsection{Gating and Conductance} 
+
+\label{sec:GatingandConductance}
+
+The $\bar{g}$ represent the maximal conductance of these ions. Of course, you mak ask, ``\textit{shouldn't conductance be variable, depending on how many channels are open}?" Yes, which is what $m$, $h$, and $n$ are for! These three variables are effectively kinetic fits of the opening and closing dynamics of sodium and potassium channels. Again, I will not mention these equations explicitly as they can be found anywhere. Conceptually, there are three things to know:\newline
 
 Firstly, $m$ is an activation curve for sodium, and the power to the 3rd represents that there are three activation gates. $h$ is an inactivation gate for sodium. Potassium has 4 activation gates, $n$, and no inactivation gate. Gating can be any number of things, for example, $h$ could be a conformtional change that occurs in the channel after it has been open for $0.1 ms$ that closes it again. Naturally, the gating for every channel will be different. Because the $Leak$ current is an ensemble of many channel types, it will not have "gating" per se.\newline
 
@@ -2930,6 +2990,7 @@ There have been a number of papers that have gathered the 3D structure of axons 
             \begin{minipage}[l]{10cm}\small
                 Preoccupied with a single leaf, you won't see the tree. Preoccupied with a single tree, you'll miss the entire forest.  \newline
                 -- Vagabond by Takehiko Inoue
+                \label{sec:Physiology}
             \end{minipage}
             \end{center}}
 
@@ -2992,9 +3053,9 @@ v &= \frac{g_{n_1}E_{n_1} + g_{n_2}E_{n_2} + ... + g_{n_k}E_{n_k}}{g_{n_1} + g_{
 \end{split}
 \end{equation}
 
-The GHK formula is essentially like taking a weighted average of each ion's ($n_i$) membrane potential, giving us the total membrane voltage. The conductance, $g$, is the opposite of resistance. In this case, you can think of conductance as being a measure of the membrane's permeability to an ion. That is, a neuron with a lot of Na$^+$ channels will have a very high total sodium conductance. Conductance is measured in terms of its maximum, meaning that although sodium channels will open and close, the value $g_{Na}$ refers to when all of them are open. When calculating membrane voltage, generally we only use sodium and potassium (though, the GHK formula technically requests using all charged molecules). The reason being because the conductance of all of the other ions is essentially negligible in comparison.\newline
+The GHK formula is essentially like taking a weighted average of each ion's ($n_i$) membrane potential, giving us the total membrane voltage. The conductance, $g$, is the opposite of resistance (convered in more depth at section \textbf{\ref{sec:GatingandConductance}}). In this case, you can think of conductance as being a measure of the membrane's permeability to an ion. That is, a neuron with a lot of Na$^+$ channels will have a very high total sodium conductance. Conductance is measured in terms of its maximum, meaning that although sodium channels will open and close, the value $g_{Na}$ refers to when all of them are open. When calculating membrane voltage, generally we only use sodium and potassium (though, the GHK formula technically requests using all charged molecules). The reason being because the conductance of all of the other ions is essentially negligible in comparison.\newline
 
-In most cases, the GHK equation is simplified to only include Na$^+$ and K$^+$. The reason is because these two ions have the highest conductances, by far, making them hold the most weight. For example, even though cells may contain $\mathrm{HCO}_3^-$, there aren't tons and tons of ion channels for it like there are for sodium and potassium---thus it does not contribute to $v$ to nearly the same degree. If this concept is confusing, simply consider $\V = \mathrm{IR}$. If there is no current, there is no voltage. Therefore, we can use the equation below as a good enough approximation of the resting membrane potential:\newline
+In most cases, the GHK equation is simplified to only include Na$^+$ and K$^+$. The reason is because these two ions have the highest conductances, by far, making them hold the most weight. For example, even though cells may contain $\mathrm{HCO}_3^-$, there aren't tons and tons of ion channels for it like there are for sodium and potassium---thus it does not contribute to $v$ to nearly the same degree. If this concept is confusing, simply consider $\V = \mathrm{IR}$. If there is no current, there is no voltage. Therefore, we can use the equation below as a good enough approximation of the resting membrane potential:
 
 \begin{equation} \label{GHK2}
 \begin{split}
@@ -3021,13 +3082,13 @@ When considering an action potential, likely you'll want to focus on the flux of
 
 \subsubsection{A Common Misconception.}
 
-The concentration of ions really does not change during an action potential. It is only a negligibly small amount of ions that are required to change the membrane voltage of the neuron. So, for example, $[\mathrm{Na}^+]_e$ really only goes from 120mM to 119.999...mM during an action potential. Therefore, the membrane potentials that you calculate here are roughly true at any point in an action potential. What changes is the membrane voltage of the neuron, causing channels to open and close, which is what leads to the characteristic peaking of an action potential.\newline
+The concentration of ions really does not change during an action potential. It is only a negligibly small amount of ions that are required to change the membrane voltage of the neuron. So, for example, $[\mathrm{Na}^+]_e$ really only goes from 120mM to 119.99...mM during an action potential. Therefore, the membrane potentials that you calculate here are roughly true at any point in an action potential. What changes is the membrane voltage of the neuron, causing channels to open and close, which is what leads to the characteristic peaking of an action potential.\newline
 
 This idea is quite important. Many assume that ions flowing in and out substantially impacts their concentrations, and that is what leads to the in and outflowing of ions. It is often said that ion channels always pass ions ``with their concentration gradient." While ``transporters" pass ions or molecules against their gradient. But this is not true! Firstly, you can imagine that if channels are unidirectional, there will always be some stochastic passage against a concentration gradient. But more explicitly, many channels solely exist to passively pass ions against this gradient. For example: there are many ``inward rectifying potassium channels," meaning they pass potassium ions into the cell (a famous example being the Kir family of channels). Importantly, the concentration of K$^+$ outside of the cell will \textit{never} exceed the concentration inside the cell. Therefore, any and all inward pointing K$^+$ channels will inherently be against the chemical concentration gradient.\newline
 
 You may be slightly puzzled about why such a small concentration of ions is able to generate an action potential. This is because the voltage generated is hyper-localized to the membrane. The lipid composition of the membrane is also very strictly controlled. The hydrophobic heads of the lipids on the outside monolayer of the membrane (thus, those facing the extracellular space) are most often neutral in charge---still polar, though. Those on the inner monolayer (the cytoplasmic side) have a higher proportion of negatively charged heads. This helps create a partial membrane voltage and is incredibly important for ion behavior, as well as how transmembrane proteins orient themselves in the membrane.\newline
 
-Let's motivate this a little bit: The capacitance of a cell ($C$) is around $1\mathrm{\mu F}/\mathrm{cm}^2$. If the radius of the cell is $10\mathrm{\mu m}$. Given that the voltage swings by around 100mV during an action potential, we can determine that:
+Let's motivate this a little bit: the capacitance of a cell ($C_m$) is around $1\mathrm{\mu F}/\mathrm{cm}^2$. If the radius of the cell is $10\mathrm{\mu m}$. Given that the voltage swings by around 100mV during an action potential, we can determine that:
 
 
 \begin{equation} \label{smallchange1}
@@ -3318,9 +3379,8 @@ The astrocyte scar is surprisingly thin, only a few layers of cells. Though, its
 \subsubsection{Oligodendrocytes.}
 Oligodendrocytes reportedly begin apoptosis around 1 DPI and it peaks around 8 DPI. Oligodendrocyte precursor cells (OPCs) are may differentiate into oligodendrocytes or Schwann cells after SCI. OPCs have been show to remyelinate neurons after SCI, but fascinatingly, it has been shown that locomotor recovery after SCI does not necessarily require remyelination by oligodendrocytes\footnote{\url{https://www.nature.com/articles/s41467-018-05473-1}}. Though, plenty of other research suggests it is required---so it is likely context dependent. 
 
-
-
 \chapter{In The Clinic \& Therapeutic Approaches}
+
 
 \section{Clinical Presentation}
 Death rates from SCI are still as high as 20\% in some countries. There is a strong age dependence to this, as the probability of walking again after SCI in those older than 50 is much lower than those under.
@@ -3434,6 +3494,8 @@ Ectopic bone formation can occur on the larger joints\footnote{Funnily enough, t
 
 \chapter{Approaches to Researching SCI}
 
+The first ever modeling and examination of traumatic spinal cord injury dates back to over 100 years ago. Dr. Alfred Allen, at the University of Pennsylvania, devised dog models of spinal cord injury and performed their accompany histological investigations\footnote{\url{https://jamanetwork.com/journals/jama/article-abstract/448138}}. I believe firms in finding the fundamental source, and appreciating where leaves meet branches, branches meet the trunk, and the trunk meets its roots (section \textbf{\ref{sec:HistoricalDealings}}).\newline
+
 \textcolor{red}{NOTE: It would be good to include some of the other approaches to researching neural regeneration in general---such sciatic nerve crush, optic nerve crush, \textit{Drosophila} axon injury, etc.}
 
 \section{SCI Injury Models}
@@ -3476,6 +3538,28 @@ The Basso scale\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/16689667/}} has a 
 \textit{Slight} is defined as less than half joint excursion. \textit{Extensive} is defined as more than half joint excursion. \textit{Plantar stepping} is defined as placing both the thumb and the last toe touching the ground. \textit{Consistent} is defined as without missing more than 5 steps. \textit{Frequent} is defined as more than half the time. \textit{Occasional} is defined as less than half the time moving forward. \textit{Coordination} is defined as proper alternations between feet, and hindlimb and forelimb movements occurring at proper times, and the mouse must move at a consistent, non-slow pace. Some coordination meaning less than half the movements are coordinated, while most is more than half. \textit{Severe trunk instability} is defined as an extreme waddle and collapsing during the test.\newline
 
 It is almost certain that I misworded some of those (as in accidentally wrote most instead of some a few times). But, I think you get the overall gist! Essentially, above 5 seems to have some degree of uncoordinated walking. Around 7-9 seem to have regained functional walking. 
+
+
+\section{Traumatic and Nontraumatic SCI}
+
+\label{sec:TvsnonTSCI}
+
+Here we'll focus on neuroimaging and the information from\footnote{\url{https://www.nature.com/articles/s41582-019-0270-5}}. A large focus of this review is the parallels between traumatic SCI and neurodegenerative diseases like degenerative cervical myelopathy (DCM). Traumatic spinal cord injury (tSCI) refers to impact or immediate stress applied to the spinal cord, while nontraumatic occurs over long periods through continuous compression or other. DCM is the most common example of nontraumatic SCI, and can occur through things like disc bulging. Naturally, months or years may go by without symptoms while degeneration is underway.\newline
+
+Animal models indicate considerable overlap in traumatic and nontraumatic SCI, but verification of these processes in humans is harder because metal implants immediately into tSCI patients makes MRIs impossible. Conventional MRI, too, is often not powerful enough to analyze microstructual changes, like demyelination, that are canonical to degeneration. A better method is diffusion tensor imaging (DTI), which captures the diffusion of water through the tissue. It relies on the assumption that water diffuses along the white matter tracts. Core to the benefit of DTI and improved imaging techniques is identifying markers which can inform our understanding of improved recovery after SCI treatment. For example, clinical trials can be better motivated by quantifiable, noninvasive metrics like DTI. 
+
+\subsubsection{Quantifying DTI.}
+
+DTI is devises 3 eigenvectors, let's call them: $\vec{V}_{a}, \vec{V}_{r1}, \vec{V}_{r2}$. You would expect $\vec{V}_{a}$ to be the longest of the three as it runs axially, and or with the axons. Its eigenvalue, let's call it $\lambda_a$, corresponds to the diffusivity in the axial direction (parallel to the myelin tracts). The average of $\lambda_{r1}$ and $\lambda_{r2}$ describes the radial diffusivity, and or that which is perpendicular to the myelin tracts. The average of all 3 eigenvalues is the mean diffusivity. A scenario when $\lambda_a \neq 0$ and $\lambda_{r1} = \lambda_{r2} = 0$ would be described as an \textit{anisotropic} diffusivity, because there is complete directional dependence of diffusion. $\lambda_a = \lambda_{r1} = \lambda_{r2}$ would be \textit{isotropic}, because there is no directional dependence. The idea is that the diffusion of water gives some key insights into the microstructure of the injury, as things like ECM proteins and membrane composition will have some affect on such water diffusion. The axons themselves are naturally the largest contributor to this directional dependence, and you can imagine that in their absence water is much more likely to diffuse in all sorts of directions. The degree of anisotrophy is a strong way to measure degeneration, then. There are some limitations, of course, as diffusion is only a proxy for degeneration. Ulterior factors, like inflammation, may too limit diffusion and obscure the contribution by degeneration or demyelination. Similarly, DTI is not as effective at imaging lower spinal cord segements, and is primarily used in cervical injury models.
+
+\subsubsection{DTI in Degeneration and SCI.}
+
+Of considerable study is the parallels between SCI's secondary injury and degenerative diseases. After tSCI, retrograde and anterograde SCI initiate. Interestingly, in the first 2 years following SCI, tissue volume decreased by $\approx 14\%$, and $\approx 30\%$ in 5 years. Such a decrease was greater in the grey than in the white matter, which is similarly observed in DCM. Interestingly, no difference in diffusivity within the grey matter is observed after SCI, but it is believed this may be due to volume effects in the region.\newline
+
+Without going into the great detail on the vector changes associated with DCM and tSCI, the two show similar decreases in anisotrophy. Notably, DTI is able to resolve changes in asymptomatic DCM patients, making it a possibly useful tool in predicting worsening or improving outcomes of SCI that are not detected functionally. Remotely increased radial diffusivity was observed in both tSCI and DCM, suggesting that the local injury site / stenosis can have distant effects in both. However, DCM showed increased axial diffusivity above and below the site of stenosis, differing from tSCI. The authors suggest that this may be because compression at these sites increased cell density and decreased the extracellular space available for diffusion. Notably, though, the increase in radial diffusivity significantly outweighed axial increase, so it is still believed that demyelination is the dominant process in spinal stenosis.\newline
+
+Really, the takeaway from this is that cell death patterns in tSCI and degenerative diseases like DCM are comparable, but better investigations and imaging techniques will be needed to fully resolve this. 
+
 
 
 
@@ -3601,10 +3685,10 @@ Interestingly, miR-153 was upregulated in the dentate gyrus during LTP. It seems
 
 \label{sec:Stem-Cells}
 
+In this section we'll discuss a few labs in much depth, such as the Tuszynski lab at UCSD and the Cullen lab at UPenn---some of the pioneers in three dimensional tissue engineering. My understanding is that most researchers would agree stem cells alone are likely to be insufficient to attain functional recovery after SCI. Even the most staunch supporters would agree an integrated approach, combining neuromodulation and rehabilitation, is certain to be better. The ependyma is a source of stem cells, which contributes to glial scar formation after SCI. Connexin (gap junction) signaling between ependymal cells is a factor involved in their differentiation, notable because it opens up the possibility of manipulation through epidural electrical stimulation, discussed in chapter \textbf{\ref{sec:SpinalCordStimulation}}.\newline
 
-My understanding is that most researchers would agree stem cells alone are likely to be insufficient to attain functional recovery after SCI. Even the most staunch supporters would agree an integrated approach, combining neuromodulation and rehabilitation, is certain to be better. The ependyma is a source of stem cells, which contributes to glial scar formation after SCI. Connexin (gap junction) signaling between ependymal cells is a factor involved in their differentiation, notable because it opens up the possibility of manipulation through epidural electrical stimulation, discussed in \textbf{\ref{sec:SpinalCordStimulation}}.\newline
+Injections of both oligodendrocyte progenitor cells and spinal-cord derived neural stem cells have been grafted into patients without complications, demonstrating promise.\newline
 
-Injections of both oligodendrocyte progenitor cells and spinal-cord derived neural stem cells have been grafted into patients without complications, demonstrating promise. 
 
 
 
@@ -3616,6 +3700,15 @@ Rats underwent complete T$_3$ transection. Rat embryonic stem cells were labeled
 
 They then repeated these studies using human-derived stem cells. I didn't see this quesiton answered directly in the text (maybe I just missed it) but I am wondering how much the neurons actually matter, especially for functional recovery. I.e., the matrix contained growth factors---could the growth factors alone be promoting growth, independent of the stem cells?
 
+\subsection{3D Printed Spinal Scaffolds}
+
+The ability to create 3D structures of cells is becoming ever more popular. One such example is again from the Tuszynski lab\footnote{\url{https://www.nature.com/articles/s41591-018-0296-z}}. The goal of this paper is to generate a scafford capable of promoting growth, more so than creating a CNS mimic. They essentially designed a cross section of the spinal cord with pores / channels where axons can grow into, synapse onto neural progenitor cells, and those cells can grow in the opposite direction and synapse onto neurons below the injury site. It is kind of like a well structured relay station for signals. They call their method microscale continuos projection printing ($\mu$CPP), and remarkably it is able to print such scaffolds in a matter of seconds. They showed an interesting potential application where a 3D model of a patient's SCI lesion was taken and then a corresponding scaffold was printed to fill the gap. \newline
+
+The device itself is quite impressive. They are able to print on a 1$\mu$m level. In their proof of concept runs, they printed scaffolds that resemble different modes of SCI. Notably, this is meant as an almost complete replacement for the spinal cord---i.e., it requires a very invasive surgery to implant and the similar removal of leftover nervous tissue. The ones they used were 2mm in length and made of polyethylene glycol-gelatin methacrylate (PEG-GelMA). Fortunately, this paper had some of the most in-depth controls, including comparisons to stem cell only injections and scaffolds made of agarose. Another key control was that the implantation did not worsen inflammation. However, at the inflammation site there was still a reactive astrocyte layer. While it was less prominent in the PEG-GelMA scaffold than in agarose, it was still present.\newline
+
+Very interestingly, implantation of stem cells often requires waiting many weeks. This is because dissociated cells like this, which do not have support from blood vessels and are exposed to reactive oxygen and immune hurdles, do not survive well. The group wondered if by providing a supportive scaffold, if implantation can be done earlier after injury---and indeed it could. Acutely implanted scaffold retained their stem cells a month later. It seems like in general, the results were a bit inconsistent. In long term studies they found that some neural progenitor cells became myelinated and the tubes became vascularized. In fact, they even claim that astrocytes' feet lined the vessels, signaling a restored blood brain barrier. Interestingly, the walls of the scaffold thinned by $\approx 50\%$ at the 60 months post implantation mark. It is unclear if this has any meaningful impact, though, as once neural connections are made, perhaps the scaffold itself is not needed.\newline
+
+Onto the part that matters most. Animals with the scaffolds exhibited significant functional recover, reaching a Basso score of $\approx 6-7$, compared to the controls reaching $\approx 1-2$ at 5 months after injury\footnote{This is a sidenote, but geez---it is kind of inhumane to keep a mouse alive with complete immobility for 5 months, solely to ensure it doesn't recover.}. They also used an electrophysiological method where they stimulated the motor cortex and read motor neuron outputs, and again found the scaffold to exhibit significantly better outcomes\footnote{As another sidenote, this whole thing is really... odd, in a sense. Of course, the FDA and medical boards cannot allow researchers to do whatever they want. But, these mice had a complete transection and were able to get significant recovery. Surely it can do some good in humans? This is some serious motivation for an enhanced Right to Try bill. If one is completely paralyzed, the option should be open.}. 
 
 
 
@@ -3642,16 +3735,20 @@ Pay them no mind, or better yet, learn from them. Perhaps if you learn from all 
 
 \subsubsection{Papers to Read:}
 
--- \url{https://www.cell.com/fulltext/S0092-8674(12)01018-5}\\
--- \url{https://www.nature.com/articles/s41591-018-0296-z}\\
--- \url{https://www.science.org/doi/full/10.1126/science.1201148?casa_token=uLMREs94rBkAAAAA\%3A1NmnZVf4FLG49XYmfcOCtvTzyVpUknxP4f9gqI2-Z7POshyrMdB5UbukEmf1xS86OY7unpyI97eOwJQ}\\
--- \url{https://www.sciencedirect.com/science/article/pii/S0022510X05000808}
--- \url{https://www.nature.com/articles/nature20118}
-
+-- \url{https://www.nature.com/articles/nn.4541}\\
+-- \url{https://www.nature.com/articles/s41580-022-00562-y}\\
+-- Neuroimaging guidelines: \url{https://www.nature.com/articles/s41393-019-0309-x}\\
+-- \url{https://www.sciencedirect.com/science/article/pii/S0896627321007753}\\
+-- \url{https://www.nature.com/articles/nature20118}\\
+-- Myelin: \url{https://www.nature.com/articles/s41577-023-00907-4} \\
+-- Another scaffold: \url{https://www.science.org/doi/10.1126/science.abh3602}
 
 \chapter{Interfacing with Nerves}
 
+
 \section{Historical Dealings}
+
+\label{sec:HistoricalDealings}
 
 A proverb in a writing called \textit{Testament} by Dait$\overline{\mathrm{o}}$ Kokushi reads:\newline
 
@@ -3671,7 +3768,7 @@ Restoration of the signals which pervade severance in spinal cord injury through
 
 The ability to generate walking-like movements from electrical stimulation of the lower spine, the T10-L1 region, has been long known\footnote{\url{https://www.sciencedirect.com/science/article/pii/B9780444521378000188}}$^,$\footnote{\url{https://journals.sagepub.com/doi/pdf/10.1177/1073858417699790}}. In these instances, ``tonic" stimulation was able to generate step-like movements. Although the term ``tonic" is dubious because other papers by the same lab identified frequency dependence in their stimulation\footnote{\url{https://link.springer.com/article/10.1007/s00422-004-0511-5}}. While one can generate step-like movements at once frequency, continued extension can be generated with another. 
 
-\section{Electrostimultaion}
+\section{Electrostimulation}
 
 \subsection{Background}
 Stimulating nerves is not straightforward. The amount of current necessary to stimulate a nerve is highly dependent on the location. For electrodes especially close to myelinated fibers, currents as small as 0.1 $\mu A$ have been successful in depolarizing neurons\footnote{\url{https://www.sciencedirect.com/science/article/pii/0006899375903649}}. It seems that as a general trend, the faster conduction velocity of a neuron, the lower amount of current is required to simulate it. Too, throwing off one's measurements is often that you may indirectly stimulate a neuron of interest by depolarizing nearby cells. For direct stimulation, the distance from electrode to the closest Node of Ranvier seems to be essential metric. Figure 3 of the paper footnoted earlier in this paragraph shows a fascinating plot. The current supplied by an electrode resembles something of a double-sided Lenhert-Jones plot. Therefore, for an anode\footnote{Fascinatingly, a quick Google search for `anode' provides two definitions, one stating it is positively charged and one stating it is negative. Regardless, you only need to know that it supplies electrons.}, one would actually expect a core of cells to be depolarized, while those of the periphery would actually be hyperpolarized. The inverse would be true for a cathode. This makes me wonder if oscillating, $\pm$A has been applied, and the outcomes. If one were to use two electrodes (i.e., an anode and a cathode nearby) then one has the option of longitudinal stimulation or transverse stimulation (i.e., either parallel or perpendicular to the axon).\newline
@@ -4208,7 +4305,27 @@ The only thing I am not sure about is if we will need a separate PID controller 
     \vspace{2cm}
 
         {\fontfamily{phv}\selectfont\textbf{\large \textcolor{white}{The world is always full of the sound of waves.\\ \\ The little fishes, abandoning themselves to the waves, dance and sing and play, but who knows the \textcolor{red}{heart} of the sea, a hundred feet down? Who knows its depth? \\ \\ -- Musashi by Eiji Yoshikawa}}}
-    
 
+    \vfill\pagebreak
+
+\part*{Addendum}
+
+\section*{Overview}
+
+Hello there! You've reached not only the end of the book, but actually the parts beyond its conclusion! At least for the moment, there are topics I'd like to discuss, but they're only tangentially related (if at all) to the idea of brain-machine interfaces. Therefore, consider this the bonus parts that are not worth reading, unless you are immensely inclined.\newline
+
+One such topic is that of neurodegeneration. Naturally, there are not many direct parallels to be drawn from diseases like Alzheimer's and spinal cord injury. Yet, I do believe strongly in Musashi's epithet, that once you know the way broadly, you can see it in all things. For this reason, I think there is unknowable value is learning about degeneration. As it turns out, there are considerable parallels between the pathologies of traumatic SCI and neurodegenerative diseases, like degenerative cervical myelopathy (DCM) as covered in other sections like \textbf{\ref{sec:TvsnonTSCI}}. Thus, it is certainly worth understanding in-depth. Oh, and I because I am taking a class on it and I need somewhere to take notes ;) 
+
+\chapter*{Neurodegeneration}
+
+\section*{Alzheimer's}
+
+Alzheimer's disease (AD) is a degenerative disorder present in many demented, elderly patients. It must be diagnosed after death because of considerable symptom overlap. Diagnosis after death is on the basis of extracellular amyloid plaques and intracellular tau tangles. 
+
+\section*{Alzheimer's Associated Genes}
+
+Fascinatingly, while many predictive disease causing loci exist, no definite cause is maintained or is considered required for AD\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/18608129/}}. The standouts include mutations in amyloid precursor protein (APP), presenilin genes 1 and 2 (PSEN1 and PSEN2), and apoplipoprotein E (APOE). All APP associated mutations seem to be related to amyloid-$\beta$'s cleavage sites, somehow enhancing its cleavage and therefore the overall amount of the protein.\newline
+
+Goate \textit{et al.} 1991 describe new genetic markers associated with AD \footnote{\url{https://pubmed.ncbi.nlm.nih.gov/1671712/}}. I suppose it was previously believed that AD was homogenous. However, they found heterogenous linkages to early onset AD, specifically on Chr21. The paper explores this Chr21 and the region they believe to be disease causing by looking at a family with a history of AD. They could not conclusively say that a gene called APP was disease causing, but decided to screen it anyway---and focused on the region encoding for $\beta$-amyloid. They identified a valine to isoleucine polymorphism that was not present in WT or late onset AD. 
 
 \end{document}
