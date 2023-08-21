@@ -2529,7 +2529,66 @@ This does bring up a worthwhile point, which is that everything you write in Ver
             \end{minipage}
             \end{center}}
 
-\chapter{Moving Through States}
+
+\section{Perspective}
+
+Truly, I find it endlessly fascinating and miraculous that you can quantitatively describe physical or biological phenomena. Of course, it stands to reason, but its shine is not lost on me. I vividly recall being in my Human Physiology class and having our professor pose the question: \textit{what will happen if two action potentials run into one another}? I knew that they'd terminate, so the result was not what drew my intrigue. What was miraculous is that, to answer this question, our professor pulled up MatLab and simulated it before our eyes. Indeed, the action potentials terminated.\newline
+
+Prior to this, I hadn't thought much about quantitative descriptions like this. Qualitatively, and or conceptually, it made sense to me that action potentials cannot propagate past one another. But naturally, not all answers can be intuited. After scrolling around through the amazing Keener and Sneyd \textit{Mathematical Physiology} textbook, I realized the incredible breadth of phenoma that we have modeled. From membrane electrophysiology, enzyme kinetics, to disease spreading, to fluid dynamics of the circulatory system, to the movement of bacterium, to every other little itty-bitty thing you can become fascinated by---someone has build some differential equations for it.\newline
+
+If anyone ever reads this, besides me, I hope you too will be enthralled by both the brilliance and creativity required to describe something as complex as the biochemistry of a neuron in just a few equations. 
+
+
+
+\chapter{Math Essentials}
+
+\section{Linear Algebra}
+
+\label{sec:linalg}
+
+\subsection{Cross Products, Dot Products, and Gradients}
+
+Recall that the cross product is a vector value whose direction is perpendicular to both of the two vectors crossed. The formula is:
+
+\begin{equation} \label{crossproductformula}
+\begin{split}
+\vec{A} \times \vec{B} = ||\vec{A}|| \; ||\vec{B}|| \sin\theta \vec{n}
+\end{split}
+\end{equation}
+
+Where $||\vec{A}||$ is the length of $\vec{A}$, $\theta$ is the angle between the two vectors, and $\vec{n}$ describes the unit vector between $\vec{A}$ and $\vec{B}$.\newline
+
+The dot product is a scalar value achieved by multiplying the positions of vectors together, such as below: 
+
+\begin{align}
+\mathrm{A} =
+\begin{bmatrix} %%%%%%%%%%%%%%
+ a  \\ 
+ b  \\ 
+\end{bmatrix}
+\cdot
+\begin{bmatrix} %%%%%%%%%%%%%%
+x  &  y    \\ 
+\end{bmatrix}
+= 
+ax + by 
+\end{align}
+
+A gradient, $\nabla$, describes a derivative vector of a corresponding vector. For example, if vector $v_1$ exists in 3 dimensions, then: 
+
+
+\begin{align}
+\nabla \cdot \vec{v_1} = 
+\begin{bmatrix} %%%%%%%%%%%%%%
+\frac{\partial}{\partial x}  \\ 
+\frac{\partial}{\partial y}  \\ 
+\frac{\partial}{\partial z}  \\
+\end{bmatrix}
+\cdot
+\vec{v_1}
+\end{align}
+
+
 \section{Markov-chains} Markov chains are useful in predicting the next state desired. 
 
 \begin{center}
@@ -2567,20 +2626,6 @@ This does bring up a worthwhile point, which is that everything you write in Ver
 % N_{closed}^{i+1} &= e^{-\Delta t P_{total}}N_{closed}^{i} + \pr{1-e^{\Delta t / \tau_{inact}}}N_{inactive}^{i} \\
 % \end{split}
 % \end{equation}
-
-
-Transition matrix: 
-\begin{align}
-\mathrm{A} =
-\begin{bmatrix} %%%%%%%%%%%%%%
-0           &  0.3          & 0.7 \\ 
-0.6         &  0.2          & 0.2     \\
-0           &   0.5         & 0.5    \\ 
-\end{bmatrix}
-\end{align}
-
-
-
 
 
 
@@ -2980,6 +3025,97 @@ You may, rightfully, say ``\textit{Uh, who cares?}," since we arleady know that 
 I have an idea. I'm wondering if you can use cell motility models, with a bit of adaptation, and use it to model growth cone motility. I.e., model an ensemble of neurons after injury. The motivation being that the architecture of the neurons after injury is quite important to recovery. This was explored in a Courtine review, regarding circuit reorganization, and discussed in a later section. \newline
 
 There have been a number of papers that have gathered the 3D structure of axons after injury---so it is not impossible to verify models\footnote{\url{https://www.sciencedirect.com/science/article/pii/S0896627321007753?via\%3Dihub}}$^,$\footnote{\url{https://www.sciencedirect.com/science/article/pii/S2211124720308883?via\%3Dihub}}. 
+
+
+\section{Fluid Dynamics}
+
+A large part of this section will come from\footnote{\url{https://www.cambridge.org/us/universitypress/subjects/mathematics/fluid-dynamics-and-solid-mechanics/fluid-dynamics-cell-motility?format=HB&isbn=9781107174658}}.\newline
+
+The Reynolds number, $R_e$, described the flow of a fluid and is used to characterize it as turbulent or laminar. It is calculated as: 
+
+\begin{center}
+\begin{multicols}{2}
+    
+\begin{equation} \label{Redefinition}
+\begin{split}
+R_e & = \frac{\rho LU}{\mu}
+\end{split}
+\end{equation}
+
+\begin{equation} \label{Redefinition2}
+\begin{split}
+R_{e\omega} & = \frac{\rho L^2\omega}{\mu}
+\end{split}
+\end{equation}
+\end{multicols}
+\end{center}
+
+
+Where $\rho$ described the density of the fluid, $L$ describes the characteristic length, $U$ describes the flow speed, and $\mu$ describes the fluid's viscosity. It is a ratio of the inertial force to the viscous force. An $R_e$ less than $10^3$ is considered to be viscous dominated and laminar. An $R_e$ greater than $10^4$ is considered inertia dominated and turbulent. A more apt description may be that the viscous nature of the fluid holds significantly less weight for something at a high $R_e$---meaning that a blue whale's motion, which swims at an $R_e$ of around $10^7$, is dictated nearly purely by inertia, as you would expect. In microbiology, $R_e$ is $<< 1$, making it highly viscosity dependent. 
+
+\subsection{Navier-Stokes Equations}
+
+You may want to review Math Essentials section \textbf{\ref{sec:linalg}} before beginning.\newline
+
+In knowing the velocity vectors at all points in a fluid allows you to describe the movement of the fluid over time. Three key assumptions in this are that the fluid be Newtonian (meaning applying a shear force does not affect it in any way), incompressible, and isothermal. This brings us to:
+
+\begin{equation} \label{NS1}
+\begin{split}
+\nabla \cdot \mathbf{u} = 0 \\
+\rho \frac{\partial \mathbf{u}}{\partial t}= -\nabla p + \mu \nabla{}^2\mathbf{u} + \mathbf{F} 
+\end{split}
+\end{equation}
+
+$\nabla \cdot \mathbf{u} = 0$ simply states that the momentum (and or mass) is conserved. \textbf{u} being multiplied by its gradient vector is used to solve the divergence of the field. A nonzero divergence would describe a source of fluid flowing into the system (or a sink).\newline
+
+The second equation is a rewriting of Newton's second law, $\sum F = ma$. Let's see how: 
+
+\begin{equation} \label{NSderive1}
+\begin{split}
+\sum F & = ma / V \\
+\sum F & = \rho a \\
+\sum F & = \rho \frac{d\mathbf{u}}{dt} \\
+\end{split}
+\end{equation}
+
+Because we are considering individual points, rather than the ensemble, we divide by the volume $V$, giving us the density. Acceleration can be rewritten as the change in velocity over time, $d\mathbf{u} / dt$. Next we will consider the forces relevant to this system. 
+
+\begin{equation} \label{NSderive2}
+\begin{split}
+-\nabla p + \mu \nabla^2\mathbf{u} + \sum F & = \rho \frac{d\mathbf{u}}{dt} \\
+\end{split}
+\end{equation}
+
+The $\nabla p$ describes one of two internal forces. It accounts for forces due to a change in pressure. The second term, $\mu \nabla^2\mathbf{u}$, describes force of friction, and or viscosity. Lastly, we can summarize all external forces within this big \textbf{F}. We may see gravity as an external force, for example, in which case we may replace \textbf{F} with $\rho g$. Therefore, the Navier-Stokes equations are essentially the reapplication of fundamental concepts in physics for fluids.\newline
+
+\textbf{u} we can define, perhaps overly complexly, as:
+
+\begin{equation} \label{NS3}
+\begin{split}
+\mathbf{u}(r_s\,t) = \dot{r_s} + \mathrm{U}(t) + \Omega(t)\times r_s
+\end{split}
+\end{equation}
+
+Where $r_s$ is defined as any point on the swimmer, and $\dot{r_s} = \partial r_s / \partial t$. $\mathrm{U}(t)$ describes the instantaneous linear velocity, and $\Omega(t)$ the angular.\newline
+
+As it goes, this equation can be made dimensionless as: 
+
+\begin{equation} \label{NS4}
+\begin{split}
+-\nabla p + \mu \nabla^2\mathbf{u} + R_e\sum F & = R_{e\omega} \frac{d\mathbf{u}}{dt} \\
+\end{split}
+\end{equation}
+
+Given that both $R_e$ and $R_{e\omega}$ are expected to be tremendously small for micro organisms, we can reduce the equations to the simplified Stokes equations: 
+
+\begin{equation} \label{S1}
+\begin{split}
+\nabla \cdot \mathbf{u} = 0 \\
+\nabla p = \mu \nabla^2\mathbf{u} 
+\end{split}
+\end{equation}
+
+Interpreting this, it seems to suggest that force from changes in pressure equal forces due to friction---and it is not clear to me how this is at all useful. Another slight confusion is that this entire equation seems to be zero. Maybe I am simply bad at math, but if $\nabla \cdot \mathbf{u} = 0$, then how does $\mu \nabla^2\mathbf{u} \neq 0$?
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -3689,7 +3825,13 @@ In this section we'll discuss a few labs in much depth, such as the Tuszynski la
 
 Injections of both oligodendrocyte progenitor cells and spinal-cord derived neural stem cells have been grafted into patients without complications, demonstrating promise.\newline
 
+\section{Cell Transplantation Therapy}
 
+In this section, we'll primarily cover\footnote{\url{https://www.nature.com/articles/nn.4541}}. The majority of implantation investigation focuses on neural stem and progenitor cells (NSPCs, or NPCs), Schwann cells, oligodendrocyte precursor cells (OPCs), olfactory ensheathing cells (OECs), and mesenchymal stem cells (MSCs). NSPCs are multipotent progenitor cells and are able to differentiate into neurons and glia alike.\newline
+
+It is thought that many such implanted cells allow for neuroprotection after SCI. This will be commented on a bit later, but one issue with this is neuroprotection is strongest when the implantation is done in the acute phase. Implantation after the first day sparsely shows protection. Yet, implantation is normally done at 1-2 weeks after injury, because when done in the acute phase, the graft tissue is more prone to dying. This creates a slight Catch 22, where to maximize protection one must implant early, thereby sacrificing the graft and limiting the other potential benefits. The proposed mechanisms include protecting oligodendrocytes via healthy signaling, production of myelin, and the sprouting of new axons. All of these factors may contribute to the observed enlargement of the white matter near the injury site after a graft.\newline
+
+Other mechanisms of study include revascularization. Revascularization begins around 3d after injury and reaches its maximum around 14d after injury\footnote{Take this with a large grain of salt.}. OECs, in particular, appear to increase vascularization and enhance its directionalization along the graft and or spinal cord. Immunomodulation is similarly of interest, as correlative studies demonstrate grafting decreases harmful inflammation. 
 
 
 \subsection{Long Distance Growth of Stem Cells}
