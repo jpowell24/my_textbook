@@ -3016,20 +3016,20 @@ V_{s2} \\
 \end{bmatrix}
 \end{align}
 
-You may, rightfully, say ``\textit{Uh, who cares?}," since we arleady know that each row corresponds to a different equation. Well, there are a few reasons. Firstly, doing this algorithmically allows us to avoid accidentally underdetermining our matrix using the ol' eye-balling it technique. More importantly, though, the algorithmic approach allows us to solve this via code. Once I can write a bit more neatly, I'll likely upload some snippets here. 
+You may, rightfully, say ``\textit{Uh, who cares?}," since we already know that each row corresponds to a different equation. Well, there are a few reasons. Firstly, doing this algorithmically allows us to avoid accidentally underdetermining our matrix using the ol' eye-balling it technique. More importantly, though, the algorithmic approach allows us to solve this via code. Once I can write a bit more neatly, I'll likely upload some snippets here. 
 
 
 
 \chapter{Cell Motility}
 
-I have an idea. I'm wondering if you can use cell motility models, with a bit of adaptation, and use it to model growth cone motility. I.e., model an ensemble of neurons after injury. The motivation being that the architecture of the neurons after injury is quite important to recovery. This was explored in a Courtine review, regarding circuit reorganization, and discussed in a later section. \newline
+I have an idea. I'm wondering if you can use cell motility models, with a bit of adaptation, and use it to model growth cone motility. I.e., model an ensemble of neurons after injury. The motivation being that the architecture of the neurons after injury is quite important to recovery. This idea, sprouting, is explored in-depth throughout this work, such as in a discussed Courtine review. Similarly, the movement of axons on a single cell level is naturally a form of cell motility. \newline
 
 There have been a number of papers that have gathered the 3D structure of axons after injury---so it is not impossible to verify models\footnote{\url{https://www.sciencedirect.com/science/article/pii/S0896627321007753?via\%3Dihub}}$^,$\footnote{\url{https://www.sciencedirect.com/science/article/pii/S2211124720308883?via\%3Dihub}}. 
 
 
 \section{Fluid Dynamics}
 
-A large part of this section will come from\footnote{\url{https://www.cambridge.org/us/universitypress/subjects/mathematics/fluid-dynamics-and-solid-mechanics/fluid-dynamics-cell-motility?format=HB&isbn=9781107174658}}.\newline
+A large part of this section will come from\footnote{\url{https://www.cambridge.org/us/universitypress/subjects/mathematics/fluid-dynamics-and-solid-mechanics/fluid-dynamics-cell-motility?format=HB&isbn=9781107174658}} and\footnote{\url{https://pubs.aip.org/aapt/ajp/article-abstract/45/1/3/1043148/Life-at-low-Reynolds-number?redirectedFrom=fulltext}}.\newline
 
 The Reynolds number, $R_e$, described the flow of a fluid and is used to characterize it as turbulent or laminar. It is calculated as: 
 
@@ -3038,20 +3038,34 @@ The Reynolds number, $R_e$, described the flow of a fluid and is used to charact
     
 \begin{equation} \label{Redefinition}
 \begin{split}
-R_e & = \frac{\rho LU}{\mu}
+R_e & = \frac{\rho LU}{\eta}
 \end{split}
 \end{equation}
 
 \begin{equation} \label{Redefinition2}
 \begin{split}
-R_{e\omega} & = \frac{\rho L^2\omega}{\mu}
+R_{e\omega} & = \frac{\rho L^2\omega}{\eta}
 \end{split}
 \end{equation}
 \end{multicols}
 \end{center}
 
 
-Where $\rho$ described the density of the fluid, $L$ describes the characteristic length, $U$ describes the flow speed, and $\mu$ describes the fluid's viscosity. It is a ratio of the inertial force to the viscous force. An $R_e$ less than $10^3$ is considered to be viscous dominated and laminar. An $R_e$ greater than $10^4$ is considered inertia dominated and turbulent. A more apt description may be that the viscous nature of the fluid holds significantly less weight for something at a high $R_e$---meaning that a blue whale's motion, which swims at an $R_e$ of around $10^7$, is dictated nearly purely by inertia, as you would expect. In microbiology, $R_e$ is $<< 1$, making it highly viscosity dependent. 
+Where $\rho$ described the density of the fluid, $L$ describes the characteristic length, $U$ describes the flow speed, and $\mu$ describes the fluid's viscosity. It is common to see these variables interchanged with others, such as describing $U$ as $v$, or $\eta$ as $\mu$, or others. Another common thing you may see is the replacement of $\rho / \eta$ with a different constant called the \textit{kinematic viscosity}, usually represented by $\nu$. \newline
+
+The Reynolds number can be interpreted as a ratio of the inertial force to the viscous force. An $R_e$ less than $10^3$ is considered to be viscous dominated and laminar. An $R_e$ greater than $10^4$ is considered inertia dominated and turbulent. A more apt description may be that the viscous nature of the fluid holds significantly less weight for something at a high $R_e$---meaning that a blue whale's motion, which swims at an $R_e$ of around $10^7$, is dictated nearly purely by inertia, as you would expect. In microbiology, $R_e$ is $<< 1$, making it highly viscosity dependent.\newline
+
+A nice equation you can find is the following: 
+
+\begin{equation} \label{tow}
+\begin{split}
+\frac{\mu^2}{\rho} = F_{tow}
+\end{split}
+\end{equation}
+
+$F_{tow}$ is the force required to ``tow" an object in some liquid when $R_e = 1$. That is, any object with $R_e = 1$ can be towed by this force. The purpose of this is to demonstrate that small $R_e$ is correlated to small forces. Another interpretation of $R_e$ is that if you have an object, like a micro organism, with a very small $R_e$, you could push it with all your might, and nearly the instant you stop pushing, it will immediately halt. This is, again, because it is completely inertia-independent.\newline
+
+Swimming itself is a cyclic process, usually described as $n$ cycles. Reciprocal swimming is when one's motion is equal in either the forward or reverse direction, and where one ends up in the same state at the end of the cycle. Interestingly, at high $R_e$ this cycle of swimming is acceptable. The example described in \textit{Life at Low $R_e$} is a clam who opens its mouth to move and then closes it, shunting it forward and is carried by momentum. Of course, such momentum does not help at low $R_e$, so a swimmer must have multiple, non-reciprocal movements. 
 
 \subsection{Navier-Stokes Equations}
 
@@ -3106,7 +3120,7 @@ As it goes, this equation can be made dimensionless as:
 \end{split}
 \end{equation}
 
-Given that both $R_e$ and $R_{e\omega}$ are expected to be tremendously small for micro organisms, we can reduce the equations to the simplified Stokes equations: 
+Given that both $R_e$ and $R_{e\omega}$ are expected to be tremendously small for micro organisms, we can reduce the equations to the simplified Stokes equations. Importantly, this is simply the same as \textbf{removing the inertial terms}: 
 
 \begin{equation} \label{S1}
 \begin{split}
@@ -3115,7 +3129,43 @@ Given that both $R_e$ and $R_{e\omega}$ are expected to be tremendously small fo
 \end{split}
 \end{equation}
 
-Interpreting this, it seems to suggest that force from changes in pressure equal forces due to friction---and it is not clear to me how this is at all useful. Another slight confusion is that this entire equation seems to be zero. Maybe I am simply bad at math, but if $\nabla \cdot \mathbf{u} = 0$, then how does $\mu \nabla^2\mathbf{u} \neq 0$?
+Another slight confusion is that this entire equation seems to be zero. Maybe I am simply bad at math, but if $\nabla \cdot \mathbf{u} = 0$, then how does $\mu \nabla^2\mathbf{u} \neq 0$?
+
+\subsection{Propulsion}
+
+Presently, I do not understand the theory behind this, but somehow everything that occurs at low $R_e$ is linear. As it goes, force and torque are related by the following equations: 
+
+\begin{equation} \label{Prop1}
+\begin{split}
+F &= AU + B\Omega \\
+\tau &= CU + D\Omega
+\end{split}
+\end{equation}
+
+We can use this to construct \textit{propulsion} matrices like: 
+
+\begin{align}
+P = 
+\begin{bmatrix} 
+A & B  \\
+C & D  \\
+\end{bmatrix}
+\end{align}
+
+The proof is not shown here but interestingly $B = C$. To think of this matrix, let's consider dropping a cork-screw into a vat of syrup. You probably expect that the cork-screw will turn to some degree, but that there will still be some \textit{slippage}. That is, it sinks at a rate faster than it spins. If something were to sink without spinning at all, you can imagine that the matrix would be completely diagonal, because, given our equation \ref{Prop1}, that would mean the linear force, $F$, and the rotational force, $\tau$, are completely decoupled. The propulsion efficiency is defined as (or proportional to) these off diagonal elements squared (i.e., $B^2$)---evidently, though, this is considered unimportant in the grand scheme of interactors. 
+
+\subsubsection{Diffusion.}
+
+Fascinatingly, at very low $R_e$ your movement inherently takes your surrounding environment with you, as the diffusion coefficients are tremendously low. This actually has quite large consequences, and is called the \textit{added mass phenomenon}. In short, if you move and carry a load of liquid along with you, it is as if you are propelling a much greater mass. It's estimated that: 
+
+\begin{equation} \label{diff01}
+\begin{split}
+\tau_{stir} = \frac{l}{v_{stir}} \\
+\tau_{diff} = \frac{l^2}{D} \\
+\end{split}
+\end{equation}
+
+Where $\tau$ is the time it takes you to move an object some distance $l$ by either stirring or diffusion, and $v_{stir}$ is the velocity of stirring performed. The ratio of such, i.e. $lv / D$. Maybe you can recall from earlier that $R_e$ can be written as $lv / \nu$ (equivalently $LU / \nu$).Stirring is only helpful if $lv / D > 1$, which gives us an indication of how much you can accomplish either by stirring or diffusion. For micro swimmers, like bacteria, stirring is virtually useless, and they're better off simply waiting for items to diffuse toward them. Another fascinating realization is that bacteria do not move to reach more nutrients---that is rather useless. Instead, they travel to areas of a higher density, where the probability of diffusion is greater\footnote{Okay---indeed there is something immensely fascinating here. Can the same be true for growth cones? I suppose... yes!}. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -3149,11 +3199,11 @@ This will be a general overview of some of the electrophysiology of neurons. Thi
 Of course, the ion composition of cells varies a bit, but a good enough approximation is as follows:\newline 
 
 
-$[\mathrm{Na}^+]_i = 15\mathrm{mM}, [\mathrm{Na}^+]_e = 150\mathrm{mM}$\\
-$[\mathrm{K}^+]_i = 120\mathrm{mM}, [\mathrm{K}^+]_e = 5\mathrm{mM}$ \\
-$[\mathrm{Ca}^{2+}]_i = 100\mathrm{nM}, 
-[\mathrm{Ca}^{2+}]_e = 2.5\mathrm{mM}$\\
-$[\mathrm{Cl}^-]_i = 15\mathrm{mM}, [\mathrm{Cl}^-]_e = 120\mathrm{mM}$ 
+\hspace*{0.1in} $[\mathrm{Na}^+]_i = 15\mathrm{mM}, [\mathrm{Na}^+]_e = 150\mathrm{mM}$\newline
+\hspace*{0.1in} $[\mathrm{K}^+]_i = 120\mathrm{mM}, [\mathrm{K}^+]_e = 5\mathrm{mM}$ \newline
+\hspace*{0.1in} $[\mathrm{Ca}^{2+}]_i = 100\mathrm{nM}, 
+[\mathrm{Ca}^{2+}]_e = 2.5\mathrm{mM}$\newline
+\hspace*{0.1in} $[\mathrm{Cl}^-]_i = 15\mathrm{mM}, [\mathrm{Cl}^-]_e = 120\mathrm{mM}$ 
 \newline
 
 Where $[\mathrm{X}^+]_i$ and $[\mathrm{X}^+]_e$ refer to the intracellular and extracellular concentrations respectively. Building up a strong intuition for electrophysiology is quite important to approaching the field. Some of the absolutely key facts to recall include:
@@ -3782,7 +3832,7 @@ Fixing damaged components of the mitochondria may occur through proteases lining
 
 Trafficking is necessary for both the removal of damaged mitochondria and the addition of them to energy depleted sites. The speed of trafficking is quite variable, and is capable of both stalling and changing directions. Such movement occurs along the polarized microtubules within axons, especially by motor proteins like the kinesin-1 family (KIF5) for anterograde and dynein for retrograde transport. On the outer membrane, the MIRO-trafficking kinesin-binding proteins (TRAK) complex connects to KIF5 motors. It seems that there is some functional redundancy in the MIRO-TRAK complex with other outer membrane proteins, but in large part it seems to be a strong regulator of mitochondrial placement.\newline
 
-In the case of injury, movement of the mitochondria to the damage site is a key component of repair. ARMCX1 is a protein that mobilizes the mitochondria and has been found to enhance growth. Another way to enhance promote movement is by deleting syntaphilin (SNPH), a mitochondrial anchoring protein. SNPH is capable of competing with the MIRO-TRAK complex's binding with KIF5. It is thought that p21-activated kinase 5 (PAK5) inhibits SNPH by phosphorylating it, enhancing mitochondrial mobility. Overexpression of MIRO1 was found to increase mitochondrial trafficking to the distal axon segments, leading to larger growth cones. MIRO1 is mediated by neuronal activity, as Ca$^{2+}$ influx binds with MIRO and disrupts complex formation. Though, this blocking seems transient and seems to require the presence of SNPH. This mechanism seems particularly important for halting mitochondrial movement around the Nodes of Ranvier, where a higher energy demand exists to restore membrane potential.\newline
+In the case of injury, movement of the mitochondria to the damage site is a key component of repair. One way to enhance promote movement is by deleting syntaphilin (SNPH), a mitochondrial anchoring protein. SNPH is capable of competing with the MIRO-TRAK complex's binding with KIF5. It is thought that p21-activated kinase 5 (PAK5) inhibits SNPH by phosphorylating it, enhancing mitochondrial mobility. Overexpression of MIRO1 was found to increase mitochondrial trafficking to the distal axon segments, leading to larger growth cones. MIRO1 is mediated by neuronal activity, as Ca$^{2+}$ influx binds with MIRO and disrupts complex formation. Though, this blocking seems transient and seems to require the presence of SNPH. This mechanism seems particularly important for halting mitochondrial movement around the Nodes of Ranvier, where a higher energy demand exists to restore membrane potential.\newline
 
 Mitochondrial trafficking is adaptable. For example, high concentrations of glucose are capable of arresting its movement through glycosylation of TRAK. Guidance of mitochondria through the complex branches of an axon require such intracellular cues, some of which are discussed in the next section.  
 
@@ -3790,14 +3840,25 @@ Mitochondrial trafficking is adaptable. For example, high concentrations of gluc
 
 Stress induced AMP-activated protein kinase (AMPK) phosphorylates PGC-1$\alpha$ to upregulate mitochondrial RNA. ATP depletion has been shown to activate the AMPK-PAK3 stress pathway, which uses myosin 6 to recruit mitochondria and SNPH to anchor it to surrounding F-actin. Therefore, exceptionally active synapses may experience mitochondrial buildup proportional to their firing. As it goes, stress induced anterograde trafficking in a highly branched axon may result in mitochondrial build-up at the branch sites, which is achieved too by SNPH. Parallelly, AMPK is capable of blocking retrograde transport of mitochondria, resulting in their accumulation at distal, stressed sites. Counteractive to trafficking, reactive oxygen species may result in increasing intracellular Ca$^{2+}$, which arrests mitochondrial movement. As mitochondria are one of the main sources of such species, this can become a self-fulfilling prophecy of positive feedback.
 
-\subsection{Neuronal Degeneration}
+\subsubsection{Neuronal Degeneration.}
+
+Most neurodegenerative diseases are accompanied by mitochondrial dysfunction. Build up of protein aggregates, for example, hinder trafficking. Too, mtDNA mutations can regularly cause neurodevelopmental impairments.\newline
+
+PINK1/Parkin, while traditionally known for its role in Parkinson's, defines many mitochondria-related pathologies. Its function is thought to be in degrading MIRO through ubiquitination, causing local mitochondrial arrest and eventual mitophagy. Conversely, a mechanism of remobilization where mitochondrial vesicles containing SNPH are released with the idea of enhancing retrograde transport after stress. This mechanism is activated in pre-symptomatic ALS models and Alzheimer's disease. It seems that early disease causes mitophagy primarily in the soma, while later and or higher levels of stress may induce it within the axon. The site of mitochondrial degredation is therefore an indicator of disease progression. 
+
+\subsection{Neuronal Injury and Regeneration}
+
+While degeneration is progressive and slow acting, injury is acute. Repair is inherently a highly energy intense process. The injury itself can cause mitochondrial structural damage, furthering the energy crisis. Preserving mitochondrial function is a mode of limiting Wallerian degeneration after injury. Axotomy quickly depolarizes mitochondria, and inhibiting SNPH serves as an important way to remobilize and restore their function. In certain injuries, the AKT path becomes activated which promotes PAK5 (mentioned above as inhibiting SNPH), serving as an energy-boosting mode of neuronal repair. Another such method is via ARMCX1, a protein that mobilizes mitochondria through MIRO1. Histone deacetylase 6 (HDAC6) is known to deacetylate the MIRO1 encoding gene, leading to lessened mobility. Conversely, hypoxia inducible factor 1$\alpha$ (HIF-1$\alpha$) activates hypoxia upregulated mitochondrial movement regulator (HUMMR), which promotes MIRO1/2. \newline
+
+After injury resulting in limited blood supply, such as in a stroke, metabolism occurs through glycolysis, resulting in increased lactate production. However, after the blood supply is regained, repurfusion injury can overload the system with oxygen, resulting in production of reactive oxygen species, thereby further harming mitochondria.\newline
+
+Delivery of mitochondria to damaged neurons through vesicles or tunneling nanotubes (TNTs) is thought to be one mode of enhancing recovery. It has been shown that neural stem cells are capable of transferring mitochondria to damaged cells, and microglia use TNT to do so. Mitochondrial transplantation has been done, however the efficacy of such is heavily debated. Though, it is well supported that complex networks of metabolite shuttles exist in the nervous system. The astrocyte-neuron lactate shuttle (ANLS) is a prime example, thought to allow astrocytes to fuel neural oxidative phosphorylation. Glial regulation of neuronal metabolism too occurs, such as through release of sirtuin 2 (SIRT2) which promotes metabolism in neurons. 
 
 
 
 
 
-
-\chapter{Circuit Reorganization and Plasticity}
+\chapter{Circuit Reorganization and Plasticity}2q
 
 \label{sec:CircuitReorganization}
 
