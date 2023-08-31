@@ -1,3 +1,5 @@
+Note: My plan for the semester is to update approx. once per week. Since a few of my courses are relevant, and with the background reading I do, it seems most convenient to synthesize everything at the end of the week into this book. Therefore, you can expect a couple extra pages every Sat / Sun or so. 
+
 # Brain-spine-muscle interface textbook
 If a textbook doesn't exist for the subject you want to learn about, write yourself one!
 
