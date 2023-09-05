@@ -1004,7 +1004,7 @@ to ++(0,0) node[ground]{}
 
 \chapter{Capacitors, Inductors, Filters}
 \section{Overview}
-Getting a good intuition of capacitor's behavior is an essential part of understanding electronics. A capacitor is like a storage of charge, which can maintain a voltage for a period after the voltage supplied to the circuit is cut off. The basic structure of a capacitor is an anode and a cathode separated by a dialectric plate. Charge will be stored across it, and is released when the voltage supply dwindles. \newline
+Getting a good intuition of capacitor behavior is an essential part of understanding electronics. A capacitor is a storer of charge, which allows it maintain a voltage for a period after the voltage source originally supplying the circuit is cut off. The basic structure of a capacitor is an anode and a cathode separated by a dialectric plate. Charge will be stored across it, and is released when the voltage supply dwindles. Once a capacitor is fully charged, there will be no current. However, if the voltage oscillates, the capacitor will follow $\Vi$. Effectively, capacitors filter out DC voltage.\newline
 
  Capacitor discharge will be exponential decay in the form: 
 
@@ -1016,7 +1016,7 @@ Getting a good intuition of capacitor's behavior is an essential part of underst
 \end{split}
 \end{equation}
 
-This is quite similar to neurons, isn't it! So some examples, to build up a bit of intuition. Let's say you have the following circuit: 
+This is quite similar to neurons, isn't it! Let's consider some examples to further our intuition. Let's say you have the following circuit: 
 
 
 \begin{center}
@@ -1031,14 +1031,16 @@ This is quite similar to neurons, isn't it! So some examples, to build up a bit 
 \end{circuitikz}
 \end{center}
 
-RC will be 1k$\Omega \times 1 \mu$F $ = 1 \times 10^{-3}$, or $\tau = 1$ms. What does this actually mean, though? It means that if you charge this capacitor up to 10V, then ${V}_C = {V}_S \times e^{-t / {RC}} \rightarrow 10{V} \times  e^{-t / \mathrm{1ms}}$. So 1 ms after voltage is removed, and or, one time constant $\tau$ after voltage is removed, the voltage at the capacitor will be $10 \times e^{-1} \approx 10 \times 0.367 = 3.67$V. If you were using a square wave which charged the capacitor to 10V, with a very high frequency (100 kHz, for example), then the period would be $1/100$kHz $ = 0.01$ ms. Therefore, you would not expect the capacitor to ever fully discharge, and it would maintain a constant, high voltage. This circuit happens to be what is called a \textit{low-pass filter}, which we will discuss in-depth later. But, you can see how it might get this moniker, as this very high frequency is not allowed to pass due to the capacitor's time constant.\newline
+RC will be 1k$\Omega \times 1 \mu$F $ = 1 \times 10^{-3}$, or $\tau = 1$ms. What does this actually mean, though? It means that if you charge this capacitor up to 10V, then ${V}_C = {V}_S \times e^{-t / {RC}} \rightarrow 10{V} \times  e^{-t / \mathrm{1ms}}$. So, 1 ms after voltage is removed, and or, one time constant, $\tau$, after voltage is removed, the voltage at the capacitor will be $10 \times e^{-1} \approx 10 \times 0.367 = 3.67$V. If you were using a square wave which oscillated between 0 and 10V with a very high frequency (100 kHz, for example), then the period would be $1/100$kHz $ = 0.01$ ms. Therefore, you would not expect the capacitor to ever fully discharge, and it would maintain a constant, high voltage. Perhaps you can intuitively predict that it would get stuck near a voltage of 5V, in the middle of our square wave input.\newline
 
-This was meant to serve as a basic intro to what a capacitor is. Now we can begin discussing the nuances. 
+This circuit happens to be what is called a \textit{low-pass filter}, which we will discuss in-depth later. But, you can see how it might get this moniker, as this very high frequency is not allowed to pass due to the capacitor's time constant. This was meant to serve as a basic intro to what a capacitor is. Now we can begin discussing the nuances.\newline
 
 
 \section{Capacitor Behavior}
 
-Let's look at the circuit below and its output\footnote{I really dislike needing to include .png images in works like this, but I believe I have no choice in this case.}. All we are doing here is thinking about the shape of the output to build up a bit of intuition.  
+\label{sec:CapacitorBehavior}
+
+Let's look at the circuit below and its output (the same circuit as before)\footnote{I really dislike needing to include .png images in works like this, but I believe I have no choice in this case.}. Only think about the \underline{shape} of the output, no number. Only work on building up the conceptual understanding. This time our $\Vi$ (the blue square wave) is 100Hz. 
 
 \begin{multicols}{2}
     \begin{center}
@@ -1057,7 +1059,7 @@ Let's look at the circuit below and its output\footnote{I really dislike needing
     \includegraphics[width=0.5\textwidth]{images/Lowpassfilter1.png}
 \end{multicols}
 
-Think about how the capacitor will behave. At time $t=0$, the capacitor is fully charged. No current will flow at this time, meaning it will act as an open circuit, and therefore have a ``resistance" of $\infty$. Therefore, you can think of the circuit as being like a voltage divider whose $R_2 = \infty$, and or $\Vo = \Vi$. At $t = 1/2f$, the capacitor is able to discharge, and dissipates charge accord to its decay curve. At $t = 1/f$, the capacitor is subject to voltage again and begins to charge up. At first it acts like a wire, since it draws current proportional to the input voltage. As it becomes fully charged, it will again act like an open circuit.\newline
+Think about how the capacitor will behave. At time $t=0$, the capacitor is fully charged. No current will flow at this time, meaning it will act as an open circuit, and therefore have a ``resistance" of $\infty$. You can think of the circuit as being like a voltage divider whose $R_2 = \infty$, and or $\Vo = \Vi$. At $t = (1/2)\omega$, the capacitor is able to discharge, and dissipates charge according to its decay curve. At $t = \omega$, the capacitor is subject to voltage again and begins to charge up. At first it acts like a wire, since it draws current proportional to the input voltage. As it becomes fully charged, it will again act like an open circuit.\newline
 
 Let's now consider swapping positions: 
 
@@ -1078,15 +1080,14 @@ Let's now consider swapping positions:
     \includegraphics[width=0.5\textwidth]{images/Highpassfilter1.png}
 \end{multicols}
 
-At $t=0$, the capacitor is fully charged, so no current flows at all, and $\Vo = 0$. This is expected, since capacitors are meant to filter out DC voltage. At $t = 1/2f$, the capacitor shoots down to $-\Vpp$. This is because $\Vi$ becomes negative relative to the voltage that the capacitor is held at. I.e., one plate of the capacitor is held at this $\Vpp$ value, so when $\Vi$ goes to 0, the voltage is negative between the plates of the capacitor. It then undergoes its standard decay curve, following this rule. Again, the decay will end at 0 because capacitors filter out DC voltage like this. 
+At $t=0$, the capacitor is fully charged, so no current flows at all, and $\Vo = 0$. This is expected, since capacitors are meant to filter out DC voltage. At $t = (1/2)\omega$, the capacitor shoots down to $-\Vpp$. This is because $\Vi$ becomes negative relative to the voltage that the capacitor is held at. I.e., one plate of the capacitor is held at this $\Vpp$ value, so when $\Vi$ goes to 0, the voltage is negative between the plates of the capacitor, which draws negative current to the plate on the right side, making the voltage drop across the 1k$\Omega$ resistor equal to $-IR$. It then undergoes its standard decay curve, following this rule. Again, the decay will end at 0 because capacitors filter out DC voltage. 
 
 
 \section{Filtration Conceptually}
 
-Firstly, what is filtration? Filtration refers to our filtering out of background signal, or any undesigned signal, in order to isolate our signal of interest. For example, perhaps you are interested in a sine wave whose period is 1 ms, but this is superimposed by a bunch of other sine waves of variable periods. You can extract the 1ms sine wave with some clever circuits, and build your following circuit fragments based on it. 
+Firstly, what is filtration? Filtration refers to our filtering out of background signal, or any undesired signal, in order to isolate our signal of interest. For example, perhaps you are interested in a sine wave whose period is 1 ms, but this is superimposed on a bunch of other sine waves of variable periods. You can extract the 1ms sine wave with some clever circuits, and build your downstream circuit fragments based on it. It's like an analog version of the Fourier Transform!\newline 
 
-\subsubsection{Why filter?}
-You may ask yourself, why would we need a circuit that can filter out signals / frequencies? An example given by Professor Ashmanskas is: imagine you are building a sensor that tests the water level in a pool. You don't want the pool to overflow when it rains, or get too low when the Summer comes and evaporates water---so you devise an automatic system to add or take out water as needed. One could simply add a sensor to the side of the pool, but it will be subject to the constant waves formed by people swimming, and its readings will be horribly off-base, and uninterpretable. Each time someone cannon-balls in and splashes it, the sensor will think that the pool is greatly overflowing. Thus, one can devise a circuit that filters out all of these little fluctuations (this would be called a \textit{low-pass filter}, for passing things that occur on a long time-scale---low frequency).
+Let's consider a specific example given by Professor Ashmanskas: imagine you are building a sensor that tests the water level in a pool. You don't want the pool to overflow when it rains, or get too low when the Summer comes and water evaporates---so you devise an automatic system to add or take out water as needed. One could simply add a sensor to the side of the pool, but it will be subject to the constant waves formed by people swimming, and its readings will be horribly variable and uninterpretable, as they do not reflect the so-called \textit{steady-state} value of the water level. Each time someone cannon-balls in and splashes it, the sensor will think that the pool is greatly overflowing. Thus, one can devise a circuit that filters out all of these little fluctuations (this would be called a \textit{low-pass filter}, for passing variations that occur on a long time-scale---low frequency).
 
 
 \subsection{Integration and Differentiation}
@@ -1162,7 +1163,7 @@ Thus, in this case $\V_{out}$ approximates the derivative of $\V_{in}$.
 
 \subsubsection{Qualitative Thinking.}
 
-The best lead in to thinking about filtration, to me, is thinking simply about how the graphs look like when something integrates or differentiates a square wave, combined with our understanding of capacitor behavior from above. Let us not do any math, and think only qualitatively. 
+The best lead in to thinking about filtration, to me, is thinking simply about how the graphs look like when something integrates or differentiates a square wave, combined with our understanding of capacitor behavior from above. Let us not do any math, and think only qualitatively.\newline 
 
 \begin{centering}
 \begin{tikzpicture}
@@ -1185,31 +1186,30 @@ The best lead in to thinking about filtration, to me, is thinking simply about h
     (8,0)
     (10,0)
     };
-\addplot[color=red]
+\addplot[smooth,color=red]
     plot coordinates {
-    (0,3)
-    (2,2)
-    (4,3)
-    (6,4)
-    (8,5)
-    (10,4)
+    (2,0)
+    (3,5)
+    (5,7)
+    (8,8)
     };
 \addplot[smooth,color=blue]
     plot coordinates {
-    (2,8)
-    (4,2)
-    (6,0.5)
-    (8,0.125)
-    (10,0)
+    (2,4)
+    (3,1)
+    (4,0.25)
+    (8,0)
     };
 \end{axis}
     \end{tikzpicture}
     
 \end{centering}
 
-If the green waveform is our $\V_{in}$ from the previous example, then our red curve is similar to how $\V_{out1}$ may look, and the blue curve is similar to how $\V_{out2}$. That is, the blue curve \textit{kind of} differentiates the green curve, because the relatively instant rise signifies a very positive derivative, marked by this blue spike. Similarly, the red curve \textit{kind of} integrates the green curve, because the area under the green curve slowly accumulates, hence the constant slope of the red curve.\newline 
+If the green waveform is our $\V_{in}$ from the previous example, then our red curve is similar to how $\V_{out1}$ may look, and the blue curve is similar to how $\V_{out2}$. That is, the blue curve \textit{kind of} differentiates the green curve, because the relatively instant rise signifies a very positive derivative, marked by this blue spike. Similarly, the red curve \textit{kind of} integrates the green curve, because the area under the green curve slowly accumulates, hence the overall positive slope of the red curve.\newline 
 
-So if we say that the frequency is extremely slow, and the red curve is the voltage being measured at $\V_{out2}$, how might the derivative curve look? 
+Something interesting you might notice, though, about the blue curve is that it seems centered around 0, while the red curve seems centered around the midway point of the green $\Vi$. You can realize that the capacitor being before $\Vo$ means it'll filter out all DC voltage, thereby centering $\Vo$ about 0. Thus, you can expect there to be a symmetric, negative curve on the downward edge of the green curve, as mentioned and discussed in section \textbf{\ref{sec:CapacitorBehavior}}.\newline
+
+So if we say that the frequency is extremely slow, and the red curve is the voltage being measured at $\V_{out2}$, how might the red curve look? 
 
 \begin{multicols}{2}
 \begin{tikzpicture}
@@ -1232,14 +1232,24 @@ So if we say that the frequency is extremely slow, and the red curve is the volt
     (8,0)
     (10,0)
     };
-\addplot[color=red]
+\addplot[smooth,color=red]
     plot coordinates {
     (2,0)
-    (2.5,4)
+    (2.2,5)
+    (2.6,7)
     (3,8)
+    };
+\addplot[smooth,color=red]
+    plot coordinates {
     (8,8)
-    (8.5,4)
+    (8.2,7)
+    (8.6,5)
     (9,0)
+    };
+\addplot[color=red]
+    plot coordinates {
+    (8,8)
+    (3,8)
     };
 \end{axis}
     \end{tikzpicture}
@@ -1266,15 +1276,26 @@ So if we say that the frequency is extremely slow, and the red curve is the volt
     };
 \addplot[smooth,color=blue]
     plot coordinates {
-    (2,8)
-    (6,6)
-    (8,5.5)
+    (2,4)
+    (6,2.7)
+    (8,2.5)
     };
+\addplot[color=blue]
+    plot coordinates {
+    (2,0)
+    (2,4)
+    };
+\addplot[color=blue]
+    plot coordinates {
+    (8,0)
+    (8,2.5)
+    };
+\node[draw,text width=4cm] at (7,9) {\footnotesize Note: \textcolor{blue}{$\Vo$} must have $\mu = 0$, hence $V_{offset}$};
 \end{axis}
     \end{tikzpicture}    
 \end{multicols}
 
-Similarly, if the frequency is very high, how might the integral look? Take a second to ponder the two graphs above and gather a bit of intuition on it. This should allow you to qualitatively state that an integrating circuit will be a \textit{low-pass filter}, and a differentiating circuit will be a \textit{high-pass filter}. As in the left graph, as the frequency gets smaller and smaller, the red plot will more and more closely match the green plot. This is the basis of capacitor filtration, an essential tool in electronics!
+Similarly, if the frequency is very high, how might the blue curve look? Take a second to ponder the two graphs above and gather a bit of intuition on it. This should allow you to qualitatively state that an integrating circuit will be a \textit{low-pass filter} (because $\Vo$ matches $\Vi$), and a differentiating circuit will be a \textit{high-pass filter} (except that there's an offset when the long-term average of $\Vi \neq 0$). As in the left graph, as the frequency gets smaller and smaller, the red plot will more and more closely match the green plot. This is the basis of capacitor filtration, an essential tool in electronics!
 
 \section{Frequency Dependence}
 This section will primarily be quantitative. The important bits, though, are the qualitative understandings, and the final results of this quantitative section. What you find in the interim is likely not worth understanding fully. Let's begin by supposing we apply a $\cos$ wave to a resistor. The relationship between current and voltage is as follows:
@@ -1288,7 +1309,7 @@ I(t) & = \pr{\Vpp / {R}} \cos\pr{\omega t}\\
 \end{split}
 \end{equation}\newline
 
-Therefore, if you were to solve something like $\Vo / \Vi$ your pesky $\cos$ terms will cancel. Unfortunately, this is not so for capacitor equations. We can see this below: 
+Therefore, if you were to solve something like $\Vo / \Vi$ your pesky $\cos$ terms will cancel. This simply means that $\Vi$ and $\Vo$ will be in phase, only changed by some scaling factor. Unfortunately, this is not so for capacitor equations. We can see this below: 
 
 \begin{equation} \label{freq2}
 \begin{split}
@@ -1310,7 +1331,7 @@ v_c &= A \cos \pr{\omega t + \phi} \\
 
 
 \subsection{Imaginary Numbers Digression.}
-You probably looked at the previous equation and it is solvable (probably?) but that it would be not worth your while to do so, and that there is likely a better way to go about it. Recall Euler's Relation\footnote{Electrical Engineers use $j$ instead of $i$ for imaginary numbers. The claim is that it is easier to keep track of in the math.}: 
+Maybe looked at the previous equation and thought it is solvable (probably?) but that it would be not worth your while to do so, and that there is likely a better way to go about it. Recall Euler's Relation\footnote{Electrical Engineers use $j$ instead of $i$ for imaginary numbers. The claim is that it is easier to keep track of in the math. Other's claim it's because $i$ is sometimes used to represent currents, particularly small ones.}: 
 
 \begin{equation} \label{imag1}
 \begin{split}
@@ -1366,9 +1387,7 @@ A_{out} &= A_{in}\sin(\omega t + \phi) \\
 \end{split}
 \end{equation}
 
-Where $A$ is the amplitude at either time. 
-
-This is one way to go about this problem. Another way, which will be discussed in the next section, is using impedance. 
+Where $A$ is the amplitude at either time. This is one way to go about this problem. Another way, which will be discussed in the next section, is using impedance. 
 
 \section{Impedance}
 We mentioned earlier in equation \eqref{imag3} that the relationship between an input voltage and what is measured at a capacitor for a low-pass filter is: 
@@ -1543,11 +1562,11 @@ Z_1 &= \frac{j\omega L}{1-\omega^2 LC} \\
 Now, impedance will go to infinity at the described $f_0$---and you can filter out a specific frequency. It is useful to know how this filtering will affect the power dissipated by your circuit. At $\pm \Delta f = R/2\pi L$, the power halves, so one would call the bandwidth of this circuit to be $2\Delta f$. A halved power corresponds to an amplitude decrease of $1/\sqrt{2}$ (since $P = V^2/R$). Thus, at the two sides of the bandwidth, you'd expect to see an amplitude that is about $70\%$ as large as at $f_0$. 
 
 \subsubsection{Either or?}
-So why are capacitors much more widely used than inductors? To start, inductors are usually large and heavy. As it must be a coin of wires, usually wrapped around some magnetically-permeable metal, it doesn't easily fit into circuit boards. Too, inductors will continuously dissipate energy, while capacitors that are charged do not.\newline
+So why are capacitors much more widely used than inductors? To start, inductors are usually large and heavy. As it must be a coin of wires, usually wrapped around some magnetically-permeable metal, it doesn't easily fit into circuit boards. Too, inductors will continuously dissipate energy, while capacitors that are charged do not. \vfill\pagebreak
 
 \section{Peak Detection}
 
-An interesting application of a low-pass filter is peak detection. There may be times where you are only interested in extremes, and not the little fluctuations in between. For example, perhaps you're interested in neural activity. You probably don't care too much about individual peaks, but instead you want to get a measure of the overall activity. This is one such way to do so\footnote{These capactwo examples are from Tom Hayes' Chapter 3N.}: 
+An interesting application of a low-pass filter is peak detection. There may be times where you are only interested in extremes, and not the little fluctuations in between. For example, perhaps you're interested in neural activity. You probably don't care too much about individual peaks, but instead you want to get a measure of the overall activity. This is one such way to do so\footnote{These two examples are from Tom Hayes' Chapter 3N.}:
 
 \begin{multicols}{2}
     
@@ -1665,7 +1684,7 @@ We get:
    
 \end{multicols}
 
-The left graph was presented in an earlier section. The important takeaway is that for a linear system, $R{th} = -\Delta V_{\mathrm{AB}}/\Delta I_{\mathrm{A}}$. For a non-linear system, we can generalize this to include the impedance: 
+The left graph was presented in an earlier section. The important takeaway is that for a linear system, $R_{th} = -\Delta V_{\mathrm{AB}}/\Delta I_{\mathrm{A}}$. For a non-linear system, we can generalize this to include the impedance: 
 
 
 \begin{equation} \label{out}
@@ -3830,7 +3849,7 @@ The cell-specific responses surrounding neurons is covered in-depth in section \
 
 Other non-neuronal cells, like astrocytes and fibroblasts, secrete chondroitin sulfate proteoglycans (CPSGs). CPSGs are composed of a protein core with chondroitin sulfate sugar exteriors, whose inherent variability makes their study difficult. After injury, CPSGs too accumulate around the injury site and limit growth.  They can do so through the protein tyrosine phosphatase $\sigma$ (PTP$\sigma$) receptor or Nogo, which may trigger RhoA.  \newline
 
-Administration of chondroitinase ABC (ChABC) has shown to promote plasticity and growth by degrading CPSGs. ChABC administration in non-human primates promoted hand dexterity recovery without negative side effects. ChABC has poor stability and is difficult to produce in large quantities, making its clinical applications somewhat limited. Too, there is some evidence of their benefit, such as through perineuronal nets which may provide a supportive structure to neurons in the grey matter.\newline  
+Administration of chondroitinase ABC (ChABC) has been shown to promote plasticity and growth by degrading CPSGs. ChABC administration in non-human primates promoted hand dexterity recovery without negative side effects. ChABC has poor stability and is difficult to produce in large quantities, making its clinical applications somewhat limited. Too, there is some evidence of their benefit, such as through perineuronal nets which may provide a supportive structure to neurons in the grey matter.\newline  
 
 
 \subsubsection{Myelin Inhibition.}
