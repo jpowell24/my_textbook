@@ -313,13 +313,13 @@ to [R, l=2 k$\Omega$] ++(0,-2)
 \section{Overview}
 
 \subsection{Purpose}
-The purpose of this book is to aggregate all of the content and tools I will need in forging the future I desire: building better brain-spine-muscle interfaces. 
+The purpose of this book is to aggregate all of the content and tools I will need in forging the future I desire: building better brain-spine-muscle interfaces. Interestingly, I already find myself referencing the information here quite a bit! It has already paid back itself in full.
 
-\subsection{Content}
-It is true that total recovery from spinal cord injury, in sever cases, will require both therapeutic and electronic intervention. One must therefore learn of physiology and electronics to be able to solve these problems. I will cover, in some depth, both the electronics, math, and physiology I think I'll need. While programming will likely be an essential tool in this endeavor, I will not discuss programming beyond Verilog (which is an aspect of electronics). This is because programming is something you learn by doing, and writing out C++ algorithms in a PDF would be a waste of time!
+% \subsection{Content}
+% It is true that total recovery from spinal cord injury, in sever cases, will require both therapeutic and electronic intervention. One must therefore learn of physiology and electronics to be able to solve these problems. I will cover, in some depth, both the electronics, math, and physiology I think I'll need. While programming will likely be an essential tool in this endeavor, I will not discuss programming beyond Verilog (which is an aspect of electronics). This is because programming is something you learn by doing, and writing out C++ algorithms in a PDF would be a waste of time!
 
-\subsection{Someday Never Comes} 
-I found myself often saying something along the lines of ``someday, during medical school, I will understand SCI better," or ``someday, during my PhD, I'll learn how to build a BSI properly." But, I realized recently that \href{https://www.youtube.com/watch?v=NwNuQulK6N0}{someday never comes}. That is the main motivation for writing this. Someday never comes; there is only today. 
+% \subsection{Someday Never Comes} 
+% I found myself often saying something along the lines of ``someday, during medical school, I will understand SCI better," or ``someday, during my PhD, I'll learn how to build a BSI properly." But, I realized recently that \href{https://www.youtube.com/watch?v=NwNuQulK6N0}{someday never comes}. That is the main motivation for writing this. Someday never comes; there is only today. 
 
 \section{To Do:}
 
@@ -3044,20 +3044,46 @@ You may, rightfully, say ``\textit{Uh, who cares?}," since we already know that 
 
 \chapter{Cell Motility}
 
+\section{Introduction}
+
+The life of small things is hard. Brownian motion reorients E. coli a full 90$^\circ$ approximately once per second. The objects which they are trying to chase after and eat, too, undergo Brownian motion. A good question to ask yourself, then, is what do they do to make it worth it?
+
+\section{Cell Motility}
+
 I have an idea. I'm wondering if you can use cell motility models, with a bit of adaptation, and use it to model growth cone motility. I.e., model an ensemble of neurons after injury. The motivation being that the architecture of the neurons after injury is quite important to recovery. This idea, sprouting, is explored in-depth throughout this work, such as in a discussed Courtine review. Similarly, the movement of axons on a single cell level is naturally a form of cell motility. \newline
 
 There have been a number of papers that have gathered the 3D structure of axons after injury---so it is not impossible to verify models\footnote{\url{https://www.sciencedirect.com/science/article/pii/S0896627321007753?via\%3Dihub}}$^,$\footnote{\url{https://www.sciencedirect.com/science/article/pii/S2211124720308883?via\%3Dihub}}. 
 
 
-\section{Fluid Dynamics}
+\section{Fluid Mechanics}
+
+There are two main open questions in the field of fluid mechanics. First, Newton's equations have been used for centuries and, in large part, model the world very well. However, we still haven't determined if these work completely, in all cases. Another open question is the origin of turbulence. Broadly speaking, we can define fluids as something that can be deformed, are continuous, and have no memory of its previous position. Complex fluids, like toothpaste, exhibit both fluid-like behaviors, but also retain their shape when left alone. \newline
+
+Knudsen number is used to define how continuous a fluid is: 
+\begin{equation} \label{knum}
+\begin{split}
+K_N = \frac{\lambda}{L}
+\end{split}
+\end{equation}
+
+Knowing a system is continuous allows us to define dynamic, average quantities like $\rho(x;t), p(x;t), \mathbf{u}(x;t)$. Our pressure value, $p(x;t)$, is useful in defining the resistance of a fluid to force. Pressure is isotropic, meaning it is independent of direction. Defining the velocity, $\mathbf{u}(x;t)$, may be done by quantizing some small segment of the fluid and following its trajectory. This is the Lagrangian description. The trajectory that your quantized box follows is called the \textit{pathline}. Alternatively, the Eulerian description treats the fluid as an ensemble, defining $\mathbf{u}$ everywhere and producing a vector-field like array of streamlines. Conversion between the Lagrangian and Eulerian descriptions is:\newline
+
+\begin{equation} \label{LtoE}
+\begin{split}
+\frac{Df}{Dt} = \frac{\partial f}{\partial t} + \mathbf{u}\cdot f
+\end{split}
+\end{equation}
+
+You can define movement of a fluid with three fundamental flows: translation, rotation (solid body), and extension. Translation and rotation both do not cause any deformation. The streamlines simply move in unison in some direction. Extension causes deformation, and have hyperbolic streamlines. A microfluidic chamber, in which 4 channels come together in a cross, is an example of extension flow. At the intersection, components will be stretched. Deformation like this will lead to friction.\newline
+
+\subsubsection{The Reynolds Number.}
 
 A large part of this section will come from\footnote{\url{https://www.cambridge.org/us/universitypress/subjects/mathematics/fluid-dynamics-and-solid-mechanics/fluid-dynamics-cell-motility?format=HB&isbn=9781107174658}} and\footnote{\url{https://pubs.aip.org/aapt/ajp/article-abstract/45/1/3/1043148/Life-at-low-Reynolds-number?redirectedFrom=fulltext}}.\newline
 
-The Reynolds number, $R_e$, described the flow of a fluid and is used to characterize it as turbulent or laminar. It is calculated as: 
+The Reynolds number, $R_e$, described the flow of a fluid and is used to characterize it as turbulent or laminar. Such turbulent or laminar flow is interesting and important in biology. For example, flow in the circulatory system is typically turbulent (unless we are discussing the capillaries). Areas of high turbulence are known to accumulate plaques more frequently. It is calculated as: 
 
-\begin{center}
-\begin{multicols}{2}
-    
+\nopagebreak
+
 \begin{equation} \label{Redefinition}
 \begin{split}
 R_e & = \frac{\rho LU}{\eta}
@@ -3069,9 +3095,8 @@ R_e & = \frac{\rho LU}{\eta}
 R_{e\omega} & = \frac{\rho L^2\omega}{\eta}
 \end{split}
 \end{equation}
-\end{multicols}
-\end{center}
 
+\nopagebreak
 
 Where $\rho$ described the density of the fluid, $L$ describes the characteristic length, $U$ describes the flow speed, and $\mu$ describes the fluid's viscosity. It is common to see these variables interchanged with others, such as describing $U$ as $v$, or $\eta$ as $\mu$, or others. Another common thing you may see is the replacement of $\rho / \eta$ with a different constant called the \textit{kinematic viscosity}, usually represented by $\nu$. \newline
 
@@ -3089,9 +3114,283 @@ $F_{tow}$ is the force required to ``tow" an object in some liquid when $R_e = 1
 
 Swimming itself is a cyclic process, usually described as $n$ cycles. Reciprocal swimming is when one's motion is equal in either the forward or reverse direction, and where one ends up in the same state at the end of the cycle. Interestingly, at high $R_e$ this cycle of swimming is acceptable. The example described in \textit{Life at Low $R_e$} is a clam who opens its mouth to move and then closes it, shunting it forward and is carried by momentum. Of course, such momentum does not help at low $R_e$, so a swimmer must have multiple, non-reciprocal movements. 
 
+\subsubsection{Lizard Digression.}
+
+A neat question you can ask is how exactly a large animal, like a lizard, are able to run on water? To do this, we'll make a number of huge simplifications. First, let's say the lizard's foot deflects / indents the water in an approximately cube-like manner with a length $R$. The density of the fluid is what we'll call $\rho_f$. The speed that they're running we'll call $v$, and the frequency of their steps to be $\omega$. The force generated by stepping, also called the Shoke force, is due to the inertia of the fluid, and is summarized as: 
+
+\begin{equation} \label{lizard1}
+\begin{split}
+F_{up} \approx R^3\rho_f v\omega
+\end{split}
+\end{equation}
+
+The lizard is fighting the force of gravity pulling it down. If we take the lizard to be approximately cube like, with dimension $L$ and density $\rho_l$, then: 
+
+\begin{equation} \label{lizard2}
+\begin{split}
+F_{down} &\approx L^3\rho_l g \\
+R^3\rho_f v\omega &\geq L^3\rho_l g
+\end{split}
+\end{equation}
+
+To simplify further, let's assume $R \approx L$, and that $\omega \approx v / L$. Now we can simplify to: 
+
+\begin{equation} \label{lizard2}
+\begin{split}
+\rho_f \frac{v^2}{L} &\geq \rho_l g \\
+v &\geq \pr{\frac{\rho_l}{\rho_f} gL}^{\frac{1}{2}}
+\end{split}
+\end{equation}
+
+For the sake of not thinking too hard, you can intuit that body's have physiological limits. Perhaps theoretically, an elephant can run on water if it moves its legs fast enough. However, you can probably see that this isn't feasible; muscles have limits. Let's say the physiological constraint conforms to the following equation, where $K$ is a constant describing muscle output: 
+
+\begin{equation} \label{lizard3}
+\begin{split}
+F v \leq \rho_l L^3 K \\
+R^3\rho_f v^2\omega \leq \rho_l L^3 K \\
+v \leq \pr{\frac{\rho_l}{\rho_f} L K}^{\frac{1}{3}} \\
+\end{split}
+\end{equation}
+
+Therefore, the result you'll see is that to run on water, you are constrained between equation (\ref{lizard2}) and equation (\ref{lizard3}). At some point the result of (\ref{lizard2}) exceeds that of (\ref{lizard3}), making is so the burden of running on water exceeds physiological limits. This example wasn't explained in significant depth, and we made some grand simplifications, but the central theme is the ability to map the real, moving world onto equations and make some statements about what is possible. 
+
+
+\subsection{Conservation of Mass}
+
+Let's discuss a fluid at point $x$ and time $t$. Its velocity is $\mathbf{u}(x;t)$, and its density $\rho(x;t)$. If we are interested in some space, $\omega$, we can determine the mass of fluid in this space by: 
+
+\begin{equation} \label{phenom1}
+\begin{split}
+\int_\omega \rho(x;t)d\omega
+\end{split}
+\end{equation}
+
+If we are interested in the rate of change of fluid in our space $\omega$, we can determine it by:
+
+\begin{equation} \label{phenom1}
+\begin{split}
+\int_\omega
+\frac{\partial}{\partial t}\rho(x;t)d\omega
+\end{split}
+\end{equation}
+
+Knowing that any change in mass of the fluid is due only to fluid flowing in and out of our space $\omega$, we can rewrite this integral in terms of fluid passing the space's boundaries, which we'll call $S$, and let's define a vector normal to this space as $\Vec{n}$. In other terms: 
+
+\begin{equation} \label{phenom1}
+\begin{split}
+-\int_{S,\partial\omega}
+\rho \mathbf{u} \cdot \Vec{n}dS = \int_\omega \nabla x \cdot [\rho \mathbf{u}]d\omega
+\end{split}
+\end{equation}
+
+
+The conversion between the two is a result of Gauss' theorem. This also means that, because $\omega$ is arbitrary: 
+
+\begin{equation} \label{phenom1}
+\begin{split}
+\frac{\partial}{\partial t}\rho(x;t) = -\nabla x\cdot [\rho(x;t)\mathbf{u}(x;t)]
+\end{split}
+\end{equation}
+
+This is like saying the total change in density is equal to the change in density and velocity at all points $x$. Which we can rewrite in a way that is clearer, demonstrating mass is conserved: 
+
+
+\begin{equation} \label{phenom1}
+\begin{split}
+\frac{\partial \rho}{\partial t} + \nabla \cdot (\rho \mathbf{u}) = 0
+\end{split}
+\end{equation}
+
+Where $\partial \rho / \partial t$ is the change in density and $\nabla \cdot (\rho \mathbf{u})$ is the advection term. For an incompressible fluid, where your density is fixed, you are left with:
+
+\begin{equation} \label{phenom1}
+\begin{split}
+ \nabla \cdot \mathbf{u} = 0
+\end{split}
+\end{equation}
+
+This, of course, is the first equation in the Navier-Stokes equations, discussed in section \textbf{\ref{sec:imstoked}}.\newline
+
+\subsection{Stress Tensor}
+
+Conservation of momentum can be solved using the forces applied to the system. This includes body forces ($\mathbf{F}(x;t)\delta V$ for some volume $\delta V$) and forces applied to a segment of the surface ($\tau(x;t)\delta S$ for some surface $\Vec{n}\delta S$).\newline 
+
+Body forces scale with $\mathcal{O} (\mathbf{F}L^3)$, and the canonical example is gravity. Forces applied to the surface include pressure, which scales with $\mathcal{O} (\mathbf{F}L^2)$. The force of friction (or viscosity), just as the friction of two solids, comes in two components: the normal force and the force which opposes movement laterally. \newline
+
+To think about this, consider some arbitrary object with a face. Regardless of the face, it has some normal vector $\Vec{n}$, and let's say this surface has an area $A$. As mentioned before, body forces scale with $\mathcal{O} (\mathbf{F}L^3)$, while surface with $\mathcal{O} (\mathbf{F}L^2)$. This means that when $\lim_{V\to 0}$, body forces and surface forces must be equal. So let's think of $\tau$ as:
+
+\begin{equation} \label{phenom1}
+\begin{split}
+ \tau(x;t) = \lim_{A\to 0}\frac{F}{A}
+\end{split}
+\end{equation}
+
+Let's first think of a cube whose faces are aligned with basis vectors $\{\Vec{e_1}, \Vec{e_2}, \Vec{e_3}\}$. All traction vectors can be summarized using these components such that if we have vector $\tau$ acting in the direction $e_3$, we can describe it as:
+
+\begin{equation} \label{phenom1}
+\begin{split}
+ \tau_{e_3} &= \sigma_{3,1}e_1 + \sigma_{3,2}e_2 + \sigma_{3,3}e_3\\
+\tau_{i} &= \sigma_{i,j}e_j
+\end{split}
+\end{equation}
+
+This works nicely and succinctly when we are discussing a vector $\tau$ in the direction of a basis vector. Cauchy describes a more general case for some arbitrary tetrahedron. Forces applied to three of the faces on the tetrahedron can be described using $\{\sigma_{i,1}, \sigma_{i,2}, \sigma_{i,3}\}$, but the fourth face is misaligned with the bases. The 4$^\mathrm{th}$ face of the tetrahedron has the normal vector $\Vec{n}$, which can be defined as $\Vec{n} = \Vec{n_1}e_1 + \Vec{n_2}e_1 + \Vec{n_3}e_1$. A force acting on this face, $\tau$ is not aligned with any basis vector, but we can cheat by splitting $\tau$ into its components, $\tau = \tau_{n_1} + \tau_{n_2}+ \tau_{n_3}$.\newline
+
+I'm going to yada-yada through the proof a little bit, but the gist is that if you take Newton's laws and describe them for each normal, you get something along the lines of: 
+
+\begin{equation} \label{phenom1}
+\begin{split}
+\sum \mathbf{F_{e_1}} = -\sigma_{1,1}n_1 - \sigma_{2,1}n_2 - \sigma_{3,1}n_3 + \tau_{n_1} + mg = ma
+\end{split}
+\end{equation}
+
+Since, as mentioned earlier, we are taking the limit as the volume goes to zero, we can say that: 
+
+\begin{equation} \label{phenom1}
+\begin{split}
+-\sigma_{1,1}n_1 - \sigma_{2,1}n_2 - \sigma_{3,1}n_3 + \tau_{n_1} + 0 &= 0 \\ 
+\sigma_{1,1}n_1 + \sigma_{2,1}n_2 + \sigma_{3,1}n_3 &= \tau_{n_1}  \\ 
+\end{split}
+\end{equation}
+
+And this holds true for all of the components of $\tau$. This makes it more obvious that $\sigma$ will be linear and homogenous. We can now write this as: 
+
+\begin{align}
+\begin{bmatrix} %%%%%%%%%%%%%%
+\tau_{n1} \\
+\tau_{n2} \\
+\tau_{n3}
+\end{bmatrix}
+=
+\begin{bmatrix} %%%%%%%%%%%%%%
+\sigma_{1,1} & \sigma_{2,1} & \sigma_{3,1} \\
+\sigma_{1,2} & \sigma_{2,2} & \sigma_{3,2} \\
+\sigma_{1,3} & \sigma_{2,3} & \sigma_{3,3} \\
+\end{bmatrix}
+\begin{bmatrix} %%%%%%%%%%%%%%
+n1 \\
+n2 \\
+n3
+\end{bmatrix}
+\end{align}
+
+Simplified, this is: 
+
+\begin{equation} \label{phenom1}
+\begin{split}
+\tau_n = \sigma^Tn
+\end{split}
+\end{equation}
+
+Where the transpose of $\sigma$ multiplied by the normal gives us the force. So in short, to find the force acting on a plane you take some stress tensor and multiply it by the normal of that plane.\newline
+
+
+
+One component you may be interested in calculating is the force normal to the plane. Let's call this $\sigma_n$. This can be accomplished via a linear projection. From linear algebra, this is: 
+
+
+\begin{equation} \label{phenom1}
+\begin{split}
+\sigma_n &= \mathrm{proj}_n\tau_n = \frac{\tau_n \cdot n}{||n||}\\
+\sigma_n &= \tau_n \cdot n
+\end{split}
+\end{equation}
+
+Because the length of a unit vector, $n$, must equal 1. A shear stress, on the other hand, is parallel to the surface of the plane. For now, I'll call this $\pi_n$. Because the traction vector, $\tau_n$, is the vector addition of $\sigma_n$ and $\pi_n$. In other words, for either the vector or the scalar: 
+
+\begin{equation} \label{phenom1}
+\begin{split}
+\Vec{\pi_n} &= \tau_n - \sigma_nn \\
+\pi_n &= ||\tau_n - \sigma_nn ||
+\end{split}
+\end{equation}
+
+$\tau(x,t)dS$ describes the force exerted on a surface, called a traction. One component will be the normal force. The normal force will always point in the direction opposite of $\tau$, which can be written as $\tau(x,t,-\Vec{n}) = -\tau(x,t,\Vec{n})$. To characterize this, you need to know the magnitude, direction, and orientation of the surface.\newline
+
+Defining $\tau(x,t)dS$ can be done with $\tau(\Vec{n})dS = -\tau(e_1)dS - \tau(e_2)dS ... = -[\tau(e_x)dS]\cdot \Vec{n}$, where $e_x$ is a surface. Somehow this leads to, via some linear projection, $dS_i = dS \Vec{n}\cdot e_i$ and then $\tau = \sigma \cdot \Vec{n}$. $\sigma$ is your Cauchy stress tensor, in units of Pascals, which usually comes in the form of a $3\times3$ matrix. \newline 
+
+This matrix, $\sigma$, is inherently symmetric. 
+
+
+
+\subsection{Conservation of Momentum}
+
+To achieve the hydrodynamical equation of motion, we equate the rate of change of momentum within $\omega$ and out of the boundaries with the sum of forces acting on $\omega$ and the boundaries. The rate of change of momentum, in this case, is:
+
+\begin{equation} \label{phenom1}
+\begin{split}
+\int_\omega\frac{\partial}{\partial t}[\rho(x;t)\mathbf{u}(x;t)]d\omega
+\end{split}
+\end{equation}
+
+We can describe the outflow of momentum from the space $\omega$ by:
+
+\begin{equation} \label{phenom1}
+\begin{split}
+\int_\S \rho(x;t)\mathbf{u}(x;t)\mathbf{u}(x;t) \cdot dS = -\int_\omega \nabla x \cdot [\rho \mathbf{u}\mathbf{u}]d\omega
+\end{split}
+\end{equation}
+
+The sum of forces acting on the fluid within $\omega$ are loosely defined with $X$, where $X$ is the force per unit volume from external forces:
+
+\begin{equation} \label{phenom1}
+\begin{split}
+\int_\omega X(x;t)d\omega
+\end{split}
+\end{equation}
+
+And the force force experienced, using $\sigma$ as the stress tensor, is:
+
+\begin{equation} \label{phenom1}
+\begin{split}
+\int_S \sigma(x;t)\cdot dS = \int_\omega \nabla x \cdot \sigma d\omega
+\end{split}
+\end{equation}
+
+These are all combined and simplified into: 
+
+\begin{equation} \label{phenom1}
+\begin{split}
+\frac{\partial}{\partial t}[\rho \mathbf{u}] + \nabla x \cdot [\rho\mathbf{u}\mathbf{u}] = X + \nabla x \cdot \sigma
+\end{split}
+\end{equation}
+
+We are allowed to make this simplification because $\omega$ is a nonexistant, arbitrary space. 
+
+
+
+
+
+
+
+\begin{equation} \label{phenom1}
+\begin{split}
+\frac{\partial}{\partial t}\int_\omega \rho\mathbf{u}d\omega = \int_\omega \mathbf{F}d\omega + \int_{\partial S}\sigma \cdot \Vec{n}dS - \int_{\partial D}\rho \mathbf{u}(\mathbf{u}\cdot\Vec{n})dS\\
+\rho[\frac{\partial \mathbf{u}}{\partial t} + \mathbf{u}\cdot\nabla \mathbf{u}] = \rho g + \nabla \cdot \sigma
+\end{split}
+\end{equation}
+
+At present, this cannot be solved because we do not know how $\sigma$ behaves in the system. With an assumption, we can find the constitutive equation for $\sigma$:
+
+\begin{equation} \label{phenom1}
+\begin{split}
+\sigma &= -p I + \mu(\nabla\mathbf{u} + {}^T\nabla\mathbf{u})
+\end{split}
+\end{equation}
+
+Where $-pI$ is pressure multiplied by an identity matrix, giving us an isotropic term. The second term is viscosity, which was empirically determined by Newton. It was shown that the drag force experienced by an object scales with \textbf{u} and $A$, but inversely with $h$. Thus, we get:
+
+\begin{equation} \label{phenom1}
+\begin{split}
+\frac{F}{A} = \mu \frac{\mathbf{u}}{h} 
+\end{split}
+\end{equation}
+
+$\mu$ is a scaling factor, which is called the dynamic velocity and has units of Pascal$\cdot$seconds. 
+
 \subsection{Navier-Stokes Equations}
 
-You may want to review Math Essentials section \textbf{\ref{sec:linalg}} before beginning.\newline
+\label{sec:imstoked}
 
 In knowing the velocity vectors at all points in a fluid allows you to describe the movement of the fluid over time. Three key assumptions in this are that the fluid be Newtonian (meaning applying a shear force does not affect it in any way), incompressible, and isothermal. This brings us to:
 
@@ -3102,15 +3401,23 @@ In knowing the velocity vectors at all points in a fluid allows you to describe 
 \end{split}
 \end{equation}
 
-$\nabla \cdot \mathbf{u} = 0$ simply states that the momentum (and or mass) is conserved. \textbf{u} being multiplied by its gradient vector is used to solve the divergence of the field. A nonzero divergence would describe a source of fluid flowing into the system (or a sink).\newline
+$\nabla \cdot \mathbf{u} = 0$ simply states that the mass is conserved. When describing a 3 dimensional velocity, we'll consider $(x,y,z)$. Thus:
 
-The second equation is a rewriting of Newton's second law, $\sum F = ma$. Let's see how: 
+\begin{equation} \label{NS2}
+\begin{split}
+\nabla \cdot \mathbf{u} =  \frac{\partial \textbf{u}}{\partial x} + \frac{\partial \textbf{u}}{\partial y} + \frac{\partial \textbf{u}}{\partial z}\\
+\end{split}
+\end{equation}
+
+Taking the gradient of \textbf{u} is used to solve the divergence of the field. A nonzero divergence would describe a source of fluid flowing into the system (or a sink).\newline
+
+The second equation is a rewriting of Newton's second law, $\sum F = ma$. Some would describe it as being a conservation of momentum equation. Let's see how: 
 
 \begin{equation} \label{NSderive1}
 \begin{split}
-\sum F & = ma / V \\
-\sum F & = \rho a \\
-\sum F & = \rho \frac{d\mathbf{u}}{dt} \\
+F & = ma / V \\
+F & = \rho a \\
+F & = \rho \frac{d\mathbf{u}}{dt} \\
 \end{split}
 \end{equation}
 
@@ -3122,7 +3429,9 @@ Because we are considering individual points, rather than the ensemble, we divid
 \end{split}
 \end{equation}
 
-The $\nabla p$ describes one of two internal forces. It accounts for forces due to a change in pressure. The second term, $\mu \nabla^2\mathbf{u}$, describes force of friction, and or viscosity. Lastly, we can summarize all external forces within this big \textbf{F}. We may see gravity as an external force, for example, in which case we may replace \textbf{F} with $\rho g$. Therefore, the Navier-Stokes equations are essentially the reapplication of fundamental concepts in physics for fluids.\newline
+The $\nabla p$ describes one of two internal forces. It accounts for forces due to a change in pressure (recall that $p = F/A$). Again, in a 3D space, $\nabla p = \partial p / \partial x + ... $, etc. The second term, $\mu \nabla^2\mathbf{u}$, describes force of friction, and or viscosity.\newline
+
+Lastly, we can summarize all external forces ($\sum F$) within this big \textbf{F}. We may see gravity as an external force, for example, in which case we may replace \textbf{F} with $\rho g$. Therefore, the Navier-Stokes equations are essentially the reapplication of fundamental concepts in physics for fluids.\newline
 
 \textbf{u} we can define, perhaps overly complexly, as:
 
@@ -3155,6 +3464,7 @@ Another slight confusion is that this entire equation seems to be zero. Maybe I 
 
 \subsection{Propulsion}
 
+
 Presently, I do not understand the theory behind this, but somehow everything that occurs at low $R_e$ is linear. As it goes, force and torque are related by the following equations: 
 
 \begin{equation} \label{Prop1}
@@ -3178,16 +3488,27 @@ The proof is not shown here but interestingly $B = C$. To think of this matrix, 
 
 \subsubsection{Diffusion.}
 
-Fascinatingly, at very low $R_e$ your movement inherently takes your surrounding environment with you, as the diffusion coefficients are tremendously low. This actually has quite large consequences, and is called the \textit{added mass phenomenon}. In short, if you move and carry a load of liquid along with you, it is as if you are propelling a much greater mass. It's estimated that: 
+Diffusion coefficients describe how quickly an object moves around in a fluid. The formula, where $a$ is the object's radius, is: 
 
-\begin{equation} \label{diff01}
+\begin{equation} \label{diffdef}
 \begin{split}
-\tau_{stir} = \frac{l}{v_{stir}} \\
-\tau_{diff} = \frac{l^2}{D} \\
+D &= \frac{k_BT}{6\pi\eta a} \\
 \end{split}
 \end{equation}
 
-Where $\tau$ is the time it takes you to move an object some distance $l$ by either stirring or diffusion, and $v_{stir}$ is the velocity of stirring performed. The ratio of such, i.e. $lv / D$. Maybe you can recall from earlier that $R_e$ can be written as $lv / \nu$ (equivalently $LU / \nu$).Stirring is only helpful if $lv / D > 1$, which gives us an indication of how much you can accomplish either by stirring or diffusion. For micro swimmers, like bacteria, stirring is virtually useless, and they're better off simply waiting for items to diffuse toward them. Another fascinating realization is that bacteria do not move to reach more nutrients---that is rather useless. Instead, they travel to areas of a higher density, where the probability of diffusion is greater\footnote{Okay---indeed there is something immensely fascinating here. Can the same be true for growth cones? I suppose... yes!}. 
+You may see the denominator rewritten as $f$, representing the friction coefficient of the object.\newline
+
+Fascinatingly, at very low $R_e$ your movement inherently takes your surrounding environment with you. This actually has quite large consequences, and is called the \textit{added mass phenomenon}. In short, if you move and carry a load of liquid along with you, it is as if you are propelling a much greater mass. It's estimated that: 
+
+\begin{equation} \label{diff01}
+\begin{split}
+\tau_{stir} &= \frac{l}{v_{stir}} \\
+\tau_{diff} &= \frac{l^2}{D} \\
+\end{split}
+\end{equation}
+
+Where $\tau$ is the time it takes you to move an object some distance $l$ by either stirring or diffusion, and $v_{stir}$ is the velocity of stirring performed. The ratio of such, i.e. $lv / D$ (or LU/D), is called the P\`eclet number ($P_e$). Maybe you can recall from earlier that $R_e$ can be written as $lv / \nu$ (equivalently $LU / \nu$), so you can see how the Reynolds number and the P\`eclet number describe systems in a similar way. Stirring is only helpful if $lv / D > 1$, which gives us an indication of how much you can accomplish either by stirring or diffusion. When $P_e << 1$, diffusion dominates. For micro swimmers, like bacteria, stirring is virtually useless, and they're better off simply waiting for items to diffuse toward them. Another fascinating realization is that bacteria do not move to reach more nutrients---as we just stated that this would be useless. Instead, they travel to areas of a higher density, where the probability of diffusion is greater\footnote{Okay---indeed there is something immensely fascinating here. Can the same be true for growth cones? I suppose... yes!}. 
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -4050,6 +4371,10 @@ Pay them no mind, or better yet, learn from them. Perhaps if you learn from all 
 -- Myelin: \url{https://www.nature.com/articles/s41577-023-00907-4} \\
 -- Another scaffold: \url{https://www.science.org/doi/10.1126/science.abh3602}\\
 -- CD8 t cell paper \url{https://www.science.org/doi/full/10.1126/science.abd5926}\\
+-- Growth cone review 1 \url{https://www.nature.com/articles/nrm2679} \\
+-- Growth cone review 2 \url{https://www.nature.com/articles/nrn3176} \\
+-- a third, focusing on mechanics \url{https://www.frontiersin.org/articles/10.3389/fncel.2015.00244/full} \\
+-- literally focuses on glia-neuron growth cone lol \url{https://www.frontiersin.org/articles/10.3389/fnins.2020.00203/full} \\
 
 \chapter{Interfacing with Nerves}
 
