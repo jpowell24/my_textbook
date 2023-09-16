@@ -3617,7 +3617,7 @@ This idea is quite important. Many assume that ions flowing in and out substanti
 
 You may be slightly puzzled about why such a small concentration of ions is able to generate an action potential. This is because the voltage generated is hyper-localized to the membrane. The lipid composition of the membrane is also very strictly controlled. The hydrophobic heads of the lipids on the outside monolayer of the membrane (thus, those facing the extracellular space) are most often neutral in charge---still polar, though. Those on the inner monolayer (the cytoplasmic side) have a higher proportion of negatively charged heads. This helps create a partial membrane voltage and is incredibly important for ion behavior, as well as how transmembrane proteins orient themselves in the membrane.\newline
 
-Let's motivate this a little bit: the capacitance of a cell ($C_m$) is around $1\mathrm{\mu F}/\mathrm{cm}^2$. If the radius of the cell is $10\mathrm{\mu m}$. Given that the voltage swings by around 100mV during an action potential, we can determine that:
+Let's motivate this a little bit: the capacitance of a cell ($C_m$) is around $1\mathrm{\mu F}/\mathrm{cm}^2$, shown here\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/19571202/}}. If the radius of the cell is $10\mathrm{\mu m}$. Given that the voltage swings by around 100mV during an action potential, we can determine that:
 
 
 \begin{equation} \label{smallchange1}
@@ -3656,6 +3656,25 @@ This section will be filled in better throughout the semester, through more Bioc
 
 \subsubsection{Voltage Sensing.}
 You may ask yourself "how does an ion channel know when the voltage is positive or negative?" Structure informs us of almost every puzzle in biology, and this case is no different! Let us consider one potassium channel called KvAP. KvAP is hypothesized to be voltage gated due to the presence arginine side chains (as positively charged amino acid)\footnote{\url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1253646/}}. Because of the positive charge on arginine, you can imagine that if the outer membrane voltage becomes especially negative, it will pull the arginines outward, almost like opening the lid of the channel.
+
+
+
+\subsubsection{Some notes:}
+1) How membrane capacitance is measured\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/21713564/}}. Currents are often corrected for by capacitance in order to account for changes in conductance (i.e., channel expression). 
+2) 
+
+
+
+
+\subsubsection{Octopus Sensory Receptors.}
+Chemotactile receptors (CR) allow cephalopods to taste via touching\footnote{\url{https://www.nature.com/articles/s41586-023-05822-1}}. Many molecules remain insoluble in the ocean, thereby requiring physical contact to sense them. The evolutionary origin of CRs are nicotinic receptors. Under disruptive selection, these receptors diverge and become specialized for different molecules. Those presented in this paper have highly hydrophobic binding pockets, making them specialized for analyzing greasy materials, namely terpenes. This paper focused specifically on chemotactile receptor for terpenes 1 (CRT1) in order to compare it with the $\alpha 7$ nicotinic receptor.\newline
+
+Using cryo-EM, it was found that CRT1 has a symmetric, homopentameric structure, as does $\alpha 7$ receptors. Interestingly, in both CRT1 and $\alpha 7$ are glumatate residues which are key to their calcium permeability's, but not their permeability of other ions. Naturally, upon identifying such conserved features, they looked to find different sites. Before doing so, they applied different terpenes and found that the channel was consistently activated, but not when ACh was applied. Conversely, standard $\alpha 7$ receptors were activated by ACh but none of the terpenes. To identify the binding site of the terpenes, they tested costunolide. Amazingly, upon strucutal analysis the found the channel was open but no costunolide was bound---in fact, the detergent they used to extract and purify the protein was bound, called diosgenin. As such, they suspected similar oily compounds could tightly bind to CRT1. This is the same site that ACh would bind to the $\alpha 7$ channel. The binding sites differ in that one loop, the C-loop, is shorter in CRT1, and is missing aromatic and cystine residues. Such residues are needed for ACh binding, and their absence makes the binding site more flat and hydrophobic.\newline
+
+Given this surprising result with diosgenin, they tested other oily compounds and too found strong responses. In amputated octopus limbs, nerve responses were generated when in contact with such compounds. Octopus limbs have a high degree of autonomy, and react strongly to stimuli even after amputation, including moving physically away from such stimuli. 
+
+
+
 
 
 \chapter{Muscles}
@@ -4696,7 +4715,37 @@ Absolutely remarkably, the patient was able to regain some motor control the fir
 
 \chapter{Brain Stimulation}
 
-Noninvasive methods like transcranial direct current stimulation and transcranial magnetic stimulation have been done with some success, especially when combined with rehabilitation, particularly in recovery of hand dexterity after injury. It is thought that recovery occurs through growth of descending corticospinal tract neurons. 
+Deep brain stimulation is an ever increasing field of study. First popularized for treatment of tremors, it is not becoming generalized for many more disorders, including OCD. In the case of nerve injury, noninvasive methods like transcranial direct current stimulation and transcranial magnetic stimulation have been done with some success, especially when combined with rehabilitation, particularly in recovery of hand dexterity after injury. It is thought that recovery occurs through growth of descending corticospinal tract neurons. Needless to say, brain stimulation is an expanding field with many routes of exploration. 
+
+
+
+\section{In the Clinic---Parkinson's and Essential Tremor}
+
+For this section, I'll discuss broadly how deep brain simulation works clinically, including an outline of the procedure. I'll discuss primarily from my experiences with neurosurgeons Dr. Casey Halpern and Dr. Iahn Cajigas.\newline
+
+
+\subsection{Before Surgery Begins}
+
+Candidacy (which drugs to try), HiFUS vs. DBS, etc. 
+
+
+\subsection{The Surgery Itself}
+
+Deep brain stimulation is done in two steps. The first step is the primary brain surgery itself, which constitutes implantation and initial testing of the electrodes. The second is implanting the battery, somewhere in the chest, and connecting it to the electrodes. The steps are split because the duration of surgery is highly correlated with infection rate, so minimizing total length is helpful in suppressing infection whenever possible.\newline
+
+The first surgery takes approximately 4 hours total, from bed, to operating room, and back to bed (4 hours bed-to-bed, as I call it). It begins with a pre-operative CT scan, which is required to guide the electrodes into place. 
+
+
+\subsection{Targets}
+
+
+
+\subsection{Device Options}
+
+Boston Scientific has most up-to-date rechargable battery, which lasts approximately 15 years. 
+ 
+
+
 
 \subsection{Living Electrodes}
 
@@ -4711,7 +4760,7 @@ There are many limitations to consider. For example, RCaMP's $k_{on}$ or $k_{off
 \subsubsection{Ramblings.}
 
 What is fascinating about reading papers like this is I go into them every time thinking ``Wow, this method sounds remarkable! Perhaps this will be the secret to next-gen BCIs." Yet, I always finish the paper with more questions / critiques than I began with. 
- 
+
 
 \chapter{Reading Thoughts} 
 
@@ -5089,16 +5138,38 @@ Using more immunostaining, A$\be$ plaques were associated with synaptophysin, su
 
  \subsection*{Lewis et al. 2000}
 
- The paper overexpressed mutant tau protein that can be found in frontotemporal dementia and parkinsonism (FTDP). The mice exhibited a wide variety of degeneration linked to the tau protein buildup. This included symptoms even in the spinal cord and peripheral nerves.
+ Initially it was thought that tau tangles was solely a symptom, and or, a result of already dying neurons.\newline
+
+ The paper overexpressed mutant tau protein that can be found in frontotemporal dementia and parkinsonism (FTDP). The mice exhibited a wide variety of degeneration linked to the tau protein buildup. This included symptoms even in the spinal cord and peripheral nerves. Mutant tau (P301L) was expressed by the mouse prion promoter (MoPrP). They found that hemizygous lines expressed tau at approximately the same level as WT, and mice homozygous for the mutant expressed it at levels $\approx 2\times$WT.  
 
  \subsubsection*{Figure 1-4}
 
- Their Figure 1 was a composite of behavioral assays, including escape responses, motor defects, and the inability to right (flipping over from its back onto its feet again). Eventually they were unable to walk.\newline
+ Their Figure 1 was a composite of behavioral assays, including escape responses, motor defects, and the inability to right (flipping over from its back onto its feet again). Hemizygous mice had symptom onset at about 6.5 months, while homozygous at around 4.5 months. Eventually they were unable to walk.\newline
 
- Tangles were found all throughout the body. Notably, the fibrils were irregular in shape. 
+Figure 4 showed spinal cord defects, namely fibrillary gliosis, axonal degeneration, and axonal spheroids (bleb). GFAP immunoreaction was found throughout the brain, signifying gliosis. Importantly, degeneration was global, including skeletal muscle and peripheral nerves. In Figure 2, neurofibrillary tangles were found throughout the brain, including in the brainstem and diencephalon. Interestingly, so-called ``pretangles" were found in other regions of the brain, including the hippocampus. In Figure 3, the fibrils were irregular in shape and specifically phosphorylated.
+
+ \subsubsection*{Figure 5}
+
+Figure 5 investigated the solubility of tau. In the mutant lines, a greater proportion was insoluble and shifted toward a higher molecular weight. This is consistent with being heavily phosphorylated, of course, which was verified by dephosphorylating the protein causing the elimination of such bands. They seemed proud of the similarity between AD bands and their model's bands. 
+
+\subsubsection*{Follow-Up}
+
+To follow-up, whether or not APP modulates the tau protein buildup became a focus. Indeed crossing this tau mouse with an APP mouse led to increased NFT formation. This suggest tangles are needed for neural lost?  Later, groups tried combining multiple familial AD mutations in APP with PSEN mutants, leading to very early onset and more powerful, clear behavioral defects. After these tau models were verified, tau too was added.\newline
+
+In clinical trials, antibodies against A$\be$ showed the ability to decrease plaques. However, no obvious clinical benefit was found. Naturally, this could be because degeneration had already run its course, or it could be that tau is directing progression at this point. Some take this as evidence against the amyloid cascade hypothesis. 
 
  \subsection*{Jonsson et al. 2012}
 
- This paper identifies an APP mutation that protects against AD. Fascinatingly, they claim it also protects against age-related dementia in non-AD patients. This seems very fishy to me. 
+ \subsubsection*{Background}
+
+ Iceland keeps quite good genealogy records, and because people are quite related due to population isolation, their genetics are ripe for this sort of testing.\newline
+
+ This paper identifies an APP mutation that protects against AD. Fascinatingly, they claim it also protects against age-related dementia in non-AD patients. This seems very fishy to me, but hey, whatevs. Beginning with a pool of $\approx 2000$ people, they identified SNPs in elderly people compared to AD patients. They identified the A673T mutation to be higher in the non-AD people, suggesting it is protective. They then chip-genotyped more people (i.e., used a probe against this SNP) to increase sample size. They also showed an increased risk in late onset AD vs. early onset, which demonstrated some mechanistic differences. \textcolor{red}{Understand better?} Mutations in APP have not been implicated in early onset AD before. \newline
+
+ \subsubsection*{Table 1}
+
+ Table 1 shows that the odds of having the mutation are significantly higher for those that are 85 and older, and cognitively intact than those with AD.\newline
+
+ The genotype is relatively rare, on the order of one per couple hundred people, or rarer depending on the continent. Because the mutation is neuroprotective, carriers have markedly longer life spans. Fascinatingly, they even suggest the genotype is substantially beneficial even compared to those without AD. In cognitive scores they performed much better. Notably, though, the error bars are so insane they go off the screen (like literally, some error bars are cutoff from the graph).\newline
  
 \end{document}
