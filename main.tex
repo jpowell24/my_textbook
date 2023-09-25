@@ -4196,6 +4196,27 @@ Administration of chondroitinase ABC (ChABC) has been shown to promote plasticit
 
 Interestingly, many myelin-associated proteins are inhibitory, called myelin-associated inhibitory (MAI) proteins. These proteins bind to the Nogo receptor complex, and blocking this interaction, such as by NogoA antibodies, promotes growth, especially in the acute phase. Examples include myelin-associated glycoprotein (MAG) and oligodendrocyte myelin glycoprotein (OMGP), which both utilize a NOGO to RhoA-ROCK pathway to inhibit regeneration. 
 
+\section{Recovery of Walking via Target Reconnection}
+
+A new paper from Anderson and Courtine labs\footnote{\url{https://www.science.org/doi/10.1126/science.adi6412}}.  Something commented in many places throughout this work is that functional recovery requires more than getting neurons to regenerate---it also requires getting them to regenerate in the right direction and make the right connections. That is a prime focus of this work. Commented in a later section (section \textbf{\ref{sec:SCISpecificCells}}) the Courtine lab characterized the cells responsible for stimulation-induced recovery after SCI. Briefly, this work found that a set of interneurons were able to relay signals past the injury site and down to the lumbar spinal cord, where walking-initiating neurons are. Interestingly, these neurons are not required for walking in the absence of injury. This paper is a partial follow-up to this work.\newline
+
+First, to better characterize neurons projecting to the lumbar spinal cord, they injected an AAV containing GFP into the lumbar region, which was then expressed in neurons projecting there. They identified cells they call SC$^{Vsx2::Hoxa7::Zfhx3\rightarrow lumbar}$. The first part describes their transcriptional profile, and the arrow to lumbar means they project to the lumbar spinal cord. Mice that exhibited recovery after spinal cord injury showed marked transcriptional changes in such cells, including upregulation of genes involved in dendritic connections and synaptic growth.\newline
+
+To ``ablate" these cells, they used Vsx2$^{Cre}$, which blocked differentiation into this cell type. They found that there was a marked decrease in projections to the lumbar spinal cord, taking this to mean these neuron make up a significant portion of the axonal density there. They also found that Vsx2 expressing cells connect to many places in the spinal cord, including forming short and long projections. Those that project specificallt to the lumbar region are marked by expression of Zfhx3. They used similar methods to identify cells of the ventral gigantocellular nucleus (vGi) as projecting to these SC$^{Vsx2::Hoxa7::Zfhx3\rightarrow lumbar}$ neurons.\newline
+
+With this better understanding of the neurons, they employed the following plan: 
+\begin{enumerate}
+    \itemsep 0em
+    \item Reactivate the intrinsic growth capacity of neurons using growth factors like insulin-like growth factor 1. 
+    \item Restore a favorable growth substrate using fibroblast and epidermal growth factors. 
+    \item Guide the axons back to their desired targets using favorable biomaterials infused with growth factors and attractive agents. 
+\end{enumerate}
+
+This indeed allowed for growth of these neurons beyond the injury site. However, this did not allow for functional recovery. Thus, they concluded that functional recovery can only be achieved via meaningful connection re-formation. Instead, they tried replacing biomaterials with lentiviruses driving expression of growth factors, which indeed allowed for functional recovery. Via their previously mentioned AAV method, transcriptional and immunohistochemical classification, they verified that this was indeed due to Vsx2 neuron growth. They verified that motor neurons had regained CNS control via stimulating neurons of the vGi and identifying corresponding leg movements. They verified, via expression of toxin receptors and corresponding toxin administration in Vsx2 neurons, that these neurons are required for recovery. 
+
+
+
+
 
 \chapter{Metabolism of Neurons}
 
@@ -4312,8 +4333,16 @@ In general, it appears that miRNA expression is bad for remodeling, and long-ter
 
 Interestingly, miR-153 was upregulated in the dentate gyrus during LTP. It seems to be required for exocytosis, suggesting it has a role in excitatory coupling. miR-218 and miR-137 were also named as promoting LTP. I think that's about all that's worth saying, for now. 
 
+\section{Synaptic Pruning}
+
+\subsection{Ube3a E3 Ligase Promotes Pruning in Flies}
 
 
+In general, it is rare for a purely fly paper to make it into the big journals like Science and Nature. Papers that include fly work typically use the later figures to validate their work in higher organisms, like mice---but this paper didn't, and is still in the current issue of Science\footnote{\url{https://www.science.org/doi/10.1126/science.ade8978}}. The topic of synaptic and dendritic pruning is of considerable interest, as it has been implicated in a number of neurodevelopmental diseases. For example, in autism spectrum disorders, synaptic pruning occurs improperly. Flies have long been used as a model to study dendritic pruning, because as they go through metamorphosis (from larva to adult fly), a significant amount of dendrites are pruned and connections are remade. The study of synaptic pruning is more novel, and that's what this paper focuses on.\newline
+
+They investigate using fly class IV dendrite arborization (C4da) neurons, a group of snensory neurons. They identify the ubiquitin ligase Ube3a as being specific to C4da neurons and in presynaptic, but not dendritic, pruning. In UBe3a mutants, or RNAi knockdown, a significant amount of synapses are maintained through metamorphosis. They can visualize this with a marker called brunchpilot (Brp) which markes synapses. They found that Ube3a undergoes anterograde transport toward the synapses with the help of the kinesin motor. They found a missence mutation in Ube3a that was conserved between flies and humans with Angelman disease---a disease where low Ube3a dosage disrupts pruning. This mutation disrupted Ube3a localization but not expression. Naturally, they wanted to test Ube3a's role in degrading proteins. Among its previously established targets is the the bone morphogenetic protein (BMP) receptor Thickvein (Tkv). Overexpression of Tkv induced similar defects as seen in Ube3a mutants. Therefore, their hypothesis is that Ube3a activation in metamorphosis downregulates signaling pathways like Tkv, which overall lead to synaptic pruning.\newline
+
+One of the ways this paper shines is in investigating a mutation conserved between humans and flies, which helps provide new insight into Ube3a. However, the paper would be significantly strengthened if they had mouse work or human cell cultures to support their findings. 
 
 
 
@@ -4679,6 +4708,8 @@ The big takeaways, to me, are that expansive devices seem possible, and fitting 
 
 \subsection{SCI Specific Cells}
 
+\label{sec:SCISpecificCells}
+
 Using a simplified device similar to what will be discussed in the upcoming Lorach \textit{et al.} 2023 section, the Courtine group used electrical therapy to re-establish walking in a number of SCI patients\footnote{\url{https://www.nature.com/articles/s41586-022-05385-7}}. Their paper goes into depth on the cell-type specific response to this electrical modulation. They called this model epidural electrical stimulation (EES) + rehab, or EES$^{\mathrm{REHAB}}$. They first approached by measuring metabolic consumption in the spinal cord before and after EES$^{\mathrm{REHAB}}$ using PET scanners, and found that metabolism actually \textbf{decreases} in the face of EES$^{\mathrm{REHAB}}$, despite regaining the ability to walk. Therefore, they hypothesized that EES$^{\mathrm{REHAB}}$ ``cleans up" the circuits a bit, causes activity to become targeted for walking.\newline
 
 To investigate which specific neurons undergo changes, they used a mouse model and performed RNAseq. They found excitatory interneurons as being enriched upon EES$^{\mathrm{REHAB}}$. These neurons were identified by the markers $Vsx2$ and $Hoxa10$, and thought to be \textit{V2a} neurons. These neurons projected exclusively to the ventral spinal cord and formed synapses with varying neuron types (glutamatergnic, GABAnergic, and cholinergic in no prefered proportion). The synapses were found in dense appositions (i.e., many synapses side-by-side) and SCI caused a reduction in such appositions. Ablating/inactivating these neurons alone in non-SCI mice did not halt their ability to walk. However, inactivating them did halt walking under EES$^{\mathrm{REHAB}}$. Therefore, it is hypothesized that these neurons are specific to the injury condition and required for recovery after SCI.\newline
@@ -4724,7 +4755,7 @@ Deep brain stimulation is an ever increasing field of study. First popularized f
 For this section, I'll discuss broadly how deep brain simulation works clinically, including an outline of the procedure. I'll discuss primarily from my experiences with neurosurgeons Dr. Casey Halpern and Dr. Iahn Cajigas.\newline
 
 
-\subsection{Before Surgery Begins}
+\subsubsection{Before Surgery Begins.}
 
 Candidacy (which drugs to try), HiFUS vs. DBS, etc. 
 
@@ -4733,14 +4764,16 @@ Candidacy (which drugs to try), HiFUS vs. DBS, etc.
 
 Deep brain stimulation is done in two steps. The first step is the primary brain surgery itself, which constitutes implantation and initial testing of the electrodes. The second is implanting the battery, somewhere in the chest, and connecting it to the electrodes. The steps are split because the duration of surgery is highly correlated with infection rate, so minimizing total length is helpful in suppressing infection whenever possible.\newline
 
-The first surgery takes approximately 4 hours total, from bed, to operating room, and back to bed (4 hours bed-to-bed, as I call it). It begins with a pre-operative CT scan, which is required to guide the electrodes into place. 
+The first surgery takes approximately 4 hours total, from bed, to operating room, and back to bed (4 hours bed-to-bed, as I call it). It begins with a pre-operative CT scan, which is required to guide the electrodes into place. The beginning portion of the surgery is done while the patient is under anesthesia, but the later stages allow the patient to be awake. A frame is placed on the patients head, and a rotating coordinate system allows the team to precisely mark where the electrodes will enter. A surgeon scrapes away the outer layers of the skull, dura, and arachnoid space to reveal the brain. Using the frame, an electrode is inserted and slowly transverses the layers of the brain until it reaches the desired target. Such transversing is accomplished with a nearby physiologist, who records brain activity from the electrode as it is lowered into the deeper segments. Naturally, the way one does this depends on which target you are aiming for. A fascinating metric one can use, if the GPi is the target, is that just below the GPi is the optic tract. Thus, the team may turn all the lights off in the roon and flash a light on the patient's face. In doing so, they'll stimulate the optic nerves, and a faint signal can be seen when reaching the bottom of the GPi.\newline
+
+Once the electrode is in place, and its location is confirmed with a second scan, the patient can be awoken. The purpose of this is to do some initial testing and verify that the stimulation is not impacting nearby sites. The current is slowly ramped, and you ensure that the patient is cognitively intact and doesn't experience any tingly. If the patient has strong tremors, there is sometimes an immediate benefit. Typically, though, initial benefits are to be taken with a grain of salt. This is because the entrance of the electrode itself can cause inflammation and damage to the site, which may in turn halt symptoms. Benefits in stimulating the STN may arise quickly, but stimulating the GPi usually requires more time. 
 
 
-\subsection{Targets}
+\subsubsection{Targets.}
 
 
 
-\subsection{Device Options}
+\subsubsection{Device Options.}
 
 Boston Scientific has most up-to-date rechargable battery, which lasts approximately 15 years. 
  
