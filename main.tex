@@ -3683,7 +3683,31 @@ Given this surprising result with diosgenin, they tested other oily compounds an
 
 
 \subsubsection{Bacteria Deliver Channels to Plants.}
+Bacteria use a type III secretion system, meaning it allows them to insert bacterial proteins into their host. One well conserved effector family is called AvrE, and is associated with `water soaking' and increased pathogenesis. Water soaking refers to dark, sunken in spots often seen on plants where bacteria are multiplying. AvrE family proteins have been challening to study due to their size and high toxicity---as well as limited sequence similarity to other known proteins.\newline
 
+This work identified AvrE proteins, namely the DspE channel, as folding into a $\beta$-barrel, which has a porin-like structure via AlphaFold2 analysis, which was verified through cryo-EM. Prior to this work, nothing was known beyond that these proteins are likely membrane bound. Therefore, their hydrophillic interior and hydrophobic exteriors gave the first indication of pore formation at all.\newline
+
+They determined the channels are permeable to ions and generate currents in either direction, with a reversal potential around$-$25mV. Notably, canonical inhibitors did not block the channel's permeability, and replacing the extracellular ion compositions did not alter the current noticeably. The reversal potential was mildly affected when $Cl^-$ was removed, suggesting a potential selectivity for anions.\newline 
+
+In doing their anion experiments, they noticed oocytes swelling. Expression of AvrE proteins in \textit{Xenopus} oocytes allows for water permeability and oocyte thus swelling, as evidenced by altering the solution's osmolarity. Because the ion's pore is so large (15\AA), it seemed plausible that the channel would be permeable to other molecules larger than water. Indeed, dyles like fluorescein, but not large proteins like GFP, were able to pass through it. \newline
+
+In mutations deleting a large amount of the $\beta$-barrel, currents are abolished. Deletion of leucine residues around the base of the channel similarly abolish conductance. Because surface biotinylation did not detect the protein, it is suspected that these residues are necessary for membrane inclusion. 
+
+They identified polyamidoamine dendrimers as inhibiting this channel and thus limiting virulence.\newline
+
+
+\subsection{Piezo}
+
+Piezo channels are near and dear to my heart, as we study them extensively. Piezo channels have been implicated in nearly every cell of various organisms. There's no shortage of mechanisms hinging on Piezo channels, including neuron regeneration. Here, I'll discuss some current literature pertaining to Piezo channels. 
+
+
+\subsubsection{Piezo in B Cells}
+
+Adding yet another function to Piezo, they play a crucial role in B cell responses\footnote{\url{https://www.science.org/doi/10.1126/scisignal.abq5096}}. B cells are activated when antigens bind to B cell receptors (BCRs), primarily through surface expression via antigen-presenting cells (APCs). This induces BCR clustering, phosphorylation, and formation of a signalosome. Importantly, such responses involve significant membrane and matrix reorganization. This is marked by the formation of an ``immune synapse," where BCRs cluster with other important membrane proteins at the interface of the APC. Because B cells seem preferentially activated by antigens on the surface of cells, rather than soluble antigens, it is plausible that some physical interaction is beneficial to B cell activation.\newline
+
+Some background work showed B cells express Piezo1 mRNA, but not Piezo2 mRNA. To explore a potential Piezo1 role, they first physically poked B cells using a micropipette and saw, via a calcium indicator, that Ca$^{2+}$ influx occurs. In administering the Piezo1 inhibitor GsMTx4, such Ca$^{2+}$ influx was abolished. They also imaged B cells laid out on a glass sheet. When flattening out on the glass, calcium influx occurred. To test if this was Piezo-dependent, they applied oligomerization-blocker 1 (OB1), which is said to block Piezo channels. In this case, again calcium influx and cell flattening was decreased. It's not clear to me why they used two different Piezo blockers for these experiments. Using an interesting tool called Flipper-TR, they were able to fluorescently measure membrane tension, and found that indeed tension increases when B cells flatten on glass.\newline
+
+To test if Piezo is required for B cell response, they bound anti-Ig to a polymer substrate and found that BCRs cluster around the interface between the substrate and the B cell. This clustering was abolished in the presence of the OB1 Piezo inhibitor. This same result was observed when using RNAi knockdown of Piezo channels. 
 
 
 \chapter{Muscles}
@@ -4785,7 +4809,7 @@ The main takeaway from this paper, in my opinion, is simply the recapitulation t
 \subsection{Clinical Applications}
 
 \subsubsection{Reduction of Pain.}
-This is from this video\footnote{\url{https://www.youtube.com/watch?v=MuLbgftczf8\&ab_channel=CongressofNeurologicalSurgeons}}. In reducing neuropathic pain, the mechanism by which it works is postulated to be Gate-Control Theory\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/5320816/}}. That is, painful signals can be overridden by other pathways. Namely, fast, large A$\beta$ nerves can override the smaller, pain carrying A$\delta$ and C fibers. It is thought to occur at the level of the dorsal horn through inhibitory interneurons, but this is not known with certainty.\newline
+This description comes from Dr. Iahn Cajigas, and this video\footnote{\url{https://www.youtube.com/watch?v=MuLbgftczf8\&ab_channel=CongressofNeurologicalSurgeons}}. In reducing neuropathic pain, the mechanism by which it works is postulated to be Gate-Control Theory\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/5320816/}}. After this publication, spinal cord stimulators became available in 1965. The hypothesis was painful signals can be overridden by other pathways. Namely, fast, large A$\beta$ nerves can override the smaller, pain carrying A$\delta$ and C fibers. It is thought to occur at the level of the dorsal horn through inhibitory interneurons, but this is not known with certainty.\newline
 
 \textit{Failed back surgery} is the most common need for spinal stimulation of this kind. Stimulation is a good treatment option if the patient's pain is localized, and no identifiable structural defects are found. That is, if one's spinal cord is still improperly aligned, stimulation should not be considered. It is essential to attain extensive pre-operative imaging, as structural issues can also lead to hardware malfunction. For example, a slipped disc may cause unforeseen warping of hardware. Interestingly, psychiatric symptoms is a common indicator of poor patient outcome. Repeated operations usually indicate less effects as well.\newline
 
@@ -4812,11 +4836,31 @@ Absolutely remarkably, the patient was able to regain some motor control the fir
 
 \chapter{Brain Stimulation}
 
+\section{Deep Brain Stimulation}
+
 Deep brain stimulation is an ever increasing field of study. First popularized for treatment of tremors, it is not becoming generalized for many more disorders, including OCD. In the case of nerve injury, noninvasive methods like transcranial direct current stimulation and transcranial magnetic stimulation have been done with some success, especially when combined with rehabilitation, particularly in recovery of hand dexterity after injury. It is thought that recovery occurs through growth of descending corticospinal tract neurons. Needless to say, brain stimulation is an expanding field with many routes of exploration. 
 
+\subsection{Technology Overview}
+
+Primarily drawn from\footnote{\url{https://www.nature.com/articles/s41582-020-00426-z}}. Deep brain stimulation was first performed at Columbia by Dr. Lawrence Pool for psychiatric patients. It's use in treating Parkinson's disease was coined by Dr. Carl Wilhelm Sem-Jacobsen. Early usages were based on cardiac pacemakers. The first closed-loop works were done in 1980.
+
+\subsubsection{Electrode Design.}
+
+The linear electrodes we know and love are composed of platinum-iridium wires and  nickel alloy connectors. 
+
+\color{red}
+Questions for Dr. Cajigas:
+\begin{enumerate}
+    \itemsep 0em
+    \item ``...integration with the extension cable surgically challenging"---what?
+    \item Why current over voltage? Surely you're depolarizing the extracellular space, so a clamped voltage makes more sense. I'd think you'd want a unipolar device driving voltage.
+\end{enumerate}
+If we take the cell membrane to be a capacitor in series with a resistor, driving a voltage to one side seems to give much more reproducible results than does current---especially when you consider different membranes to have different capacitance. 
 
 
-\section{In the Clinic---Parkinson's and Essential Tremor}
+\color{black}
+
+\subsection{In the Clinic---Parkinson's and Essential Tremor}
 
 For this section, I'll discuss broadly how deep brain simulation works clinically, including an outline of the procedure. I'll discuss primarily from my experiences with neurosurgeons Dr. Casey Halpern and Dr. Iahn Cajigas.\newline
 
