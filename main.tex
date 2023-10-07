@@ -20,6 +20,13 @@
 \newcommand{\ga}{\gamma}
 
 \usepackage[colorlinks = true, linkcolor = black, citecolor = black, final]{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
 
 \usepackage{graphicx}
 \usepackage{multicol}
@@ -3042,7 +3049,7 @@ You may, rightfully, say ``\textit{Uh, who cares?}," since we already know that 
 
 
 
-\chapter{Cell Motility}
+\chapter{Fluid Mechanics and Cell Motility}
 
 \section{Introduction}
 
@@ -3511,6 +3518,18 @@ Where $\tau$ is the time it takes you to move an object some distance $l$ by eit
 
 
 
+
+\section{Literature}
+
+Here I'll discuss some of the literature surrounding fluid mechanics and neuroscience. A large topic is the flow of CSF inside the brain and spinal cord, which has implications in drug delivery and hydrocephalus. Other notable topics include the application of shear stress to neurons, which may activate mechanically gated channels. 
+
+
+Here I'll discuss\footnote{\url{https://www.cambridge.org/core/journals/journal-of-fluid-mechanics/article/onedimensional-model-for-the-pulsating-flow-of-cerebrospinal-fluid-in-the-spinal-canal/3710D122EC70FCB29DEF0AB196ADCCCD}}. The Sanchez group at UCSD has many papers on this topic, so their works are a great resource for further learning.\newline
+
+The specific focus of this work is on intracranial pressure (ICP). 
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \part[Physiology]{Physiology
@@ -3691,9 +3710,11 @@ They determined the channels are permeable to ions and generate currents in eith
 
 In doing their anion experiments, they noticed oocytes swelling. Expression of AvrE proteins in \textit{Xenopus} oocytes allows for water permeability and oocyte thus swelling, as evidenced by altering the solution's osmolarity. Because the ion's pore is so large (15\AA), it seemed plausible that the channel would be permeable to other molecules larger than water. Indeed, dyles like fluorescein, but not large proteins like GFP, were able to pass through it. \newline
 
-In mutations deleting a large amount of the $\beta$-barrel, currents are abolished. Deletion of leucine residues around the base of the channel similarly abolish conductance. Because surface biotinylation did not detect the protein, it is suspected that these residues are necessary for membrane inclusion. 
+In mutations deleting a large amount of the $\beta$-barrel, currents are abolished. Deletion of leucine residues around the base of the channel similarly abolish conductance. Because surface biotinylation did not detect the protein, it is suspected that these residues are necessary for membrane inclusion. Moving forward, they looked for object that might be able to fit into this wide pore. They specifically selected polyamidoamine dendrimers (PAMAM), because their characteristic length can be altered. Indeed, PAMAM G1, which has a length of $\approx 22$\AA, inhibited DspE 71\% and AvrE 93\%, as evidenced by limited membrane current. Baseline swelling was also inhibited, as well as fluorescein uptake.\newline
 
-They identified polyamidoamine dendrimers as inhibiting this channel and thus limiting virulence.\newline
+Inhibition of AvrE was associated with decreased virulence in plants. 
+
+\textcolor{red}{Why do they think this is integrated into the hosts at all? I don't get it?---many open questions. Their work has all been in oocytes, right? Can't it be that this protein is just integrated into the bacterial membrane and helps regulate bacterial osmolarity?}
 
 
 \subsection{Piezo}
@@ -3722,7 +3743,7 @@ Skeletal muscles are composed of muscle fibers, which are composed of myofibrils
 \subsubsection{Contraction-relaxation.}
 Myosin heads desire to bind to actin, but are blocked by tropomyosin. Ca$^{2+}$ can bind to troponin, bound to tropomyosin, to cause conformational changes resulting in the exposure of the actin to the myosin heads. In doing so, binding can occur, followed by myosin's power stroke. The energy for the stroke comes from hydrolyzing ATP, which had already occured by the time myosin attached to the actin. The powerstroke allows the release of the ADP and P$_i$. ATP then can bind to the empty active site of myosin, which causes the release of the head and prepares it for another cycle. Notably, when ATP does not bind to myosin, the muscle will be stuck in the rigor state.\newline
 
-In skeletal muscles, the source of Ca$^{2+}$ is a combination of the extracellular Ca$^{2+}$ flowing inward, and further release from the sarcoplasmic reticulum. The story goes as follows: a motor neuron releases acetylcholine onto the motor end plate (an area which a high density of sodium channels). This causes a depolarization, which propagates down the muscle fiber. Structures called T-tubulues sink lower into the tissue, allowing for more direct access to the inner processes (visually, these look similar to gyri in the brain or the crypts of the intestinal wall). The T-tubules are lined with dihyropyridine (DHP) channels, an L-type VGCC (specifically Ca$_v$1.1). DHP and ryanodine receptors (RyR) can be mechanically coupled, which influx of Ca$^{2+}$ in through DHP mechanically opens RyR channels of the sarcoplasmic reticulum (a large store of Ca$^{2+}$). The free calcium is lowered through things like active pumping out of the sarcoplasm.\newline
+In skeletal muscles, the source of Ca$^{2+}$ is a combination of the extracellular Ca$^{2+}$ flowing inward, and further release from the sarcoplasmic reticulum. The story goes as follows: a motor neuron releases acetylcholine onto the motor end plate (an area which a high density of sodium channels). This causes a depolarization, which propagates down the muscle fiber. Structures called T-tubulues sink lower into the tissue, allowing for more direct access to the inner processes (visually, these look similar to gyri in the brain or the crypts of the intestinal wall). The T-tubules are lined with dihyropyridine (DHP) channels, an L-type VGCC (specifically Ca$_v$1.1). DHP and ryanodine receptors (RyR) can be mechanically coupled, where influx of Ca$^{2+}$ in through DHP mechanically opens RyR channels of the sarcoplasmic reticulum (a large store of Ca$^{2+}$). The free calcium is lowered through things like active pumping out of the sarcoplasm.\newline
 
 A steady supply of ATP is needed to maintain pumping, and it is said that at any given time, there is 8 or so twitches worth of ATP within the muscle fiber. Therefore, frequent production and alternate stores are required for continuous movement. One such storage is phosphocreatine, whose phosphate group can be quickly transferred to ADP through creatine kinase. Muscles therefore contain high levels of this enzyme, and \textbf{testing for it in the bloodstream can be a good proxy for muscle damage}.\newline
 
@@ -3759,7 +3780,7 @@ Smooth muscle is much more variable than skeletal, differing by location, contra
 Smooth muscle is not considered to have sarcomeres, despite it having the same basic structural components of skeletal muscles. Smooth muscle contains much more aactin than does skeletal muscle, and notably does not contain troponin like skeletal muscle does. Smooth muscle networks are connected through intermediate filaments, which usually attach to dense bodies within the cytoplasm. Actin also attaches to dense bodies, maintaining the actin-myosin network within the cell as well. Smooth muscles do not have T-tubules like skeletal muscles. A comparable structure may be calveolae, which do indent into the membrane and seem spatially associated with the sarcoplasmic reticulum. The autonomic nervous system stimulates fibers through neurotransmitter release from varicosities, or bulbous stores of the chemical. The neurons may innervate the muscle fibers, allowing multiple muscle cells to be stimulated at once, or they may be release to a few fibers, which are connected through gap junctions and stimulate the nearby ones, causing a propagating wave to stimulate others. The first case describes a multi-subunit muscle, and the second a single subunit. 
 
 \subsubsection{Contraction-Relaxation.} 
-Initiation of contraction begins the same as skeletal muscle, in that calcium enters and the concentration is further driven up by sarcoplasmic calcium release. Though, in this case Ca$^{2+}$ may enter either through gap junctions or membrane ion channels. As such, there are many more modes of entry than in skeletal muscle. For example, voltage-gated Ca$^{2+}$ channels may open, but there are also ligand gated channels or stretch-activated channels, adding extra layers of possible regulation. Intracellular differences arise beginning from release from the SR. Firstly, is is no longer a mechanically gated RyR channel which allows its release. The release mechanism is now Ca$^{2+}$ activated RyR release (commonly called Ca$^{2+}$-induced-Ca$^{2+}$-release (CICR)), and the IP$_3$ path. GPCRs activate phospholipase C, driving IP$_3$ production which binds to SR channels and causes them to open. The IP$_3$ path is usually considered the greatest way to drive up intracellular Ca$^{2+}$ (or at least, that is what computational biologists seem to think). When Ca$^{2+}$ is available, it binds to calmodulin (CaM), which then binds to the myosin light chain kinase (MLCK). MLCK phosphorylates myosin to increase myosin ATPase activity. Importantly, once contraction occurs, it stays stiff until released by a different mechanism. Because after contraction, no work is being done in the stiff state, smooth muscle is able to stay contracted for long periods. This explains why sphincters in the body are able to stay closed all the time, while one's bicep fatigues after carrying groceries for just a little while. Relaxation begins when Ca$^{2+}$ is either pumped out of the cell through a Ca$^{2+}$ATPase pump, or sodium transporter. This causes CaM to unbind, myosin light chain phosphatase (MLCP) to dephosphorylate myosin, and the myosin heads to release from actin. Interestingly, diacylglycerol (DAG), another product of the IP$_3$ path, inhibits MLCP and thereby enhances muscle contraction.\newline
+Initiation of contraction begins the same as skeletal muscle, in that calcium enters and the concentration is further driven up by sarcoplasmic calcium release. Though, in this case Ca$^{2+}$ may enter either through gap junctions or membrane ion channels. As such, there are many more modes of entry than in skeletal muscle. For example, voltage-gated Ca$^{2+}$ channels may open, but there are also ligand gated channels or stretch-activated channels, adding extra layers of possible regulation. Intracellular differences arise beginning from release from the SR. Firstly, it is no longer a mechanically gated RyR channel which allows its release. The release mechanism is now Ca$^{2+}$ activated RyR release (commonly called Ca$^{2+}$-induced-Ca$^{2+}$-release (CICR)), and the IP$_3$ path. GPCRs activate phospholipase C, driving IP$_3$ production which binds to SR channels and causes them to open. The IP$_3$ path is usually considered the greatest way to drive up intracellular Ca$^{2+}$ (or at least, that is what computational biologists seem to think). When Ca$^{2+}$ is available, it binds to calmodulin (CaM), which then binds to the myosin light chain kinase (MLCK). MLCK phosphorylates myosin to increase myosin ATPase activity. Importantly, once contraction occurs, it stays stiff until released by a different mechanism. Because after contraction, no work is being done in the stiff state, smooth muscle is able to stay contracted for long periods. This explains why sphincters in the body are able to stay closed all the time, while one's bicep fatigues after carrying groceries for just a little while. Relaxation begins when Ca$^{2+}$ is either pumped out of the cell through a Ca$^{2+}$ATPase pump, or sodium transporter. This causes CaM to unbind, myosin light chain phosphatase (MLCP) to dephosphorylate myosin, and the myosin heads to release from actin. Interestingly, diacylglycerol (DAG), another product of the IP$_3$ path, inhibits MLCP and thereby enhances muscle contraction.\newline
 
 The calcium stored in the SR is maintained in a number of ways. One example being the protein STIM1 responding to lower Ca$^{2+}$ levels within it, moving toward the cell membrane, and activating store operated Ca$^{2+}$ channels, such as Orai1. 
 
@@ -3856,7 +3877,9 @@ Humans can detect a very small amount of photons and so too can we in bright lig
 
 \subsubsection{The Meninges.}
 
-The layers of the meninges are: the dura mater, the subdural space, the arachnoid membrane, the subarachnoid space, and the pia mater, which all sits beneath the skull. The dura mater is the thickest of the three. The subarachoid space has a spongy texture and houses the flowing cerebrospinal fluid. The bottom layer, and the thinnest, is the pia mater. The pia mater is surprisingly tough---if you've ever done brain dissections before, it feels similar to a thin film around the brain. A key role of the meninges is to cushion the brain.
+The layers of the meninges are: the dura mater, the subdural space, the arachnoid membrane, the subarachnoid space, and the pia mater, which all sits beneath the skull. The dura mater is the thickest of the three. The subarachoid space has a spongy texture and houses the flowing cerebrospinal fluid. The bottom layer, and the thinnest, is the pia mater. The pia mater is surprisingly tough---if you've ever done brain dissections before, it feels similar to a thin film around the brain. A key role of the meninges is to cushion the brain.\newline
+
+READ THIS: \url{https://journals.lww.com/onsonline/fulltext/2016/06000/anatomy_of_the_spinal_meninges.10.aspx}
 
 \section{Spinal Cord General Structure}
 A cross section of the spinal cord would reveal meninges just like the brain and skull; an outer layer of dura, then arachnoid, and finally pia mater. Too, there is an outer layer of white matter followed by a grey matter interior, which is centered around a ``central canal." The spinal cord has 33 vertebrae, beginning with cervical (C$_1$ to C$_7$), then thoracic (T$_1$ to T$_{12}$), then lumbar (L$_1$ to L$_5$), then sacral (S$_1$ to S$_5$), and finally one coccyx (Co$_1$ to Co$_4$). The sacral, and especially the coccygeal, vertebrae are fused, so you may see them depicted as a single unit. Adding slightly to the confusion is that there are only 31 pairs of spinal nerves. These are C$_1$ - C$_8$, T$_1$ - T$_{12}$, L$_1$ - L$_5$, S$_1$ - S$_5$, and Co$_1$. \textbf{Note: The difference in the nerve location and vertebrae labels is actually quite important, as it is not always that a fracture at some vertebrae leads to nerve damage at the same site}---this is expanded on in later chapters. The spinal nerves exit the spinal cord on either side, i.e., either dorsal or ventral roots. Dorsal entry neurons carry sensory information to the CNS, while ventral exit zones carry information from the CNS to the muscles. Though, importantly, their axons can not necessarily be found on either side, this will depend on where crossing over occurs. The secton of grey matter which connects to the dorsal root is called the dorsal horn, and the same is true for the ventral horn. The lateral horn is in between the dorsal and ventral horns.\newline
@@ -3869,7 +3892,7 @@ A cross section of the spinal cord would reveal meninges just like the brain and
 
 \label{sec:Autonomic}
 
-Pathways of the autonomic nervous system require two neurons, one that originates in the CNS and terminates at a ganglion, and a post-ganglionic neuron which terminates at the tissue of interest. While the circuit is often considered to have only two neurons, in fact many pre-ganglionic neurons synapse onto many post-ganglionic neurons, which means one neuron can affect many target tissues. Adding to this is the mode of release. The connection between neuron and target tissue is called the \textit{neuroeffector junction}. At this junction, transmitters are secrete indirectly from bulbous varicosities into the interstitial space, meaning neurotransmitters can diffuse over a larger area. Fascinatingly, these neurotransmitters are actually often synthesized within the axon / varicosities of neurons. 
+Pathways of the autonomic nervous system require two neurons, one that originates in the CNS and terminates at a ganglion, and a post-ganglionic neuron which terminates at the tissue of interest. While the circuit is often considered to have only two neurons, in fact many pre-ganglionic neurons synapse onto many post-ganglionic neurons, which means one neuron can affect many target tissues. Adding to this is the mode of release. The connection between neuron and target tissue is called the \textit{neuroeffector junction}. At this junction, transmitters are secreted indirectly from bulbous varicosities into the interstitial space, meaning neurotransmitters can diffuse over a larger area. Fascinatingly, these neurotransmitters are actually often synthesized within the axon / varicosities of neurons. 
 
 \subsection{Sympathetic Nervous System}
 Pre-ganglionic neurons of the sympathetic nervous system originate in the hypothalamus or reticular formation and extend down to the mid-sections of the spinal cord, from neuron pairs T$_1$ to L$_2$. Sympathetic ganglia are directly beside the spinal cord in a long chain (often called the sympathetic chain). Generally speaking, neurons closer to the T$_1$ section correspond to organs higher in the body, such as the heart or lungs, while neurons closer to the L$_2$ section corresponds to those lower in the body, like one's reproductive organs\footnote{Memorizing which nerves respond to which segments is likely not a good use of your time at this stage..., although it might have some clinical use to know which organs may be affected after SCI.}.\newline
@@ -3901,7 +3924,7 @@ $\beta_3$  &  Adipose  & NE $>$ E & Increase cAMP   \\
 \end{table}
 
 \subsection{Paraympathetic Nervous System}
-Parasympathetic neurons originate from the uppermost and lowermost neurons, either leaving directly from the cranial nerves or from the S$_2$ to S$_4$ nerves. Ganglia in the parasympathetic nervous system are close to the target tissue, meaning post-ganglionic neurons are very short compared to the pre-ganglionic ones. One of the most paths being from the vagus nerve (a cranial nerve) that carries the majority of parasympathetic signals to organs including the heart, lungs, liver, stomach, intestines, and pancreas. Like the sympathetic nervous system, pre-ganglionic neurons release acetylcholine onto nicotinic receptors. Notably, parasympathetic post-ganglionic neurons also secrete acetylcholine, but onto muscarinic receptors instead. 
+Parasympathetic neurons originate from the uppermost and lowermost sections of the spinal cord, either leaving directly from the cranial nerves or from the S$_2$ to S$_4$ nerves. Ganglia in the parasympathetic nervous system are close to the target tissue, meaning post-ganglionic neurons are very short compared to the pre-ganglionic ones. One of the key paths being from the vagus nerve (a cranial nerve), which carries the majority of parasympathetic signals to organs including the heart, lungs, liver, stomach, intestines, and pancreas. Like the sympathetic nervous system, pre-ganglionic neurons release acetylcholine onto nicotinic receptors. Notably, parasympathetic post-ganglionic neurons also secrete acetylcholine, but onto muscarinic receptors instead. 
 
 
 \begin{table}[!htbp]
@@ -4039,6 +4062,21 @@ The astrocyte scar is surprisingly thin, only a few layers of cells. Though, its
 
 \subsubsection{Oligodendrocytes.}
 Oligodendrocytes reportedly begin apoptosis around 1 DPI and it peaks around 8 DPI. Oligodendrocyte precursor cells (OPCs) are may differentiate into oligodendrocytes or Schwann cells after SCI. OPCs have been show to remyelinate neurons after SCI, but fascinatingly, it has been shown that locomotor recovery after SCI does not necessarily require remyelination by oligodendrocytes\footnote{\url{https://www.nature.com/articles/s41467-018-05473-1}}. Though, plenty of other research suggests it is required---so it is likely context dependent. 
+
+\subsection{IL-12 Sensing Neurons Promote Neuroprotection}
+
+Here I'll comment on this article\footnote{\url{https://www.nature.com/articles/s41593-023-01435-z}}, which does not directly describe spinal cord injury, but still broadly covers neural damage, inflammation, and the immune response.\newline
+
+Multiple sclerosis (commented on in section \textbf{\ref{sec:MSdigression}}) is characterized by inflammatory lesions, induced by type-1 immune response. The type-1 immune response is typically responsible for protection against bacterial or viral infections. 
+Interleukin-12 (IL-12) is a necessary activator of type-1 immunity. With IL-23, a complex relationship is formed resulting in the regulation of inflammation. Though, in the CNS, IL-12 has been known to reduce inflammation and protect against worsening MS. The protective benefits of IL-12 is the topic of this work.\newline
+
+Using the \textit{CMV} promoter, driving \textit{Cre} expression in all tissues, this group generated global knockdown of the IL-12R subunit B2, dubbed \textit{Il12rb2}$^{del/del}$. Such mice were shown to be suseptible to autoimmune encephalomyelitis. They postulated that this was due to altered T cell activity, since T cells are the primary respondents in autoimmune encephalomyelitis. However, after generating T cell-specific knockdowns---they found that the mice were still suspetible to the disease. The same was true for NK cell-specific knockdown.\newline
+
+In order to determine which cells express the IL-12 receptor, they used both immunostaining for $\beta$-gal in \textit{Il12rb2}$^{LacZ/LacZ}$ mouse lines, as well as RNAscope to detect \textit{Il12rb2} mRNA. They identified the IL-12 receptor (IL-12R) as being expressed in natural killer (NK) and T cells, in addition to oligodendrocytes and neurons. Specifically, they found expression in NeuN-positive and $Rbfox3/Map2$-positive cells (neurons) and myelin forming and mature oligodendrocytes. They verified this expression profile in deceased patients who had multiple sclerosis. Ablation of IL-12R in neurons and glia by \textit{Nestin}$^{Cre}$ worsened the response to experimentally induced encephalomyelitis. This phenotype was marked by increased CD4$^+$ T cell infiltration into the CNS and accompanying microglial activation. Finally, they demonstrated neurons are the key actors by performing glia-specific knockdown, and demonstrating a lack of inflammation. \newline
+
+To understand the transcriptional response to IL-12, they performed RNAseq showed that IL-12R induced a strong response particularly in granule cells, excitatory neurons, cholinergic neurons, microglia, molecular layer interneurons (MLIs), and MOL1 and MOl2. Particularly in grandule cells, responses include increased expression of genes involved in neuroprotection and decreased transcription of genes involved in immune cell recruitment. In short, they revealed a novel role of IL-12 in neurons, rather than immune cells, which mediates a neuroprotective response. 
+
+
 
 \chapter{In The Clinic \& Therapeutic Approaches}
 
