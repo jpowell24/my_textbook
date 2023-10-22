@@ -2823,6 +2823,101 @@ The rightward opamp functions as a Schmitt Trigger, and the entire thing is effe
 
  Note that in the coming sections, $[f]$ is used to describe the concentration of some molecule $f$. But, this principal can be applied to anything, including the spreading of voltage across some surface. 
 
+ \subsection{Diffusion Equation Derivation}
+
+So, let's consider some particle that adheres to the arbitrary function $f(x)$, and has some probability density function of $\Psi(x,t)$ and experiences some noise of $W$. We can know that, regarding $W$:
+
+\begin{equation}
+\begin{split}
+    dW = 0 \\
+    dW^2 = dt
+\end{split}
+\end{equation}
+
+By the It$\overline{\mathrm{o}}$ lemma. And where $dx = \alpha dW$, where $\alpha$ is some function of $k_BT$ and the mobility coefficient, $M$, of the particle. We can say for an ensemble of particles that: 
+
+\begin{equation}
+\begin{split}
+    \langle f(x) \rangle(t) = \int \Psi(x,t) f(x) dx
+\end{split}
+\end{equation}
+
+If we are interested in the change of $f(x)$ over $dx$, we consider: 
+
+\begin{equation}
+\begin{split}
+    df = f[x + dx] - f[x] 
+\end{split}
+\end{equation}
+
+And we Taylor Expand around $df$ as: 
+
+\begin{equation}
+\begin{split}
+    df & = f'\alpha dW + \frac{1}{2}f''\alpha^2 dW^2 + \mathcal{O}dW^3 \\
+    df & = f'\alpha dW + \frac{1}{2}f''\alpha^2 dt + \mathcal{O}dtdW
+\end{split}
+\end{equation}
+
+If we average over the ensemble, we get: 
+
+\begin{equation}
+\begin{split}
+    \frac{d\langle f \rangle}{dt} & = \frac{1}{2}\langle f'' \rangle \alpha^2 
+\end{split}
+\end{equation}
+
+This can be solved as: 
+
+\begin{equation}
+\begin{split}
+    \frac{\partial \Psi}{\partial t}f & = \frac{1}{2} \frac{\partial^2 \Psi}{\partial x^2}f \alpha^2
+\end{split}
+\end{equation}
+
+And, because $f$ never meant anything anyway, we are saying: 
+
+\begin{equation}
+\begin{split} \label{sec:diffequation}
+    \frac{\partial \Psi}{\partial t} & = D_c \frac{\partial^2 \Psi}{\partial x^2} 
+\end{split}
+\end{equation}
+
+
+\subsubsection{Another approach.}
+
+Let's consider beginning this equation with the Master equation, which describes the probability (still using $\Psi$) of being at position $r$ at time $t + \Delta t$ for one dimension as: 
+
+\begin{equation}
+\begin{split}
+    \Psi(r,t + \Delta t) = \Phi\Psi(r - \Vec{e_i},t) + (1 - \Phi)\Psi(r + \Vec{e_i},t)
+\end{split}
+\end{equation}
+
+Where $\Phi$ is the probability of moving left by a distance of $\Vec{e}_i$ along your 1-dimensional lattice. In other words, $\Vec{e}_i$ is the discrete length that you can travel along this lattice. Do you hate this notation? Me as well.\newline
+
+Let us know try to find the solution to this by Taylor expansion: 
+
+\begin{equation}
+\begin{split}
+    \Psi + \Delta t\frac{\partial \Psi}{\partial t} &= \Phi\pr{\Psi - \Vec{e_i}\Psi' + \frac{\Vec{e_i}^2}{2}\Psi''} + (1 - \Phi)\pr{\Psi + \Vec{e_i}\Psi' + \frac{\Vec{e_i}^2}{2}\Psi''} \\
+    \Delta t\frac{\partial \Psi}{\partial t} &= -2\Phi\Vec{e_i}\Psi' + \Vec{e_i}\Psi' + \frac{\Vec{e_i}^2}{2}\Psi'' \\
+    \frac{\partial \Psi}{\partial t} &= \frac{\Vec{e_i}(1-2\Phi)}{\Delta t}\Psi' + \frac{\Vec{e_i}^2}{2\Delta t}\Psi'' \\
+\end{split}
+\end{equation}
+
+Which we can simplify to: 
+
+\begin{equation}
+\begin{split}
+    \frac{\partial \Psi}{\partial t} &= \frac{\Vec{e_i}(1-2\Phi)}{\Delta t}\frac{\partial \Psi}{\partial x} + D_c\frac{\partial^2 \Psi}{\partial x^2} \\
+\end{split}
+\end{equation}
+
+We could assign the value of $\Vec{e_i}(1-2\Phi) /\Delta t$ to be some constant. But, in general, $\Phi = 0.5$, signifying an equal probability of moving left or right, so this entire term is deleted, giving us the same as we got for equation \textbf{\ref{sec:diffequation}}. 
+
+
+
 \subsection{Forward Euler's} Diffusion is accomplished using some diffusion coefficient ($D_c$) multiplied by some measure of the proportion in one compartment verses another (often $\partial^2 [f]/\partial x^2)$. $D_c$ can be tuned however desired. The important bit is the second derivative of $[f]$ with respect to space. This can be done using the general form of a second derivative, as written below: 
 
 \begin{equation} \label{diff1}
@@ -3714,7 +3809,10 @@ In mutations deleting a large amount of the $\beta$-barrel, currents are abolish
 
 Inhibition of AvrE was associated with decreased virulence in plants. 
 
-\textcolor{red}{Why do they think this is integrated into the hosts at all? I don't get it?---many open questions. Their work has all been in oocytes, right? Can't it be that this protein is just integrated into the bacterial membrane and helps regulate bacterial osmolarity?}
+\subsubsection{Using FRET for VRACs}
+
+Voltage regulated anion channels (VRACs) are key responders to osmotic swelling. Upon swelling, anions are released, which decreases the osmolarity of the cell and prompts water efflux. The gating mechanism of VRAC channels, though, remains unknown. 
+
 
 
 \subsection{Piezo}
@@ -3722,7 +3820,7 @@ Inhibition of AvrE was associated with decreased virulence in plants.
 Piezo channels are near and dear to my heart, as we study them extensively. Piezo channels have been implicated in nearly every cell of various organisms. There's no shortage of mechanisms hinging on Piezo channels, including neuron regeneration. Here, I'll discuss some current literature pertaining to Piezo channels. 
 
 
-\subsubsection{Piezo in B Cells}
+\subsubsection{Piezo in B Cells.}
 
 Adding yet another function to Piezo, they play a crucial role in B cell responses\footnote{\url{https://www.science.org/doi/10.1126/scisignal.abq5096}}. B cells are activated when antigens bind to B cell receptors (BCRs), primarily through surface expression via antigen-presenting cells (APCs). This induces BCR clustering, phosphorylation, and formation of a signalosome. Importantly, such responses involve significant membrane and matrix reorganization. This is marked by the formation of an ``immune synapse," where BCRs cluster with other important membrane proteins at the interface of the APC. Because B cells seem preferentially activated by antigens on the surface of cells, rather than soluble antigens, it is plausible that some physical interaction is beneficial to B cell activation.\newline
 
