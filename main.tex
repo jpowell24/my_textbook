@@ -2256,7 +2256,7 @@ A neater way to avoid some of the drawbacks to the preceeding designs is to use 
 \end{circuitikz}
 \end{center}
 
-The problem, of course, is that you will still have two diode drops in either direction. This is called \textit{crossover distortion}. 
+The problem, of course, is that you will still have two diode drops in either direction. This is called \textit{crossover distortion}. An intelligent way to avoid this crossover distortion would be to add some additional diodes around the base of the two transistors connected to a power supply. An easier way, virtually by cheating, would be to use an opamp whose feedback loop connects to the output of the push-pull circuit, allowing the opamp to ``pre-compensate" for the two diode drops. 
 
 \subsection{Amplifiers}
 
@@ -2293,9 +2293,16 @@ Let's again analyze solely by glancing at the circuit. We know that the voltage 
 \end{split}
 \end{equation}
 
-Since the voltage drop across $R_C$ will be $I_CR_C$. This, $d\Vo{}_1/d\Vi = -R_E/R_C$. Using a capacitor to remove the DC offset will further make it function like the amplifier you desire. 
+Using a capacitor to remove the DC offset will further make it function like the amplifier you desire. Something small to keep in mind is the limits of $R_E$. Let's suppose you were to take $R_E \rightarrow 0$. The truth of your equation is this: 
 
+\begin{equation} \label{trans3}
+\begin{split}
+\Vo{}_1 &= \Vo{}_2\frac{R_C}{R_E + r_e} \\
+\Vo{}_1 &= \Vo{}_2\frac{R_C}{r_e}
+\end{split}
+\end{equation}
 
+Where $r_e$ is the resistance of the diode, set approximately by 25mV$/I_C$. Therefore, your output will experience ``barn roof distortion" due to the logarithmic nature of a diode's IV curve.  
 
 
 \vfill\pagebreak
@@ -2433,7 +2440,223 @@ On the left circuit, your $R_{program}$ sets the current via the fact that the v
 
 So why would you want a current mirror? Here's an example from this video\footnote{\url{https://www.youtube.com/watch?v=VnJHXQCPIvs\&ab_channel=ALLABOUTELECTRONICS}}. Amplifiers can be biased using current sources, which allows the biasing current to become very stable. This is important, because as voltage or temperature fluctuates, the current can be maintained. Adding a current source to every amplifier would require too much annoying circuit building, so one way to avoid this is using a current mirror. 
 
+\subsection{The Components of an OpAmp}
 
+Opamps are transistor-based at heart. The key components of an opamp is that it should have a large, ideally infinite differential gain. This means that an opamp can ideally amplify any difference between $V_+$ and $V_-$. Conversely, an opamp should ideally have a 0 common mode gain. This means that when $V_+ = V_-$, $\Vo \approx 0$. Other important components of an opamp include a high current supplied to $\Vo$, accomplished by an ideally 0 output resistance. Let's consider how we can accomplish these things.\newline
+
+The first step is to generate a circuit with a decent differential gain and a somewhat low common-mode gain. Let's see what we can gather about the below circuit(s). 
+
+\begin{equation}\label{sec:diffgain}
+\begin{split}
+    A_{D} &= \frac{R_C}{2(R_E + r_e)}\\
+    A_{CM} &= -\frac{R_C}{2R_{tail} + R_E + r_e} 
+\end{split}
+\end{equation}
+
+
+
+\begin{multicols}{2}
+\begin{center}
+\begin{circuitikz}
+
+\ctikzset{tripoles/mos style=arrows}
+\ctikzset{transistors/arrow pos=end}
+
+\draw 
+
+%%%% NPN transistor 1
+(-4,0) node[npn](T1){}
+(T1.B) to[short,-*] ++(-0.5,0) node[above] {$\Vi{}_+$}
+(T1.C) to[R,l=$R_{C_1}$] ++(0,2)
+(T1.E) to[R,l=$R_{E_1}$] ++(2,0) 
+
+%%%% NPN transistor 2
+(0,0) node[npn, xscale=-1](T2){}
+(T2.B) to[short,-*] ++(0.5,0) node[above] {$\Vi{}_-$}
+(T2.C) to[R,l_=$R_{C_2}$] ++(0,2)
+to[short,-*] ++(-5,0) node[above] {$\V{}_{\rm{CC}}, +15\V$}
+(T2.E) to[R,l_=$R_{E_2}$] ++(-2,0) % FYI: l_ flips location of label
+to[R,l_=$R_{tail}$] ++(0,-2) coordinate(tail)
+(tail) to[short, -*] ++(-3,0) node[below] {$\V{}_{\rm{EE}}, -15\V$}
+(tail) to[short,-] ++(+2,0)
+
+;
+
+\end{circuitikz}
+\end{center}
+
+
+\begin{center}
+\begin{circuitikz}
+
+\ctikzset{tripoles/mos style=arrows}
+\ctikzset{transistors/arrow pos=end}
+
+\draw 
+
+%%%% NPN transistor 1
+(-5,0) node[npn](T1){}
+(T1.B) to[short,-*] ++(-0.5,0) node[below] {$\Vi{}_+$}
+(T1.C) to[R,l_=$R_{C_1}$] ++(0,2)
+(T1.E) to[R,l=$R_{E_1}$] ++(2,0) coordinate (Re1)
+to[R,l_=$2R_{tail}$] ++(0,-2) 
+
+%%%% NPN transistor 2
+(0,0) node[npn, xscale=-1](T2){}
+(T2.B) to[short,-*] ++(0.5,0) node[below] {$\Vi{}_-$}
+(T2.C) to[R,l=$R_{C_2}$] ++(0,2)
+to[short,-*] ++(-6,0) node[above] {$\V{}_{\rm{CC}}, +15\V$}
+(T2.E) to[R,l_=$R_{E_2}$] ++(-2,0) coordinate (Re2)% FYI: l_ flips location of label
+to[R,l=$2R_{tail}$] ++(0,-2) coordinate(tail)
+(tail) to[short, -*] ++(-3,0) node[below] {$\V{}_{\rm{EE}}, -15\V$}
+(tail) to[short,-] ++(+2,0)
+
+(Re1) -- (Re2)
+(T2.C) to[short, -*] ++(1,0) node[above]{$\Vo$}
+
+;
+
+\end{circuitikz}
+\end{center}
+
+\end{multicols}
+
+
+These two circuits are equivalent, but the right one is a bit easier to analyze. Considering equations \textbf{\ref{sec:diffgain}}, you may want to pick an incredibly large $R_{tail}$, or better yet, to pick a downward circuit fragment with a very high $R_{in}$. Let's try: 
+
+
+\begin{center}
+\begin{circuitikz}
+
+\ctikzset{tripoles/mos style=arrows}
+\ctikzset{transistors/arrow pos=end}
+
+\draw 
+
+%%%% NPN transistor 3 isolated
+(0,0) node[npn](T3){}
+(T3.B) to[short,-*] ++(-0.5,0) coordinate (T3base)
+(T3.C) to[short, -*] ++(0,0.5) node[above]{$V_C$}
+(T3.E) to[R,l=$R_{E_3}$] ++(0,-2) coordinate (Re3)
+(Re3) to[short, -*] ++(-2,0) node[below]{$-15\V$}
+(T3base) to[R,l={$R_{B_1}$}] ++(0,2) node[ground, rotate=180]{}
+(T3base) to[R,l_={$R_{B_2}$}] ++(0,-2.77) % couldn't think of a better way to do this 
+
+;
+
+\end{circuitikz}
+\end{center}
+
+In the quiescent state, we can easily determine the voltage at the base as $V_B = 15\V \times R_{B_1} / (R_{B_1} + R_{B_2})$. Therefore, we can determine the voltage at the emitter as $V_E = V_B - 0.7\V$. We can determine the voltage drop across $R_{E_3}$ here as $15\V - V_E$, and therefore easily determine $I_{E_3}$, and thus $I_{C_3}$, as $R_{E_3} / (15\V - V_E)$. Let's connect this fragment to our circuit as below: 
+
+
+\begin{center}
+\begin{circuitikz}
+
+\ctikzset{tripoles/mos style=arrows}
+\ctikzset{transistors/arrow pos=end}
+
+\draw 
+
+%%%% NPN transistor 1
+(-4,0) node[npn](T1){}
+(T1.B) to[short,-*] ++(-0.5,0) node[below] {$\Vi{}_+$}
+(T1.C) to[R,l_=$R_{C_1}$] ++(0,2)
+(T1.E) to[R,l=$R_{E_1}$] ++(2,0) 
+
+%%%% NPN transistor 2
+(0,0) node[npn, xscale=-1](T2){}
+(T2.B) to[short,-*] ++(0.5,0) node[below] {$\Vi{}_-$}
+(T2.C) to[R,l=$R_{C_2}$] ++(0,2)
+to[short,-*] ++(-5,0) node[above] {$\V{}_{\rm{CC}}, +15\V$}
+(T2.E) to[R,l_=$R_{E_2}$] ++(-2,0) % FYI: l_ flips location of label
+to[short] ++(0,-1) coordinate(tail)
+(T2.C) to[short,-*] ++(1,0) node[above]{$\Vo$}
+
+%%%% NPN transistor 3 connected
+(tail) ++(0,-0.5) node[npn](T3){}
+(T3.B) to[short,-*] ++(-0.5,0) coordinate (T3base) node[above]{$V_{B_3}$}
+(T3.E) to[R,l=$R_{E_3}$] ++(0,-2) coordinate (Re3)
+(Re3) to[short, -*] ++(-3,0) node[below]{$\V_{\rm{EE}},-15\V$}
+(T3base) to[R,l_={$R_{B_1}$}] ++(-2,0) node[ground]{}
+(T3base) to[R,l_={$R_{B_2}$}] ++(0,-2.77) % couldn't think of a better way to do this 
+;
+
+\end{circuitikz}
+\end{center}
+
+
+Because we know the quiescent $I_{C_3}$, we can know that $0.5 I_{C_3}$ flows through $R_{E_1}$ and $R_{E_2}$, allowing us to easily deduce what $\Vo$ is in the quiescent state. We might be tempted again to take the limit of $R_{E_{1,2}}\rightarrow 0$, but recall that we will introduce distortion this was as $r_e$ becomes the only source of resistance in the system. If we assume the $R_{in}$ into this third transistor fragment is extremely high, on the order of $\Mohm$s, then we can know that the differential gain is extremely high, while the common mode gain is extremely low. Let's add some extra circuit fragments: 
+
+
+\begin{center}
+\begin{circuitikz}
+
+\ctikzset{tripoles/mos style=arrows}
+\ctikzset{transistors/arrow pos=end}
+
+\draw 
+
+%%%% NPN transistor 1
+(-4,0) node[npn](T1){}
+(T1.B) to[short,-*] ++(-0.5,0) node[below] {$\Vi{}_-$}
+(T1.C) to[R,l_=$R_{C_1}$] ++(0,2)
+(T1.E) to[R,l=$R_{E_1}$] ++(2,0) % generally I prefer to use ++(x,y) so that if I move things around, they stay connected---pros and cons
+
+%%%% NPN transistor 2
+(0,0) node[npn, xscale=-1](T2){}
+(T2.B) to[short,-*] ++(0.5,0) node[below] {$\Vi{}_+$}
+(T2.C) to[R,l=$R_{C_2}$] ++(0,2) coordinate (Rc2)
+to[short,-*] ++(-5,0) node[above] {$\V{}_{\rm{CC}}, +15\V$}
+(T2.E) to[R,l_=$R_{E_2}$] ++(-2,0) 
+to[short] ++(0,-1) coordinate(tail)
+(T2.C) to[short,-*] ++(0.5,0) node[above]{$\Vo{}_1$} coordinate (stage1)
+
+%%%% NPN transistor 3
+(tail) ++(0,-0.5) node[npn](T3){}
+(T3.B) to[short,-*] ++(-0.5,0) coordinate (T3base) node[above]{$V_{B_3}$}
+(T3.E) to[R,l=$R_{E_3}$] ++(0,-2) coordinate (Re3)
+(Re3) to[short, -*] ++(-3,0) node[below]{$\V_{\rm{EE}},-15\V$}
+(T3base) to[R,l_={$R_{B_1}$}] ++(-2,0) node[ground]{}
+(T3base) to[R,l_={$R_{B_2}$}] ++(0,-2.77) % couldn't think of a better way to do this 
+
+%%%% NPN transistor 4
+(stage1) ++(1.5,0) node[pnp](T4){}
+(T4.B) to[short] (stage1)
+(T4.E) to[R, l={$R_{E_4}$}] ++(0,1.22) % again, couldn't think of a better way to do this
+(Rc2) to[short] ++(4.5,0) 
+(T4.C) to[R, l_={$R_{C_4}$}] ++(0,-5.05) coordinate (Re4)
+(Re3) to[short] ++(6.5,0)
+(T4.C) ++(0,-1) coordinate (stage2)
+
+%%%% Push pull
+(stage2) to[short,-*] ++(0.5,0) node[above]{$\Vo{}_2$} to ++(1,0) coordinate (PPbase)
+(PPbase) to[short] ++(0,+1) coordinate (T5base) ++(1,0) node[npn](T5){}
+(PPbase) to[short] ++(0,-1) coordinate (T6base) ++(1,0) node[pnp](T6){}
+(T5base) -- (T5.B)
+(T6base) -- (T6.B)
+
+(T5.C) to[short] ++(0,2)
+(T6.C) to[short] ++(0,-2.27) % more messy numbers to help connect
+
+(T5.E) -- (T6.E)
+
+% Final out
+(stage2) ++(2.5,0) coordinate (Vout)
+(Vout) to[short,-*] ++(2,0) node[above]{$\Vo$}
+(Vout) to[short] ++(1,0) to[R,l=$R_1$] ++(0,-2) coordinate(feedback)
+to[R,l=$R_2$] ++(0,-2) node[ground]{}
+
+(feedback) to[short,-*] ++(1,0) node[above]{$\Vi{}_-$}
+
+;
+
+\end{circuitikz}
+\end{center}
+
+We've now added a common emitter amplifier to the output of stage 1 (now called $\Vo{}_1$). It will amplify as $A = -R_{C_4} / (R_{E_4} + r_e)$. However, one consideration is to keep the voltage of $\Vo{}_1$ low enough so that the transistor does not saturate. We take the output from this ($\Vo{}_2$) and connect it to a push-pull circuit---which  is helpful in increasing the current supplied by the homemade opamp. However, it introduces crossover distortion. This crossover distortion is eliminated when feedback is added, with $\Vi{}_-$ connected to $\Vo$ as shown above. The whole circuit amplifies as: $(1 + \frac{R_1}{R_2})(\Vi{}_+ - \Vi{}_-) = \Vo$.\newline
+
+One slight issue you may encounter is an annoying fuzz on the output. This may be due to unintended high-requency gain. One way to avoid this is adding a very small capacitor between $\Vo{}_1$ and $\Vo{}_2$. This effectively acts as a high-pass filter, removing it from amplification by the common-emitter amplifier. 
 
 %%%%%%%%%%%%%%%%%%%%
 \chapter{Writing Hardware}
@@ -3811,9 +4034,11 @@ Inhibition of AvrE was associated with decreased virulence in plants.
 
 \subsubsection{Using FRET for VRACs}
 
-Voltage regulated anion channels (VRACs) are key responders to osmotic swelling. Upon swelling, anions are released, which decreases the osmolarity of the cell and prompts water efflux. The gating mechanism of VRAC channels, though, remains unknown. 
+Here we discuss\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/37339878/}}. The suprachiasmatic nucleus (SCN), a bilateral nucleus in the hypothalamus, is responsible for maintaining the circadian rhythm. It is known that the SCN produces changes in repeat firing that varies with the time of day. It is thought that subthreshold, leak currents are responsible for changes in firing rate. Research has been done on increased K$^+$ conductance, but this paper postulates a greater role of subthreshold Na$^+$ conductance. This role of Na$^+$ was proposed first in \textit{Drosophila}, so this work helps to verify conservation in mammals. They determined that sodium conductance has a greater role in the daytime than night, and that their affect depends on K$^+$ currents and their affect on the input resistance of the membrane.\newline
 
+The authors focused on three different neuron-types---NMS, GRP, and VIP-expressing cells. VIP-labeled cells were recorded from via removal and slicing either during the day or night. VIP cells were found to fire more frequently during the day than night, and their $R_{in}$ was higher during the day than night. The depolarization ($\Delta \V$) associated with action potentials was similar at night than during the day, though. Interestingly, they found that sodium currents associated with leak channels (i.e., in the presence of TTX) was variable, but consistent across day and night. Though, when Na$^+$ is removed and replaced with NMDG$^+$, the resting membrane voltage was much more hyperpolarized, and this effect was observed to be stronger during the day than night. This led them to conclude Na$^+$ leak channels are particularly useful in maintaining day time resting membrane voltages\footnote{Is this surprising, or is this something you learn in introductory neuroscience? That's the question.}.\newline
 
+In comparing NMS$+$ and GRP$+$ cells in the same tests, they found that NMS$+$ cells show higher firing rate, higher input resistance, and higher resting membrane potential during the day than night. This was not so for GRP$+$ cells. Na$^+$ current density was shown to be similar in both the day and night for NMS$+$ and GRP$+$ cells, however removing Na$^+$ current demonstrated a greater hyperpolarizing shift in the daytime than nighttime for both cell types. This, to them, suggested that Na$^+$ leak currents too maintain a higher resting voltage during the day than night across these cells types. 
 
 \subsection{Piezo}
 
@@ -4386,10 +4611,6 @@ RhoA GTPase, a protein localized to the growth cone and functions in microtubule
 
 Target of rapamycin (mTOR) is all too familiar now, as it has been identified as an active translator in the axon and growth cone. mTOR phosphorylates 4EBP1, thereby inhibiting it, preventing it from repressing translation. Phosphatase and tensin homolgue (PTEN) is a negative regulator of mTOR. PTEN is likely the most famous regeneration blocker---and for good reason! Inhibition of PTEN even a year after SCI has been shown to promote enhanced recovery. Though, the regeneration is still typically insufficient for meaningful and complete functional recovery. Currently, developing therapeutics against PTEN are marred by worries that it will produce malignancies within the tissues, as PTEN is also an essential tumor suppressor. Interestingly, PTEN inhibition alone strikes somewhat variable results. Co-inhibition of PTEN with suppressor of cytokine signaling 3 (SOCS3) (mentioned in the next section) provided more consistent, enhanced growth---especially in the critical corticospinal tract.\newline 
 
-Inhibition of certain calcium channel components, like the $\alpha2\delta2$ subunit of voltage gated calcium channels, promote axon regeneration. One such method of doing so is through pregabalin, which limits spasms. Further evidence by administration of gabapentinoids enhancing regeneration shows promise in using anti-convulsants to treat SCI. This work fits into the larger hypothesis of neuronal activity limiting axon regeneration. Further work demonstrates that active vesicle machinery, like the protein Munc13, limit axon regeneration. Other work has shown that partial preservation of synapses stalls regeneration when full loss would have furthered it---suggesting that axons tend not to regenerate unless their connections have been completely abolished.\newline
-
-Indirectly related, our lab has identified the pore forming subunit of L-type voltage gated calcium channels, $\alpha1$, to be necessary for regeneration. Therefore, the role of VGCCs and neuronal activity in regeneration is likely multiplexed.\newline
-
 Other proteins, like KCC2 (\textbf{\ref{sec:KCC2}}), are discussed in-depth in other sections. 
 
 \subsubsection{Transcriptional Possibilities.}
@@ -4440,7 +4661,13 @@ With this better understanding of the neurons, they employed the following plan:
 
 This indeed allowed for growth of these neurons beyond the injury site. However, this did not allow for functional recovery. Thus, they concluded that functional recovery can only be achieved via meaningful connection re-formation. Instead, they tried replacing biomaterials with lentiviruses driving expression of growth factors, which indeed allowed for functional recovery. Via their previously mentioned AAV method, transcriptional and immunohistochemical classification, they verified that this was indeed due to Vsx2 neuron growth. They verified that motor neurons had regained CNS control via stimulating neurons of the vGi and identifying corresponding leg movements. They verified, via expression of toxin receptors and corresponding toxin administration in Vsx2 neurons, that these neurons are required for recovery. 
 
+\section{Neuronal Excitability and Regeneration}
 
+This is quite a difficult topic to cover. There is almost no end to the amount of conflicting information. Presumably, this is because neuronal activity dictates many, many underlying processes. There is a growing hypothesis, put forth largely by the Bradke group, that neuron activity is largely anti-regenerative. The basic principle is that being in "growth mode" or being in "active mode" are somewhat mutually exclusive. Further, other works have found that ablating individual synapses, but maintaining some, limits growth. Conversely, eliminating all synapses evokes a more strong regeneration response. The idea here is that a neuron may attempt to preserve its remaining function by not entering a so-called regeneration mode. The implications of this are not straightforward, as naturally many forms of CNS nerve damage, namely SCI, result in complete axonal severing---yet, of course, such neurons do not regenerate properly. On the other hand, axonal sprouting can and does occur from non-injured neurons. Thus, in my eyes, the whole theory is a bit confusing and may well be subtype-specific.\newline
+
+Furthermore, inhibition of certain calcium channel components, like the $\alpha2\delta2$ subunit of voltage gated calcium channels, promote axon regeneration. This subunit mediates influx through N and P/Q-type channels. Thus, it's thought that these channels may underlie activity-dependent halted regeneration. One method of inhibiting neuron activity is through pregabalin, which limits spasms. Further evidence by administration of gabapentinoids enhancing regeneration shows promise in using anti-convulsants to treat SCI. This work fits into the larger hypothesis of neuronal activity limiting axon regeneration. Further work demonstrates that active vesicle machinery, like the protein Munc13, limit axon regeneration.\newline
+
+However, a strange wrinkle arises when considering the Bradke group's work on L-type calcium channels. They found that L-type channels also inhibit axon regeneration in mouse DRG neurons in a work from 2010\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/20579880/}}. Our lab, on the other hand, found that L-type VGCCs are necessary and sufficient for axon regeneration in the \textit{Drosophila} PNS. My hypothesis would be that such channels may be mediating local influx in DRG neurons, whereas it is global in \textit{Drosophila} PNS neurons. There also may be differences in timing and frequency of firing. Unfortunately, the Bradke group did not follow-up on this work, and therefore we have very little to analyze regarding it. The skeptic in me also wonders if they didn't do follow-up work because their results were conflicting, and or, because a phenotype was difficult to nail down. Regardless, the conflict warrants further study. 
 
 
 
@@ -4877,11 +5104,17 @@ A large part of spinal cord stimulation, particularly epidural electrical stimul
 
 An unsung hero which operates by similar means is transcutaneous stimulation---done through the skin, making it non-invasive and easily performed. Of course, it lacks the precision of EES, but has been used to promote motor recovery after SCI. 
 
-\subsection{Application to Parkinson's Disease}
+\subsection{Advancements in Parkinson's Disease}
+
+\subsubsection{Founding Works.}
 
 In large part, tremors induced by PD have already been well solved through deep brain stimulation and high intensity focused ultrasound. However, this paper focuses on some of the non-tremor symptoms of PD, and the idea that one can use spinal cord stimulation to fix degenerative diseases is generally interesting, so let us learn from\footnote{\url{https://www.science.org/doi/10.1126/science.1164901}}.The premise of this experiment is somewhat surprising, as stimulation is often thought to interrupt signals (as is the case in deep brain stimulation for PD, and SCS for neuropathy). In this case, though, they believe SCS \textbf{enhances locomotor signals}. That is, they are not treating PD tremors, but rather are treating PD induced akinesia. Experiments were performed in mice using dopamine-transporter knockout (DAT-KO) as their PD model. They also injected tyrosine hydrolase inhibitor (called AMPT)\footnote{I didn't bother Googling what this is, but intuition would suggest is aids in the conversion of tyrosine to catecholamines.} to further deplete dopamine. Dorsal root stimulation was performed using electrodes into the upper thoracic levels of the spinal cord. The greatest locomotor improvement in locomotion was found at 300 Hz stimulation.\newline
 
 Notably, some hospitals are currently attempting clinical trials for spinal cord stimulation's use in treating Parkinson's. Some efforts include blocking pain and treating akinesia. 
+
+\subsubsection{Courtine Improvements}
+
+Here we discuss\footnote{\url{https://www.nature.com/articles/s41591-023-02584-1}}. 
 
 \subsection{Electronic Dura Mater}
 
@@ -5040,7 +5273,6 @@ There are many limitations to consider. For example, RCaMP's $k_{on}$ or $k_{off
 
 What is fascinating about reading papers like this is I go into them every time thinking ``Wow, this method sounds remarkable! Perhaps this will be the secret to next-gen BCIs." Yet, I always finish the paper with more questions / critiques than I began with. 
 
-
 \chapter{Reading Thoughts} 
 
 At present, I am unsure if reading one's thoughts is a requirement at all for overcoming SCI. I am unconvinced that electrical stimulation controlled by one's brain is better than electrical neurorehabilitation---or if it is better by any measurable margin. In investigating this, I believe the limiting factor in bridging from the stimulation applied by Tator and Minassian is a reliable way to read ones objective through their brain waves. The Lorach \textit{et al.} 2023 solved this using the WIMAGINE system\footnote{\url{https://www.frontiersin.org/articles/10.3389/fnins.2019.00847/full}}. But, let's begin by discussing the options and a bit of history.
@@ -5084,7 +5316,13 @@ One large question I have is how they are processing this data. In the case of a
 The bulk of the paper is very electronics heavy, so it will be good to reference in future builds. 
 
 
+\subsubsection{Robotic Control with Eye}
 
+Here we discuss\footnote{\url{https://www.nature.com/articles/s41598-023-44645-y}}. Usually, when we think of neural prosthetics or brain-computer interfaces, we think of their use in treating spinal cord or traumatic brain injury. However, there are many of really fascinating uses of brain computer interfaces beyond this. One such example is in ALS. Interestingly, muscles of the eye are unaffected by ALS. Therefore, while the rest of the body loses motor control, theoretically eye movements can be used to interact with the world. This paper used EEG signals and resolved eye movements---which are normally considered noise in an EEG.\newline
+
+EEG, being a non-invasive reading technique, is ideal for patients. Notably, unintentional, automatic blinks produce a smaller spike on an EEG than do intentional, voluntary blinks. These researchers used 5 subjects and attempted to monitor voluntary blinks as well as left and right looks in order to control a robot. They did so through some basic thresholding algorithms, followed by a training algorithm. They used this approach for real-time processing of EEG data. As a side comment, they wrote this in Python, which is surprising to me, because EEG produces a ton of data, so I'm surprised Python is fast enough to process it all ``real time." They did mention, though, that their real-time algorithm is much less accurate than their ``offline" algorithm, which may be due to differences in how they process data to speed it up. Their accuracy was in the 75-80 \% range for the three movements they tested.\newline
+
+Long term investigation and optimization of eye tracking will be helpful for a variety of neurodegenerative diseases, so this is a helpful step in this path. 
 
 
 \subsection{WIMAGINE ECoG}
@@ -5281,6 +5519,8 @@ One such topic is that of neurodegeneration. Naturally, there are not many direc
 
 \chapter*{Neurodegeneration}
 
+\textcolor{red}{This is all extremely messy and disgusting for the moment. Will clean up later (hopefully).}
+
 \section*{Alzheimer's}
 
 Alzheimer's disease (AD) is a degenerative disorder present in many demented, elderly patients. It must be diagnosed after death because of considerable symptom overlap. Diagnosis after death is on the basis of extracellular amyloid plaques and intracellular tau tangles. 
@@ -5450,5 +5690,473 @@ In clinical trials, antibodies against A$\be$ showed the ability to decrease pla
  Table 1 shows that the odds of having the mutation are significantly higher for those that are 85 and older, and cognitively intact than those with AD.\newline
 
  The genotype is relatively rare, on the order of one per couple hundred people, or rarer depending on the continent. Because the mutation is neuroprotective, carriers have markedly longer life spans. Fascinatingly, they even suggest the genotype is substantially beneficial even compared to those without AD. In cognitive scores they performed much better. Notably, though, the error bars are so insane they go off the screen (like literally, some error bars are cutoff from the graph).\newline
+
+ \section{Huntington's}
+
+\subsection{Overview}
+There's 30-40 human diseases due to CAG repeats. For HD, it is within the coding region of an exon, which encodes glutamine---which becomes a polyGlu. Though, notably, there's a bunch of diseases with the same mechanism. These genes normally have CAG repeats, but in disease phenotypes the repeats become elongated. HD is typically characterized as a movement disorder. For very long expansions, one can get juvenile HD. In patients, the caudate and putamen (which make up the striatum) are especially damaged, which causes enlarged central ventricles. \newline
+
+Interestingly, in diseases like spinocerebellar ataxia, another exon CAG repeat disease, many present clinically in the same way. However, their mutations are in different genes and the cell types affected are different. This causes degeneration in slightly different regions of the brain. Ataxic gait is classified by a lack of balance, which causes patients to widen their legs to maintain balance and jerk-like movement with stepping. It is especially clear upon asking patients to close their stance, in which case you'll see them lose balance. HD has less extreme, jerky movements and more stiffness, dis-coordination, and difficulty balancing\footnote{A rude comparison is to someone who is tweaking.}. \newline
+
+Huntington's is characterized by an autosomal dominant mutation, and symptom onset begins around age 30 to 50 and is completely penetrant. Chorea (large muscle jerks, resulting in dance-like movement) and cognitive decline are two marked symptoms. Genetic anticipation is a feature where diseases get worse, with earlier onset, every generation. While Huntingon's was first recognized in the 1900's, it was largely ignored---people didn't know what to make of it, because the gene changing over time seemed confusing. Repeat expansion was first identified in DM1 disease, which was a CTG expansion. You cannot precisely predict the age of onset by the length of the CAG repeats, for HD. \newline
+
+Nancy Wexler was one of the first to ``set out" to characterize HD. She traveled around the world and met many HD patients, looking for someone who was homozygous. She specifically went to Venezuela because they had a very large HD population. The median repeat length in this population was around 45 repeats. Most fall in the range of 40-50, but some rare outliers exist. Juvenile onset median was closer to 60 repeats.\newline
+
+Repeat expansion occurs more commonly in sperm production, so it is more common for an affected father to worsen the disease. Interestingly, as HD most severely affects the striatum, movement is expectedly impacted. However, conversely to Parkinson's, dopamine levels actually increase, while GABA and acetylcholine decrease. Therefore, dopamine inhibitors are a way to treat the symptoms (not the disease progression) of HD. 
+
+\subsubsection{RFLPs}
+
+The benefits of RFLPs are that mutations cause a restriction enyzme cut site. This allows you to get a broad sense of the genotypes of those in a pedigree. Thus, researchers started looking for RFLPs nearby disease causing genes. 
+
+
+
+\subsection{Gusella et al. 1983}
+
+\subsubsection{Overview}
+Prior to this study, nothing was known about the disease pathology of Huntingon's disease. In fact, the closest that had been achieved before is that 20\% of the chromosome was excluded from the disease-causing locus.\newline
+
+They generated cell lines from their derived tissues for future use. Picking a high quality of patients was essential, which included using experienced neurologists and people with verified HD over the course of a couple of years. They used 12 DNA probes from genes that already existed, which could not hybridize to multiple places in he genome. Only the G8 marker gave a suggestion of linkage to the HD gene. 
+
+\subsubsection{Figure 1 \& 2}
+
+These figures are simply illustrations of large pedigrees they found. Finding large families with well documented Huntingon's disease and available tissue samples, evidently, was quite hard then. 
+
+\subsubsection{Figure 3}
+
+Really, a large roadblock in investigating HD was the lack of genetic linkages. The G8 marker showed the first promising results. Figure 3 (top) shows the cut sites for \textit{Hind}III (H) and \textit{EcoR1} (R) restriction sites. The actual probe that they have is quite small. The G8 polymorphic sites are very close to one another. They want to prove individuals that are heterozygous, so that they can differentiate betwen affected and non-affected chromosomes.\newline
+
+Haplotype A is associated with HD in the American family. It is haplotype C in the Venezuelan family. The fact that the haplotypes are different between people either suggests it's two different genes or that the mutations arose independently in the two families. There are a few instances in which individuals have haplotype C, but do not have HD. This could be due to different age of onset or that some recombination event separated this polymorphism from the HD gene.\newline
+
+
+\subsubsection{Table 1}
+
+Table 1 shows that G8 does not hybridize without Chr4 present. 
+In fusing human-mouse cell hybrids, they essentially generate mouse cells with human chromosomes. They score which chromosomes each cell has and too if it hybridizes with the G8 marker. Because all cells with Chr4 have the G8 marker, they assumed G8 must be on Chr4. They tried testing recombination events of the HD gene with other Chr4 markers and found no association.\newline
+
+G8 is not the HD gene, but it is certainly close to it! 
+
+\subsubsection{Implications} 
+
+This had considerable implications, as you can now test haplotypes of offspring and predict if they'd get HD. Moving forward, more markers and more segregation analysis will be helpful in narrowing down the gene. Then, you have to start sequencing nearby genes.  
+
+
+
+\subsubsection{Questions}
+
+\textit{What insight allowed them to map a gene by RFLPs?} \textcolor{blue}{Polymorphisms in RFLPs allowed them to test using restriction enzymes and map different lengths via southern blotting. This was beneficial as they were heritable and could be found in regions that were not protien coding.}
+
+\textit{how many DNA probes did they use to detect RFLPs before they found an association?} \textcolor{blue}{12?}
+
+\textit{What does it mean that the haplotype of the two families with HD are different?} \textcolor{blue}{They're at different locations on the chromosome?}
+
+\textit{They don't have the gene so of what use is a piece of DNA linked to the HD gene?} \textcolor{blue}{A jumping off point to start sequencing.}
+
+\subsection{HDRCG 1993}
+
+
+\subsection{Overview}
+
+For many years, they had to make markers and compare recombination of events around this G8 area. Through continual investigation of recobination events in HD families, they were able to rule out different regions of Chr4. This meant the genome was narrowed down more and more until it became time to sequence. They were able to narrow it down to 2.2Mb. By comparing the haplotypes of HD kindreds, they narrowed it further to 500Kb. They look specifically for genes that become expressed by screening with a cDNA library. \newline
+
+Northern blot showed that the IT15 gene is expressed in HD patients as well as controls. This gene, as it turns out, was quite big. They didn't have a single cDNA which covered it, so they pieced together a couple cDNAs. It was predicted to be 3144 amino acids!\newline
+
+They find CAG repeats and that more than some number of repeats (42 in this case) was perfectly correlated with HD. They then tested as many HD families as they could. PCR and southern showed very variable repeat lengths. 
+
+\subsubsection{Figure 1}
+
+Figure 1 mapped the HD gene to somewhere between two markers on Chr4 by recombination events. Restriction enzyme cut sites are also shown. These restriction sites were helpful in mapping the haplotype of different HD kindreds, allowing them to narrow down their range of interest. 
+
+\subsubsection{Figure 2}
+
+They generated exon clones and therefore cDNAs IT15A and IT16A. Northern blotting showed hybridization with a similarly sized sequence, suggesting the sequences are derived from the same mRNA. My understanding of Figure 2 is that they are simply verifying the existence of an 11kb RNA strand characteristic of the IT15 gene in both homozygous HD patients and normal samples. 
+
+\subsubsection{Figure 3}
+
+Using the cDNA they had (IT16A and IT15A) they did a walk, where they used overlapping cDNAs to get the entire IT15 sequence. 
+
+\subsubsection{Figure 5}
+
+After sequencing, they generated primers for the regions flanking the CAG repeats. Of the 173 chromosomes they sequenced, the vast majority had below 25 repeats, and chromosomes had 80\% heterozygosity. Figure 5 shows a comparison of normal cosmids and normal cDNA compared to HD cosmids. Recall that a cosmid is made by digesting DNA, implanting into viruses, and then these viruses infect bacteria, while cDNA is from reverse transcription. 
+
+\subsubsection{Figure 6 \& 7}
+Their Figure 5 showed PCR products of different family members in the kindred, hoping to show that one allele was unaffected and one allele was affected in the HD group. Notably, though, some do not show a HD allele, which they write off as being due to the repeat lengths being too long to amplify. They verified this by southern blot in Figure 7, which showed that the repeat length was 100---and this patient had HD onset at age 2. Some people show more than 2 HD alleles. The hypothesis for why this occurs is that the cell lines, lymphocytes, are likely a bit more mosaic, since they actively divide much more. 
+
+\subsubsection{Figure 8}
+
+They were interested in testing sporadic cases of HD to see if this repeat expansion was still the driving cause. Indeed, they found parents with higher-end repeat expansion, and thus the offspring had repeats reaching the stereotypical 44+ range. They identify a similar haplotype in these chromosomes as in 1/3rd of all HD chromosomes, which suggests that this haplotype may predispose individuals for HD. 
+
+\subsubsection{Takeaways}
+
+The key findings were that there is this correlation between repeats and HD. This could be used as a diagnostic tool, or describe those who are pre-disposed to getting HD. At present, they do not know the mechanism by which HD acts, but they suspect it may be gain of function. They cannot say anything with certainty about this gene's corresponding protein, nor can they say that the repeats are translated at all. If it is translated, the polyQ would have considerable effects, and if it were untranslated, the effects are likely at the mRNA level. The next step that they propose is, indeed, to understand the endogenous function of this protein which they call huntingtin (with gene HTT). 
+
+
+\subsection{Mangiarini et al. 1996}
+
+\subsubsection{Overview}
+
+Prior to this point, questions regarding the nature of HD existed. It was unclear how the CAG repeat was affecting patients, but by then it was known that the glutamine residues corresponding to CAG were indeed translated. Generating a mouse model was difficult, as the HTT gene is incredibly long so cloning was almost un-doable then. In this work, they generated a model with only the beginning portion of the HTT gene (a single exon), including (CAG)$_{115}$---(CAG)$_{150}$. Their model, using a fragment from the human genome, in fact used the endogenous HTT gene promoter.\newline
+
+This work made the comment that 70\% of juvenile cases are inherited from fathers.\newline
+
+\textcolor{red}{How do you even maintain these mice? Won't the HTT gene always get purified, else the lines will die due to their instability.}
+
+\subsubsection{Figure 1}
+
+Figure 1A shows the region of human genomic DNA inserted into the mice. Figure 1B shows a Southern blot of the genomic DNA of F1 progeny from their successful transgenic mouse. They probe with a piece of DNA that hybridizes to the C termus of their inserted sequence. The purpose of this was to better understand where their insertion integrated into the genome. Figure 1C shows the predicted transgenes. It doesn't really make sense to me, though. 
+
+\subsubsection{Figure 2}
+
+Figure 2 shows the number of CAG repeats in each of their transgenic lines via PCR amplification and an ABI sequencer---in other words, amplified and then sequenced. The ABI sequencer plots show peaks corresponding to the length of the repeats---which were all in the range of about 110-150. Table 1 showed a frequency of the various genotypes in F1 progeny. 
+
+ \subsubsection{Figure 3}
+
+ Age of onset was usually around 9-11 weeks, and death around 10-13 weeks, meaning death followed symptoms quickly. The phenotype is described as complex, and that at birth no differences are observed. Symptoms include motor jerks and resting tremors, which worsened under stress. Significant weight loss is noticed by death, which is strangely confounded by the fact that their appetites are not reduced. Indeed, upon death food is found in their stomachs and stool seems to be normally produced, but their bodies have atrophied. Strangely, too, they seem to urinate excessively.
+
+ \subsubsection{Figure 4 \& 5}
+
+ Figure 4 attempts to determine location of expression. In some lines, transgene expression was found in all tissues analyzed, suggesting to them that it was expressed under the promoter within the injected DNA fragment. Figure 5 used an antibody called 1C2 and performed Westerns to analyze protein translation patterns---which appeared to be global. In one case, they identified a lack of translation, which they attribute to the protein not expressing the necessary epitope---which seems odd since it is meant to bind to polyQ. 
+
+\subsubsection{Figure 6 \& 7}
+
+\textcolor{red}{How did they separate out the cytosolic and nuclear?} Figures 6 and 7 characterized the neuropathologies of the mice. They identified universal shrinkage of the brain, not necessarily degeneration nor shrinkage localized to the striatum, on the order of about 20\% smaller than normal brains---however, there was clear ventricular expansion. They observed no neural or glial loss, nor did they see reactive gliosis. In fact, even the basal ganglia and striatum had normal neural morphology, aside from shrinkge. \textcolor{red}{Without hindsight, I'd have thought HD was a metabolic disorder...} This shrinkage was observed early in the disease progression, and did not worsen with age. This, obviously, contrasts to human HD. One hypothesis they suggest is that disease progression is so rapid in mice that there is not time for atrophy to occur---seems fishy. 
+
+\subsection{Future Directions}
+Afterwards, they further investigated the neuropathology associated with the phenotype. By EM, they found large clumps present in the nucleus, where HTT is not expected to be. They found these clumps stained for both HTT and ubiquitin, meaning it was tagged for degradation. It seemed that degradation was failing. Almost all neurological diseases are characterized by ubiquitinated proteins, including AD, and thus it is a strong marker for the buildup of aberrant proteins.Notably, they did not see staining for congo red, which suggested it was not amyloid. \newline
+
+They also found that brain weight decreased weeks before total body weight decreased---but up to this point, everything is normal. Further correlative data suggested neuropathology was induced by HTT accumulation in the nucleus, which was causal for brain weight decrease and therefore causal for whole body phenotypes. This suspected mechanism linked it to AD.\newline
+
+In other works from different groups, protein context was found to be critical. It was shown that only when polyQ proteins are trafficked into the nucleus does a phenotype manifest. If a polyQ protein stays in the cytosol---it will not be pathogenic.
+
+\subsection{Scherzinger et al. 1997}
+
+\subsubsection{Overview}
+
+This work focused on \textit{in vitro} and \textit{in vivo} model development and subsequent investigation of supposed amyloid plaque-like structures that form as a result of polyQ translation. Prior works had shown the huntingtin protein is associated with the cytosol, possibly around vesicles and or microtubules. Notably though, the HTT protein is expressed widely, which presents a strange problem when considering that degeneration is relatively specific to the striatum. Some hypothesized a gain of function as a result of the increased expansion, and some predicted that it was due to conformational changes in the HTT protein. Notably, polyQ are capable of forming $\beta$-pleated sheets. I'll let you connect the dots with that one.\newline
+
+Using the model presented in the previous section, this work found morphological changes on a neuronal level. Small granular structures can be seen, and indentations in the nuclear membrane are found along with increased density of nuclear pores. 
+
+\subsubsection{Figure 1}
+
+To build their model they used expression of exon 1 of the HD gene with expanded repeats fused to glutathione S-transferase (GST), which could be cleaved to produce free polyQ repeats. Such fusion proteins were made into plasmids, expressed in \textit{E. coli}, and purified. Proteins were purified and stained using a Coomassie blue dye and an anti-Huntingtin antibody, both of which verified expected expression and variable sized bands predicted by their sequence. 
+
+\subsubsection{Figure 2 \& 3}
+
+In Figure 3A, via digesting the proteins to cleave off the GST domain, lower molecular weight products are found in GST-HD20,30. However, a group of high molecular weight particles was present after GST-HD51 cleavage, suggesting there is some aggregation occurring. This also suggested that GST increased solubility of the protein when un-cleaved. This difference was stronger in Figure 3B, which included complete digestion of the GST tag.\newline
+
+In Figure 3C, they developed a method of quantifying aggregation by collection of insoluble components on an acetate filter, which existed in their longer repeat line (GST-HD51). They find GST-HD present in both the cleaved and uncleaved state on the nitrocellulose membrane. This contrasts to the acetate membrane, in which they only find protein in the cleaved GST-HD51 group. Therefore, they assumed only this group can be forming aggregates.
+
+\subsubsection{Figure 4 \& 5}
+
+Via electron microscopy, they found uniform, oligomeric particles without aggregates in undigested GST-HD51. Upon digestion, many non-uniform, ribbon-like aggregates were found. Clot-like structures were found on the end of fibrils. Based on their Figure 4E, it appears the clots were due to incomplete digestion. This contrasts with GST-HD20,30, which did not form aggregates with or without cleavage.\newline
+
+Notably, this protein stained with Congo Red, shown in Figure 5. The staining was similar to that would be seen in prions or in amyloid. To determine if these products are found \textit{in vivo}, they used transgenic mouse lines mentioned in Mangiarini et al. 1996. They indeed found, via SDS page gel and Western Blots using the anti-HD antibody, that there is some fraction of peptide present at a high molecular weight. This product was found in the nuclear fraction. They also used an anti-ubiquitin antibody, and found that it reacted with the aggregates, suggesting it is ubiquitinated.\newline
+
+Notably, the less aggressive transgenes they used showed characteristic fibrils, while the most aggressive forms did not. They think this may be because fibrils do not have time to form, in these cases.\newline
+
+
+They literally have 2 pages of discussion.
+
+\subsection{Yamamoto et al. 2000}
+
+\subsubsection{Overview}
+
+The premise of this paper is that they've used a conditional expression system to drive mutant HTT. Upon blocking its expression, Huntington's disease symptoms disappeared---leading to the hypothesis that continuous production of HTT is required for the phenotype. 
+
+\subsubsection{Figure 1}
+
+The technology they use is called a tet-regulated system. A promoter drives the expression of tTA, which binds to the TetO elements, allowing for expression of the transgene that follows, which, in this case, was a HD(CAG)$_{94}$. A molecule called tetracycline (ands the analog doxycycline) is able to bind to tTA, which blocks its binding to the TetO element, shutting off transcription. TetO is actually bidirectional, so the opposite side contained a $\beta$-galactosidase (lacZ) reporter, used to validate everything. Initially, they observed a strong lethality phenotype which they attributed to strong expression of HTT in the developing fetus. To ameliorate this, they gave pregnant mothers doxycycline, which did the trick. 
+
+\subsubsection{Figure 2 \& 3}
+
+Figure 2 validated expression. Strong expression was found in the striatum, septum, cortex, and hippocampus. They validated this both with $\beta$-gal staining, and with antibodies against HTT. They found diffuse nuclear staining as well, including aggregates of varying sizes. Though, they did find a significant amount of extra-nuclear aggregates as well, including those that were highly ubiquitinated.\newline
+
+Figure 3 analyzed broad phenotypes, including finding a significant size reduction in mice with HTT expression, and a narrowing of the striatum. Reactive astrcytosis was observed via GFAP staining, particularly in the striatum. Interestingly, they also observed D1 receptor loss---though, it's unclear to me how this can be attributed to anything other than a product of less cells. 
+
+\subsubsection{Figure 4 \& 5}
+
+Clasping behavior was observed here as well. Interestingly, the average lifespan of mice was still comparable to WT (approx. 2 years). That's a good indication of what it means to be a scientist, I suppose. 2 years for a single metric, which ended up having no difference from WT.\newline
+
+Figure 5 is where things get interesting. In comparing mice without dox treatment, and those that began treatment at 18 weeks, no HTT was found in the brains of mice experiencing treatment. However, some buildup was seen in other areas. Similarly, no brain weight reduction was seen after the dox was administered. 
+
+\subsubsection{Figure 6 \& 7}
+
+Figure 6 showed that, after dox administration, the caudate and putamen no longer shrunk. GFAP staining did not increase, and in fact seemed to reduce. Finally, D1 receptor loss did not further decrease. In Figure 7, clasping score actually improved quite significantly. Therefore, blocking aggregate progression indicates an overall blocking of disease progression, and or an improvement in symptoms. 
+
+\subsubsection{Discussion}
+They commented in their discussion that there is a significant volume loss in the R6 transgenic lines, without decreasing the cell number. It is thought, then, that other factors may be decreasing, like the volume of the cells or their ECM. 
+
+\subsection{Xia et al. 2004}
+
+\subsubsection{Overview}
+
+This work focused on spinocerebellar ataxia type 1 (SCA1), induced by a polyQ in the ataxin-1 gene. SCA1 manifests itself primarily in the cerebellum, perhaps lending it to easier access by injection. One interesting thing to note is that SCA1 does not seem to require nuclear inclusion. An important step of this paper is applying RNAi technology \textit{in vivo}, as its efficacy was already established \textit{in vitro}.\newline
+
+Notably, they mentioned in the discussion that the Huntingtin RNA, and particularly the CAG region, did not lend itself to RNAi (or was not accessible by the RNAi degrading mechanism). Another worthwhile comment is that RNAi would target both mutant and WT RNA in individually. For SCA1, this is not predicted to cause problems, as mice with Ataxin-1 knockout seem healthy. Similarly, RNAi is not expected to completely ablate protein levels. 
+
+
+\subsubsection{Figure 1}
+
+The group screened for a number of hairpins formed against ataxin-1 RNA and used HEK cells with shLacZ used as their control. The most effective they identified were called F10 and F11, directly adjacent to the CAG repeats. In Figure 1B, this was verified through Western blots, which showed a decrease in protein expression, via probing for a flag tag. Figure 1C showed that this was dose-dependent decreases. Figure 1D identified the modified CMV promoter (Pol II) was more effective in knockdown, as well as recapitulated the phenotype in neurons. In Figure 1E,F, knockdown efficiency was further improved via using a miRNA hairpin, rather than their original hairpin---they assumed this may be better because it more closely mimicks endogenous miRNA, and therefore might be processed easier (increasing expression). This is hypothesized to be due to enhanced nuclear transport. This held true for both mutant and non-mutant Ataxin. 
+
+\subsubsection{Figure 2}
+
+After verifying their model works \textit{in vitro}, they sought to replicate it \textit{in vivo} via generating AAVs including it. The AAV included hrGFP, allowing for visualization of the transfected cells. Figure 2B shows successful transfection. Expression of hairpins was shown in Figure 2C via Northern blotting after 10 days.\newline
+
+Figure 2D begins the real paper, with functional studies. Using SCA1 transgenic mice, motor symptoms are assayed. Particularly, improper foot placement is noticed, which causes mice to struggle with rotarod tests. Indeed, mice treated with RNAi had significantly better performances on the rotarod test. They were not as strong as WT mice, but exhibited obvious improvements over saline treated mice. 
+
+\subsubsection{Figure 3}
+
+The natural next step is, of course, test the neuropathology. Calbindin staining, a molecule used as a proxy of Ca$^{2+}$, was used to survey the transduced and untransduced brains. Indeed, Figure 3A includes an overlay of GFP and Calbindin, and it is clear that transduced neurons were robust against SCA1. The width of this region of the cortex was quantified in Figure 3B, and again was smaller in untransduced mice. The images are meant to show that on the left side, which is not transduced, the region thins. But, on the right side, which is transduced and marked by GFP, is robustly maintained. 
+
+\subsubsection{Figure 4}
+
+In an online supplement, they showed that nuclear inclusions of Ataxin-1 decreased, even 1 week after AAV injection. They attribute this to the rapid turnover of the Ataxin protein and because AAV expression is quick. It was also shown in Figure 4. Figure 4A,B showed a reduction in nuclear inclusions of Ataxin-1. 
+
+\subsubsection{Discussion}
+
+Their construct showed expression in $5-10\%$ of all cerebellar Purkinje fibers, but 100\% of targeted lobules? Using lentiviruses can be bad---early clinical applications integrated into the genome in places that caused lymphoma. Adeno-associated viruses (AAVs) are preferable and can be made cell-specific. 
+
+
+\textcolor{red}{Add more info about RNAi-AAV technology.}
+
+\section{Fragile X}
+
+\subsection{Background}
+
+Fragile X is a developmental disorder characterized by immensely long repeat expansions on the X chromosome. It's associated with some degree of mental disability and clear visual markers, like a longer face and larger ears. Fragile X is considered to fall on the autism-spectrum disorder, and causes multiple unrelated phenotype (pleiotropic). As autism is becoming increasingly common, it is of considerable interest.\newline
+
+I thought I'd mention this, since it is interesting. There's been considerable, considerable, considerable work over the years solving all these neural circuits, on a single or clustered neuronal level. In general, it seems unclear how this information may be useful clinically. Dr. Bonini commented that TMS treatment for someone with autism indeed helps alleviate some of their social symptoms---so indeed, the ability to resolve individual neural circuits is important.\newline
+
+The fragile X site itself can be visually seen, due to the nature and number of repeats. There are little nub-like structures on the ends of the chromosome. Using these cytogenetic techniques, you can identify carriers before there is an effected son. However, this visual marker was not found in all cells---only in close to 40\%. Though, knowing the gene is on the X chromosome provides a great basis to start research---much easier than finding the HTT gene. Fragile X is characterized by (CGG)$_n$ repeats in the FMR-1 gene---interestingly, it is specifically in the 5'-UTR, rather than an exon. A normal number of repeats includes the range from 6 to 54, and one can have no phenotypes for up to 200 repeats. Fragile X is the most common form of inherited mental disability, and the second most common total (behind Down's syndrome). It is considered X-linked dominant---yet, around 30\% of female carriers show symptoms, and 20\% of males with a fragile X show no phenotypes. This is referred to as the Sherman paradox---genetic anticipation in the fragile X context. Notably, a reduction in FMR-1 mRNA is noted in fragile X patients. Specifically, a CpG island in the FMR-1 gene is associated with methylation, and such methylation is associated with decreased expression. It was thought, then, that the fragile X mutation alters methylation patterns in this region. Due to increased repeats, the chromosome is unstable and thus mosaic genotypes are observed.\newline
+
+Notably, patenting is very important to garner company interest. 
+
+
+\subsection{Yu et al. 1991}
+
+\subsubsection{Figure 1}
+
+Okay, so it seems prior to this point, very little was known about the location of the gene, and the genetics of it was mystifying. Through isolating a chunk of human DNA using a yeast artificial chromosome, they generated a probe they called XTY26. Via \textit{in situ} hybridization, they found that this probe spanned the entire X chromosome region thought to be responsible for this phenotype. At one end of this probe, which they identified through generating contigs, is a marker called Alu2, and at the other end is VK16. They keep narrowing down their scope until they find an \textit{EcoR1} fragment which segregates with the fragile site. 
+
+\subsubsection{Figure 4}
+
+They now use Southern blotting and probe with segments of the previously mentioned \textit{EcoR1} strand in Figure 4. They find that when they probe with various segments, some hybridize to longer or shorter regions of DNA. They're hybridizing against patient genes that were digested with \textit{Pst 1}.\newline
+
+Notably, because this region is very G-C rich, it was very difficult to PCR amplify. 
+
+
+\subsection{Fu et al. 1991}
+
+\subsubsection{Figure 1 \& 3}
+
+In Figure 1, via a shotgun approach (splicing the gene up into parts), they sequenced the region predicted to contain the fragile X gene. They compared this sequence with one previously reported and found discrepancies, which they suspect are due to various cloning steps. They generated a PCR test to quickly sequence the variability of genes in patients, which they validated via Southern blotting in Figure 3. Of those they sequenced, they found a range of 5 to 54 repeats encoding arginine. Of the $\approx 500$ chromosomes they sequenced, 29 repeats was the most common. 
+
+\subsubsection{Figure 4} 
+They plotted the distribution of repeat lengths in Figure 4A. Notably, non-affected carriers show mosaic genotypes ranging from 200 to 600 base pairs (they call the pre-mutation), and affected individuals of 600 to 4,000 base pairs with greater mosacism (they call the full mutation). Naturally, such long repeats make PCR difficult, and using a Southern blot limits one's ability to determine the size. Their Figure 4B includes PCR products of such patients, but indeed may have inaccuracies. Regardless, they find repeat lengths centered around 70-80. They mention having sequenced some over 200, but chose not to include them due to their questionable PCR accuracy.
+
+\subsubsection{Figure 5 \& 6}
+
+Figure 5 examined a pedigree with their PCR assay. They found that affected males did not generate a product at all, unless they were mosaic for lesser alleles as well. Lanes 7 and 8 of their first test used PCR for a CAG repeat region of an androgen receptor as a method of control. Figure 5A is used as an example of repeat expansion and or inheritance. The effected grandmother passed along a 73 repeat, which expanded to 83 in the mother. The two sons recieved a full mutation, which expanded to be not visible by PCR. Pedigree B showed a reversal of the repeats. The mother showed an allele which could not be amplified, which contracted in the son to only 73 repeats (a premutation form)---which is quite curious. Individual 4 in Pedigree C is thought to be mosaic for the full mutation, but shows a smear for the pre-mutation form in the PCR. Mosaic females are shown in Pedigrees D and E.\newline
+
+Figure 6 performs a southern blot on family 5C mentioned in the previous figure. They include both \textit{EcoR1} and \textit{BssHII} restriction enzymes---which would help differentiate between size and methylation patterns of the gene. They probe with the pE5.1 probe utilized in Pieretti et al. 1991---a cosmid. 
+
+\subsubsection{Figure 7, 8, \& 9}
+Figure 7 studies a family in which a 54 repeat length allele was found with none expressing fragile X. Offspring from the 54 repeat mother all had varying lengths, some of which expanded to 60, and other which shrunk to 52.\newline
+
+Figure 8 demonstrates that as the parental \# of repeats increases, so too does the instability which causes altered size in the next generation. Figure 9 similarly demonstrates that the frequency of expansion is size-dependent. 
+
+\subsubsection{Figure 10}
+
+Is simply a graphical demonstration of the Sherman paradox. 
+
+
+\subsection{Pieretti et al. 1991}
+
+\subsubsection{Figure 1}
+
+This work focuses on methylation patterns of the FMR-1 gene in the context of fragile X. A CpG fragment (cytosine preceding guanine) in the FMR-1 gene is preferentially methylated in fragile X patients. They use an RT-PCR assay to determine the amount of mRNA, and identified very low levels in fragile X patients. Figure 1 shows the primers used in their assay. Both were designed for RNA only, and do not overlap with the variable CGG region. 
+
+\subsubsection{Figure 2 \& 3}
+
+Shows the RT-PCR products of affected males. Notably, in comparing affected, carriers, and unaffected, it is obvious that FMR-1 expression is lowest in the affected population. However, there is also a marked reduction in the carriers as well. Though, they don't call attention to this and rather say that they do demonstrate some product.\newline
+
+Figure 3 attempts to be more quantitative by limiting the PCR cycles and normalizing to their control gene expression. Essentially, they find no FMR-1 in affected individuals---but they do not compare this to heterozygous females and or carriers. 
+
+\subsubsection{Figure 4}
+
+Figure 4 uses a restriction enzyme that normally cuts at a GCGCGC site, but is incapable of doing so when these cytosines are methylated. The Southerns shown that there is significantly less \textit{BssHII} digestion occurring in affected patients. 
+
+\subsection{Jin et al. 2003}
+
+Fragile X patients have significantly more dendritic spines, and this was preserved in mouse models with FMR-1 knockouts. Yet, those with FMR-1 knockout experience no degeneration, while those with the CGG repeats do. This is evidenced even by patients with the premutation, who may not experience developmental delays but show tremor or parkinsonism later in life. Thus, it's hypothesized that the repeats confer degeneration. Studies after patient death showed that these patients had intranuclear inclusions that stained for ubiquitin. Interestingly, in the premutation the levels of mRNA are actually increased. This seems to contradict previously discussed works. This work achieves evidence for this in a \textit{Drosophila} model, in which they express varying length CGG repeats of the human FMR-1 gene.
+
+\subsubsection{Figure 1}
+They use the UAS-Gal4 system was used, and a premutation of 90 CGG repeats was added to a UAS-EGFP sequence. \textcolor{red}{Ask if it is a fusion protein.} By both RT-PCR and Western Blot, in which they used \textit{GMR-Gal4}, expression of the human FMR-1 gene and EGFP was found in the retina. 
+
+\subsubsection{Table 1 \& Figure 2}
+
+Both of these demonstrate the results of their CGG-EGFP expression. They expressed, at varying levels, in a few different tissues. \textcolor{red}{Am I stupid? How do they get strong / weak / moderate expression levels?} 
+
+\subsubsection{Figure 4}
+
+Figure 4A-C shows nuclear Hsp70 inclusions in the face of the (CGG)$_{90}$ repeats. Figure 4D shows OE of Hsp70 and demonstrates its ability to rescue the disease phenotype. This is not so when overexpressing a dominant negative Hsp70.
+
+\subsection{Morales et al. 2002}
+
+\subsubsection{Figure 1}
+
+Figure 1A compares the sequence homology of different species FMR-1 gene, and compares the evolutionary origin of it as well (the family tree, that is). Figure 1C is a Western blot for the protein, and they find that their deletion lines show no expression, and one mutation is a hypomorph. 
+
+\subsubsection{Figure 2}
+
+Figure 2 showed staining for neurons, glia, and the \textit{dfxr} gene. They find no overlap in glia. Figure 2D shows that \textit{dfxr} is expressed most in the cytoplasm, rather than nuclei. 
+
+\subsubsection{Figure 3}
+
+Figure 3 A-D shows that less fibers exist in \textit{dfxr} deletion. Figure 3 E and F show that fibers extend erroneously, with poor guidance. 
+
+
+\subsection{Amir et al. 1999}
+
+\subsubsection{Overview}
+
+Rett syndrome is an X-linked developmental disease, where symptom onset begins around 6-18 months of age and affects only girls. At this point, there is a rapid deterioration, where children may lose their previously acquired skills. It is considered the severest form of the autism spectrum disorders. Communication and motor function delays are some of the earliest signs. Patients may also get seizures or other more severe symptoms. It is a lifelong disease with no treatments.\newline
+
+The incidence is $\approx 1/10000$. It was determined that Rett syndrome is indeed lethal in males, hence only females get it. 99\% of cases are sporadic. However, some very rare Mendelian cases allowed for insights into the gene of interest. The mutations were in a gene called MECP2, which aids in methylation of CpG islands. It was the first disease found to be caused by mutations in a \textit{trans}-acting factor, i.e. a gene that modulates other gene expression at the level above DNA. The protein has a methyl-binding domain and a nuclear localization domain, which is flanked by transcriptional repression domains, which recruits proteins to help shut off transcription. It is predicted that the mutations are loss-of-function. The hypothesis is that genes that would normally be repressed are now being expressed.\newline
+
+Fascinatingly, early mouse models with homozygous knockouts demonstrated phenotypes similar to human disease---i.e., were not lethal, but rather were born normal. Further interestingly, more sophisticated models including \textit{Cre}-based knockouts in only mature neural tissue phenocopied these models. 
+
+\subsubsection{Figure 1}
+
+Figure 1 used PCR amplification to scan for mutations in the MECP2 gene. These mutations were shown to be \textit{de novo} by comparing the mother's sequence to the daughters. While the mutations are sporadic, it is possible to have a mosaic germline, in which a mother can pass on the gene to multiple offspring (at a probability impossible if it were chance alone). 
+
+
+
+\subsection{Guy et al. 2007}
+
+\subsubsection{Figure 1}
+
+They used a \textit{lox-Stop} site in order to create a null-allele for \textit{Mecp2}, but which can be activated by tamoxifen (TM) treatment. Figure 1A shows the efficacy via Western blotting, and 1B shows similar results using in situ immunostaining. Figure 1C compared the survival rates of \textit{stop} and \textit{Stop-cre} groups to demonstrate that the \textit{Stop-cre} does not confer any extra survival when off. In Figure 1D, I have no idea what they are probing for. I think they're just Southern blotting for the \textit{Mecp2} allele, and they find WT when the Stop and CreER are both present. 
+
+\subsubsection{Figure 3}
+
+Figure 3A \& E show the treatment regime used, and that there is actual recovery after injecting the TM. 
+
+
+\section{Amyotrophic lateral sclerosis}
+
+\subsection{Overview}
+
+ALS was identified by Jean-Martin Charcot around 1825 in France. His style was innovative at the time, which was to interview, record, and imitate many symptoms in order to demonstrate them to training physicians. This is also around the time photography became possible, so in addition to his drawings, pictures allowed for further diagnostic insight. Amyotrophic refers to the degeneration of muscles, lateral refers to the region in the spinal cord, and sclerosis refers to the glial scarring in the nervous system. Charcot characterized other diseases as well, including multiple sclerosis.\newline
+
+Motor neurons are lost in the motor cortex and throughout the spinal cord. Interestingly, some subsets of neurons, like those in the neck, do not degenerate. This provides a pathway for developing therapeutics, as we can look for what is unique about these neurons. The typical onset is around 45 to 65. Initially, it was thought to be purely motor-related. However, it is now known that dementia can be a symptom as well. There is a genetic correlation between this (i.e., depending on which ALS-causing mutation you have). Specifically, some forms can segregate with fronto-temporal dementia, where one can present with both diseases, or only one. There was some initial support for environmental factors causing ALS, but we now know theres 20 or so genes which can cause it. 
+
+\subsection{Rosen et al. 1993}
+
+ALS can either be inherited as an autosomal dominant disease (about 10\% of cases), or is sporadic. The two manifest clinically in a very similar manner, causing them to become interested in using fALS for insight into sporadic ALS. Linkage studies have shown a correlation between ALS and Chr21. This work furthers this by identifying the gene ALS is caused by to be Cu/Zn-binding superoxide dismutase (SOD1). This was a key, remarkable finding because SOD1 was already known at the time. Very few proteins / genes were understood, but in fact this was one of them! Therefore, many thought ALS would be cured quickly. SOD1 is helpful in clearing reactive oxygen species, and thus the immediate hypothesis was its dysfunction leads to ROS buildup and thus cell death. Interestingly, they comment that this may be counterintuitive because the allele is dominant, and it seems unlikely that a loss of function allele would be dominant. \newline
+
+\subsubsection{Figure 1}
+
+Fortunately for them, the sequence of SOD1 was already known and published. This allowed them to easily design primers for SOD1 exons. One metric they used was single-strand conformation polymorphism---which uses the structure of single stranded DNA and looks for differences due to polymorphism. They identified conformational changes in a small group of fALS families, but none in non-affected individuals in the SOD1 gene. This is shown both in Table 2 and Figure 1A. Figure 1A focused on exons 2 and 4, and used an audiogram to show DNA differences. \textcolor{red}{I am confused by what we are looking at here.} Figure 1B shows their Sanger sequencing results and identifies mutation sites. Importantly, these were all heterozygous, as indicated by the multiple base pairs found.\newline
+
+\subsection{Gurney et al. 1994}
+
+\subsubsection{Figure 1}
+
+This work develops a mouse model for ALS using human WT and mutant SOD1. Their model was verified first through Western and Southern blotting. Figure 1E shows that the G1 mice become impaired between 60 and 150 days and die between 150 and 180 days. Their stride significantly worsens between 150 and 180 days, as shown in Figure 1F. Table 1 also quantified the total amount of SOD1 protein being produced, and found that it is comparable between WT and G1, suggesting that the G1 phenotype is due to the mutation rather than expression alone.  
+
+\subsubsection{Figure 2 \& 3} 
+Figure 2A-D showed their neuropathological studies. They found decreased ChAT staining in the G1 mice. They also stained for the presence of SOD1 in the spine and found a high degree in the horns. 
+
+Figure 3 showed neurofibrillary tangles in many, but not all, motor neurons. 
+
+
+\subsection{Clement et al. 2003}
+
+The key takeaway here is that both glia and neurons must express mutant SOD1. Mutant neurons can be salvaged by many wildtype neurons in the surrounding regions. 
+
+\subsubsection{Figure 2A \& 3}
+Chimeras between SOD1 mutants and those expressing low levels of human neurofilament subunits were generated. Loss of motor neurons was found to be symmetric, which was odd considering all motor neurons express mutant SOD1. It was found that the neuronal sparing seemed higher on sides of the spinal cord where the proportion of wildtype, non-neuronal cells was greater. This signified some potential neuroprotection associated with non-neuronal cells.\newline
+
+A key finding is that nearly no WT motor cells may still have no phenotype. The hypothesis being that other cell types, namely glia, also require dysfunction before an ALS phenotype can emerge. Interestingly, they actually found asymmetry among the two sides of the spinal cord. Importantly, in heavily degenerating sections of the spinal cord, nearly no WT non-neuronal cells are found, compared to those sections of the spinal cord that survive. Similarly, mutant SOD1 expressing non-neuronal cells seem capable of killing motor neurons as well. 
+
+
+\subsection{Nagai et al. 2007}
+
+\subsubsection{Figure 1A, 3G, 4}
+
+Figure 3G shows that transgenic astrocytes caused more cell death in both transgenic and non-transgenic motor neurons. Fascinatingly, media conditioned by transgenic astrocytes kills neurons more than does normal media or media conditions by non-transgenic astrocytes. This suggests mutant astrocytes release toxic elements, causing neurons to die.\newline
+
+This paper also found that non-astrocytes have no effect whatsoever on motor neurons. Similarly, non-spinal motor neurons are not affected at all by transgenic astrocytes. Even other motor neurons derived from other parts of the body are unaffected by these mutants.\newline
+
+Eventually, in 2021, it seems that the toxic product in the media is lipids---specifically non-saturated lipids? Part of the theory may be that non-saturated lipids are preventing membrane fluidity, somehow impacting their membranes globally. 
+
+
+\subsection{Neumann et al. 2006}
+
+Some of the background here is that frontotemporal dementia and ALS are two of the most common degenerative diseases for those under 65. They present with similar symptoms, suggesting possible mechanistic crossover. About 30\% of FTDs are familial and many show linkage to chromosome 17. While the inclusions in FTD are hyper-ubiquitinated, FTD does not present with any tauopathies, leaving the protein unknown. The key result of this paper is that both frontotemporal lobar degeneration (FTLD) and ALS have inclusions due to TDP-43. These inclusions are marked by hyperphosphorylated, ubiquitinated TDP-43.\newline
+
+Interestingly, FTD and ALS are frequently found together in families, so therefore it may be possible that there is some mechanistic or genetic conservation between the two. 
+
+\subsubsection{Figure 1}
+
+Figure 1 begins by showing that they developed antibodies which specifically bind to patients with either FTLD type 1 or type 2, and that these antibodies mark ubiquitinated inclusions. To develop these they would have had to inject ubiquitinated inclusions into mice and isolate single cells within the spleen. To screen these possible antibodies they tested on slices from human brains. In other words, a robust and large brain bank played a key role in this. On a Western blot, these antibodies show an $\approx 24$kD band and an $\approx 26$kD band for type 1 and type 2 respectively. Using a urea-based purification technique was essential for removing any and all soluble proteins so that only the insoluble aggregates remain. These bands were not found in controls or AD brains, and similarly tau staining was not found in FTLD brains.\newline
+
+To determine what these antibodies might be binding to, they performed, in SFigure 1, a 2D page gel and looked for a bands around 25kD. Because similar spots of $\approx 3.5$pI were found on both type 1 and type 2, they predicted this was correct. They performed mass spectrometry and identified the protein as being TDP-43. Both fragments of TDP-43 are truncated at the C-termini. Notably, this gene is on chromosome 1. 
+
+\subsubsection{Figure 2}
+
+Figure 2 uses immunostaining to further prove their TDP-43 hypothesis. In type 1 and type 2 FTLD, as many inclusions as were labeled by TDP-43 antibodies were labeled by ubiquitin. Interestingly, type 3 FTLD had inclusions not labeled by these antibodies. Additionally, other degenerative diseases did not show any TDP-43 staining. 
+
+\subsubsection{Figure 3} 
+
+Figure 3 found TDP-43 only in the urea fraction after Western blotting. Non-aggregate TDP-43 was found in all fractions. Figure 3B showed that the molecular profile of TDP-43 was different in FTLD than it was in other degenerative diseases. Specifically, extra bands around 45kD were found. Figure 3C showed that dephosphorylation of these bands collapsed them into a single band. Figure 3D also demonstrated the higher weight TDP-43 band is ubiquitinated. 
+
+\subsubsection{Figure 4}
+
+Figure 4 extended this work to ALS by verifying TDP-43 also labels ALS inclusions. Interestingly, they suggest TDP-43 is normally a nuclear protein, but in disease pathologies is cytosolic. Figure 4L shows that the cleaved products seem only present in the frontal cortex. However, phosphorylated TDP-43 can be found throughout other regions of the brain and spinal cord. Additionally, some of the FTLD families were mutant for a different gene called PGRN. The relation between PGRN and TDP-43 is unknown. Regardless, TDP-43 aggregates characterize nearly all diseased ALS brains. 
+
+
+\subsection{Rothstein, 2007}
+
+Soon after the publication of Neumann et al. detailing the potential role of TDP-43 aggregates, this piece from Rothstein was published criticizing it. He comments largely on the over-statements frequently made regarding aggregates. He comments that some nuclear inclusions have been shown to be protective, rather than disease-causing, in some CAG repeat diseases. Rothstein comments that TDP-43 inclusions were found in non-motor cells and in regions clinically unaffected by ALS. Therefore, this calls in to question their relevance in disease progression. Similarly, because these inclusions are not found in fALS mutant for SOD1, there is further questions. This author proposes that, because sALS is a slower progressing disease than fALS, more time is given for aggregates to build up. Therefore, they are not necessary for disease progression, but rather another symptom.\newline
+
+Perhaps the cells with inclusions are the survivors rather than the sick ones. 
+
+\subsubsection{Follow-Up}
+
+Follow-up work looked to sequence TDP-43, and many mutations were found in the glycine-rich region (near the C-terminus) of TDP-43. Other similarly structued proteins, which had RNA-recognition motifs (RRMs) include proteins like FUS---which was later found to aggregate in ALS as well. Interestingly, FUS did not have many mutations in the glycine-rich region, but rather it was in its C-terminus. Similarly, in FUS' mutation it is trafficked outside of the cell. The C-terminus area, then, was determined to be relevant in nuclear localization. However, TDP-43's mutations are not often in its nuclear localization sequence. Both FUS and TDP-43 have NLS and NES, meaning they can be trafficked back and forth between the cytoplasm and nucleus as needed---but both spend much more time in the nucleus.\newline
+
+Interestingly, both FUS and TDP-43 are localized to stress granules in these diseases. Important insight came from \textit{C. elegans} embryos. In early stages, granules in these worms get trafficked from scattered around the cell and are then trafficked to one side of the cell. Fascinatingly, though, these granules do not get moved, per se, but rather disappear and reappear. Thus, they are not being pulled like you might expect. Rather, they are phase-separated liquid droplets. Stress granules are similar to the nucleolus---they are effectively membrane-less organelles. Both TDP-43 and FUS have ``low complexity domains" which allow for the gel-like formations of these proteins. It's hypothesized that liquid droplets and then transition somehow into being hard, solid aggregates. One of the most fascinating questions, then, is how non-mutant TDP-43 still exhibits these stress granule to aggregate conversions. Somehow, continued stress in the neurons leads to this. What causes this?\newline
+
+So what is TDP-43 anyway? It is  a nucleic acid binding protein which is capable of doing a lot in RNA maintenance and processing, including splicing. TDP-43 is considered a repressor, helping to prevent expression of certain exons. Therefore, both TDP-43 loss of function and gain of function is capable of producing different, new proteins with either extra or less than intended exons. TDP-43 especially represses ``cryptic exons" which are not found in mice. Therefore, we can only use RNAseq from humans to determine how TDP-43 dysfunction alters the transcriptome. Broadly, TDP-43 seems to make transcription more accurate and precise. Thus, it is wise to hypothesize that improper transcription of critical genes may lead to neuron death. One example of this is stathmin-2 (STMN2), which has a cryptic exon and is known to play a role in motor function and motor neuron outgrowth. Again, this is not preserved in mice---so we cannot investigate it properly in a mouse model. As a final comment, TDP-43 is autoregulated, so it is not an ideal therapeutic target. 
+
+
+\subsection{DeJesus-Hernandez et al. 2011}
+
+It was shown years prior that ALS and FTD are linked to a gene on Chr9. Yet, finding this gene proved impossible. A large reason for this is the advent of next generation sequencing, which caused researchers to miss the key mutations. All of the exons were sequenced, so the Rademaker group questions if the causative mutations could be in the introns. Via attempts to PCR these introns, one intron failed to amplify. This work identifies this gene as \textit{C9ORF72}, and that the causative mutation is a repeat expansion in a non-coding region. 
+
+\subsubsection{Figure 1 \& 2, Table 1}
+
+Figure 1 shows brain tissue from affected family members showing Chr9 linkage. These stains clearly show TDP-43 inclusions. Figure 2 shows a pedigree that implies a lack of transmission from affected parent to affected offspring. Via PCR amplification, they size different alleles in their suspected gene and find that affected individuals only show one size. This is curious, and suggests affected individuals are homozygous---which cannot be true. This means instead that it cannot be amplified. They then turned to a Southern blot, and by probing this region, they found that diseased individuals had very long alleles. The expansions they found were on the order of thousands of base pairs. Table 1 shows that this mutation is more common than any other ALS or FTD mutation, even more so than SOD1, FUS, and TDP-43, etc. At many clinics around the world, it was on the order of 50\% of cases are due to this repeat expansion. 
+
+\subsubsection{Figure 4 \& 5}
+
+Based on a single SNP, the group can tell how the RNA is cut. In variant 2 and variant 3, both alleles are seen. It is not seen in variant 1, which could suggest expanded repeats turn off expression of variant 1. Thus, Figure 4 demonstrates the possibility that these expanded repeats cause alternative splicing. It shows that those with the expanded repeat have a much higher \% of the V2 splice. Figure 5 shows than expanded repeat RNA forms nuclear inclusions. 
+
+\subsection{Renton et al. 2011}
+
+The Traynor lab used extensive next generation sequencing to look for the changes in the critical region of Chr9. Next generation sequencing specifically creates a shotgun library of genomic DNA, sequences it, and aligns them together. Each fragment is on the order of 50 to 100 base pairs. This is not \textit{de novo} sequencing, but rather comparative sequencing, where one compares and or aligns with a reference sequence from the original human genome project. A read depth describes how often an individual base is read. In affected individuals, they were reading with a depth around 170, meaning each individual nucleotide was read around 170 times---i.e., this is great depth. Part of the computation done is to align uniquely mapped reads, meaning segments of DNA which are conserved in different parts of the genome, it cannot be mapped---hence a struggle with repeat expansions. The Traynor group therefore was able to see a massive gap in the reads done by their sequencing, suggesting some error in computation, which they supposed was due to repeat expansion.\newline
+
+One of the strategies employed was ``repeat primed PCR," where a reverse primer and an anchor primer are used. Part of the reverse primer is homologous to the variable repeat, and the anchor is homolgous to a non-repeat expansion. The reverse primer will then be capable of binding anywhere along the repeat, generating various amplification products. Adding the anchor primer after allows you to amplify all of these fragments. You will then, in short, see a wide variety of products when there are repeats. 
+
+\subsubsection{Fallout}
+
+One possible implication would be that a long repeat leads to RNA accumulation that soaks up tons and tons of RNA binding proteins, leading to a dual kind of gain of function-loss of function result. Notably, no point mutations have ever been found in this disease. Unlike something like FMR-1, it must be true that repeat expansions alone are causing the disease. Therefore, it may also be that the protein is translated strangely, including translation through introns, leading to aberrant proteins.\newline
+
+This gene is now part of the common disease haplotype that characterizes ALS. Again, note that healthy individuals have 2-23 units of the GGGGCC repeats, while affected individuals have nearly 700-1600. Yet, while this gene is extremely unstable, there is no observed anticipation. It thus remains unknown what the ``minimum" length is required to cause disease, as there is no ``middle" cases. Interestingly, the A haplotype has more repeats seen than does the G haplotype. However, this is still well within the normal range.\newline
+
+Another fascinating thing to note is this mutation can confer both FTD or ALS, or both. Different family trees seem to be biased toward one disease or another, suggesting more genetic factors are involved, or environmental factors. Because of the similarity in this haplotype, and the localization to certain countries, it's thought that this repeat expansion may have originated in Europe from Viking times. I.e., it's possible this repeat expansion occurred only once. 
+
  
 \end{document}
