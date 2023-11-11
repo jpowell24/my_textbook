@@ -1,0 +1,243 @@
+
+\documentclass[12pt]{report}
+\usepackage{textcomp}
+
+\addtolength{\hoffset}{-2.25cm}
+\addtolength{\textwidth}{4.5cm}
+\addtolength{\voffset}{-2.5cm}
+\addtolength{\textheight}{5cm}
+\setlength{\parskip}{0pt}
+\setlength{\parindent}{15pt}
+
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\newcommand{\be}{\beta}
+\newcommand{\ga}{\gamma}
+
+\usepackage[colorlinks = true, linkcolor = black, citecolor = black, final]{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{marvosym}
+\usepackage{wasysym}
+
+\usepackage{outlines}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage{enumitem,amssymb}
+
+\newcommand{\pr}[1]{\left(#1\right)}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.16}
+\usepackage{circuitikz}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+\usetikzlibrary{arrows.meta}
+
+\usepackage{mdframed}
+\usepackage{pbox}
+\usepackage{array}
+\usepackage{makecell}
+\usepackage{booktabs}
+\setlength{\heavyrulewidth}{1pt}
+\setlength{\abovetopsep}{4pt}
+
+
+\setlength{\parindent}{0in}
+
+\pagestyle{plain}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{backcolour2}{rgb}{0.44,0.63,0.99}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\usepackage{listings}
+\lstset{
+    language=Verilog,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false       
+    columns=flexible,
+    basicstyle={\small\ttfamily},
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{blue},
+    commentstyle=\color{dkgreen},
+     % stringstyle=\color{mauve},
+    stringstyle=\color{orange},
+    backgroundcolor=\color{backcolour},
+    tabsize=4  
+}
+
+\lstnewenvironment{CPP}
+  {\lstset{language=C,basicstyle=\ttfamily\small,frame=none}}
+  {}
+
+\usepackage{lmodern}
+\usepackage{afterpage}
+\usepackage{adjustbox}
+\usepackage{helvet}
+
+\counterwithout{footnote}{chapter} % makes footnotes count over document rather than by chapter
+
+%%%%%%%%%%%%%%%% These commands are taken from Professor Ashmanskas!
+\newcommand{\ohm}{\Omega}
+\newcommand{\kohm}{{\rm k}\Omega}
+\newcommand{\Mohm}{{\rm M}\Omega}
+\newcommand{\dif}{{\rm d}}
+\newcommand{\kgmps}{{\rm kg\cdot m/s}}
+\newcommand{\degC}{{}^\circ{\rm C}}
+\newcommand{\degF}{{}^\circ{\rm F}}
+\newcommand{\K}{{\rm K}}
+\newcommand{\liter}{{\rm L}}
+\newcommand{\mL}{{\rm mL}}
+\newcommand{\atm}{{\rm atm}}
+\newcommand{\mol}{{\rm mol}}
+\newcommand{\Cal}{{\rm Cal}}
+\newcommand{\W}{{\rm W}}
+\newcommand{\kW}{{\rm kW}}
+\newcommand{\dB}{{\rm dB}}
+\newcommand{\amu}{{\rm u}}
+\newcommand{\Pa}{{\rm Pa}}
+\newcommand{\J}{{\rm J}}
+\newcommand{\N}{{\rm N}}
+\newcommand{\pC}{{\rm pC}}
+\newcommand{\C}{{\rm C}}
+\newcommand{\T}{{\rm T}}
+\newcommand{\eV}{{\rm eV}}
+\newcommand{\V}{{\rm V}}
+\newcommand{\mV}{{\rm mV}}
+\newcommand{\Vpp}{{ V}_{ pp}}
+\newcommand{\mVpp}{{\rm mV}_{\rm pp}}
+\newcommand{\Vac}{{\rm V}_{\rm AC}}
+\newcommand{\Vdc}{{\rm V}_{\rm DC}}
+\newcommand{\Vbold}{{\bf V}}
+\newcommand{\Ibold}{{\bf I}}
+\newcommand{\Zbold}{{\bf Z}}
+\newcommand{\kV}{{\rm kV}}
+\newcommand{\emf}{{\cal E}}
+\newcommand{\A}{{\rm A}}
+\newcommand{\mA}{{\rm mA}}
+\newcommand{\uA}{{\rm \mu A}}
+\newcommand{\nA}{{\rm nA}}
+\newcommand{\F}{{\rm F}}
+\newcommand{\uF}{\mu{\rm F}}
+\newcommand{\nF}{{\rm nF}}
+\newcommand{\pF}{{\rm pF}}
+\newcommand{\mH}{{\rm mH}}
+\newcommand{\muH}{{\rm \mu H}}
+\newcommand{\uC}{\mu{\rm C}}
+\newcommand{\nC}{{\rm nC}}
+\newcommand{\MJ}{{\rm MJ}}
+\newcommand{\kJ}{{\rm kJ}}
+\newcommand{\kg}{{\rm kg}}
+\newcommand{\g}{{\rm g}}
+\newcommand{\m}{{\rm m}}
+\newcommand{\s}{{\rm s}}
+\newcommand{\ms}{\rm ms}
+\newcommand{\us}{\mu{\rm s}}
+\newcommand{\ns}{{\rm ns}}
+\newcommand{\cm}{{\rm cm}}
+\newcommand{\um}{\mu{\rm m}}
+\newcommand{\mm}{{\rm mm}}
+\newcommand{\nm}{{\rm nm}}
+\newcommand{\km}{{\rm km}}
+\newcommand{\G}{{6.67\times10^{-11}~\frac{\N~\m^2}{\kg^2}}}
+\newcommand{\mpsps}{\frac{\m}{\s^2}}
+\newcommand{\kgmsq}{\kg\cdot\m^2}
+\newcommand{\Nm}{\N~\m}      % {\N\cdot\m}
+\newcommand{\ihat}{{\hat{i}}}
+\newcommand{\jhat}{{\hat{j}}}
+\newcommand{\khat}{{\hat{k}}}
+\newcommand{\Hz}{{\rm Hz}}
+\newcommand{\kHz}{{\rm kHz}}
+\newcommand{\MHz}{{\rm MHz}}
+\newcommand{\kN}{{\rm kN}}
+\newcommand{\red}{\color{red}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\lst}{\lstinline}
+\newcommand{\bs}{\bigskip}
+\newcommand{\Vo}{{V}_{out}}
+\newcommand{\Vi}{{V}_{in}}
+\newcommand{\fdb}{{f}_{3dB}}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% Some macros
+
+\newcommand\myNIA[4]{%1: name of this amplifier, %2 start coordinate, %3 R1, %4 R2
+\draw 
+#2 coordinate(#1-in) to[short] ++(1,0)
+node[op amp, noinv input up, anchor=+](#1-OA){\texttt{#1}}
+(#1-OA.-) -- ++(0,-1) coordinate(#1-FB)
+to[R=#3] ++(0,-2) node[ground]{}
+(#1-FB) to[R=#4, *-] (#1-FB -| #1-OA.out) -- (#1-OA.out)
+to [short, *-] ++(1,0) coordinate(#1-out)
+;
+}
+
+\newcommand\myF[2]{
+%1: name of this follower, %2 start coordinate
+\draw
+#2 to ++(2,0.5) coordinate(start)
+(start) node[op amp](#1-OA){\texttt{F1}} (opamp) {}
+
+(opamp.+) node[left] {}
+to [short, *-] ++(-1,0) coordinate(#1-in)
+
+(opamp.-) node[left] {}
+to[short] ++(0,1)
+
+(opamp.out) node[right] {}
+to[short] ++(0,1.5)
+to[short] ++(-2.4,0) 
+(opamp.out) coordinate(#1-out)
+;
+}
+
+\newcommand\myDividers[4]{
+%1: exit of divider 1, %2 exit of divider 2
+\draw
+#3 coordinate(#4-in)
+#1 to [battery, l=9 V] ++(0,2)
+to [R, l=1 k$\Omega$] ++(2,0) coordinate(#4-out)
+to [R, l=2 k$\Omega$] ++(0,-2) 
+
+(2,2) to [short] #2
+
+#1 to [short, -*] ++(9,0)
+
+#3 to [R, l=1 k$\Omega$] ++(2,0)
+to [R, l=2 k$\Omega$] ++(0,-2)
+(8,2) to [short, -*] ++(1,0)
+;
+}
+
