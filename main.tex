@@ -765,6 +765,9 @@ to ++(0,0) node[ground]{}
 
 
 \chapter{Capacitors, Inductors, Filters}
+
+\label{sec:filters}
+
 \section{Overview}
 Getting a good intuition of capacitor behavior is an essential part of understanding electronics. A capacitor is a storer of charge, which allows it maintain a voltage for a period after the voltage source originally supplying the circuit is cut off. The basic structure of a capacitor is an anode and a cathode separated by a dialectric plate. Charge will be stored across it, and is released when the voltage supply dwindles. Once a capacitor is fully charged, there will be no current. However, if the voltage oscillates, the capacitor will follow $\Vi$. Effectively, capacitors filter out DC voltage.\newline
 
@@ -1328,7 +1331,7 @@ So why are capacitors much more widely used than inductors? To start, inductors 
 
 \section{Peak Detection}
 
-An interesting application of a low-pass filter is peak detection. There may be times where you are only interested in extremes, and not the little fluctuations in between. For example, perhaps you're interested in neural activity. You probably don't care too much about individual peaks, but instead you want to get a measure of the overall activity. This is one such way to do so\footnote{These two examples are from Tom Hayes' Chapter 3N.}:
+An interesting application of a low-pass filter is peak detection. There may be times where you are only interested in extremes, and not the little fluctuations in between. For example, perhaps you're interested in neural activity. You probably don't care too much about individual peaks, but instead you want to get a measure of the overall activity. This is one such way to do so\footnote{These two examples are from Tom Hayes' Chapter 3N.}: \vfill\pagebreak
 
 \begin{multicols}{2}
     
@@ -2501,14 +2504,24 @@ assign c[2:0] = a[2:0]; // wire3 will now be connected to bus a[2] through bus c
 \end{lstlisting}
 \bs
 
-\section{Constants and Variables}
+\subsection{Constants and Variables}
+
+You can actually explicitly ascribe a bit value to a series of wires as seen below with \texttt{wire4}:
+
+\bs 
+\begin{lstlisting}
+wire [2:0] wire4 = 3;
+// wire4 now holds 011
+\end{lstlisting}
+\bs
+
 Verilog allows us to define constants using 3 parameters, defined as their size, method of encoding, and value. For example, 8'hd7 corresponds to a size of 8 bits, hexadecimal encoding, and the value d7 (equivalently, 11010111). You can use this in \lst{boolean} comparisons, as below: 
 
 \bs 
 \begin{lstlisting}
-wire wire4; 
+wire wire5; 
 'define CONST1 3'b011; // CONST1 is the name of the constant
-wire4 = (a[2:0] == CONST1);
+wire5 = (a[2:0] == CONST1);
 // This is a tad complicated. The gist is: all of the bit values in a[2:0] will be compared to CONST1 in a NXOR style statement. That will then be compared to all of the other bits in an AND style statement. So wire4 will be on only if all wires in correspond to CONST1. 
 // The C++ equivalent would be something like: 
 //    (a[2] == 1'b0) && (a[1] == 1'b1) && (a[0] == 1'b1)
@@ -2517,6 +2530,51 @@ wire4 = (a[2:0] == CONST1);
 \bs
 
 This does bring up a worthwhile point, which is that everything you write in Verilog has a direct circuit component underlying it (I suppose the same is true for any program, but it's more... explicit with Verilog). 
+
+
+\subsection{Logic}
+
+Verilog has two types of logic it can perform---bitwise and logical. The expressions are: The operators are $\sim$ for bit-wise NOT, ! for logical NOT; \& for bit-wise
+AND, \&\& for logical AND; $|$ for bit-wise OR, $||$ for logical OR; and ${}^\wedge$ (bit-wise XOR). As you'd imagine, a bitwise comparison goes bit by bit. For example: 
+
+\bs 
+\begin{lstlisting}
+wire [0:3] a = 0; 
+wire [0:3] b = ~a; 
+wire [0:3] c = !a; 
+\end{lstlisting}
+\bs
+
+Here, \texttt{a} $= 0000$, \texttt{b} $= 1111$, and \texttt{c} $= 0001$. While: 
+
+
+\bs 
+\begin{lstlisting}
+wire [0:3] a = 1; 
+wire [0:3] b = ~a; 
+wire [0:3] c = !a; 
+\end{lstlisting}
+\bs
+
+Now, \texttt{a} $= 0001$, \texttt{b} $= 1110$, and \texttt{c} $= 0000$. 
+
+
+\subsection{Adder}
+
+Verilog has the ability to make adders itself. For example (from Prof. Ashmanskas): 
+
+\bs 
+\begin{lstlisting}
+module add4bit (output [3:0] s, output cout,
+    input [3:0] a, input [3:0] b, input cin);
+    assign {cout,s} = a + b + cin;
+endmodule
+\end{lstlisting}
+\bs
+
+Where each of the inputs (\texttt{a}, \texttt{b}) and outputs (\texttt{s}) is 4 bits wide. Writing \{\texttt{cout},\texttt{s}\} is then a 5 bit wide statement. 
+
+
 
 
 
@@ -3592,12 +3650,21 @@ Where $\tau$ is the time it takes you to move an object some distance $l$ by eit
 
 \section{Literature}
 
-\textcolor{red}{Oops, forgot to clean this} Here I'll discuss some of the literature surrounding fluid mechanics and neuroscience. A large topic is the flow of CSF inside the brain and spinal cord, which has implications in drug delivery and hydrocephalus. Other notable topics include the application of shear stress to neurons, which may activate mechanically gated channels. 
+Here I'll discuss some of the literature surrounding fluid mechanics and neuroscience. 
 
+\subsection{CSF Flow}
 
-Here I'll discuss\footnote{\url{https://www.cambridge.org/core/journals/journal-of-fluid-mechanics/article/onedimensional-model-for-the-pulsating-flow-of-cerebrospinal-fluid-in-the-spinal-canal/3710D122EC70FCB29DEF0AB196ADCCCD}}. The Sanchez group at UCSD has many papers on this topic, so their works are a great resource for further learning.\newline
+A large topic is the flow of CSF inside the brain and spinal cord, which has implications in drug delivery and hydrocephalus. Other notable topics include the application of shear stress to neurons, which may activate mechanically gated channels.\newline
 
-The specific focus of this work is on intracranial pressure (ICP). 
+Here I'll discuss\footnote{\url{https://www.cambridge.org/core/journals/journal-of-fluid-mechanics/article/onedimensional-model-for-the-pulsating-flow-of-cerebrospinal-fluid-in-the-spinal-canal/3710D122EC70FCB29DEF0AB196ADCCCD}}. The composition and flow of cerebrospinal fluid (CSF) is both a key diagnostic tool and often at the center of pathologies. For example, measuring CSF composition aids in diagnosis of diseases like Alzheimer's via monitoring amyloid presence\footnote{\url{https://www.youtube.com/watch?v=zCmngDk9VDU}}. Similarly, being able to model particle flow in the CSF is helpful in understanding drug delivery. Blockage of CSF flow is responsible for hydrocephalus, which on its face is easy to treat, but is frequently misdiagnosed as Alzheimer's or other neurodegenerative diseases\footnote{\url{https://www.alz.org/alzheimers-dementia/what-is-dementia/types-of-dementia/normal-pressure-hydrocephalus}}.\newline
+
+The S\'{a}nchez group at UCSD has many papers on modeling CSF flow, so their works are a great resource for further learning. The specific focus of this work is on intracranial pressure (ICP), which can be clinically measured with the surgical implantation of sensors. The goal of this work is to allow for indirect measures, such as MRI, combined with computation to serve in place of invasive procedures. CSF is generated in the brain ventricles, travels through the CNS (including the spinal canal), and eventually exits through arachnoid villi, where it drains into the venus sinus. The venus sinus connects directly to the circulatory system, and thus the spaces housing CSF experience pressure fluctuations with the beats of the heart---they call this ICP pulsations. Many works have modeled the spinal canal and connected spaces as hollow---these simplifications limit the clinical relevance of the models. This work improves upon previous, as it considers the role of arachnoid trabeculae (web-like structures in the arachnoid space, which reduce the pressure).\newline
+
+In initial models, because the spinal canal's axial distance is significantly longer than its transverse, they use a slender-flow approximation, and state that the velocity and pressure is uniform for a given cross-section. The total volume of CSF is calculated to be 80cm$^3$, and with each ICP pulse $\approx 1$cm$^3$ of CSF either in or out of the spinal canal, which induces fluctuations in the cross sectional area of the spinal canal (some $\Delta A$). They approximate this change to be about 1mm$^2$, and use a linear-elastic model to survey it. These simplifications allow the creation of a one-dimensional model. However, they comment that these initial models fail to capture a ``phase lag" between pressure and flow changes that are observed by MRI---they attribute this to the exclusion of trabeculae from the space which would contribute to viscous pressure losses.\newline
+
+Therefore, the bulk of this work focuses on including the viscous pressure loss associated with trabeculae. They introduce a resistance coefficient which is dependent on the viscosity and pulse frequency, $\mathcal{R} =\nu / (k\omega)$, where $k$ is a function of the trabeculae webbing. They also utilize the Womersley number, $\alpha$, which can be written (using numbers from our class) as $=\sqrt{2\pi R_eSt}$, or as $\sqrt{A_0\omega /\nu}$. An $\alpha << 1$ means the frequency of pressure pulses is slow enough that the velocity changes will be in-phase with pressure---whereas an $\alpha >> 1$ means it will be out of phase by $\approx 90^\circ$ (from Wikipedia\footnote{\url{https://en.wikipedia.org/wiki/Womersley_number}}). In fact, they include the pressure loss due to the Stokes layer (Stokes flow induced by the moving boundaries\footnote{\url{https://en.wikipedia.org/wiki/Stokes_problem}}) but state that this pressure loss is much smaller than is due to trabeculae. Therefore, future models may explore removing this term in order to further simplify.  \newline
+
+To verify their model, they compare with actual MRI data from two patients. They vary the resistance coefficient, $\mathcal{R}$, and show that when $\mathcal{R} = 0$, no phase lag is observed---but one becomes present as $\mathcal{R}$ increases (i.e., the inclusion of trabeculae). Therefore, their updated one-dimensional model is able to account for clinically observed phase lags through the inclusion of increased resistance caused by trabeculae. Some interesting takeaways to me: 1) That you can make a clinically relevant, one-dimensional model at all! I'm surprised you can take the complex, 3D, curvilinear geometry of the spinal canal and reduce it down so much. 2) Learning of the Womersley number, $\alpha$, is interesting and worth remembering for the future. 3) The fact that they verified the model with clinical data is very supportive. It's good to see them take it out of just theory and apply it. 
 
 
 
@@ -3615,11 +3682,11 @@ The specific focus of this work is on intracranial pressure (ICP).
 
 \section{Perspective}
 
-It is very important to avoid taking a quantized approach to studying physiology. You'll notice neuroscience majors may know some superb nuances regarding the role of HCN channels in overexcitable neural disorders, like epilepsy. However, they may be totally unaware of their canonical role as pacemakers in the heart. So too may they be unaware of the rich history of modeling $I_h$ currents by computational biologists, preferring to look only at a channel as it functions in neurons and is testable in a cell culture. Hence, one must not become preoccupied with a single leaf.\newline
+% It is very important to avoid taking a quantized approach to studying physiology. You'll notice neuroscience majors may know some superb nuances regarding the role of HCN channels in overexcitable neural disorders, like epilepsy. However, they may be totally unaware of their canonical role as pacemakers in the heart. So too may they be unaware of the rich history of modeling $I_h$ currents by computational biologists, preferring to look only at a channel as it functions in neurons and is testable in a cell culture. Hence, one must not become preoccupied with a single leaf.\newline
 
-Another bit of wisdom comes from Yoshikawa's Musashi. There is a chapter in which vagabonds are tilling a marsh's untenable land. Each time a storm came, all work was reset as flooding returned the land to mud. One realized that they had been tilling the field in the shape of a square, unconsciously aiming for a uniform, symmetrical crop that is typical of any farm. In doing so, they intended to bend nature from its gruff state into something it was not. Nature, not allowing this, cyclically reclaimed the land. But, if they tilled the land in an oblong fashion, asymmetrical and with the natural bends of the marsh, along the path that water would flow in a storm---perhaps the fields would survive the storm. Rather than trying to oppose the universe, one must first know its way, and be guided by it.\newline
+% Another bit of wisdom comes from Yoshikawa's Musashi. There is a chapter in which vagabonds are tilling a marsh's untenable land. Each time a storm came, all work was reset as flooding returned the land to mud. One realized that they had been tilling the field in the shape of a square, unconsciously aiming for a uniform, symmetrical crop that is typical of any farm. In doing so, they intended to bend nature from its gruff state into something it was not. Nature, not allowing this, cyclically reclaimed the land. But, if they tilled the land in an oblong fashion, asymmetrical and with the natural bends of the marsh, along the path that water would flow in a storm---perhaps the fields would survive the storm. Rather than trying to oppose the universe, one must first know its way, and be guided by it.\newline
 
-Surgical intervention is most often an opposition to the way of nature. Indeed, the most clear evidence of this is in today's BSIs which attempt to escape endogenous circuits all together. Perhaps one should focus more on enhancing nature's way first, before opposing it. And to enhance nature's way, one must understand it fully. 
+% Surgical intervention is most often an opposition to the way of nature. Indeed, the most clear evidence of this is in today's BSIs which attempt to escape endogenous circuits all together. Perhaps one should focus more on enhancing nature's way first, before opposing it. And to enhance nature's way, one must understand it fully. 
 
 \chapter{Biochemistry}
 
@@ -3798,7 +3865,7 @@ In comparing NMS$+$ and GRP$+$ cells in the same tests, they found that NMS$+$ c
 
 Here we discuss\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/37756377/}}. Chemotherapy can lead to something called ``chemobrain"---a cognitive dysfunction in cancer treatment that is currently not understood. PET and MRI scans have shown structural and functional changes in the brain associated with prolonged treatment. This work determined that improper modifications to RyR2 channels leads to leakiness, thereby inducing dysfunction in metabolic signaling paths, leading to cognitive decline.\newline
 
-RyR channels are the largest known ion channels---on the order of 5,000 amino acids! RyR channels have 3 isoforms, with RyR2 being the most common in the brain. Using a mouse breast cancer model, their initial tests showed that treatment with doxorubicin leads to increased RyR channel opening time and open probability from signal unit recordings. They developed an orally admissible drug called S107 that is said to stabilize RyR channels. Use of this drug in conjunction with doxorubicin results in WT levels of openness. Via PET scans, they determined a reduction in glucose metabolism in doxorubicin treated mice, which was recovered in S107 treated mice. However, it's worth noting that these phenotypes seem quite weak (i.e., on the order of a couple percent difference).\newline
+RyR channels are the largest known ion channels---on the order of 5,000 amino acids! RyR channels have 3 isoforms, with RyR2 being the most common in the brain. Using a mouse breast cancer model, their initial tests showed that treatment with doxorubicin leads to increased RyR channel opening time and open probability from signal unit recordings. They developed an orally admissible drug called S107 that is said to stabilize RyR channels. Use of this drug in conjunction with doxorubicin results in WT levels of openness. Via PET scans, they determined a reduction in glucose metabolism in doxorubicin treated mice, which was recovered in S107 treated mice. However, it's worth noting that these phenotypes seem quite weak (i.e., on the order of a couple percent difference). Similar effects were observed with a second chemoterapeutic treatment course called MTX + 5-FU.\newline
 
 RyR immunoprecipitated from whole brain lysates were compared for post-translational modifications. In order of their Figure, RyR2 shows increased phosphorylation, oxidation, nitrosylation, and decreased calstabin-2 binding. Calstabin binding is known to stablize RyR channel structure, and treatment of with S107 recovered this binding, but none of the other post-translational modifications. Through behavioral tests, like the Moris water maze, they found clear cognitive impairments in doxorubicin treated mice that were rescued with S107. In the novel object discrimination test, S107 actually seemed to improve scores above WT. 
 
@@ -4623,11 +4690,11 @@ Onto the part that matters most. Animals with the scaffolds exhibited significan
             \end{center}}
 
 \section{Perspective}
-There is an interesting part of Yoshikawa's Musashi which details how a vagabond had a poor reputation, despite being an incredible swordsman and a generally giving and selfless person. Their reputation came from those who had long-standing, baseless grudges against them, or those that disagreed with their rise to fame, either out of jealousy or other. A monk in the story comments that a vagabond under 30 should almost never have a pure reputation, as they couldn't possibly be established enough to be beyond critique or ridicule. It is implied that for one to accomplish anything great, it is inherent that one must take risks, be bold, and likely ruffle feathers along the way. Irrespective of one's identity, it is certain that there will be those that dislike them or their approach.\newline
+% There is an interesting part of Yoshikawa's Musashi which details how a vagabond had a poor reputation, despite being an incredible swordsman and a generally giving and selfless person. Their reputation came from those who had long-standing, baseless grudges against them, or those that disagreed with their rise to fame, either out of jealousy or other. A monk in the story comments that a vagabond under 30 should almost never have a pure reputation, as they couldn't possibly be established enough to be beyond critique or ridicule. It is implied that for one to accomplish anything great, it is inherent that one must take risks, be bold, and likely ruffle feathers along the way. Irrespective of one's identity, it is certain that there will be those that dislike them or their approach.\newline
 
-I mention this specifically in this section because it is likely that in advancing technology, you will encounter people who want to belittle your ideas. It is only natural that those who have worked in a field for a long time may be inclined to retain their current way of life, thereby pushing against unseen advancement. The canonical example being those surgeons that resisted the endoscope. I add this to say that it is not unlikely that you will do all the right things, but still find those who disapprove.\newline
+% I mention this specifically in this section because it is likely that in advancing technology, you will encounter people who want to belittle your ideas. It is only natural that those who have worked in a field for a long time may be inclined to retain their current way of life, thereby pushing against unseen advancement. The canonical example being those surgeons that resisted the endoscope. I add this to say that it is not unlikely that you will do all the right things, but still find those who disapprove.\newline
 
-Pay them no mind, or better yet, learn from them. Perhaps if you learn from all of those that are unwilling to learn from you: your growth will be unmatched, and real progress can be made. Best of luck. 
+% Pay them no mind, or better yet, learn from them. Perhaps if you learn from all of those that are unwilling to learn from you: your growth will be unmatched, and real progress can be made. Best of luck. 
 
 \subsubsection{Papers to Read:}
 
@@ -4641,6 +4708,7 @@ Pay them no mind, or better yet, learn from them. Perhaps if you learn from all 
 -- Growth cone review 2 \url{https://www.nature.com/articles/nrn3176} \\
 -- a third, focusing on mechanics \url{https://www.frontiersin.org/articles/10.3389/fncel.2015.00244/full} \\
 -- literally focuses on glia-neuron growth cone lol \url{https://www.frontiersin.org/articles/10.3389/fnins.2020.00203/full} \\
+-- you \textbf{MUST} read this asap \url{https://www.nature.com/articles/s41586-023-06377-x} 
 
 \chapter{Interfacing with Nerves}
 
@@ -4688,6 +4756,18 @@ The use of piezo-electric materials too provides interesting avenues of study. P
 The axon-like size of CNTs seems very interesting to me, as they provide a neat route of usage, i.e., as artificial myelination. Perhaps one can develop a CNT with a membrane permeable enough for extracullar signaling to get through, but conductive enough to function like myelin. I am curious if you could produce a multi-layered scaffold, where certain tracts fit axons, certain tracts fit glia, etc, and it can act like repaired oligodendrocytes after SCI.\newline
 
 Another interesting thought is the deep implantation of Piezoelectric materials and then activating them using sonication. It would be neat to develop some kind of material that can be mechanically stimulated at specific sonic frequencies, preventing random stimulation from body movement. 
+
+\subsection{Flexible Brain-Computer Interfaces}
+
+\textcolor{red}{For the moment, I'm not sure where to put this, so I'm adding it here.} We will discuss\footnote{\url{https://www.nature.com/articles/s41928-022-00913-9}}. The key idea of this work is that hard electronics present a geometric mismatch with the body's tissues. An amazing fact mentioned right away is that the dura mater, skull, and scalp function as low-pass filters! Which, now we know about in considerable depth from chapter \textbf{\ref{sec:filters}}. This leads low frequency signals, like alpha and beta waves, to be detected. Another interesting point made right away is that billions of neurons are distributed over volumes on the order of centimeters to meters, while neurons themselves are on the order of tens of microns to hundreds of microns. Similarly, neurons fire on the order of milliseconds, yet brain wave changes and behavioral outcomes take months to manifest.\newline
+
+Hard electronics are less flexible and adaptable. If BCIs are to improve, it'll mean that they must interface with more neurons and capture more data. Such a request is not feasible with hard electronics. Similarly, hard electronics offer potential harm to neural tissue via mechanical damage. Slight migration in hard electronics on the order of microns is inevitable. Therefore, the tracking of single neurons over long periods is impossible without re-calibrating and accounting for such migration. This work also harps that single unit recordings is not possible over long periods anyway, as gliosis and scarring will eventually worsen the signal-to-noise ratio so that individual neurons become invisible in the static.\newline
+
+The mismatch between hard electronics and neural tissue is often measured by Young's modulus, which designates the flexibility in response to applied force. Much thinner electronics are required to match the electronic and neural tissue moduli. Indeed, such attempts have been done, which require reducing transistors down to nanometer thicknesses. Tissue-like electronics that have been produced prove to be much better at recording single neuron activity over long periods. A considerable consequence of shrinking and shrinking electronics is that there may be accidental crosstalk between nearby transistors. \newline
+
+The brain expands and contracts in a non-negligible way. This is especially true in the developing brain, or in a highly degenerative brain. Thus, electronics would ideally be stretchable to accommodate volumetric changes. This is similarly true for segments of neural tissue that may require flexion, such as peripheral nerves or spinal nerves. Stretchable electronics have been achieved in the past when made as a mesh. Well designed meshes with channels can integrate optogenetics and chemogenetics as well, allowing for the possibility of cell-type specific neural recording and modulation.\newline
+
+Soft electronics like this come with considerable design and production challenges. For example, scaling up high densities of transistors embedded in meshes is extremely difficult. Similarly, these devices are very sensitive to ion or water influx. Further, parasitic capacitance (capacitance due to electronics proximity to one another) is largely unavoidable at small scale. When dielectrics are used as insulators, again possible mechanical damage due to flexion is a possible source of ion influx and thus worsened function. 
 
 
 \chapter{Peripheral Nerve Stimulation} 
@@ -4960,13 +5040,20 @@ Absolutely remarkably, the patient was able to regain some motor control the fir
 
 In large part, tremors induced by PD have already been well solved through deep brain stimulation and high intensity focused ultrasound. However, this paper focuses on some of the non-tremor symptoms of PD, and the idea that one can use spinal cord stimulation to fix degenerative diseases is generally interesting, so let us learn from\footnote{\url{https://www.science.org/doi/10.1126/science.1164901}}.The premise of this experiment is somewhat surprising, as stimulation is often thought to interrupt signals (as is the case in deep brain stimulation for PD, and SCS for neuropathy). In this case, though, they believe SCS \textbf{enhances locomotor signals}. That is, they are not treating PD tremors, but rather are treating PD induced akinesia. Experiments were performed in mice using dopamine-transporter knockout (DAT-KO) as their PD model. They also injected tyrosine hydrolase inhibitor (called AMPT)\footnote{I didn't bother Googling what this is, but intuition would suggest is aids in the conversion of tyrosine to catecholamines.} to further deplete dopamine. Dorsal root stimulation was performed using electrodes into the upper thoracic levels of the spinal cord. The greatest locomotor improvement in locomotion was found at 300 Hz stimulation.\newline
 
-Notably, some hospitals are currently attempting clinical trials for spinal cord stimulation's use in treating Parkinson's. Some efforts include blocking pain and treating akinesia. 
+Notably, some hospitals are currently attempting clinical trials for spinal cord stimulation's use in treating Parkinson's. Some efforts include blocking pain and treating akinesia. \textcolor{blue}{Note from future Jackson: When I first read this paper a few months ago, I thought it was a bit silly. It was difficult for me to see why one would attempt this, when DBS is already so powerful. I figured it would go no where. Yet, read on:}
 
 \subsection{SCS-DBS Intersection}
 
 Here we discuss\footnote{\url{https://www.nature.com/articles/s41591-023-02584-1}}. Dr. Ramayya, an MD-PhD neurosurgeon I had the pleasure of talking to, commented that after seeing this work his first thought was ``you don't have to be the best at everything." Indeed, this work is so awe inspiring that it makes one question their place in the field.\newline
 
+DBS treats a very small subset of symptoms associated with PD. Because of the success of EES in treating SCI, these groups wondered if a similar feat can be accomplished in PD patients. The first bit of this work was done in an NHP model (rhesus macaque). Because of differences in monkey and human mobility, they developed a scoring technique to analyze PD models in NHPs and compare them to human PD symptoms. The preferred PD model for them was administration of MPTP, a drug able to mimic the death of dopamine producing neurons. They compared spinal circuits before and after MPTP and identified ``hot spots" in the spinal cord. In implanting these devices, they stimulated different electrodes in the array in order to test their ability to cause muscle contraction. \newline
 
+After these tests, they then aimed to use a brain-spine-muscle interface as they had in their other foundational works. Microelectrode arrays were inserted into the cortexes of RHPs and were able to regularly decode motor signals. They then furthered this by inserting EMG electrodes into the legs of NHPs\footnote{I am really wondering if some nice code can use this kind of data to iterate and self correct. Need feedback, of course.}. The neuroprosthesis together improved natural movement and posture. Finally, they added DBS to their circuit and found further improvement of movement. \newline
+
+In humans, the ability to decode motor movement may be difficult in people with PD. Therefore, their first step was to recruit participants willing to get electrodes implanted into their cortex for reading their intended movements. They considered this a success and moved forward. They enrolled a patient in their STIMO-PARK clinical trial. The patient already had DBS, but still had some severe symptoms. They used a SCS paddle used in treating pain, connected to an Activa RC IPG, guided in location by CT and MRI. Rather than implanting an ECoG to read the patient's motor cortex, they instead used motion sensors and attempted to read motor intentions and send updated pulses to the stimulator that way. Fascinatingly, DBS and EES seemed to treat different symptoms at times, and act synergistically. That is, DBS${}^{ON}$-EES${}^{OFF}$ showed no improvement in ``fraction of time frozen," while DBS${}^{OFF}$-EES${}^{ON}$ showed total recovery. Their benefits were generally additive, though.\newline
+
+
+Questions: feasibility of this surgery on a large scale---that is, it is a hefty surgery, patients will typically be older, perhaps it sucks a ton of power and thus requires more frequent battery replacements, etc. 
 
 
 \chapter{Brain Stimulation}
@@ -5001,9 +5088,10 @@ If we take the cell membrane to be a capacitor in series with a resistor, drivin
 For this section, I'll discuss broadly how deep brain simulation works clinically, including an outline of the procedure. I'll discuss primarily from my experiences with neurosurgeons Dr. Casey Halpern and Dr. Iahn Cajigas.\newline
 
 
+
 \subsubsection{Before Surgery Begins.}
 
-Candidacy (which drugs to try), HiFUS vs. DBS, etc. 
+\textcolor{red}{Candidacy (which drugs to try), HiFUS vs. DBS, etc. }
 
 
 \subsection{The Surgery Itself}
@@ -5046,6 +5134,7 @@ At present, I am unsure if reading one's thoughts is a requirement at all for ov
 
 \subsection{Different Reading Devices} As you would imagine, there is a tradeoff between the resolution and the damage you will confer upon one's brain. This is described well by Schwartz in 2006, so notably technology may have advanced since then\footnote{\url{https://www.sciencedirect.com/science/article/pii/S0896627306007264}}. The four classes of devices are: 
 \begin{enumerate}
+    \itemsep 0em
     \item Electroencephalography (EEG)
     \item Electrocorticography (ECoG)
     \item Local field potentials (LFPs)
@@ -5083,7 +5172,7 @@ One large question I have is how they are processing this data. In the case of a
 The bulk of the paper is very electronics heavy, so it will be good to reference in future builds. 
 
 
-\subsubsection{Robotic Control with Eye}
+\subsection{Robotic Control with Eye.}
 
 Here we discuss\footnote{\url{https://www.nature.com/articles/s41598-023-44645-y}}. Usually, when we think of neural prosthetics or brain-computer interfaces, we think of their use in treating spinal cord or traumatic brain injury. However, there are many of really fascinating uses of brain computer interfaces beyond this. One such example is in ALS. Interestingly, muscles of the eye are unaffected by ALS. Therefore, while the rest of the body loses motor control, theoretically eye movements can be used to interact with the world. This paper used EEG signals and resolved eye movements---which are normally considered noise in an EEG.\newline
 
