@@ -3667,6 +3667,105 @@ Therefore, the bulk of this work focuses on including the viscous pressure loss 
 To verify their model, they compare with actual MRI data from two patients. They vary the resistance coefficient, $\mathcal{R}$, and show that when $\mathcal{R} = 0$, no phase lag is observed---but one becomes present as $\mathcal{R}$ increases (i.e., the inclusion of trabeculae). Therefore, their updated one-dimensional model is able to account for clinically observed phase lags through the inclusion of increased resistance caused by trabeculae. Some interesting takeaways to me: 1) That you can make a clinically relevant, one-dimensional model at all! I'm surprised you can take the complex, 3D, curvilinear geometry of the spinal canal and reduce it down so much. 2) Learning of the Womersley number, $\alpha$, is interesting and worth remembering for the future. 3) The fact that they verified the model with clinical data is very supportive. It's good to see them take it out of just theory and apply it. 
 
 
+\chapter{Machine Learning}
+
+Yeah, whatever. I'll do it myself. I always find the cure to fret is learning.\newline
+
+So what is Machine Learning\footnote{From: \url{https://www.youtube.com/watch?v=i_LwzRVP7bg&t=243s&ab_channel=freeCodeCamp.org}}? ML is a subset of AI which looks to find patterns and make predictions about data. ML has a few types: 
+
+\begin{enumerate}
+    \item Supervised learning, which uses input data which has an associated, given label. 
+    \item Unsupervised learning, where data does not include labels and instead the learning's goal is to find patterns in the data. 
+    \item Reinforcement learning, where an algorithm learns based on a system of rewards and punishments. 
+\end{enumerate}
+
+Ratings in learning can be binary, which is called \textit{one-hot encoding} (i.e., you are either happy or not happy, 1 or 0), or there can be \textit{ordinal data}, which has some order (i.e., a spectrum of feelings, say rated 1 to 5). These are qualitative pieces of data, and there can similarly be quantitative discrete or quantitative continuous types of data.\newline
+
+A computer can either predict a class, which is discrete, or can use a regression, to output a continuous value. A model will take a \textit{feature vector} and output a classification. 
+
+
+\subsubsection{Calculating Loss.}
+The first way to calculate loss is called L1 loss. It is simply calculated as: 
+
+\begin{equation}
+\begin{split}
+    L_1 = \sum \pr{| y_{real} - y_{predicted}|}
+\end{split}
+\end{equation}
+
+The second way is called L2 loss. The function is quadratic, which increases penalty the further you get from the true value as: 
+
+\begin{equation}
+\begin{split}
+    L_2 = \sum \pr{\pr{y_{real} - y_{predicted}}^2}
+\end{split}
+\end{equation}
+
+Finally, we can calculate binary cross-entropy loss. Without diving in to the formula, it is seen as: 
+
+\begin{equation}
+\begin{split}
+    L = -\frac{1}{N}\sum \pr{y_{real} \cdot \log(y_{predicted}) + (1-y_{real}\cdot\log(1-y_{predicted})}
+\end{split}
+\end{equation}
+
+One could also compute by accuracy. 
+
+\subsection{Models}
+
+\subsubsection{KNN.}
+One model is called K-nearest neighbors (KNN). Suppose you have a set of binary classifications plotted on an X-Y graph. For example, you plot the relation between years spent in school and the money someone earns per year, and your binary classification is whether or not they own a home. You could compute the distance (on the plot) between nearby points. Suppose you take $k = 3$, to find the 3 nearest neighbors. If all of the nearest neighbors to a point is that one owns a home, you'd predict that such a point is also a home owner. If it is ambiguous, you'd predict via the minimum distance between each class and that point. 
+
+\subsubsection{Naive Bayes.}
+
+Naive Bayes depends on conditional probability. So, recall that Bayes theorem goes as: 
+
+\begin{equation}
+\begin{split}
+    P(A | B) = \frac{P(B | A) \cdot P(A)}{P(B)}
+\end{split}
+\end{equation}
+
+Where this is the probability of $A$ given $B$. Therefore, suppose the probability of getting a false positive is 0.05. Suppose the probability of getting a false negative is 0.01. And suppose the probability of having the disease at all is 0.1. Now, ask yourself: what is the probability of having the disease, given that you've tested positive? 
+
+\begin{table}[]
+    \centering
+    \begin{tabular}{c|c}
+       0.99  & 0.01 \\
+       0.05  & 0.95
+    \end{tabular}
+\end{table}
+
+We filled in 0.99 and 0.95 simply by knowing that they should sum to 1. That is, the probability that you test either positive or negative most definitely $=1$.  Now: 
+
+\begin{equation}
+\begin{split}
+    P(A | B) = \frac{0.99 \cdot 0.1}{0.99 \cdot 0.1 + 0.05\cdot 0.9} = 0.6875
+\end{split}
+\end{equation}
+
+We can use this for classifications. See below: 
+
+\begin{equation}
+\begin{split}
+    P(C_k | x) = \frac{P(x | C_k) \cdot P(C_k)}{P(x)}
+\end{split}
+\end{equation}
+
+This essentially asks: what is the probability of $x$ fitting into some category $C_k$? $P(C_k | x)$ is considered the posterior. $x$ is the feature vector. $P(x | C_k)$ is the likelihood. $P(C_k)$ is the prior. And finally, $P(x)$ is the evidence. 
+
+\begin{equation}
+\begin{split}
+    P(C_k | x_1, x_2, ..., x_n) &= \frac{P(x_1, x_2, ..., x_n | C_k) \cdot P(C_k)}{P(x_1, x_2, ..., x_n)} \\
+    P(C_k | x_1, x_2, ..., x_n) &\propto P(x_1, x_2, ..., x_n | C_k) \cdot P(C_k)\\
+    P(C_k | x_1, x_2, ..., x_n) &\propto P(x_1 | C_K) \cdot P(x_2 | C_K) \cdot ... \cdot P(x_n | C_K) \\
+    P(C_k | x_1, x_2, ..., x_n) &\propto P(C_k)\Pi^n_{i=1}P(x_i|C_k) \\
+\end{split}
+\end{equation}
+
+We removed the denominator because $P(x_1, x_2, ..., x_n)$ is the same for all classes, so it provides no class-specific info and thus can be neglected. The second assumption that we make is that all probabilities are independent, allowing us to multiply everything together.\newline
+
+We use a $\hat{y}$ as an \textit{argmax}. I.e., we maximize $P(C_k)\Pi^n_{i=1}P(x_i|C_k)$. This is also called a Maximum A Posteriori (MAP). 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
