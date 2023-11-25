@@ -61,17 +61,16 @@
 
 
 
-{\scshape J. Powell} \hfill {\scshape \large Brain-Spine-Muscle Interfaces} \hfill {\scshape 2023}
+% {\scshape J. Powell} \hfill {\scshape \large Brain-Spine-Muscle Interfaces} \hfill {\scshape 2023}
  
-\smallskip
+% \smallskip
 
-\hrule
-\bigskip
-\normalsize 
+% \hrule
+% \bigskip
+% \normalsize 
 
 
-
-\section{Overview}
+\chapter{Prologue}
 
 \subsection{Purpose}
 The purpose of this book is to aggregate all of the content and tools I will need in forging the future I desire: building better brain-spine-muscle interfaces. Interestingly, I already find myself referencing the information here quite a bit! It has already paid back itself in full.
@@ -82,7 +81,7 @@ The purpose of this book is to aggregate all of the content and tools I will nee
 % \subsection{Someday Never Comes} 
 % I found myself often saying something along the lines of ``someday, during medical school, I will understand SCI better," or ``someday, during my PhD, I'll learn how to build a BSI properly." But, I realized recently that \href{https://www.youtube.com/watch?v=NwNuQulK6N0}{someday never comes}. That is the main motivation for writing this. Someday never comes; there is only today. 
 
-\section{To Do:}
+\subsection{To Do:}
 
 \footnotesize
 \begin{enumerate}
@@ -100,6 +99,38 @@ The purpose of this book is to aggregate all of the content and tools I will nee
 \end{enumerate}
 
 \normalsize
+
+\vfill\pagebreak
+
+\section{The Flagship Works}
+
+Perhaps one of the most amazing privileges of taking courses with great, experienced professors is that they literally lived through the turning of the field. Dr. Nancy Bonini, a superb scientist, was largely at her maximum productivity through the 90s and early 2000s---exactly aligned with when the field of neurodegenerative diseases left its zygotic stage and began to pick up steam. Therefore, having her as a professor is wonderful, as she can recall exactly the implications of works as they were released---she is a historian and a scientist in one. Therefore, let us take a moment to notice the flagship works of my generation. We'll begin in 2023: 
+
+\subsubsection{2023.}
+
+
+Lorach, H., ... Courtine, G. Walking naturally after spinal cord injury using a brain–spine interface. \textit{Nature}. May 24, 2023. \url{https://doi.org/10.1038/s41586-023-06094-5}
+
+\begin{adjustwidth}{1cm}{1cm}
+The paper that shook up the world. This paper is special in many ways. It's one of the few that got non-biologists, and those not interested in medicine talking about it. Perhaps the greatest benefit of this work is it put brain-computer interfaces on many people's radars. \newline
+\end{adjustwidth}
+
+Willet, F., ... Henderson, J. A high-performance speech neuroprosthesis. \textit{Nature}. August 23, 2023. \url{https://doi.org/10.1038/s41586-023-06377-x}\newline
+
+Metzger, S., ... Chang, E. A high-performance neuroprosthesis for speech decoding and avatar control. \textit{Nature}. August 23, 2023. \url{https://doi.org/10.1038/s41586-023-06443-4}
+
+\begin{adjustwidth}{1cm}{1cm}
+These works marry two ever improving fields: machine learning and brain-computer interfaces. Too, there was no end to the headlines surrounding these works. They demonstrate the use of BCIs beyond neural repair, and instead in diseases that might otherwise be described as ``without recourse". They highlights the ability to restore life to patients that seemingly have no recourse.  \newline
+\end{adjustwidth}
+
+
+Milekovic, T., ... Courtine, G. A spinal cord neuroprosthesis for locomotor deficits due to Parkinson’s disease. \textit{Nature Medicine}. November 6, 2023. \url{https://doi.org/10.1038/s41591-023-02584-1}
+
+\begin{adjustwidth}{1cm}{1cm}
+This is plausibly the most impressive work of the decade. When speaking with a neurosurgeon about it, he commented that it made him feel defeated, in a sense, because this work is so far beyond what many can hope to accomplish. The impressiveness is not in the results, per se, but rather in the absolutely incredible ability to pull this off. What we can look forward to is a bright, fascinating future. \newline
+\end{adjustwidth}
+
+
 
 \vfill\pagebreak
 
@@ -2414,6 +2445,27 @@ We've now added a common emitter amplifier to the output of stage 1 (now called 
 
 One slight issue you may encounter is an annoying fuzz on the output. This may be due to unintended high-requency gain. One way to avoid this is adding a very small capacitor between $\Vo{}_1$ and $\Vo{}_2$. This effectively acts as a high-pass filter, removing it from amplification by the common-emitter amplifier. 
 
+
+%%%%%%%%%%%%%%%%%%%
+
+
+\chapter{A Digital World}
+
+\subsection{Introduction}
+
+What does it mean to digitize a signal? A digital signal is composed of discrete units---in electronics, that would typically be transistors. That is, transistors are either on or off, and if you wanted to ``digitize" a voltage, you could use transistors, each supplying some small voltage, that sum together at $\Vo$. But, why would you want to digitize a signal? Don't you lose some information by storing values in discrete increments? Perhaps, but digital signals are great for preventing signal degradation. For example, if you were to transmit an analog signal long distances, passing between different detectors and emitters, then this signal may degrade or become warped. However, if your signal is digitized to some binary value, equating to $5.0\V$ on the dot, it won't degrade. \newline
+
+Since we are also biologists, a great question to ask is: is digital signals relevant in biological systems? The answer, of course, is yes. Neurons really are, for all intents and purposes, transistors. Neurons are digitizers. If you were to take a graded potential being received by mechanosensitive channels at the tip of the toe, do you think it could make it up to the brain without some degradation? How could you ensure the strength of the signal is not lost as it propagates up the spinal cord and onto the brain? Well, as you know, neurons are either (simplifying a bit here) on or off, meaning the ``strength" is lost on an individual action potential, so therefore it is encoded by frequency. Higher frequency firing, more neurotransmitter release, and a stronger response in the brain---neural circuits are analog to digital converters in the body. 
+
+
+
+
+
+
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%
 \chapter{Writing Hardware}
 
@@ -2424,11 +2476,13 @@ Verilog\footnote{A large part of the background information and general syntax c
 Tools like Field Programmable Gate Arrays (FPGAs) allow for this, as their internal composition is something of an array of transistors, which can be rewired through code in order to meet the demands of the programmer. 
 
 
-\subsection{Creating Modules} In Verilog, a circuit is called a \lst{module}. Each module is defined between a \lst{module} and \lst{endmodule}, which can be named as shown in the example below. Different ports connect the module to things outside of the module.
+\subsubsection{Creating Modules.} In Verilog, a circuit is called a \lst{module}. Each module is defined between a \lst{module} and \lst{endmodule}, which can be named as shown in the example below. Different ports connect the module to things outside of the module.
 
 \bs
 
 \begin{lstlisting}
+`default_nettype none // this requires that all wires be explicitly named, which is helpful in preventing the compiler for erroneously assuming attachments if a name or module is not recognized
+
 module example1(o, i1, i2); 
 // example1 is the name of our module, and o, i1, and i2 are our ports 
 // it is convention to list outputs first
@@ -2475,7 +2529,7 @@ endmodule;
 \bs
 
 
-\subsection{Bus Notation} Bus notation is used to simplify the pins used (in Verilog, this is called a vector). For example, a multiplexer or an adder will have many inputs, which would be inconvenient to initialize individually. Instead, we can use  something like this: 
+\subsubsection{Bus Notation.} Bus notation is used to simplify the pins used (in Verilog, this is called a vector). For example, a multiplexer or an adder will have many inputs, which would be inconvenient to initialize individually. Instead, we can use  something like this: 
 
 \bs
 \begin{lstlisting}
@@ -2490,7 +2544,8 @@ Firstly, note that Verilog is 0 indexed, so $[3:0]$ includes 4 wires. In a circu
 
 \bs 
 \begin{lstlisting}
-andgate(c[0], a[0], b[0]); 
+andgate(c[0], a[0], b[0]); // this is fine if we are using a single AND gate
+andgate and1 (c[0], a[0], b[0]); // this can be used to individually label different AND gates using the same module
 \end{lstlisting}
 \bs
 
@@ -2504,14 +2559,13 @@ assign c[2:0] = a[2:0]; // wire3 will now be connected to bus a[2] through bus c
 \end{lstlisting}
 \bs
 
-\subsection{Constants and Variables}
+\subsubsection{Constants and Variables.}
 
 You can actually explicitly ascribe a bit value to a series of wires as seen below with \texttt{wire4}:
 
 \bs 
 \begin{lstlisting}
-wire [2:0] wire4 = 3;
-// wire4 now holds 011
+wire [2:0] wire4 = 3; // wire4 now holds 011
 \end{lstlisting}
 \bs
 
@@ -2532,7 +2586,7 @@ wire5 = (a[2:0] == CONST1);
 This does bring up a worthwhile point, which is that everything you write in Verilog has a direct circuit component underlying it (I suppose the same is true for any program, but it's more... explicit with Verilog). 
 
 
-\subsection{Logic}
+\subsubsection{Logic.}
 
 Verilog has two types of logic it can perform---bitwise and logical. The expressions are: The operators are $\sim$ for bit-wise NOT, ! for logical NOT; \& for bit-wise
 AND, \&\& for logical AND; $|$ for bit-wise OR, $||$ for logical OR; and ${}^\wedge$ (bit-wise XOR). As you'd imagine, a bitwise comparison goes bit by bit. For example: 
@@ -2559,7 +2613,7 @@ wire [0:3] c = !a;
 Now, \texttt{a} $= 0001$, \texttt{b} $= 1110$, and \texttt{c} $= 0000$. 
 
 
-\subsection{Adder}
+\subsubsection{Adder.}
 
 Verilog has the ability to make adders itself. For example (from Prof. Ashmanskas): 
 
@@ -2575,7 +2629,25 @@ endmodule
 Where each of the inputs (\texttt{a}, \texttt{b}) and outputs (\texttt{s}) is 4 bits wide. Writing \{\texttt{cout},\texttt{s}\} is then a 5 bit wide statement. 
 
 
+\subsubsection{Maintaining a State.}
 
+\textcolor{red}{This should go in the digital section, but I am throwing it into here for now.}\newline
+
+If one were to implement \textit{sequential logic}, we would need a source of memory, or a way to maintain a state. The simplest way to accomplish this is with two NOR gates, which functionally act as a 1 bit memory source. By feeding the output of each NOR gate into the input of the other, we make it so one can set the memory to 1, and the other can reset the memory to 0. The output of the reset we can call $Q$, the current state of the system.\newline
+
+Anyway, a D-type flip-flop similarly gives us the ability to story memory that updates on a \texttt{clk} cycle. See below:
+
+\bs 
+\begin{lstlisting}
+module dflipflop (output wire q, input wire clk, input wire d);
+    reg q_reg;
+    always @ (posedge clk) q_reg <= d;
+    assign q = q_reg;
+endmodule
+\end{lstlisting}
+\bs
+
+Here, \texttt{q\_reg} updates to the state of \texttt{d} at the positive edge (\textcolor{blue}{\texttt{posedge}}) of every \texttt{clk} cycle. \texttt{reg} is like a wire which can maintain a state. 
 
 
 
@@ -2601,6 +2673,15 @@ Prior to this, I hadn't thought much about quantitative descriptions like this. 
 
 If anyone ever reads this, besides me, I hope you too will be enthralled by both the brilliance and creativity required to describe something as complex as the biochemistry of a neuron in just a few equations. 
 
+\subsection{Further Insight}
+
+I thought that I might include this, because it is indeed inspiring, and I figured you may want to know. On Wednesday Nov. 15th, 2023, I attended a super interesting lecture titled ``A Language Whose Characters are Triangles” by Rob Phillips from Caltech. The name is quite ambiguous, and the talk spanned a wide range of topics. The overarching theme was modeling very different physical systems using the same range of principles.\newline
+
+One of the key points he made is that many journals are hyper-focused on structure right now. New articles are published every month with AlphaFold / Cryo-EM structures of proteins in Nature and Science. However, he makes the joking argument that these scientists are all neglecting the quarks, which are as key to the protein’s structure as the atoms are. He uses this argument to suggest we don’t need an ultra-structural understanding to model these systems. That is also the rough idea of the talk’s title: that nearly all systems can be solved using similar geometries, and described some examples throughout history where different phenomena in physics were solved using basic geometric shapes. Then, he moves into the key topic: comparing the herding of wildebeest and the trafficking of actin inside a toxoplasma (a microorganism).\newline
+
+Dr. Phillips touched on the Navier-Stokes equations, and new iterations and applications of them. He showed that wildebeest herd, both in their ``flow” and ``density” according to the same modified Stokes equations as do the actin fibers inside a toxoplasma. Another interesting thing he mentioned to look out for in the future is: (1) our growing understanding of vectors and (2) greater modeling of non-reciprocal physics. Point (1) is because, especially recently, computer scientists have really advanced our use of vectors. I.e., all ML is based on parameter vectors, Amazon has preference vectors for each user, Myers-Brigg is a 4 dimensional vector representation of people, etc. He said he believes an increased ability to vectorize problems will help our understanding of them. Point (2) is because there are many phenomena where the influence of X on Y is not the same as Y on X. The example he discussed was in wildabeest herding, or fish swimming in the water. A wildabeest (X) running in the middle of the pack as knowledge of the wildabeest in front of it, but not behind it (Y). Therefore, X can influence Y, but Y cannot influence X. No wildabeest are aware that the wildabeest behind them are keeping proper pace, yet somehow all of them do. The interesting notion here is that you can model the flow of a herd in a very similar way that you can model a fluid, but fluids work through hydrodynamic interactions, and the physics is reciprocal. Yet, here it is not. But somehow it works. Why?\newline
+
+I mention this all for the purpose of inspiring you to try modeling some phsyical systems. Look for some vectors. Classify behaviors. Run some simulations. See what insight you can get. Best of luck!
 
 
 \chapter{Math Essentials}
@@ -3718,6 +3799,8 @@ One model is called K-nearest neighbors (KNN). Suppose you have a set of binary 
 
 \subsubsection{Naive Bayes.}
 
+\label{sec:naivebayes}
+
 Naive Bayes depends on conditional probability. So, recall that Bayes theorem goes as: 
 
 \begin{equation}
@@ -3726,15 +3809,15 @@ Naive Bayes depends on conditional probability. So, recall that Bayes theorem go
 \end{split}
 \end{equation}
 
-Where this is the probability of $A$ given $B$. Therefore, suppose the probability of getting a false positive is 0.05. Suppose the probability of getting a false negative is 0.01. And suppose the probability of having the disease at all is 0.1. Now, ask yourself: what is the probability of having the disease, given that you've tested positive? 
+Where this is the probability of $A$ given $B$. Therefore, suppose the probability of getting a false positive is 0.05. Suppose the probability of getting a false negative is 0.01. And suppose the probability of having the disease at all is 0.1. Now, ask yourself: what is the probability of having the disease, given that you've tested positive?\newline
 
-\begin{table}[]
-    \centering
-    \begin{tabular}{c|c}
-       0.99  & 0.01 \\
-       0.05  & 0.95
-    \end{tabular}
-\end{table}
+% \begin{table}[]
+%     \centering
+%     \begin{tabular}{c|c}
+%        0.99  & 0.01 \\
+%        0.05  & 0.95 \\
+%     \end{tabular}
+% \end{table}
 
 We filled in 0.99 and 0.95 simply by knowing that they should sum to 1. That is, the probability that you test either positive or negative most definitely $=1$.  Now: 
 
@@ -3766,6 +3849,90 @@ This essentially asks: what is the probability of $x$ fitting into some category
 We removed the denominator because $P(x_1, x_2, ..., x_n)$ is the same for all classes, so it provides no class-specific info and thus can be neglected. The second assumption that we make is that all probabilities are independent, allowing us to multiply everything together.\newline
 
 We use a $\hat{y}$ as an \textit{argmax}. I.e., we maximize $P(C_k)\Pi^n_{i=1}P(x_i|C_k)$. This is also called a Maximum A Posteriori (MAP). 
+
+\subsubsection{Logistic Regression.}
+
+Normally, with a linear regression, we would be approximating a $\hat{y}$ value for some line. In this case, however, we will want to approximate a probability of being one class or the other. That is: 
+
+\begin{equation}
+\begin{split}
+    \ln(\frac{p}{1-p}) = mx + b        
+\end{split}
+\end{equation}
+
+We take the ratio of $p$ to $1-p$ to ensure it remains in the range of $\{0,1\}$. We use $\ln$ here to ensure the value never goes negative, as the slope can be positive or negative. Therefore, we can get: 
+
+\begin{equation}
+\begin{split}
+    \frac{p}{1-p} &= e^{mx + b} \\
+    p &= \pr{1-p}e^{mx + b} \\
+    p &= \pr{\frac{e^{mx+b}}{1 + e^{mx+b}}} \cdot \frac{e^{-(mx+b)}}{e^{-(mx+b)}} \\
+    p &= \pr{\frac{1}{1 + e^{-(mx+b)}}} \\
+\end{split}
+\end{equation}
+
+This is a sigmoid function, clearly, where the switch between 0 and 1 occurs between two classes. This is considered \textit{simple logistic regression}, and a function that considers many classes is \textit{multi logistic regression}. 
+
+
+
+\subsubsection{SVM.}
+
+\textcolor{red}{Try to learn how to find a good hyper plane later.}\newline
+
+Support vector machines (SVM) looks to find a line (in 2D) that best separates data. In multi-dimensions we would be looking for a hyperplane that best separates our data. Broadly, how this works is by finding a plane which separates the data and maximizes the distance between points and the plane. This is the margins of our plane---we want to maximize margins. The vectors which mark the distance between our plane and nearby points are called \textit{support vectors}. A key source of error with SVM is outliers. That is, outliers will greatly change how our plane is drawn.\newline
+
+This method is also immediately off when considering clumps of data interspersed between each other---i.e., data which is not distinctly separable. This can be aided by projecting data onto a different reference plane. For example, one dimensional data, where some class of data is clumped around 0, and another class is clumped in two groups around 10 and -10, clearly cannot have a single line separating them. However, you can transform the data, perhaps by squaring it, and therefore easily find a line separating the two. This is called the \textit{kernel trick}. 
+
+\subsection{Neural Networks}
+
+Neural networks describe layers of neurons, which each have inputs and various weights, which converge and produce an output. Input and output layers can be seen as a series of linear models. An activation function prevents each layers from collapsing into a simple linear model.\newline
+
+You'll recall that the L2 loss function is hyperbolic. Our descent down to the minimum of this loss function is called \textit{gradient descent}. The way to descent toward our minimum loss is as follows: 
+
+\begin{equation}
+    \begin{split}
+        w_{new} = w_{old} + \alpha \cdot \nabla
+    \end{split}
+\end{equation}
+
+Where $w$ is our weight. I'm writing $\nabla$ as the descending gradient, just because I always say \texttt{grad} in my head instead of \texttt{nabla}.\newline
+
+
+\subsection{Linear Regression}
+
+In simple li near regression takes a value of $x$ and gives a prediction for $y$, in accordance with some line of best fit. It's modeled with:
+
+\begin{equation}
+\begin{split}
+    y = b_0 + b_1x \\
+    \mathrm{MAE} = \frac{\sum_i|y_i - \hat{y}_i|}{n}
+\end{split}
+\end{equation}
+
+Where we try to minimize the mean absolute error (MAE). Sometimes we will want to minimize the sum of the squared errors (MSE), which increases the ``penalty" for outliers, so-to-speak. Finally, one can also square root this error, for root mean squared error (RMSE). Linear regression requires assuming linearity, independence, normality, and homoscedasticity (equal variance).\newline
+
+With multiple linear regression, we may aim for something like: 
+
+\begin{equation}
+\begin{split}
+    y = b_0 + b_1x_1 + b_2x_2 + ... + b_nx_n\\
+\end{split}
+\end{equation}
+
+One can measure the strength of prediction by: 
+
+\begin{equation}
+\begin{split}
+    R^2 = 1 - \frac{RSS}{TSS} \\
+    RSS = \sum (y_i - \hat{y}_i)^2 \\
+    TSS = \sum (y_i - \Bar{y})^2 \\
+\end{split}
+\end{equation}
+
+Where we are comparing the error associated with the mean to error associated with the fit. If the fit is quite good, then $R^2\rightarrow 1$. 
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -4476,6 +4643,7 @@ Transection requires surgical severing of the spinal cord. Transection models ma
 The Basso scale\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/16689667/}} has a few variations, such as the Basso, Beattie, Bresnahan (BBB) scale. It is a mode of characterizing injury after SCI in mouse models, specifically in the hindlimbs. You will often see Basso scale comparisons between treatment groups, or as a means to tract recovery over time after SCI. The scale is as follows (directly from the paper): 
 
 \begin{itemize}
+    \itemsep 0em
     \item Rating 0: No ankle movement.
     \item Rating 1: Slight ankle movement. 
     \item Rating 2: Extensive ankle movement. 
@@ -4809,6 +4977,8 @@ Onto the part that matters most. Animals with the scaffolds exhibited significan
 -- literally focuses on glia-neuron growth cone lol \url{https://www.frontiersin.org/articles/10.3389/fnins.2020.00203/full} \\
 -- you \textbf{MUST} read this asap \url{https://www.nature.com/articles/s41586-023-06377-x} 
 
+-- Neuron paper, paresthesia, SCS \url{https://www.cell.com/neuron/pdf/S0896-6273(23)00802-4.pdf}
+
 \chapter{Interfacing with Nerves}
 
 
@@ -5133,27 +5303,6 @@ The operation requires complete anesthesia, placement of the electrode on the ou
 
 Absolutely remarkably, the patient was able to regain some motor control the first time the device was turned on. 
 
-\section{Advancements in Parkinson's Disease}
-
-\subsubsection{Founding Works.}
-
-In large part, tremors induced by PD have already been well solved through deep brain stimulation and high intensity focused ultrasound. However, this paper focuses on some of the non-tremor symptoms of PD, and the idea that one can use spinal cord stimulation to fix degenerative diseases is generally interesting, so let us learn from\footnote{\url{https://www.science.org/doi/10.1126/science.1164901}}.The premise of this experiment is somewhat surprising, as stimulation is often thought to interrupt signals (as is the case in deep brain stimulation for PD, and SCS for neuropathy). In this case, though, they believe SCS \textbf{enhances locomotor signals}. That is, they are not treating PD tremors, but rather are treating PD induced akinesia. Experiments were performed in mice using dopamine-transporter knockout (DAT-KO) as their PD model. They also injected tyrosine hydrolase inhibitor (called AMPT)\footnote{I didn't bother Googling what this is, but intuition would suggest is aids in the conversion of tyrosine to catecholamines.} to further deplete dopamine. Dorsal root stimulation was performed using electrodes into the upper thoracic levels of the spinal cord. The greatest locomotor improvement in locomotion was found at 300 Hz stimulation.\newline
-
-Notably, some hospitals are currently attempting clinical trials for spinal cord stimulation's use in treating Parkinson's. Some efforts include blocking pain and treating akinesia. \textcolor{blue}{Note from future Jackson: When I first read this paper a few months ago, I thought it was a bit silly. It was difficult for me to see why one would attempt this, when DBS is already so powerful. I figured it would go no where. Yet, read on:}
-
-\subsection{SCS-DBS Intersection}
-
-Here we discuss\footnote{\url{https://www.nature.com/articles/s41591-023-02584-1}}. Dr. Ramayya, an MD-PhD neurosurgeon I had the pleasure of talking to, commented that after seeing this work his first thought was ``you don't have to be the best at everything." Indeed, this work is so awe inspiring that it makes one question their place in the field.\newline
-
-DBS treats a very small subset of symptoms associated with PD. Because of the success of EES in treating SCI, these groups wondered if a similar feat can be accomplished in PD patients. The first bit of this work was done in an NHP model (rhesus macaque). Because of differences in monkey and human mobility, they developed a scoring technique to analyze PD models in NHPs and compare them to human PD symptoms. The preferred PD model for them was administration of MPTP, a drug able to mimic the death of dopamine producing neurons. They compared spinal circuits before and after MPTP and identified ``hot spots" in the spinal cord. In implanting these devices, they stimulated different electrodes in the array in order to test their ability to cause muscle contraction. \newline
-
-After these tests, they then aimed to use a brain-spine-muscle interface as they had in their other foundational works. Microelectrode arrays were inserted into the cortexes of RHPs and were able to regularly decode motor signals. They then furthered this by inserting EMG electrodes into the legs of NHPs\footnote{I am really wondering if some nice code can use this kind of data to iterate and self correct. Need feedback, of course.}. The neuroprosthesis together improved natural movement and posture. Finally, they added DBS to their circuit and found further improvement of movement. \newline
-
-In humans, the ability to decode motor movement may be difficult in people with PD. Therefore, their first step was to recruit participants willing to get electrodes implanted into their cortex for reading their intended movements. They considered this a success and moved forward. They enrolled a patient in their STIMO-PARK clinical trial. The patient already had DBS, but still had some severe symptoms. They used a SCS paddle used in treating pain, connected to an Activa RC IPG, guided in location by CT and MRI. Rather than implanting an ECoG to read the patient's motor cortex, they instead used motion sensors and attempted to read motor intentions and send updated pulses to the stimulator that way. Fascinatingly, DBS and EES seemed to treat different symptoms at times, and act synergistically. That is, DBS${}^{ON}$-EES${}^{OFF}$ showed no improvement in ``fraction of time frozen," while DBS${}^{OFF}$-EES${}^{ON}$ showed total recovery. Their benefits were generally additive, though.\newline
-
-
-Questions: feasibility of this surgery on a large scale---that is, it is a hefty surgery, patients will typically be older, perhaps it sucks a ton of power and thus requires more frequent battery replacements, etc. 
-
 
 \chapter{Brain Stimulation}
 
@@ -5231,7 +5380,7 @@ What is fascinating about reading papers like this is I go into them every time 
 
 At present, I am unsure if reading one's thoughts is a requirement at all for overcoming SCI. I am unconvinced that electrical stimulation controlled by one's brain is better than electrical neurorehabilitation---or if it is better by any measurable margin. In investigating this, I believe the limiting factor in bridging from the stimulation applied by Tator and Minassian is a reliable way to read ones objective through their brain waves. The Lorach \textit{et al.} 2023 solved this using the WIMAGINE system\footnote{\url{https://www.frontiersin.org/articles/10.3389/fnins.2019.00847/full}}. But, let's begin by discussing the options and a bit of history.
 
-\subsection{Different Reading Devices} As you would imagine, there is a tradeoff between the resolution and the damage you will confer upon one's brain. This is described well by Schwartz in 2006, so notably technology may have advanced since then\footnote{\url{https://www.sciencedirect.com/science/article/pii/S0896627306007264}}. The four classes of devices are: 
+\subsection{Different Reading Devices} As you would imagine, there is a tradeoff between the resolution and the damage you will induce on the brain. This is described well by Schwartz in 2006, but notably technology has advanced since then\footnote{\url{https://www.sciencedirect.com/science/article/pii/S0896627306007264}}. The four classes of devices are: 
 \begin{enumerate}
     \itemsep 0em
     \item Electroencephalography (EEG)
@@ -5240,7 +5389,7 @@ At present, I am unsure if reading one's thoughts is a requirement at all for ov
     \item Single Unit AP
 \end{enumerate}
 
-EEGs, naturally, are non-invasive and have a reading range on the order of a few centimeters. ECoG is on the tenths of centimeters level, while LPS is millimeters level. Single unit AP is as the name describes, and reads individual action potentials. EEGs sit far above the cortex, outside of the skull, and ECoG come in contact with it. Both LPS and single unit require the electrodes to be buried within the cortex itself, thus causing damage to the brain tissue. Therefore, EEG is typically preferable, as it does not require surgery. It is highlighted by Schwartz that many negatives can occur long term from invasive procedures, such as degeneration, volume displacement, or glial encapsulation. Therefore, it is for this reason that I presume the ability to read ones objective was the limiting factor in progressing the field. \newline
+EEGs, naturally, are non-invasive and have a reading range on the order of a few centimeters. ECoG is on the tenths of centimeters level, while LPS is millimeters level. Single unit AP is as the name describes, and reads individual action potentials. EEGs sit far above the cortex, outside of the skull, while ECoG comes in contact with the cortex by reading from either above or below the dura. Both LPS and single unit require the electrodes be buried within the cortex itself, thus causing damage to the brain tissue. Therefore, EEG is typically preferable, as it does not require surgery. It is highlighted by Schwartz that many negatives can occur long term from invasive procedures, such as degeneration, volume displacement, or glial encapsulation. Therefore, it is likely that reading thoughts is the limiting factor in progressing the field. \newline
 
 For the moment, I will avoid describing individual technologies between the four groups, as it is likely that the tech progresses greatly each year, and it would be pointless to attempt to describe the reading ranges of any without being totally up-to-date. Instead, we will discuss the WIMAGINE in depth here.
 
@@ -5279,21 +5428,46 @@ EEG, being a non-invasive reading technique, is ideal for patients. Notably, uni
 
 Long term investigation and optimization of eye tracking will be helpful for a variety of neurodegenerative diseases, so this is a helpful step in this path. 
 
+\section{The Flagship in Reading Thoughts}
 
-\subsection{WIMAGINE ECoG}
-As the name suggests, the device requires the skull to be torn away and must sit directly upon the dura, above the motor cortex. It features 64 electrodes, and a human patient would need to have two implanted in order to read both sides of one's cortex. The device lacks a bit of the spatial resolution, as it does not directly touch the brain---but it is surely an improvement on current clinical devices.\newline
+Here we'll discuss both Stanford\footnote{\url{https://www.nature.com/articles/s41586-023-06377-x}} and USCF's\footnote{\url{https://www.nature.com/articles/s41586-023-06443-4}} amazing work. The senior author on the first work is Stanford neurosurgeon Dr. Jaimie Henderson, and UCSF neurosurgery chair, Dr. Edward Chang, on the second. 
 
-The device was tested longest in sheep, which was a 10 month trial. Surprisingly, at the end of the 10 month trial, through GFAP staining, they still found a great deal of glial migration/build-up around the site. They did not quantify this, but in my personal opinion, this does not bode well for our patient---as they will have to spend a lifetime with the device. Secondly, calcification of the skull over the device had begun. This is not inherently surprising, and perhaps is a good sign that the bone was not irreversibly damaged. However, as the device is wirelessly charged, and wirelessly transmits brain information, one must wonder how years of calcium buildup may impact the ability to send or receive information. Too, if the technology needs a dust-up, the surgeons will have to re-destroy these calcified layers. There is quite a lot of fuss made about the fact that the device is wireless, and how it was a decision made to best serve patient comfort. But, in my opinion, it may spell out more long-term harm than good. It is not clear to me yet whether the $8\times 8$ resolution of the electrodes is sufficient to delineate all necessary information. Though, this is the trade-off one must make in choosing between EEG, ECoG, and LPS. The WIMAGINE system digitizes information with 12 bits of resolution. Data is processed through pwelch spectral analysis. From what I can gather, this is simply another implementation of the FFT. 
+\subsubsection{Henderson.}
 
+To begin, the problem: those with ALS lose much more than just their ability to walk. In many instances, they lose their ability to speak and interact with the world. The patient in this study was unable to vocalize intelligibly, but retained some ability to move their face and produce noise\footnote{Somehow this patient is involved in BrainGate2, but it isn't clear to me how.}. Microelectrode arrays, $3.2 \times 3.2 \mathrm{mm}^2$, were placed into their area 6v (ventral premotor cortex) and their area 44 (a section of Broca's area). Neural activity in area 6v corresponded with different facial movements, which they characterized using naive Bayes (see section \textbf{\ref{sec:naivebayes}}). They used approx. 30 orofacial movements (92\% accuracy), and 40 phonemes (62\% accuracy), and 50 words (94\% accuracy). Area 44 was less helpful in discriminating words, and therefore was not used in further study\footnote{I include this only to say that this is very interesting! It is surprising that they could go so far as to implant the electrode array, and it end up not being very helpful.}. The two arrays placed into area 6v gave different, but both helpful information regarding movement and speech production.\newline
+
+Their Neural Net outputs a probability once every 80ms\footnote{I still think this will be a problem in the future. In this case, it is likely fine, but for the BSIs, it seems insufficient as it is bordering on slower than the average human reaction time.}. Notably, it must be retrained regularly, as neural changes occur even on an intra-day level. After a training period of approximately a week, the model could predict, in a 50-word vocabulary, with a 9.1\% error rate. On a 125,000 word vocabulary, it was 23.8\% error rate---thus, there remains room for improvement. Such error rates were slightly worse when the patient was silent (vs. when attempting to vocalize) and at a rate of approximately 60 words per minute. Offline testing showed significant improvement in decoding, with errors reaching closer to 10\%---thus, thus suggests room for optimization. They also make the claim that doubling the number of electrodes will half the error rate. \newline
+
+In analyzing phonemes, they vectorized electromagnetic articulography data. This is essentially the mapping of facial movements together with phonemes---which is particularly difficult, as it was impossible to discern the exact attempted phonemes of this patient as they could not speak ineligibly. Thus, they based their data primarily off of able bodied patients at first. They compared this data with neural representations and with their patient, and determined that the so-called ``articulatory code" for phonemes is preserved. 
+
+\subsubsection{Chang.}
+
+Here, an ECoG on the articulatory vocal-tract is used on a patient with severe paralysis induced by a brain stem stroke. They achieve a median word rate of 78 per minute and an error of 25\%, on par with the previous paper. The ECoG had 253 electrodes and was placed over the sensorimotor cortex and superior temporal gyrus---regions involved in orofacial movements.\newline 
+
+Training was performed by presenting the patient with a phrase with which they would attempt to say, but were unable to due to paralysis. High frequency signals (called high gamma activity, and with a frequency of 70 to 150Hz) and low frequency signals (around 0.3 and 17Hz) were extracted (see chapter \textbf{\ref{sec:filters}} to review). A considerable trouble was that, like the previous patient, no ground truth exists for their speech. Therefore, proper timing information for phoneme production is unknown. To get around this, they used a connectionist temporal classification (CTC) loss function and attempted to map the timing.\newline
+
+Decoding speech from brain waves was done on the basis of predicting the probability of 39 phones and silence in a recurrent neural network. Interestingly, they showed that the greatest source of error was the RNN, rather than the CTC. They also demonstrated very minimal increased in error rate after 61 days between tests, which showed that the training is robust and neural differences in these months was minimal. \newline
+
+The final thing they did was synthesize speech audibly using a speech representation learning model called HuBERT. They similarly rendered a 3D avatar to emit the speech from in order to convey additional emotional complexity. The avatar's movements were driven by articulatory-movement attempts via recordings from the precentral and postcentral gyri---and recordings from the postcentral gyrus were key to decoding. 
+
+
+%%%%%%%%%%%%%%%
 
 \chapter{Synthesis}
 
 The purpose of synthesizing the aforementioned parts together to create a brain-machine interface is so that you may skip over the injury altogether, and transmit from brain to body. 
 
 
-\section{Lorach et al. 2023} 
-\subsection{Overview} This is the most recent iteration of an ongoing project by the Courtine group. The group used surgical implantation into the skull, over the motor cortex, to record patient movements and wirelessly transmit this to the spinal cord. The technology used to capture these electrocorticographic (ECoG) signals is the WIMAGINE. The design features two antennas, and the second of which transmits motor signals that are to be decoded and sent to a pulse generator. The pulse generator is ACTIVA RC, the same that is used in deep brain stimulation (DBS) or pacemakers in the heart. There is no mention of having the patient replace this in future years, but my assumption is that a new battery will require a new surgery in years to come. 
+\section{The Flagship Brain-Spine-Muscle Interface} 
+\textcolor{red}{This section needs to be improved greatly. I wrote this about 7 months ago, back when I was much dumber.}
 
+
+\subsection{Overview} Here we discuss 2023's quintessential work\footnote{\url{https://www.nature.com/articles/s41586-023-06094-5}}.  The group used surgical implantation into the skull, over the motor cortex, to record patient movements and wirelessly transmit this to the spinal cord. The technology used to capture these electrocorticographic (ECoG) signals is the WIMAGINE. The design features two antennas, and the second of which transmits motor signals that are to be decoded and sent to a pulse generator. The pulse generator is ACTIVA RC, the same that is used in deep brain stimulation (DBS) or pacemakers in the heart. There is no mention of having the patient replace this in future years, but my assumption is that a new battery will require a new surgery in years to come. 
+
+\subsection{WIMAGINE ECoG}
+I'll briefly discuss the ECoG used\footnote{\url{https://www.frontiersin.org/articles/10.3389/fnins.2019.00847/full}}. As the name suggests, the device requires the skull to be torn away and must sit directly upon the dura, above the motor cortex. It features 64 electrodes, and a human patient would need to have two implanted in order to read both sides of one's cortex. The device lacks a bit of the spatial resolution, as it does not directly touch the brain---but it is surely an improvement on current clinical devices.\newline
+
+The device was tested longest in sheep, which was a 10 month trial. Surprisingly, at the end of the 10 month trial, through GFAP staining, they still found a great deal of glial migration/build-up around the site. They did not quantify this, but in my personal opinion, this does not bode well for our patient---as they will have to spend a lifetime with the device. Secondly, calcification of the skull over the device had begun. This is not inherently surprising, and perhaps is a good sign that the bone was not irreversibly damaged. However, as the device is wirelessly charged, and wirelessly transmits brain information, one must wonder how years of calcium buildup may impact the ability to send or receive information. Too, if the technology needs a dust-up, the surgeons will have to re-destroy these calcified layers. There is quite a lot of fuss made about the fact that the device is wireless, and how it was a decision made to best serve patient comfort. But, in my opinion, it may spell out more long-term harm than good. It is not clear to me yet whether the $8\times 8$ resolution of the electrodes is sufficient to delineate all necessary information. Though, this is the trade-off one must make in choosing between EEG, ECoG, and LPS. The WIMAGINE system digitizes information with 12 bits of resolution. Data is processed through pwelch spectral analysis. From what I can gather, this is simply another implementation of the FFT. 
 
 \subsection{Shortcomings} The three shortcomings explicitly mentioned in the \textbf{Introduction} are that \textbf{(1)} one using this BSI must have motion sensors on in order to compensate (a sort of PID controller, perhaps),  \textbf{(2)} that the patient's movement was not perceived as natural, and \textbf{(3)} that there was still considerable hurdles in traversing variable terrain. Many more shortcomings exist than this, and we will go through them below.
 
@@ -5342,6 +5516,35 @@ Data is processed and used to edit the probability distribution of a Markov chai
 \end{center}
 
 Notably, they did not explicitly mention that one of the progressions could be from state to self state, but one can only assume this is true. So too, only seven states seems to limit the mobility of a patient.
+
+
+
+
+
+\section{The Flagship in Synthesis}
+
+\subsubsection{Founding Works.}
+
+In large part, tremors induced by PD have already been well solved through deep brain stimulation and high intensity focused ultrasound. However, this paper focuses on some of the non-tremor symptoms of PD, and the idea that one can use spinal cord stimulation to fix degenerative diseases is generally interesting, so let us learn from\footnote{\url{https://www.science.org/doi/10.1126/science.1164901}}.The premise of this experiment is somewhat surprising, as stimulation is often thought to interrupt signals (as is the case in deep brain stimulation for PD, and SCS for neuropathy). In this case, though, they believe SCS \textbf{enhances locomotor signals}. That is, they are not treating PD tremors, but rather are treating PD induced akinesia. Experiments were performed in mice using dopamine-transporter knockout (DAT-KO) as their PD model. They also injected tyrosine hydrolase inhibitor (called AMPT)\footnote{I didn't bother Googling what this is, but intuition would suggest is aids in the conversion of tyrosine to catecholamines.} to further deplete dopamine. Dorsal root stimulation was performed using electrodes into the upper thoracic levels of the spinal cord. The greatest locomotor improvement in locomotion was found at 300 Hz stimulation.\newline
+
+Notably, some hospitals are currently attempting clinical trials for spinal cord stimulation's use in treating Parkinson's. Some efforts include blocking pain and treating akinesia. \textcolor{blue}{Note from future Jackson: When I first read this paper a few months ago, I thought it was a bit silly. It was difficult for me to see why one would attempt this, when DBS is already so powerful. I figured it would go no where. Yet, read on:}
+
+\subsection{SCS-DBS Intersection}
+
+Here we discuss\footnote{\url{https://www.nature.com/articles/s41591-023-02584-1}}. Dr. Ramayya, an MD-PhD neurosurgeon I had the pleasure of talking to, commented that after seeing this work his first thought was ``you don't have to be the best at everything." Indeed, this work is so awe inspiring that it makes one question their place in the field.\newline
+
+DBS treats a very small subset of symptoms associated with PD. Because of the success of EES in treating SCI, these groups wondered if a similar feat can be accomplished in PD patients. The first bit of this work was done in an NHP model (rhesus macaque). Because of differences in monkey and human mobility, they developed a scoring technique to analyze PD models in NHPs and compare them to human PD symptoms. The preferred PD model for them was administration of MPTP, a drug able to mimic the death of dopamine producing neurons. They compared spinal circuits before and after MPTP and identified ``hot spots" in the spinal cord. In implanting these devices, they stimulated different electrodes in the array in order to test their ability to cause muscle contraction. \newline
+
+After these tests, they then aimed to use a brain-spine-muscle interface as they had in their other foundational works. Microelectrode arrays were inserted into the cortexes of RHPs and were able to regularly decode motor signals. They then furthered this by inserting EMG electrodes into the legs of NHPs\footnote{I am really wondering if some nice code can use this kind of data to iterate and self correct. Need feedback, of course.}. The neuroprosthesis together improved natural movement and posture. Finally, they added DBS to their circuit and found further improvement of movement. \newline
+
+In humans, the ability to decode motor movement may be difficult in people with PD. Therefore, their first step was to recruit participants willing to get electrodes implanted into their cortex for reading their intended movements. They considered this a success and moved forward. They enrolled a patient in their STIMO-PARK clinical trial. The patient already had DBS, but still had some severe symptoms. They used a SCS paddle used in treating pain, connected to an Activa RC IPG, guided in location by CT and MRI. Rather than implanting an ECoG to read the patient's motor cortex, they instead used motion sensors and attempted to read motor intentions and send updated pulses to the stimulator that way. Fascinatingly, DBS and EES seemed to treat different symptoms at times, and act synergistically. That is, DBS${}^{ON}$-EES${}^{OFF}$ showed no improvement in ``fraction of time frozen," while DBS${}^{OFF}$-EES${}^{ON}$ showed total recovery. Their benefits were generally additive, though.\newline
+
+
+
+
+
+
+
 
 
 
@@ -5695,18 +5898,6 @@ G8 is not the HD gene, but it is certainly close to it!
 \subsubsection*{Implications} 
 
 This had considerable implications, as you can now test haplotypes of offspring and predict if they'd get HD. Moving forward, more markers and more segregation analysis will be helpful in narrowing down the gene. Then, you have to start sequencing nearby genes.  
-
-
-
-\subsubsection*{Questions}
-
-\textit{What insight allowed them to map a gene by RFLPs?} \textcolor{blue}{Polymorphisms in RFLPs allowed them to test using restriction enzymes and map different lengths via southern blotting. This was beneficial as they were heritable and could be found in regions that were not protien coding.}
-
-\textit{how many DNA probes did they use to detect RFLPs before they found an association?} \textcolor{blue}{12?}
-
-\textit{What does it mean that the haplotype of the two families with HD are different?} \textcolor{blue}{They're at different locations on the chromosome?}
-
-\textit{They don't have the gene so of what use is a piece of DNA linked to the HD gene?} \textcolor{blue}{A jumping off point to start sequencing.}
 
 \subsection*{HDRCG 1993}
 
