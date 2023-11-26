@@ -3932,6 +3932,15 @@ One can measure the strength of prediction by:
 Where we are comparing the error associated with the mean to error associated with the fit. If the fit is quite good, then $R^2\rightarrow 1$. 
 
 
+\section{Unsupervised Learning}
+
+Now, we'll move on to unsupervised learning!
+
+\subsection{K-means Clustering}
+
+K-means clustering attempts to compute $k$ clusters within the data. $k$ is a predefined number. If $k = 3$, you will chose 3 random points (centroids) on the data and compute the distance from all points to each centroids. We then determine the closest centroid for each point, classify all points by their centroid, then determine the average location (or mean) of each data point per centroid. We then use these means as our new centroids and repeat the process. This allows us to progressively nail down the center of each cluster.\newline
+
+This process, which iterates until some stable equilibrium is reached, is called \textit{expectation-maximization}. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -5677,7 +5686,7 @@ One such topic is that of neurodegeneration. Naturally, there are not many direc
 
 \chapter{Neurodegeneration}
 
-This is more of a historical dive into the research, because so much of what we know about neurodegenerative diseases is likely wrong, overstated, or misinterpreted. You will hear some, like Dr. Rothstein at JHU, argue that there is a viral component. There is many fascinating theories and little agreement. You will hear some, like the Wallace lab at Penn, claim that Alzheimer's is due to mitochondrial dysfunction and not aggregated.  So for now, let's call this a historical work.\newline
+This is more of a historical dive into the research, because so much of what we know about neurodegenerative diseases is likely wrong, overstated, or misinterpreted. There are many fascinating theories and little agreement. You will hear some, like Dr. Rothstein at JHU, argue that there is a viral component. You will hear some, like the Wallace lab at Penn, claim that Alzheimer's is due to mitochondrial dysfunction and not aggregation. So for now, let's call this a historical work.\newline
 
 \textcolor{red}{This is all extremely messy and disgusting for the moment. Will clean up later (hopefully).}\newline
 
