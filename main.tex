@@ -2457,7 +2457,9 @@ What does it mean to digitize a signal? A digital signal is composed of discrete
 
 Since we are also biologists, a great question to ask is: is digital signals relevant in biological systems? The answer, of course, is yes. Neurons really are, for all intents and purposes, transistors. Neurons are digitizers. If you were to take a graded potential being received by mechanosensitive channels at the tip of the toe, do you think it could make it up to the brain without some degradation? How could you ensure the strength of the signal is not lost as it propagates up the spinal cord and onto the brain? Well, as you know, neurons are either (simplifying a bit here) on or off, meaning the ``strength" is lost on an individual action potential, so therefore it is encoded by frequency. Higher frequency firing, more neurotransmitter release, and a stronger response in the brain---neural circuits are analog to digital converters in the body. 
 
+\section{FETs}
 
+Modern electronics use field effect transistors (FETs), as opposed to BJT transistors. FETs have the equivalent prongs, except that they're labeled gate, drain, and source as opposed to base, collector, and emitter. FETs, in large part, can be thought of as significantly more powerful BJTs. That is, while BJTs have some small current traveling from base to emitter, FETs have (essentially) zero current from gate to source. Rather than having something like a diode drop, FETs have a minimum voltage (a $V_{threshold}$) where they become active. Thus, if you were to make a push-pull out of FETs, you'd instead see a ``diode drop" equivalent to the $V_{threshold}$---which is usually much higher than $0.7\V$, thereby meaning the crossover distortion observed will be worse. 
 
 
 
@@ -2469,7 +2471,7 @@ Since we are also biologists, a great question to ask is: is digital signals rel
 %%%%%%%%%%%%%%%%%%%%
 \chapter{Writing Hardware}
 
-\section{Introduction}
+\subsection{Introduction}
 
 Verilog\footnote{A large part of the background information and general syntax comes from the YouTube channel: CompArchIllinois.} is a language used to describe electronics, and allows you to avoid the physical action of wiring. This is the reason for the designation \textbf{writing hardware}. In this way, you can pick your poison: debugging code, or debugging breadboards. Importantly, though, Verilog is capable of computation and writing data files that go beyond circuit descriptions. Thus, it is not a ``markdown" language and is Turing Complete\footnote{Or at least, I think it is. I can never remember the exact definition of Turing Complete :)}.\newline
 
@@ -2540,7 +2542,7 @@ endmodule
 \end{lstlisting}
 \bs
 
-Firstly, note that Verilog is 0 indexed, so $[3:0]$ includes 4 wires. In a circuit schematic, busses are drawn as thicker wires with a slash through them and a number denoting the amount of wires in the bus. If we wanted to call individual wires from our busses into the \lst{andgate} module we declared earlier, we could do it as: 
+Firstly, note that Verilog is 0 indexed, so \texttt{[3:0]} includes 4 wires. In a circuit schematic, busses are drawn as thicker wires with a slash through them and a number denoting the amount of wires in the bus. If we wanted to call individual wires from our busses into the \lst{andgate} module we declared earlier, we could do it as: 
 
 \bs 
 \begin{lstlisting}
@@ -2647,7 +2649,72 @@ endmodule
 \end{lstlisting}
 \bs
 
-Here, \texttt{q\_reg} updates to the state of \texttt{d} at the positive edge (\textcolor{blue}{\texttt{posedge}}) of every \texttt{clk} cycle. \texttt{reg} is like a wire which can maintain a state. 
+Here, \texttt{q\_reg} updates to the state of \texttt{d} at the positive edge (\textcolor{blue}{\texttt{posedge}}) of every \texttt{clk} cycle. \texttt{reg} is like a wire which can maintain a state (or rather it is like a flip-flop). We can add an additional layer of complexity with an \texttt{enable} feature, which allows \texttt{q} to update only when \texttt{enable} is on. For example, with the updated: 
+
+\bs 
+\begin{lstlisting}
+    always @ (posedge clk) if (enable) q_reg <= d;
+\end{lstlisting}
+\bs
+
+This sort of thing is useful, for example, as a counter. You can imagine that d-type flip flops could be used to store the state and update on a clock cycle only if the previous bits are all on, except for the first bit, which is always enabled. 
+
+
+
+\subsection{Multiplexers}
+
+A ternary operator is a step beyond regular logic. It allows us to switch between two values, depending on if some other value is higher or low. For example:
+
+\bs 
+\begin{lstlisting}
+module multiplexer (output O, input I, input A, input B)
+    assign O = (S ? A : B)
+    // alternatively, we could write: 
+    // O[3:0] = (I ? A[3:0] : B[3:0])
+    // for multi-digit outputs
+endmodule
+\end{lstlisting}
+\bs
+
+\texttt{O} here evaluates to \texttt{A} or \texttt{B} depending on if \texttt{S} (select) is 1 or 0.\newline
+
+A super (!) cool trick we can use to define a single module with multiple uses would be as follows: 
+
+\bs 
+\begin{lstlisting}
+module multiplexer #(parameter N=1)(
+    output [N-1:0] O, 
+    input S, 
+    input [N-1:0] A, 
+    input [N-1:0] B
+)
+    assign O[N-1:0] = (S ? A[N-1:0] : B[N-1:0])
+endmodule
+
+wire [2:0] output, a, b; 
+multiplexer #(3) multi1 (output, select, a, b); 
+\end{lstlisting}
+\bs
+
+Here, you can see that the parameter \texttt{N} is variable, thus meaning \texttt{multiplexer} can be variably defined. Very neat!\newline
+
+Another neat trick is that, instead of feeding in inputs and outputs by their position in the arguments, you can do it explicitly by name. This avoids accidentally wiring things together that should not be, when keeping a consistent naming convention may be difficult. It is see (following from the previous example) as: 
+
+\bs 
+\begin{lstlisting}
+wire [2:0] output, a, b; 
+multiplexer #(.N(3)) multi1 (.O(output), .S(select), .A(a), .B(b)); 
+\end{lstlisting}
+\bs
+
+Here, the order that you add them is irrelevant as the extension will properly map the two, allowing you to evade conventions.\newline
+
+\subsection{Memory.}
+
+Extending from the multiplexers in the previous section, suppose you have a set of 256 vectors, each containing 16 bits. Using an 8 bit \texttt{select} key, you can choose any of these vectors and output them accordingly. This is a \textbf{read-only memory (ROM)}. 
+
+
+
 
 
 
@@ -3792,7 +3859,9 @@ Finally, we can calculate binary cross-entropy loss. Without diving in to the fo
 
 One could also compute by accuracy. 
 
-\subsection{Models}
+\section{Supervised Learning}
+
+\subsection{Various Models}
 
 \subsubsection{KNN.}
 One model is called K-nearest neighbors (KNN). Suppose you have a set of binary classifications plotted on an X-Y graph. For example, you plot the relation between years spent in school and the money someone earns per year, and your binary classification is whether or not they own a home. You could compute the distance (on the plot) between nearby points. Suppose you take $k = 3$, to find the 3 nearest neighbors. If all of the nearest neighbors to a point is that one owns a home, you'd predict that such a point is also a home owner. If it is ambiguous, you'd predict via the minimum distance between each class and that point. 
@@ -3936,11 +4005,16 @@ Where we are comparing the error associated with the mean to error associated wi
 
 Now, we'll move on to unsupervised learning!
 
-\subsection{K-means Clustering}
+\subsubsection{K-means Clustering.}
 
 K-means clustering attempts to compute $k$ clusters within the data. $k$ is a predefined number. If $k = 3$, you will chose 3 random points (centroids) on the data and compute the distance from all points to each centroids. We then determine the closest centroid for each point, classify all points by their centroid, then determine the average location (or mean) of each data point per centroid. We then use these means as our new centroids and repeat the process. This allows us to progressively nail down the center of each cluster.\newline
 
-This process, which iterates until some stable equilibrium is reached, is called \textit{expectation-maximization}. 
+This process, which iterates until some stable equilibrium is reached, is called \textit{expectation-maximization}. Then, if a new point arises, you can quickly classify it by how close it is to each of the three centroids. 
+
+
+\subsubsection{Principal Component Analysis.}
+
+This is a dimensionality reduction technique. A \textit{principal component} refers to the component or direction with the greatest variance---which will tell us the greatest about our data set. It is projecting our data onto a new dimension with high variance. This is also the line that minimizes the residuals (from our current point and the newly projected point). 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -4297,7 +4371,7 @@ The cornea is the outermost layer, the pupil changes in size to let in more or l
 
 The right visual field of both eyes going to the left visual cortex, and the opposite for the left visual field. This information is transmitted down the optic nerves, intersects at the optic chiasm, continues down the optic tracts, is trafficked through the lateral geniculate nucleus [probably don't need to know that] of the thalamus, and onto the visual cortex in the occipital lobe.\newline
 
-As briefly mentioned earlier, the macula is the central region where cones are, and at the center of that is the fovea. Rods are more densely populated in the outer regions of the retina. Where the optic nerve leaves the retina, there is a blind spot. This is intuitive, because there cannot be rods / cones right at the ``exit" of the eye (recall that the photoreceptors are technically beneath the nerves). At the kind of ``base" of the retina, i.e., the innermost layer, is the pigment epithelium This is useful in absorbing light to prevent scattering and in providing nutrients to the photoreceptors. The next layer is the photoreceptors, i.e., the rods and cones (which differ in both structure and function---rods literally look like rods, and cones literally look like cones). Photoreceptors transmit to interneurons (bipolar cells), which then transmit to retinal ganglion cells. Such transmission is under considerable control by horizontal cells (which are at the synaptic junction between photoreceptors and bipolar cells) and amacrine cells (at the junction between bipolar and retinal ganglia). Such cells are helpful in lateral inhibition. \newline
+As briefly mentioned earlier, the macula is the central region where cones are, and at the center of that is the fovea. Rods are more densely populated in the outer regions of the retina. Where the optic nerve leaves the retina, there is a blind spot. This is intuitive, because there cannot be rods / cones right at the ``exit" of the eye (recall that the photoreceptors are technically beneath the nerves). At the kind of ``base" of the retina, i.e., the innermost layer, is the pigment epithelium. This is useful in absorbing light to prevent scattering and in providing nutrients to the photoreceptors. The next layer is the photoreceptors, i.e., the rods and cones (which differ in both structure and function---rods literally look like rods, and cones literally look like cones). Photoreceptors transmit to interneurons (bipolar cells), which then transmit to retinal ganglion cells. Such transmission is under considerable control by horizontal cells (which are at the synaptic junction between photoreceptors and bipolar cells) and amacrine cells (at the junction between bipolar and retinal ganglia). Such cells are helpful in lateral inhibition. \newline
 
 To understand how photoreceptors operate, first consider rods at rest: cyclic guanine monophosphate (cGMP) levels are high. cGMP binds to cyclic-nucleotide gated (CNG) channels, allowing for influx of positive ions, maintaining a relatively high membrane potential. This leads to the tonic release of neurotransmitters. The structure used to sense light is called rhodopsin, a GPCR in the photoreceptor membrane. It is composed of opsin, a protein, and retinal, a compound derived from Vitamin A. Retinal is able to change conformations (from \textit{cis} to \textit{trans}) upon being hit by light, which alters opsin's structure too. When ``activated by light," opsin decreases production of cGMP through the g-protein transducin. The key oddity here is that neurotransmitters are released in the absence of light, but not when light is present. The difference between rods and cones, in this regard, is that cones express different proteins (pigments) other than rhodopsin that respond preferentially to different wavelengths of light.\newline
 
@@ -4782,6 +4856,8 @@ However, a strange wrinkle arises when considering the Bradke group's work on L-
 \chapter{Metabolism of Neurons}
 
 \section{Programming Mitochondrial Maintenance}
+
+\label{sec:MitochondrialMaintenance}
 
 This is one of my favorite Reviews ever, so I am pleased to write about it\footnote{\url{https://www.sciencedirect.com/science/article/pii/S0896627322002513}}! A key component of this work is discussing the unique structural features of neurons that lead to trouble trafficking mitochondria and meeting injury needs after injury or in degeneration. An incredible amount of energy is consumed by the brain (20\% of total body consumption), and approximately 1,000,000 molecules of ATP are used per action potential in an effort to restore ionic concentrations alone. Around 20,000 molecules of ATP are used per synaptic vesicle recycles, and its predicted that the concentration of ATP in the presynaptic terminal is around 2mM.
 
@@ -5542,7 +5618,7 @@ Notably, some hospitals are currently attempting clinical trials for spinal cord
 
 Here we discuss\footnote{\url{https://www.nature.com/articles/s41591-023-02584-1}}. Dr. Ramayya, an MD-PhD neurosurgeon I had the pleasure of talking to, commented that after seeing this work his first thought was ``you don't have to be the best at everything." Indeed, this work is so awe inspiring that it makes one question their place in the field.\newline
 
-DBS treats a very small subset of symptoms associated with PD. Because of the success of EES in treating SCI, these groups wondered if a similar feat can be accomplished in PD patients. The first bit of this work was done in an NHP model (rhesus macaque). Because of differences in monkey and human mobility, they developed a scoring technique to analyze PD models in NHPs and compare them to human PD symptoms. The preferred PD model for them was administration of MPTP, a drug able to mimic the death of dopamine producing neurons. They compared spinal circuits before and after MPTP and identified ``hot spots" in the spinal cord. In implanting these devices, they stimulated different electrodes in the array in order to test their ability to cause muscle contraction. \newline
+DBS treats a very small subset of symptoms associated with PD. Because of the success of EES in treating SCI, these groups wondered if a similar feat can be accomplished in PD patients. The first bit of this work was done in an NHP model (rhesus macaque). Because of differences in monkey and human mobility, they developed a scoring technique to analyze PD models in NHPs and compare them to human PD symptoms. The preferred PD model for them was administration of MPTP (see section \textbf{\ref{sec:PDDegeneration}}!), a drug able to mimic the death of dopamine producing neurons. They compared spinal circuits before and after MPTP and identified ``hot spots" in the spinal cord. In implanting these devices, they stimulated different electrodes in the array in order to test their ability to cause muscle contraction. \newline
 
 After these tests, they then aimed to use a brain-spine-muscle interface as they had in their other foundational works. Microelectrode arrays were inserted into the cortexes of RHPs and were able to regularly decode motor signals. They then furthered this by inserting EMG electrodes into the legs of NHPs\footnote{I am really wondering if some nice code can use this kind of data to iterate and self correct. Need feedback, of course.}. The neuroprosthesis together improved natural movement and posture. Finally, they added DBS to their circuit and found further improvement of movement. \newline
 
@@ -6315,5 +6391,77 @@ This gene is now part of the common disease haplotype that characterizes ALS. Ag
 
 Another fascinating thing to note is this mutation can confer both FTD or ALS, or both. Different family trees seem to be biased toward one disease or another, suggesting more genetic factors are involved, or environmental factors. Because of the similarity in this haplotype, and the localization to certain countries, it's thought that this repeat expansion may have originated in Europe from Viking times. I.e., it's possible this repeat expansion occurred only once. 
 
- 
+
+\subsection{Mori et al. 2013}
+
+The overview of this work is that the aberrant RNA is getting translated into incorrect proteins. Hairpin formation can lead to the incorrect recruitment and initiation of translation. This is called RAN---repeat associated non-AUG translation. The G4C2 repeats found in ALS are capable of forming both hairpins and quadraplexes. Interestingly, it's possible for translation to occur on non-AUG, but on similar codons. This is typically seen under stress or in abnormal conditions.\newline
+
+
+C9orf72 patients are seen as having additional, non-TDP-43 inclusions. Such inclusions are marked by ubiquitin and p62, suggesting they are targeted for degradation and might additionally induce autophagy. Based on the sequence of C9orf72, it's unclear where the ribosome may be tacking on and initiating translation. Based upon where translation initiates, however, there will obviously be different proteins made, especially if they are in different reading frames (such possible proteins are called GA, GP, and GR). Interestingly, all predicted proteins would be very hydrophobic, suggesting a possible disease mechanism. Regardless, the group raised antibodies to different possible proteins. Using variable length sequences made from well designed PCR primers, they synthesized proteins of different lengths. They found GA expressed over a range of lengths, GP expressed only at the longest lengths, and GR never expressed. Therefore, this mechanism must lead an odd intron to be removed from the nucleus and somehow transcribed differently depending on the length. However, when you use a filter trap to remove aggregated protein, you find GA, GR, and GP. \newline
+
+
+
+\section*{Prion Diseases}
+
+\subsection*{Overview}
+
+Prions are transmissible diseases. They can be ``caught" in that way. Prions confer what's called transmissible spongiform encephalopathy (TSE). Initially, a scrapie epidemic was kind of ``kick started" by the attempts to treat sheep with a vaccine. It was noted that the scrapie virus, as it was known then, could not be treated via a vaccine. A second historical example was the Kuru epidemic, where women and children started experiencing degeneration, but no obvious genetic pattern or route of transmission was clear. Anthropologists postulated it was due to their consumption of human brain tissue, which only women and children did. Notably, the phenotype of the Kuru people and of sheep with Scrapie was similar in both behavior and neuropathology. Gajdusek then tried to inject the Kuru tissue directly into chimps to see if they'd develop the disease, and indeed they did, winning him the Nobel Prize.\newline
+
+In humans, Cruetzfeldt-Jakob disease, especially iCJD and vCJD, are the prime types of transmissible prion disease---the first from contaminated medical devices and the second from eating cows. For example, long ago it was common to take dura mater from cadavers and transplant it onto individuals without properly formed dura mater. Similarly, growth hormone was regularly purified from cadavers, which also induced prion disease. \newline
+
+Initial rounds of testing showed that normal things, like boiling, UV, radiation, autoclaving, etc., which could normally cure viruses, were ineffective in killing prions. Sick animal tissue is never sold for human consumption. However, such tissue may be used, sterilized, and then sold for making feed for other animals. However, prions cannot be sterilized, meaning this enabled the transfer to other animals.\newline
+
+So, prions can be infective in a variety of way. Ingestion, clearly, is one. Injection, clearly, is also one. And, finally, experimentally is one. And, this can occur between species.\newline
+
+Prusiner, in 1982, suggested that prions may indeed not be virus at all. Perhaps they are protein only, which is now called the \textit{protein only hypothesis}, which led to an initially controversial Nobel Prize (few accepted this hypothesis!). Prusiner determined that prions cannot be eliminated by proteases, and that their sequence is shared among all humans---therefore, it is infectious and yet endogenous. 
+
+\subsection*{Medori et al. 1992}
+
+Familial prion disease is mysterious. All mutations were found in the PrP gene, yet they present very differently. The prion protein is quite small---only on the order of 300 amino acids. It's predicted to be membrane linked. Interestingly, there are many polymorphisms that are not disease-causing, per se. Rather, once one has the disease, it can confer different phenotypes. Protease K is a common assay to destroy protein. Interestingly, prion disease patients show a persistant band, even after exposure to PK.\newline
+
+Interestingly, both different families all presented with D178N mutation. However, whether or not they have a M129V mutation determines how their symptoms present.\newline
+
+In this world, \textbf{prion strains} refer to the different conformations of the prion protein, and the disease phenotype they confer. 
+
+\subsection*{Telling et al. 1996}
+
+\subsubsection*{Overview}
+
+This is considered a landmark paper because it helps to prove that different prion diseases are due to different conformations of the same gene. $PrP^C$ is used to write the WT protein, and $PrP^{SC}$ is the ``scrapie" form. In other words, this denotes the spontaneous change from an alpha helical protein to a very stable, beta-pleated sheet protein---this event occurring spontaneously is incredibly rare in WT. The big open question was how there can be different diseases associated with the same, general pathogenic origin. The hypothesis was that there are many conformations of the same prion protein. 
+
+\subsubsection*{Figure 1}
+
+Note that the mice are all expressing the same, controlled protein. Therefore, these injected prions must be templating differently onto the endogenous proteins---thereby generating different strains. An essential component here is that these animals, when injected with the misfolded protein, require the endogenous $PrP$ gene to template onto. 
+All such mice have the same (verified through sequencing) transgene).  Importantly, a ``species barrier" exists between the two, where differences in sequences make it difficult for human prion protein to induce errors in mouse prion protein. Therefore, transgenic mice are be preferred. Figure 1 takes a very small amount of brain tissue from fCJD patients and fatal familial insomnia (FFI) patients and injects them into mice. All protein was first digested with proteinase K to eliminate non-prions. Then, in some lanes of the Western blot, digest protein with PNGase to remove linked oligosaccharides. Comparisons are made between human and mouse brains (mice that were inoculated for with tissue from the human brains, that is). 
+
+\subsubsection*{Fall Out}
+
+Pruisner would go on to win the Nobel Prize in just the next year. It took years for fully synthetic prions to be made and verified, which all but verified the protein only hypothesis.\newline
+
+Meanwhile, Parkinson's disease started becoming treated with implantation of dopaminergic neurons into the third ventricle. Indeed, this helps alleviate some of the PD symptoms. Fascinatingly, though, afterwards the tissue was examined and shocking there was aggregates within the transplanted tissue. Therefore, it's thought that propagation of the disease causing protein, $\alpha$-synuclein, was acting in a prion-like manner. But, it is not a prion disease. How this can be reconcilled will be... discussed later. 
+
+
+\subsection*{Li et al. 2008}
+
+\subsubsection*{Background}
+
+\label{sec:PDDegeneration}
+
+We are digressing now to Parkinson's disease. PD is indeed the second most common neurodegenerative disease, behind only AD. Parkinson's is characterized by Lewy body accumulation, first characterized in 1923. Notably, though, other diseases are characterized by Lewy body formation, like Lewy body dementia. In PD, the substantia nigra is one of the most strongly effected regions of the brain. Lewy bodies were found to stain for $\alpha$-synuclein, a protein which will form fibrils in vitro.\newline
+
+Braak proposed a timecourse for PD where disease seemed to propagate out from the central regions of the brain. It was not clear how credible this description was, as it was initially based on a very small sample size.\newline
+
+Notably, it was originally thought that PD was strictly sporadic, and that there was no genetic component. We now know, of course, that this is untrue. For a disease to be cleanly classified as PD, it requires both symptoms and the Lewy body pathology. A lack of Lewy bodies thus dubs the disease ``Parkinsonism." Recessive genes often result in Parkinsonism, where disease progression may be slower and less severe.\newline
+
+In \textit{Drosophila}, loss of function in mutations like Parkin and Pink1 result in mitochondrial dysfunction. It's thought that PD may impact mitophagy and or mitochondrial turnover (see section \textbf{\ref{sec:MitochondrialMaintenance}}).\newline
+
+Fascinatingly, great insight came from drug addiction in 1982. Synthetic heroin was being made, which resulted in a side product being produced called MPTP. Remarkably, this compound was taken up specifically by dopaminergic neurons in the substantia nigra, and killed them almost immediately. Therefore, these addicts immediately got PD. This has become a very helpful way to generate PD models.\newline
+
+Because treatments like L-dopa have been successful in treating PD, one began to wonder if grafting in dopaminergic neurons would be successful...\newline
+
+Such investigations take a considerable amount of time, and brain tissue could only be analyzed on the order of 10-15 years after grafting. The tissue was taken from fetuses, therefore eliminating the chance of natural PD arising in the grafted neurons. Still, shockingly, Lewy bodies were found in these grafted neurons. This was the first suggestion that Lewy bodies could, somehow, transfer from neuron to neuron.\newline
+
+Braak's investigations went beyond just $\alpha-$syn. Similarly seen things existed for tau. Tau is a hallmark of many different diseases, called tauopathies, and examples include CTE, Pick's diseases, and, canonically, AD. This suggests, that like with prions, tau exhibits different strains that can spread and confer different diseases. Importantly, it does not seem that tauopathies are transmissible like prion diseases. Indeed, some of the greatest PD models, which came from the Virginia Lee group, were from injecting human $\alpha$-syn into mice. Prion researchers disagree that these are prion diseases, specifically because they are not transmissible, so some call it ``trans-synaptic spreading" diseases instead. 
+
+
 \end{document}
