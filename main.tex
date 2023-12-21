@@ -387,6 +387,9 @@ The IV curve across a light emitting diode (LED) should look something like this
 The IV curve for a diode, like an LED, is exponential in that the current slowly increases after the voltage across a diode hits some ``threshold," after which the current rises exponentially with voltage. Why is this the case? A diode is a P-N junction bridged by some depletion zone. The P side of the diode contains positively charged elements that act as ``holes" (a silly way to say there is an absent electron position). The N side contains elements whose outer layers are loosely filled with electrons (i.e., low ionization energy). Effectively, the P side is devoid of electrons, while the N side has many free to give. What does this mean with regard to current and voltage? It means that the ``depletion zone" between the two requires electrons to be able to bridge the gap. This really can't happen unless they have a certain amount of energy, so increasing the voltage helps reach the ``threshold" energy requires to pass the depletion zone (think of $P = IV$). Thus, as the electrons somewhat saturate the diode, you can theoretically pass an infinite current through it, as it will be effectively a short circuit. 
 
 \section{Resistor Lattice Digression}
+
+\label{sec:resistorlattice}
+
 One issue with modern BSIs is the usage of ECoGs, or EEGs, or other large measuring devices\footnote{This is expanded on in the later parts.}. Too, they are almost universally hard electronics that require intense surgeries to implant. Therefore, if we could replace with soft electronics, we can cover considerable ground. For example, if one could drill a small hole into a patient's skull and spread over the cortex a fabric that contained electrodes, one could achieve a similar amount of readings with a minimally invasive surgery. It is probable that there will be electrodes small enough to accomplish this, but let's say there aren't. Another way that this could be solved is using a lattice of resistors, with probes at either corner. These corners can exit the brain and be the points at which a computer interfaces with them.\newline
 
 Don't be annoying, just go with the process. 
@@ -2455,11 +2458,113 @@ One slight issue you may encounter is an annoying fuzz on the output. This may b
 
 What does it mean to digitize a signal? A digital signal is composed of discrete units---in electronics, that would typically be transistors. That is, transistors are either on or off, and if you wanted to ``digitize" a voltage, you could use transistors, each supplying some small voltage, that sum together at $\Vo$. But, why would you want to digitize a signal? Don't you lose some information by storing values in discrete increments? Perhaps, but digital signals are great for preventing signal degradation. For example, if you were to transmit an analog signal long distances, passing between different detectors and emitters, then this signal may degrade or become warped. However, if your signal is digitized to some binary value, equating to $5.0\V$ on the dot, it won't degrade. \newline
 
-Since we are also biologists, a great question to ask is: is digital signals relevant in biological systems? The answer, of course, is yes. Neurons really are, for all intents and purposes, transistors. Neurons are digitizers. If you were to take a graded potential being received by mechanosensitive channels at the tip of the toe, do you think it could make it up to the brain without some degradation? How could you ensure the strength of the signal is not lost as it propagates up the spinal cord and onto the brain? Well, as you know, neurons are either (simplifying a bit here) on or off, meaning the ``strength" is lost on an individual action potential, so therefore it is encoded by frequency. Higher frequency firing, more neurotransmitter release, and a stronger response in the brain---neural circuits are analog to digital converters in the body. 
+Since we are also biologists, a great question to ask is: is digital signals relevant in biological systems? The answer, of course, is yes. Neurons really are, for all intents and purposes, transistors. Neurons are digitizers. If you were to take a graded potential being received by mechanosensitive channels at the tip of the toe, do you think it could make it up to the brain without some degradation? How could you ensure the strength of the signal is not lost as it propagates up the spinal cord and onto the brain? Well, as you know, neurons are either (simplifying a bit here) on or off, meaning the ``strength" is lost on an individual action potential, so therefore strength must be encoded in some other way---frequency. Higher frequency firing, more neurotransmitter release, and a stronger response in the brain---neural circuits are analog to digital converters in the body.\newline
 
-\section{FETs}
+So, in electronics, how would you digitize a signal? A quite simple way, conceptually, would be to use a comparator, where a constant voltage (say, $1\V$) is connected to $v_-$. Therefore, when $v_+$ is above $1\V$, the circuit is \texttt{ON}, otherwise, it is \texttt{OFF}. You could imagine setting up a series of successive voltage dividers, each reducing the input voltage and connected to the $v_+$ of a series of comparators, which could be used to digitize a strength of signal by $\Vi$. However, as mentioned, the true way a signal is digitized is by transistors, discussed next. 
 
-Modern electronics use field effect transistors (FETs), as opposed to BJT transistors. FETs have the equivalent prongs, except that they're labeled gate, drain, and source as opposed to base, collector, and emitter. FETs, in large part, can be thought of as significantly more powerful BJTs. That is, while BJTs have some small current traveling from base to emitter, FETs have (essentially) zero current from gate to source. Rather than having something like a diode drop, FETs have a minimum voltage (a $V_{threshold}$) where they become active. Thus, if you were to make a push-pull out of FETs, you'd instead see a ``diode drop" equivalent to the $V_{threshold}$---which is usually much higher than $0.7\V$, thereby meaning the crossover distortion observed will be worse. 
+\section{Digital Logic, and FETs}
+
+\begin{center}
+\begin{circuitikz}[american,]
+\ctikzset{tripoles/mos style/arrows}
+\draw (0,0) node[nmos](Q1){}
+(0.3,-0.5) node[] {S}
+(-1.2,0) node[] {G}
+(0.3,0.5) node[] {D}; 
+\end{circuitikz}
+\end{center}
+
+Modern electronics use field effect transistors (FETs), as opposed to BJT transistors. FETs have the equivalent prongs, except that they're labeled gate, drain, and source as opposed to base, collector, and emitter. FETs, in large part, can be thought of as significantly more powerful BJTs. That is, while BJTs have some small current traveling from base to emitter, FETs have (essentially) zero current from gate to source. Rather than having something like a diode drop, FETs have a minimum voltage (a $V_{threshold}$) where they become active. Thus, if you were to make a push-pull out of FETs, you'd instead see a ``diode drop" equivalent to the $V_{threshold}$---which is usually much higher than $0.7\V$, thereby meaning the crossover distortion observed will be worse. Traditionally, this $V_{threshold}$ is around $2.5\V$, but it varies from part to part. Therefore, the \texttt{ON} state (\texttt{HIGH}) is usually defined as when $\Vi > 4.7\V$ creating a $\Vo = 5\V$, and \texttt{OFF} (\texttt{LOW}) as $\Vi < 0.2\V$ creating a $\Vo = 0\V$. CMOS logic gates do not update instantaneously, but occur fast enough that it is considered instant. For the logic gates within one's computer, they update on the order of $10^{-1}$ns. let's finally consider an example, a digital \texttt{NOT} gate is shown here: 
+
+\begin{multicols}{2}
+
+\begin{center}
+\begin{circuitikz}[american]
+
+\ctikzset{tripoles/mos style/arrows}
+\draw (0,0) node[pmos](Q1){}
+(Q1.S) to[short] ++(0,0.5) coordinate(plusV)
+(plusV) to[short] ++(0.5,0)
+(plusV) to[short, -*] ++(-2,0) node[left]{$+5\V$}
+
+(0,-1.5) node[nmos](Q2){}
+(Q1.D) to[short, -*] (Q2.D) coordinate(out)
+(out) to[short, -*] ++(1, 0) node[above]{$\Vo$}
+(Q2.G) to[short, -*] ++(0, 0.75) coordinate(in)
+(Q1.G) to[short] (in)
+
+(in) to[short] ++(-1, 0) node[above]{$\Vi$}
+
+(Q2.S) to[short] ++(0,0) node[ground]{}
+;
+\end{circuitikz}
+
+
+\begin{circuitikz}[american]
+
+\ctikzset{logic ports=ieee,
+logic ports/fill=cyan!25}
+\draw (0,0) to[inline not] ++(2,0)
+(0,0) to[short, -*] ++(-1,0) node[above]{$\Vi$}
+(2,0) to[short, -*] ++(1,0) node[above]{$\Vo$}
+
+;
+\end{circuitikz}
+
+
+\end{center}
+\end{multicols}
+
+When $\Vi$ is greater than $V_{threshold}$, the pMOS transistor (top one) will be off, the nMOS transistor (bottom one) will be on, and the circuit will be grounded. Conversely, when it is below $V_{threshold}$, the pMOS will be on, the nMOS will be off, and the circuit will be $5\V$.\newline
+
+I'll spare you (and myself) the trouble of creating diagrams for tons of other types of gates, but you can surely imagine most complex configurations yielding \texttt{NAND}, \texttt{AND}, \texttt{NOR}, etc. However, I will like to highlight \textbf{flip flops}. Compounding together different logic gates can be incredibly powerful, and is sufficient to build complicated devices like adders. However, such devices only depend on the current inputs---\textbf{combinotorical logic}. To make a device which depends on previous states requires some form of memory---\textbf{sequential logic}. Let us consider the simplest form of memory, a 1-bit memory:
+
+
+\begin{center}
+\begin{circuitikz}[american]
+
+\ctikzset{logic ports=ieee,
+logic ports/fill=cyan!25}
+\draw 
+(0,0) node[american xnor port](A){}
+(0.25,0.5) node[]{\texttt{NOR1}}
+(0,-2) node[american xnor port](B){}
+(0.25,-2.5) node[]{\texttt{NOR2}}
+
+(A.out) to[short] ++(1,0) coordinate(connectA) to[short, -o] ++(1,0) node[above]{$Q$}
+(B.out) to[short] ++(1,0) coordinate(connectB) to[short, -o] ++(1,0) node[above]{$\bar{Q}$}
+
+(A.in 1) to[short, -o] ++(-2,0) node[above]{$R$}
+(B.in 2) to[short, -o] ++(-2,0) node[above]{$S$}
+
+(A.in 2) to[short] ++(-1,0) coordinate(A2)
+(B.in 1) to[short] ++(-1,0) coordinate(B1)
+
+(A2) to[short, -*] (connectB)
+(B1) to[short, -*] (connectA)
+
+;
+\end{circuitikz}
+\end{center}
+
+This is called a simple flip-flop and or an S-R latch. S and R stand for set and reset. Suppose $S = 0, R = 1$; as the first input of \texttt{NOR1} is 1, $Q$ must equal 0. Therefore, the first input of \texttt{NOR2} is 0, so $\bar{Q} = 1$. If $R$ is turned off, then the first input of \texttt{NOR1} goes to 0. However, $\bar{Q}$ is still 1, therefore $Q$ remains 0. Now if $S$ is turned on, then $\bar{Q}$ goes to 0, and $Q$ goes to 1. And the logic continues. In short, turning $S = 1, R = 0$, you set $Q = 1$; by turning $S = 0, R = 1$, you reset $Q = 0$. It isn't immediately obvious why this is helpful, but you can imagine, as we will discuss later, that connecting this sort of fragment to a clock (\texttt{clk}) can allow you to count up, and perform similar update-based operations.\newline
+
+One of the most ubiquitous expansions of this circuit is called a \textbf{D-type flip flop} (DFF). This is composed primarily of \texttt{NAND} gates, and reacts to a clock. Instead of looking at the logic gate's lets just consider the top down view:
+
+\begin{center}
+\begin{circuitikz}[american]
+
+\draw 
+
+(0,0) node[latch, fill=cyan!25]{}
+
+;
+\end{circuitikz}
+\end{center}
+
+Essentially, $Q$ updates to $D$ at each \texttt{clk} cycle. Yada-yada, you can perhaps see how we can expand from here. 
+
+
 
 
 
@@ -2660,6 +2765,7 @@ Here, \texttt{q\_reg} updates to the state of \texttt{d} at the positive edge (\
 This sort of thing is useful, for example, as a counter. You can imagine that d-type flip flops could be used to store the state and update on a clock cycle only if the previous bits are all on, except for the first bit, which is always enabled. 
 
 
+\section{Building to a Computer}
 
 \subsection{Multiplexers}
 
@@ -2667,7 +2773,7 @@ A ternary operator is a step beyond regular logic. It allows us to switch betwee
 
 \bs 
 \begin{lstlisting}
-module multiplexer (output O, input I, input A, input B)
+module multiplexer (output O, input I, input A, input B); 
     assign O = (S ? A : B)
     // alternatively, we could write: 
     // O[3:0] = (I ? A[3:0] : B[3:0])
@@ -2676,7 +2782,17 @@ endmodule
 \end{lstlisting}
 \bs
 
-\texttt{O} here evaluates to \texttt{A} or \texttt{B} depending on if \texttt{S} (select) is 1 or 0.\newline
+\texttt{O} here evaluates to \texttt{A} or \texttt{B} depending on if \texttt{S} (select) is 1 or 0. While we're here, I'll also mention that we can string together this style of conditional statement in the following way: 
+
+\bs 
+\begin{lstlisting}
+// suppose there is some input, A, and some set of values, first, second, third ...
+assign value = A == 0 ? first  : 
+               A == 1 ? second :
+               A == 2 ? third  : fourth ; 
+// this can be conceptualized as a series of if, else if, else statements 
+\end{lstlisting}
+\bs
 
 A super (!) cool trick we can use to define a single module with multiple uses would be as follows: 
 
@@ -2686,8 +2802,7 @@ module multiplexer #(parameter N=1)(
     output [N-1:0] O, 
     input S, 
     input [N-1:0] A, 
-    input [N-1:0] B
-)
+    input [N-1:0] B);
     assign O[N-1:0] = (S ? A[N-1:0] : B[N-1:0])
 endmodule
 
@@ -2709,14 +2824,68 @@ multiplexer #(.N(3)) multi1 (.O(output), .S(select), .A(a), .B(b));
 
 Here, the order that you add them is irrelevant as the extension will properly map the two, allowing you to evade conventions.\newline
 
-\subsection{Memory.}
+\subsubsection{Memory.}
 
 Extending from the multiplexers in the previous section, suppose you have a set of 256 vectors, each containing 16 bits. Using an 8 bit \texttt{select} key, you can choose any of these vectors and output them accordingly. This is a \textbf{read-only memory (ROM)}. 
 
 
 
+\subsubsection{Finite State Machine.}
 
 
+A finite state (FSM) can be devised through a series of D-type flip-flops. First, you can assign a set of states (called \texttt{state}) via an index stores in D-type flip-flops. For example, in a simple case where you want to oscillate a traffic light from green (\texttt{green}, to yellow (\texttt{yellow1}, to red (\texttt{red}), and perhaps a fourth state for when a button is pressed by someone on a crosswalk (\texttt{yellow2}), you can use a 2-bit wide flip-flop module.\newline
+
+We can use a series of logical operations to determine what the next state will be. I.e., if the light is currently \texttt{green} (say, represented by \texttt{00}), then we can know that the next state (\texttt{nextstate}), updated on every \texttt{clk} cycle, can either be \texttt{yellow1} (\texttt{01}) or \texttt{yellow2} (\texttt{10}) or remain \texttt{green}. And, we can know that both yellow states will always transition to \texttt{red} (\texttt{11}) after. Whether or not we go from \texttt{00} to \texttt{00} or \texttt{01} can depend on the duration (employing a counter), and if it will go from \texttt{00} to \texttt{00} or \texttt{10} can be determined by some tertiary module tied to an external button. For example, this may look something like: 
+
+\bs 
+\begin{lstlisting}
+wire [1:0] state; 
+wire [1:0] nextstate;
+
+module dflipflop #(parameter N=1)
+    (output wire q,
+    input wire clk,
+    input wire d);
+    reg q_reg;
+    always @ (posedge clk) q_reg <= d;
+    assign q = q_reg;
+endmodule
+
+dflipflop #(.N(2)) current_statedff
+    (.q(state), 
+    .d(nextstate), 
+    .clock(clock), 
+    .enable(1), 
+    .reset(reset)); 
+
+assign nextstate = 
+    (state == green && button)      ? yellow2 :
+    (state == green && duration)    ? yellow1 :
+    (state == yellow1 && duration)  ? red     :
+    (state == yellow2 && duration)  ? red     :
+    (state == red && duration)      ? green   :
+                                      state   ; // keeps current state
+    
+\end{lstlisting}
+\bs
+
+
+
+\subsubsection{A Microprocessor.}
+
+
+\subsection{Altogether, and Implications}
+
+Let us first take a step back and recall what we ``know" so far:  transistors, namely CMOS transistors, can be added together to make digital logic gates, which take on either \texttt{HIGH} or \texttt{LOW} values. Such logic gates can be stacked together to form complex decisions, like \texttt{NAND}, \texttt{AND}, \texttt{OR}, etc. Mathematical functions, like adding and multiplying, can be accomplished with these relatively simple gates. These are examples of combinotorical logic, which depend only on the current state of the system. An extra layer of complexity, in the form of memory, is required to gain sequential logic. The simplest form of memory we have discussed so far, a 1-bit storage, is a flip-flop, or SR-latch, composed of two NOR gates. D-type flip-flops add additional complexity, are composed of AND gates, and update on a clock. We can accomplish quite a lot by simply stacking together D-type flip-flops with accompanying \texttt{enable} features, such as counters.\newline
+
+Now, we can use a multiplexer, which switches between two outputs given an input, to build greater memory. Stacking together multiplexers gives us a read only memory (ROM). To give us a random-access memory (RAM), which is editable, we instead stack together D-type flip-flops\footnote{Today's world seems to use capacitors in place of D-type flip-flops in a way that is still unknown to me.}. D-type flip-flops can also be stacked together to create a finite state machine (FSM). The combination of a RAM and an FSM provides us with a microprocessor.\newline
+
+A CPU's microprocessor is equipped with a few different functions. Memory is accessed through the \texttt{FETCH} function, which is based upon the Program Counter. The processor can then \texttt{DECODE} what is fetched, and make a decision for what function to perform. The CPU performs many of its math functions using the accumulator. The accumulator is able to compare numbers, and what it determines elicits the \texttt{JUMP} command, which may be conditional, to access new memory locations. The CPU can  output this info to the world through the \texttt{OUT} feature. 
+
+\subsubsection{Why FSM?}
+
+There's something very interesting about finite state machines. In a way, a computer is a complicated finite state machine,  neural networks are a complicated finite state machine, your brain is a complicated finite state machine. 
+ 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -3215,10 +3384,12 @@ I have this constant wonder if this method can be used to model the spread of vo
 
 
 
-\chapter{Modeling Circuits}
+\chapter{Math in Electronics}
+
+\section{Modeling Circuits}
 \label{Modeling Circuits}
 
-The idea of this algorithm comes from\footnote{\url{https://lpsa.swarthmore.edu/Systems/Electrical/mna/MNA3.html}} and is an expansion of what was discussed earlier in the \textbf{Electronics} part of this book. Not by coincidence, both of the examples in the earlier section had symmetric matrices. The general way to extract equations from a circuit is in the following pattern:   
+The idea of this algorithm comes from\footnote{\url{https://lpsa.swarthmore.edu/Systems/Electrical/mna/MNA3.html}} and is an expansion of what was discussed earlier in section \textbf{\ref{sec:resistorlattice}}. Not by coincidence, both of the examples in the earlier section had symmetric matrices. The general way to extract equations from a circuit is in the following pattern:   
 
 \begin{align}
 \begin{bmatrix} 
@@ -3323,6 +3494,58 @@ V_{s2} \\
 \end{align}
 
 You may, rightfully, say ``\textit{Uh, who cares?}," since we already know that each row corresponds to a different equation. Well, there are a few reasons. Firstly, doing this algorithmically allows us to avoid accidentally underdetermining our matrix using the ol' eye-balling it technique. More importantly, though, the algorithmic approach allows us to solve this via code. Once I can write a bit more neatly, I'll likely upload some snippets here. 
+
+
+\subsection{Error Correction Codes, Hamming}
+
+We know digital files are stored as 1s and 0s\footnote{\url{https://www.youtube.com/watch?v=X8jsijhllIA&ab_channel=3Blue1Brown}}. However, there must be a mode of corruption-prevention, lest any sort of damage, where it be digital (a 1 misread and stored as a 0) or physical (the scratching of a CD), would lead to loss of signal. A simple way to do this would simply be to store additional copies of every file, and allow your computer to compare the copies and select the proper result. Let us consider Hamming codes, the old-style technique for error correction.\newline
+
+Long ago, a so-called method of parity check was invented. Simply put, if you have an $n \times n$ array of binary numbers, a single additional bit was allocated to determine if the number of 1s is even or odd. Therefore, you can allocate this parity position for an $n \times n$ array such that the probability of error is unlikely to occur twice. This of course allows you to detect the existence of an error, but not its location or the ability to correct it.\newline
+
+First, consider an array of bits, say $3\times 3$. To exactly identify any errors in said bits, you might expect you'd need a 9-bit copy. However, imagine instead that you use a Sudoku-style arrangement, where 6 bits are stores on the edges of this array and determine the sum of the indices (summing the bits: $000 = 0$, $010 = 1$, $110 = 0$, etc.). Now, you can certainly identify an error, such that if you have a row $000 = 1$, you can know one of the bits has flipped. By comparing with the other sums, you can identify which of the three.\newline
+
+Now suppose that rather than applying these checks to the edges, you instead apply parity checks to certain subsets of a larger $n \times n$ matrix. How can we apply parity checks in clever ways such that they minimize memory and maximize our ability to check for errors? Consider the bits in the matrix below, where bolded bits are parity bits. 
+
+\begin{center}
+\begin{multicols}{3}
+
+Correct: \medskip
+
+    \begin{tabular}{c|c|c|c}
+         $x$ &  \textbf{1} & \textbf{1} & 0 \\
+         \textbf{1} &  1 & 0 & 0\\
+         \textbf{0} & 0 & 1 & 1\\
+         1 & 0 & 0 & 1
+    \end{tabular}
+
+
+Incorrect: \medskip
+
+    \begin{tabular}{c|c|c|c}
+         $x$ &  \textbf{1} & \textcolor{cyan}{\textbf{0}} & 0 \\
+         \textcolor{cyan}{\textbf{0}} &  1 & 0 & 0\\
+         \textcolor{cyan}{\textbf{1}} & 0 & 1 & 1\\
+         1 & 0 & \textcolor{red}{1} & 1
+    \end{tabular}
+
+Incorrect: \medskip
+
+    \begin{tabular}{c|c|c|c}
+         $x$ &  \textbf{1} & \textcolor{red}{\textbf{1}} & 0 \\
+         \textbf{1} &  1 & 0 & 0\\
+         \textbf{0} & 0 & 1 & 1\\
+         1 & 0 & 0 & 1
+    \end{tabular}
+
+\end{multicols}
+\end{center}
+
+Parity bit at position $(1,2)$ ($P_{1,2}$) can check for parity in columns 2 and 4---which I will write as $(:,2)$ and $(:,4)$ now as in Python notation. $P_{1,3}$ can check for parity in $(:,3)$ and $(:,4)$. Therefore, you can immediately localize a single error to its correct column. That is, if $P_{1,2}$ and $P_{1,3}$ are both incorrect, you can know immediately that the error must be in column 4. Similarly, $P_{2,1}$ can check error in $(2,:)$ and $(4,:)$, and $P_{3,1}$ can check for error in $(3,:)$ and $(4,:)$. You can see clearly how the error can be localized to a single bit from the examples above. Naturally, though, there is complete breakdown when there is more than one error. You may ask: what if a parity bit gets corrupted? Consider the third column---only the parity bit itself changes. No other parities recognize an error. Therefore, the computer can localize the error to this bit, once again.\newline
+
+Position 0 is intentionally left as an $x$. No altered parity bits suggests either that there are no errors, or that the error is in position 0. To avoid questions with this 0th position, we can either discard it, or allocate it as a second tier of parity. One such way to do so will be to use it as a whole-number parity. That is, if this bit flips once, you can know there was one error. If it flips twice, you can know there are at least two errors. One would normally call the example above a $(15,11)$ Hamming code, and adding the 0th block is called an extended Hamming code. \newline
+
+Now the question is, how do we scale? First, ask yourself: how many binary searches are required to fully parse a $2^n - 1$ binary number? Well, just now we saw that a 16-bit number requires $4$ parity bits to be allocated. Therefore, a $2^8 - 1 = 256$ bit number requires 8 parity bits. 
+
 
 
 
@@ -5060,9 +5283,10 @@ Onto the part that matters most. Animals with the scaffolds exhibited significan
 -- Growth cone review 2 \url{https://www.nature.com/articles/nrn3176} \\
 -- a third, focusing on mechanics \url{https://www.frontiersin.org/articles/10.3389/fncel.2015.00244/full} \\
 -- literally focuses on glia-neuron growth cone lol \url{https://www.frontiersin.org/articles/10.3389/fnins.2020.00203/full} \\
--- you \textbf{MUST} read this asap \url{https://www.nature.com/articles/s41586-023-06377-x} 
 
 -- Neuron paper, paresthesia, SCS \url{https://www.cell.com/neuron/pdf/S0896-6273(23)00802-4.pdf}
+
+-- Attwell SCN model \url{https://onlinelibrary.wiley.com/doi/full/10.1002/dneu.22601}
 
 \chapter{Interfacing with Nerves}
 
@@ -5418,6 +5642,8 @@ If we take the cell membrane to be a capacitor in series with a resistor, drivin
 
 \subsection{In the Clinic---Parkinson's and Essential Tremor}
 
+For more information on pathology and degeneration, see section \textbf{\ref{sec:PDDegeneration}}.\newline
+
 For this section, I'll discuss broadly how deep brain simulation works clinically, including an outline of the procedure. I'll discuss primarily from my experiences with neurosurgeons Dr. Casey Halpern and Dr. Iahn Cajigas.\newline
 
 
@@ -5684,6 +5910,13 @@ Perhaps one can use a feedback mechanism, where the frequency of stimulation can
 
 \section{Device Idea}
 
+Another idea: frequency encoding of stimuli. Start by using EMG signal, digitizing it, using FSM to select a frequency output. In the distant future, this could be used to restore sensory perception after SCI or other injury. 
+
+
+
+
+
+
 \subsection{Motivation}
 Much is made of the frequency and amplitude of neuropathic pain stimulators. Dr. Ben-Haim even called the search for such as being the ``waveform revolution." Perhaps one can avoid this investigation altogether by simply connecting the entire pain pathway to the feedback loop of an opamp. That is, an opamps $v_+$ is grounded, the $\Vo$ is tied to a electrode in the spine, and the $v_-$ is connected to some form of ECoG in the brain. Theoretically, the opamp's $\Vo$ will do whatever it can to cause the signal read at the brain to go to 0. Of course, you cannot assume the opamp's feedback will be predictive, nor can you assume it will fix sharp pains. But, it may be able to fix chronic pain. Let's think of an overall build. 
 
@@ -5770,7 +6003,7 @@ This is more of a historical dive into the research, because so much of what we 
 
 Alzheimer's disease (AD) is a degenerative disorder present in many demented, elderly patients. It must be diagnosed after death because of considerable symptom overlap. Diagnosis after death is on the basis of extracellular amyloid plaques and intracellular tau tangles. 
 
-\subsubsection*{Holtzman Lecture} This is from a video featuring Holtzman called Sleep \& the Pahophysiology of Alzheimer's Disease\footnote{\url{https://www.youtube.com/watch?v=zCmngDk9VDU}}. To start, dementia is considered a decline in cognitive abilities sufficient to impair daily life. Approximately 50\% of people over the age of 80 have some form of dementia.\newline
+\subsubsection*{Digression: Holtzman Lecture} This is from a video featuring Holtzman called Sleep \& the Pahophysiology of Alzheimer's Disease\footnote{\url{https://www.youtube.com/watch?v=zCmngDk9VDU}}. To start, dementia is considered a decline in cognitive abilities sufficient to impair daily life. Approximately 50\% of people over the age of 80 have some form of dementia.\newline
 
 The role of glia has been understated for a long time in the progression of AD. It seems that Tau and $\beta$-amyloid buildup activates a glial / autoimmune response. Like most neurodegenerative diseases, symptom onset marks the end stages of it. Pathology beginnings occur far before symptom onset.\newline
 
@@ -5780,9 +6013,9 @@ The A$\beta$ peptide is somehow higher in the dark and lower in the light. The A
 
 While A$\beta$ accumulation precedes symptoms by many years, tau buildup seems to correlate strongly with symptom onset. Acute neuronal activity increase and chronic increase both lead to buildup of tau. As wakefulness increases neuronal activity, so too does it increase tau.\newline
 
-\subsection*{Overview by Bonini}
+\subsection*{Overview}
 
-\underline{Regarding drugs and tools}, Alois Alzheimer's used dyes to stain tissues and reveal their histology. Aricept blocks acetylcholine degradation, which can slow symptoms for a short time. Measuring amyloid buildup, or other markers, in the CSF is a tool to determine disease progression and or drug efficacy. Congo red is used to stain amyloid buildup (any $\beta$-pleated sheet)---i.e., it is non-specific to $\beta$-amyloid of AD. It also seems capabale of staining tau tangles. Another method is using (thioflavin T) ThT, which also interacts with $\beta$-pleated sheets. This has been used to make a radioactive version called Pittsburgh compound B (PiB) and quantify the amount of plaques. This helps identify dementia years before it begins. This is primarily used to track disease progression.\newline
+Regarding drugs and tools, Alois Alzheimer's used dyes to stain tissues and reveal their histology. Aricept blocks acetylcholine degradation, which can slow symptoms for a short time. Measuring amyloid buildup, or other markers, in the CSF is a tool to determine disease progression and or drug efficacy. Congo red is used to stain amyloid buildup (any $\beta$-pleated sheet)---i.e., it is non-specific to $\beta$-amyloid of AD. It also seems capabale of staining tau tangles. Another method is using (thioflavin T) ThT, which also interacts with $\beta$-pleated sheets. This has been used to make a radioactive version called Pittsburgh compound B (PiB) and quantify the amount of plaques. This helps identify dementia years before it begins. This is primarily used to track disease progression.\newline
 
 Trisomy 21 patients almost ubiquitously get AD, and specifically early onset AD---which suggested there must be some association with Chr21. $\beta$-amyloid was purified in 1984 by Glenner and Wong, which allowed it to be sequenced early. They then generated an antibody against it, allowing them to stain certain regions of the brain. After the $\beta$-amyloid protein was identified, other groups sequenced the surrounding nucleotides and found it to be part of a larger transmembrane protein---which was eventually called the amyloid precursor protein (APP), mapped to Chr21. Thus, it was intuited that this little peptide was cleaved from the larger transmembrane protein. 
 
@@ -5936,7 +6169,45 @@ In clinical trials, antibodies against A$\be$ showed the ability to decrease pla
 
  The genotype is relatively rare, on the order of one per couple hundred people, or rarer depending on the continent. Because the mutation is neuroprotective, carriers have markedly longer life spans. Fascinatingly, they even suggest the genotype is substantially beneficial even compared to those without AD. In cognitive scores they performed much better. Notably, though, the error bars are so insane they go off the screen (like literally, some error bars are cutoff from the graph).\newline
 
- \section*{Huntington's}
+
+\subsection*{Corder et al. 1993}
+
+Surprisingly, ApoE protein was found within the A$\beta$ plaques, and only after this was linkage found to Chr19, around the APOE gene. ApoE is a small protein, only 229 amino acids. It is a lipoprotein which helps move cholesterol through the bloodstream. The alleles are: 
+
+\begin{enumerate}
+    \itemsep 0em
+    \item APOE-$\epsilon$2 (cys112, cys158)
+    \item APOE-$\epsilon$3 (cys112, arg158)
+    \item APOE-$\epsilon$4 (arg112, arg158)
+\end{enumerate}
+
+The APOE-$\epsilon$3 allele is the most common. Controlling cholesterol levels is a key component of managing APOE. It is thought, now, that ApoE2 may be slightly protective over ApoE3. Presence of the APOE-$\epsilon$4 allele results in a much earlier age of onset. 
+
+\subsubsection*{Tables 1, 2, 3 \& Figure 1}
+
+The APOE-$\epsilon$4 allele is one of the strongest determinants of AD onset. The APOE gene has 4 total alleles, and the dosage of the fourth confers AD onset. The risk factor for AD increased by approximately $3\times$ for each additional APOE-$\epsilon$4 allele. Their Table 2 demonstrates that 90\% of those with 4/4 genotype had the disease, while only 19\% did for a 2/3 genotype. Similarly, the age of onset was much earlier for those with 4/4 than other genotypes.\newline
+
+Autopsies of these patients show a much higher degree of amyloid staining, suggesting the APOE-$\epsilon$4 allele increases the plaque burden. 
+
+\subsubsection*{Fall Out}
+
+Then, to now, there was considerable skepticism of the finding. As APOE is not considered disease causing, but rather a risk factor, it was unclear the role it might play. Still, some were unconcerned with the fact that ApoE shows up in plaques, as it is not clear that amyloid is disease causing. Importantly, too, most of these genetic studies were done in European populations---which turned out to be of great relevance. APOE-$\epsilon$4... is not a (big) risk factor in Hispanic populations, like it is in a European background. 
+
+\subsection*{Genome Wide Association Study (GWAS)}
+
+Sporadic AD remains much more common than familial---so how do you go after risk factors involved in sporadic AD? Of course, APOE-$\epsilon$4 is the highest by a significant amount, but rae there more?\newline
+
+A Manhattan plot probes the entire genome for SNPs of individuals and co-segregates significantly with diseases vs. controls. Initially, massive amounts of money were poured into GWASs, but were largely unsuccessful. Now, with much greater sample sizes, they have been more successful. Notably, 90\% of polymorphisms are shared ancestrally. Around 60 de novo point mutations are expected per individuals, with 3 indels, and (on average) less than 1 structural variation. Therefore, much of the original GWAS studies were muddled by the different genetic backgrounds of the patients. That is, someone with the disease from one continent that is compared with an individual of another continent would show a significant, surprising degree of genetic association for factors totally unrelated to the disease. Combining this with the fact that a large portion of the genome is non-coding---GWAS struggled greatly with poor controls in the early days.\newline
+
+Now, suppose you find a peak---what next? You have to understand what is occurring. If the mutation is in an enhance, what gene is it affecting? When tons of genes cluster closely together, and linkage is found, which one is the affected gene? When many nearby SNPs are found, which ones are relevant? \newline
+
+Later, in section \textbf{\ref{sec:HDGWAS}}, we will discuss a hugely successful example of this mode of study. 
+
+\subsection*{So, what do you do?}
+
+What are protective factors against AD? Education proves to be a strong protective factor. If memory problems have already began, using acetylcholine-esterase inhibitors can be helpful to help potentiate this transmitter and improve function (or, delay its decline). Exercise also turns out to be quite helpful in promoting neurogenesis.
+
+\section*{Huntington's}
 
 \subsection*{Overview}
 There's 30-40 human diseases due to CAG repeats. For HD, it is within the coding region of an exon, which encodes glutamine---which becomes a polyGlu. Though, notably, there's a bunch of diseases with the same mechanism. These genes normally have CAG repeats, but in disease phenotypes the repeats become elongated. HD is typically characterized as a movement disorder. For very long expansions, one can get juvenile HD. In patients, the caudate and putamen (which make up the striatum) are especially damaged, which causes enlarged central ventricles. \newline
@@ -6151,6 +6422,31 @@ Their construct showed expression in $5-10\%$ of all cerebellar Purkinje fibers,
 
 
 \textcolor{red}{Add more info about RNAi-AAV technology.}
+
+
+\subsection*{Genetic Modifiers of Huntington's Disease (GeM-HD) 2019}
+
+\label{sec:HDGWAS}
+
+A GWAS success: HD. Recall that the age of onset is extremely variable, and does not seem to correlate with the the expanded CAG repeat exactly (that is, someone with repeat length $x$ may have onset anywhere from 20 to 80). While there is a trend, the variance is still tremendously high.\newline
+
+Because of this very high variability, this group decided to perform a GWAS strictly among those with HD to look for age of onset modifiers. After doing a ton of GWAS, they pooled all of the data in a meta-analysis resulting in an $N \approx 10,000$. Large peaks associated with age of onset was found---one of which was, in fact, on or around the \textit{HTT} gene itself was. Again, note that this is not a study for the association of getting HD, but rather with symptoms of HD---making it surprising that there might be an association with the \textit{HTT} gene itself.\newline
+
+They found an association between onset of HD and the repeats themselves. The normal HD allele includes a (CAA-CAG) sequence, which both encode glutamine. Individuals with delayed onset had (CAA-CAG)${}_2$, meaning it was a slightly ``less pure" version of the CAG repeat. Regardless, it was still only glutamine which was encoded. Conversely, in fact, individuals lacking this (CAA) sequence altogether had earlier ages of onset---despite the fact that they would then have a shorter polyQ repeat length anyway. This suggests that, rather than the polyQ length conferring disease, it is instead the length of the CAG repeats specifically---the DNA rather than the protein.\newline
+
+\subsubsection*{Follow-Up}
+
+Why would this matter at all? What is thought now is that the purity of the repeat impacts instability. Mosaic cells within the striatum were found to have widely varying numbers of repeats, which seemed to worsen when the CAG repeats were more pure. Similarly, those with earlier ages of onset were found to have much more unstable repeats.\newline 
+
+The HD consortium recruited single cell RNAseq expert, Steve McCarroll, to help resolve the type of cells involved. Via identifying their cell-type, a greater loss of spiny projection neurons was found. The key question now is: what is the expansion length in each cell? Among glia and interneurons, there was very limited instability. However, in the spiny projection neurons, there was massive instability\footnote{Evidently... at the time of me writing this, this work is not published! It is from a talk!}.\newline
+
+Fascinatingly, the other markers found to be associated with HD age of onset were all associated with DNA repair (many of which in the same complex). Interestingly, work in mice actually found that repeats are unstable in certain tissues, like the liver and striatum. Remarkable, in background with DNA-repair protein knockouts... this instability was eliminated.\newline
+
+One of the linked genes is called MSH3. From other, very comprehensive genome studies, much data already exists on MSH3. MSH3 total knockdown is actually viable, meaning it may be a superb therapeutic target for destruction. 
+
+
+
+ 
 
 \section*{Fragile X}
 
@@ -6401,7 +6697,7 @@ C9orf72 patients are seen as having additional, non-TDP-43 inclusions. Such incl
 
 
 
-\section*{Prion Diseases}
+\section*{Prion Diseases, and the Prion-like Behavior of Others}
 
 \subsection*{Overview}
 
@@ -6436,9 +6732,9 @@ All such mice have the same (verified through sequencing) transgene).  Important
 
 \subsubsection*{Fall Out}
 
-Pruisner would go on to win the Nobel Prize in just the next year. It took years for fully synthetic prions to be made and verified, which all but verified the protein only hypothesis.\newline
+Pruisner would go on to win the Nobel Prize in just the next year. It took years for fully synthetic prions to be made and verified, which all but verified the protein only hypothesis. Pruisner also threw out the possibilty that other neurodegenerative diseases, which show overlap in mutant proteins, may be due to similar differences in ``strains" or conformations of such proteins---a bold claim.\newline
 
-Meanwhile, Parkinson's disease started becoming treated with implantation of dopaminergic neurons into the third ventricle. Indeed, this helps alleviate some of the PD symptoms. Fascinatingly, though, afterwards the tissue was examined and shocking there was aggregates within the transplanted tissue. Therefore, it's thought that propagation of the disease causing protein, $\alpha$-synuclein, was acting in a prion-like manner. But, it is not a prion disease. How this can be reconcilled will be... discussed later. 
+Meanwhile, Parkinson's disease started becoming treated with implantation of dopaminergic neurons into the third ventricle. Indeed, this helps alleviate some of the PD symptoms. Fascinatingly, though, afterwards the tissue was examined and shocking there was aggregates within the transplanted tissue. Therefore, it's thought that propagation of the disease causing protein, $\alpha$-synuclein, was acting in a prion-like manner. But, it is not a prion disease, and cannot be transmmitted from person-to-person. How this can be reconciled will be... discussed later!
 
 
 \subsection*{Li et al. 2008}
@@ -6447,21 +6743,121 @@ Meanwhile, Parkinson's disease started becoming treated with implantation of dop
 
 \label{sec:PDDegeneration}
 
-We are digressing now to Parkinson's disease. PD is indeed the second most common neurodegenerative disease, behind only AD. Parkinson's is characterized by Lewy body accumulation, first characterized in 1923. Notably, though, other diseases are characterized by Lewy body formation, like Lewy body dementia. In PD, the substantia nigra is one of the most strongly effected regions of the brain. Lewy bodies were found to stain for $\alpha$-synuclein, a protein which will form fibrils in vitro.\newline
+We are digressing now to Parkinson's disease. PD is indeed the most common movement disorder and the second most common neurodegenerative disease, behind only AD. Parkinson described the disease thoroughly in 1817. Parkinson's Disease is characterized by Lewy body accumulation, first characterized in 1923. Notably, though, other diseases are characterized by Lewy body formation, like Lewy body dementia. In PD, the substantia nigra, darkly pigmented and around the floor of the third ventricle, is one of the most strongly effected regions of the brain. However, there are a wide range of phenotypes with progress over time. Many early symptoms are typical in many non-disease contexts, like anxiety, depression, and trouble sleeping. It is not until there is significant neural loss, around 90\%, that one would even pursue seeing a doctor. Naturally, treatment would be much stronger if caught earlier, but this is largely an impossibility without some genetic insight. \newline
 
-Braak proposed a timecourse for PD where disease seemed to propagate out from the central regions of the brain. It was not clear how credible this description was, as it was initially based on a very small sample size.\newline
+Lewy bodies appear like large, circular modules within the cells and in 1997 were found to stain for $\alpha$-synuclein, a protein which will form fibrils in vitro. $\alpha-$syn is a small, around 140 amino acid protein. This discovery led to the finding that mutations in it cause PD. Braak proposed a timecourse for PD where disease seemed to propagate out from the central regions of the brain. His model was loosely classified into stages where PD pathology originates in the brainstem and leaks out into the cortex as the disease progressed. It was not clear how credible this description was, as it was initially based on a very small sample size.\newline
 
-Notably, it was originally thought that PD was strictly sporadic, and that there was no genetic component. We now know, of course, that this is untrue. For a disease to be cleanly classified as PD, it requires both symptoms and the Lewy body pathology. A lack of Lewy bodies thus dubs the disease ``Parkinsonism." Recessive genes often result in Parkinsonism, where disease progression may be slower and less severe.\newline
+Notably, it was originally thought that PD was strictly sporadic, and that there was no genetic component. We now know, of course, that this is untrue---in fact, there are a remarkable amount of PD-related genes. Their loci are typically called PARK, and the gene encoding for $\alpha-$syn, \textit{SNCA}, is PARK1. For a disease to be cleanly classified as PD, it requires both symptoms and the Lewy body pathology. A lack of Lewy bodies thus dubs the disease ``Parkinsonism." Recessive genes often result in Parkinsonism, where disease progression may be slower and less severe.\newline
 
-In \textit{Drosophila}, loss of function in mutations like Parkin and Pink1 result in mitochondrial dysfunction. It's thought that PD may impact mitophagy and or mitochondrial turnover (see section \textbf{\ref{sec:MitochondrialMaintenance}}).\newline
+Great insight into PD came from model organisms with homologs to PD loci. For example, in \textit{Drosophila}, loss of function in mutations like Parkin and Pink1 result in mitochondrial dysfunction. It's thought that PD may impact mitophagy and or mitochondrial turnover (see section \textbf{\ref{sec:MitochondrialMaintenance}}). A clean assay is to look at mitochondria in the wing discs, which are typically packed with mitochondria and would be lost in a PD model. Additionally, this manifests behaviorally as a loss of flight. \newline
 
-Fascinatingly, great insight came from drug addiction in 1982. Synthetic heroin was being made, which resulted in a side product being produced called MPTP. Remarkably, this compound was taken up specifically by dopaminergic neurons in the substantia nigra, and killed them almost immediately. Therefore, these addicts immediately got PD. This has become a very helpful way to generate PD models.\newline
+Early evidence of dopamine's key role in PD came in the 1960s, when the use of L-dopa to treat comatose patients with encephalitis led to their awakening, covered in a movie called \textit{Awakenings}. Fascinatingly, further great insight came from drug addiction in 1982. Synthetic heroin was being made, which resulted in a side product being produced called MPTP. Remarkably, this compound was taken up specifically by dopaminergic neurons in the substantia nigra, and killed these neurons almost immediately. Therefore, these addicts immediately got PD. This has become a very helpful way to generate PD models. Many such similar neurotoxins have been discovered in recent years, after great study, such as in pesticides which result in higher incidences of PD in rural areas.\newline
 
-Because treatments like L-dopa have been successful in treating PD, one began to wonder if grafting in dopaminergic neurons would be successful...\newline
+\subsubsection*{Figure 1 \& 2}
 
-Such investigations take a considerable amount of time, and brain tissue could only be analyzed on the order of 10-15 years after grafting. The tissue was taken from fetuses, therefore eliminating the chance of natural PD arising in the grafted neurons. Still, shockingly, Lewy bodies were found in these grafted neurons. This was the first suggestion that Lewy bodies could, somehow, transfer from neuron to neuron.\newline
+Because treatments like L-dopa have been successful in treating PD, one began to wonder if grafting in dopaminergic neurons would be successful... Such investigations take a considerable amount of time, and brain tissue could only be analyzed on the order of 10-15 years after grafting. Patients that passed earlier showed no noteworthy pathology, besides the impressive survive of grafted tissue. The tissue was taken from fetuses, therefore eliminating the chance of natural PD arising in the grafted neurons. Still, shockingly, Lewy bodies were found in grafted neurons of patients who survived a long time. This was the first suggestion that Lewy bodies could, somehow, transfer from neuron to neuron. These bodies stained for both $\alpha-$syn and ubiquitin.\newline
 
-Braak's investigations went beyond just $\alpha-$syn. Similarly seen things existed for tau. Tau is a hallmark of many different diseases, called tauopathies, and examples include CTE, Pick's diseases, and, canonically, AD. This suggests, that like with prions, tau exhibits different strains that can spread and confer different diseases. Importantly, it does not seem that tauopathies are transmissible like prion diseases. Indeed, some of the greatest PD models, which came from the Virginia Lee group, were from injecting human $\alpha$-syn into mice. Prion researchers disagree that these are prion diseases, specifically because they are not transmissible, so some call it ``trans-synaptic spreading" diseases instead. 
+A couple of similar papers came out at the same time as this one. Brundin, the senior author on this work, described in a review that grafted tissue was originally thought to be disease-resistant due to the results of grafted neurons in early dying patients. Key to this finding, though, is that when these studies were done $\alpha-$syn was not known. Therefore, it's plausible that pathologists then didn't know precisely what to look for. 
+
+
+\subsubsection*{Fall Out}
+
+Certianly, this provided some support for Braak's ideas. Interestingly, Braak's investigations went beyond just $\alpha-$syn. Similarly seen progression existed for tau. Tau is a hallmark of many different diseases, called tauopathies, and examples include CTE, Pick's diseases, and, canonically, AD. This suggests, that like with prions, tau exhibits different strains that can spread and confer different diseases. 
+
+\subsection*{Clavaguera et al. 2009}
+
+\subsubsection*{Figure 1, 2, 4}
+
+The core of this work is that they took WT-tau expressing mice and injected in mutant, filamentous tau from other mice, and observed propagation of tangles throughout the brain. This was the first work that suggested this prion-like behavior of tau. Such tangle presence was marked by tau antibodies and Gallyas-Braak silver staining. It was found to increase over time, on the order of 10 or so months, depending on the region of the brain. Figure 4 showed that there was no staining for human tau in these mouse tissues, demonstrating that the filaments formed were specifically due to templating onto the endogenous, mouse tau. 
+
+\subsection*{Sanders et al. 2009}
+
+\subsubsection*{Figure 1, 2, 8}
+
+The key question of this work is if different ``strains" of tau can be created in stable cell lines. They begin by injecting a number of different fibrils / amyloids into HEK cells---generated somewhat randomly in vitro. They find that Tau, Htt, and $\alpha-$syn all seem capable of inducing inclusion formation. Tau inclusions were halted when the cells' endogenous tau was mutated to be unable to aggregate. Interestingly, the amount of inclusions decayed exponentially over the following 50 days after exposure to added fibrils (which gives me some skepticism?). Cell lines showing tau inclusions at Day 3 after exposure could be selected and used to grow a cell line containing such inclusions. These lines exhibited ``strains" conferring different morphologies,  patterns, and molecular weights that were conserved through cell divisions and continual re-platings.\newline
+
+The next evolution of this experimentation is, naturally, to take strains from different patients. Indeed they find very variable and seemingly inconsistent phenotypes in their strains. This was characterized as no seeding, toxic, mosaic, ordered, disordered, and speckled. However, these phenotypes were quite consistent between within diseases. For example, AD exhibited typical speckled patterns, while corticalbasal degeneration more often exhibited disordered morphologies.\newline
+
+\subsubsection*{Meaning}
+
+A very interesting point is that, because these fibrils were taken from deceased brain tissue, there is the question of selection bias. Are the more deadly strains already lost by this point, only leaving behind the non-clinically relevant ones?\newline
+
+John Trojanowski spent a great portion of his career as a pathologist characterizing the different morphologies of tau, and other aggregating proteins, in disease contexts. Similarly, he isolated antibodies which were able to specifically label certain morphologies specific to different diseases. Today, techniques like Cryo-EM massively enhance our understanding of proposed ``strains." As you'd likely predict at this point, indeed tau was in different conformations, depending on the disease. Structural biology then confirmed what pathologists had proposed decades prior.\newline
+
+Importantly, it does not seem that tauopathies are transmissible like prion diseases. Indeed, some of the greatest PD models, which came from the Virginia Lee group, were from injecting human $\alpha$-syn into mice. Prion researchers disagree that these are prion diseases, specifically because they are not transmissible, so some call it ``trans-synaptic spreading" diseases instead. Indeed, similar to the name's suggestion, one of the things Braak and others noticed is that spreading seemed to occur along neural connections.  
+
+\subsection*{Cortes et al. 2014}
+
+X-linked spinal and bulbar muscular atrophy (SBMA) is caused by a CAG repeat expansion in the androgen receptor (AR) gene resulting in motor neuron degeneration. Surface AR binds to glucocorticoids and traffics it them into the nucleus where they modulate transcription. The disorder is inherited and onset begins as an adult, manifesting first as muscle weakness. The bulk of SBMA's investigation, up to 2014, has focused on neuron death. However, evidence trickled in that non-neuronal cells may be playing a similarly important role. Comparisons can be made between SBMA, HD, and SCA, all of which have works demonstrating the key roles of non-neuronal cells.\newline
+
+Specifically, works have found that expression of varying length polyQ repeats in the AR gene (ARxQ) show muscle degeneration first, or only myopathy, which proves to be sufficient for SBMA-like phenotypes in mice. 
+
+\subsubsection*{Figure 1}
+
+The group began by generating a ``floxed" (loxP sites flanking both sides of the \textit{AR} exon 1) from a BAC (bacterial artificial chromosome, which is able to carry very many Kb) for the human gene and found that their transgenic mice express the gene in similar levels to endogenous mouse \textit{AR} levels. Their transgenic model included around 50Kb on both the 5' and 3' sides, which is helpful in ensuring the promoter and other regulatory domains are included with the gene. Note that these mice included WT mAR in addition to hAR---which helps get insight specifically into gain of function features of the polyQ. Additionally, the key benefit of this model is that they can perform cell specific exision of the first exon. \textcolor{red}{Does this mean we cannot say that the disease is caused by muscles? But rather that a muscle phenotype is also required?} 
+
+\subsubsection*{Figure 2} 
+
+They validated that their model expressing the polyQ ubiquitously resulted in weight loss and the onset of motor symptoms as expected in other models with AR protein aggregates found in myocytes. However, degeneration of neurons in the spinal cord was not observed. Such mice also had a high death rate. Female mice with the same transgene did not experience these phenotypes. 
+
+\subsubsection*{Figure 3 \& 4}
+
+Figure 3 demonstrated that global excision using the CMV-Cre promoter, which would also include the removal of the start site, blocked expression of hAR.\newline
+
+Figure 4 demonstrated that skeletal muscle specific knockdown, through the HSA-Cre promoter, resulted in efficient, myocyte directed knockdown without effecting aggregation quantity in the spinal cord. 
+
+\subsubsection*{Figure 5 \& 6}
+
+Figure 5 is where the important stuff begins---myocyte specific knockdown prevented the weight loss associated with SBMA, showed no motor symptoms, and prevented early death. Figure 6 noted the pathology associated with SBMA included muscular atrophy and increased presence of connective tissue. These phenotypes were not observed in the Cre-knockdown mice.\newline
+
+Importantly, the motor horn of the spinal cord is reduced in their SBMA model. However, this reduction is not seen in the HSA-Cre knockdown mice, whose ventral horns look similar to controls---suggesting spinal atrophy is somehow coupled to myopathy. Stunningly, the HSA-Cre knockdown did not reduce the amount of aggregations found in the brain, but did completely rescue spinal degeneration. \textcolor{red}{Did they not test aggregations in the spine? Why not? What?}
+
+
+
+\subsubsection*{Key Results, and Limitations}
+
+The key of this work is that excision of the polyQ containing region in muscle tissues prevents the progression of SBMA, while aggregates are still found in corresponding neural tissue.\newline
+
+Delivery of an antisense oligonucleotide (ASO) against AR prevented disease progression via knockdown in skeletal muscles.\newline
+
+Notably, the human disease is characterized by a loss of motor neurons---this motor neuron loss is not observed in this mouse model. Rather, motor neurons are smaller and more sickly. Is it toxic enough?; modulate polyQ.\newline
+
+A hypothesis could be related to muscle-to-motor neuron loss of electrical regulation. Also, big therapeutic potential---one can focus on treating the very accessible muscles, rather than trying to access the CNS.\newline
+
+Take patient muscle tissue of those that have passed away with SBMA (or even living patients?). If you have the mouse---go further with the KOs. Different neuron types; try knockout in glia? 
+
+\section*{The State of the Field}
+
+In 1957, Waddington proposed the ``landscape model" of a cell, where a cell begins at the top of a hill, so-to-speak, and rolls down hill as it differentiates into some valley. In 1962, Gurdon combined the nucleus of a somatic cell and an enucleated egg could be combined in a way that resulted in a genetic copy of the first frog. This implied differentiated cells still contained the necessary constructions as the cells at the top of the hill. Gurdon later shared the Nobel Prize for this work. In the 80s and 90s, many groups were working on this and found that different transcription factors could convert one type of stem cell to another. Yamanaka, in the early 2000s, wondered what the key factors were, and asked if one could return these cells to a state of pluripotency. 
+
+\subsubsection*{Takahashi \& Yamanaka, 2006}
+
+Induced pluripotent stem cells (iPSCs) are about as ubiquitous as an experimental model can get---however, the Nobel Prize work which resulted in their use was not so long ago. Pluripotent stem cells are those that are capable of differentiating into all three of the germ layers (ectoderm, mesoderm, and endoderm). Using embryonic stem (ES) cells as a method of therapeutic regeneration had already been considered, but of course there is the inevitable limit of not being patient specific. Therefore, a better technique would be to use pluripotent stem cells from the patient themselves. As mentioned, prior work showed that combining somatic cells with the contents of embryonic cells or oocytes resulted in their ``reprogramming," suggesting some genetic contents might be capable of achieving the same for patients.
+
+\subsubsection*{Figure 1}
+
+This group selected 24 gene candidates to they hypothesized may induce pluripotency from mouse embryonic fibroblasts (MEFs). Not that MEFs still are not fully matured, but one has to start somewhere! Genes were inserted into MEFs via retroviral transfection. To determine if pluripotency had been achieved, they used a toxin and inserted a resistance conferring gene into the \textit{Fbx15} gene. This gene is expressed specifically in embryonic stages, but is not necessary for development---therefore, it provides a good marker for induced pluripotency. Notably, no single factor from their list of 24 was sufficient to confer resistance. All factors combined were able to, and generated a number of resistant lines. These lines showed embryonic cell-like proliferative properties and divided in a similar manner. Similarly, some promoters for genes expressed in the embryonic stages became unmethylated. \newline
+
+They narrowed down the lowest number of necessary factors called OSKM and or the Yamanaka factors: Oct3/4, Sox2, Klf4, and Myc. They performed expression analysis via DNA microarrays in order to demonstrate the transcriptional similarity between ES and iPSCs. While they were clearly not identical, iPSCs were markedly more similar to ES cells than to MEFs. 
+
+\subsection*{iPS Cells, Organoids, Antibodies, and ASO}
+
+iPSCs are disease in a dish. Organoids are extremely variable.\newline
+
+\subsubsection*{Antibodies}
+
+Antibodies are often developed against things like A$\beta$ with the hope of either conferring ``immunity" or acting as a protein sink which will remove amyloid from the brain and pass it into the bloodstream. Adding in antibodies can either confer active or passive immunity. Simply implanting the antibodies will be passive, but other groups are working to immunize one against A$\beta$ in order to kick-start an active immune response. Famous trials like Aducanumab were examples of attempts for passive immunity, but all trials have failed so far, either showing no promise or results with considerable side effects. Current trials for prompting active immunity are ongoing, but still none have succeeded or show real promise. Many open questions exist, such as if treating patients later in disease is even possible.\newline
+
+
+\subsubsection*{Antisense Oligonucleotides}
+
+Antisense oligonucleotides (ASO) are 20 or so bp sequences of RNA which can hybridize with disease causing genes and target them for degradation. ASOs can also be used to alter splicing or to hybridize with miRNAs that block transcription, which can help boost transcription of your intended gene. ASOs cannot pass through the blood brain barrier, meaning targeting them to the CNS requires injections (and reinjections) into the CSF. Notably, once injected into the CSF they do a good job spreading throughout the entire CNS. \newline
+
+Nusinersen (also called Spinraza), developed by Ionis with a trial ran by Biogen, is a very powerful, success story for treating spinal muscular atrophy (SMA). SMA occurs due to the loss of the \textit{SMN-1} gene and its onset begins in childhood. The deletion of one exon from \textit{SMN-1} is quite common, conferring disease. Notably, a paralog for SMN-1 exists, called SMN-2. In the wildtype case, SMN-2 is largely non-functional due to the exclusion of a an exon of its own. Therefore, in affected individuals, SMN-1 is nonfunctional, but there is the potential of hijacking this ``dormant" SMN-2 gene via including this missing exon. That is, indeed, exactly the goal of this ASO. Therefore, even patients who are null for SMN-1 can recover via SMN-2 hijacking.\newline
+
+Another example by Ionis and Biogen is Tofersen, an ASO developed for knockdown against SOD1 in ALS. Indeed, SOD1 was reduced. However, ALS motor scores were not significantly different after the first trial. However, after open-label extension, in trials which lasted around a year, a benefit was found. Now, ASOs to SOD1 have been approved by the FDA.\newline
+
+An ASO to Huntingtin's was also developed called Tominersen, which got to a Phase 3 trials. However, these trials were halted because patients were getting worse. Recently Bates, who was the original creator of the R6 mouse, determined that it is specifically exon 1 which confers disease. It turns out the polyQ expanded alleles generated buildup of toxic protein specifically from exon 1. The ASO was targeted elsewhere in the htt transcript. It's thought that the full length protein can potentially be protective, and therefore an ASO directed to only exon 1 could potentially be successful. It has not been tried yet, but potentially will be helpful in the future. 
 
 
 \end{document}
