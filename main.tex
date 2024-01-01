@@ -5765,7 +5765,9 @@ For the moment, I will avoid describing individual technologies between the four
 \subsubsection{Soft vs. Hard Electronics.}
 The importance of the electronic's physical form has been considered by the Courtine group as well\footnote{\url{https://www.science.org/doi/10.1126/science.1260318}}. In their case, they looked specifically at the electrode paddly inserted into the spinal cord. Notably, they did not use this device in their recent, Lorach \textit{et al}. 2023 paper. One problem I personally find is that in using hard electronics, one immediately resolves to doing massive cranioplasty in order to add their device. If one goes the soft-only electronics route, perhaps you can insert the electronics beneath the skull itself. 
 
-    \section{The Electroencephalogram (EEG)}
+\section{The Electroencephalogram (EEG)}
+
+\textcolor{red}{Note that this section will recieve considerable upgrades through the coming semester.}
 
 \subsubsection{Introduction and Naming Conventions.}
 
@@ -5781,8 +5783,37 @@ In a waveform, \textit{spikes} are the fast, $<\approx100$ms peaks that stand ou
 
 \subsection{Electro-convulsive Therapy (ECT)}
 
-Electro-convulsive therapy (ECT) aims to induce seizures in patients with psychological disorders. EEGs are used in ECT to ensure the induced seizure was appropriate for treatment. ECT-induced seizures occur in 7 phases. \textbf{Phase 1} is seen as a large increase in voltage followed by a period of low-voltage, fast activity (i.e., it looks comparable to a hill followed by a bumpy plain). This ``hill" occurs on the order of 1 second. \textbf{Phase 2} is characterized by low-voltage, high frequency spikes in a recurring rhythm, which converts slowly to polyspike, which occurs on the order of 5-10 seconds. \textbf{Phase 3} is marked by polyspikes, where the amplitude rises. This marks the ``early clonic phase" of a seizure. The phase is expected to last less than 30 seconds. Notably, both phases 2 and 3 may be absent, as it depends on the strength and propagation of the electrical simulation. \textbf{Phase 4} is likely to be seen and constitutes the majority of the seizure phase. It is characterized by polyspike waveforms of about 3-7Hz and lasting on the order of 10-20 seconds. This phase ends in four main waves, concluding in suppression of all activity, signifying the termination of the seizure, and or, \textbf{Phase 5}. This may occur via an immediate stop (called \textit{abruptly ending}), slow conlusion marked by decreasing amplitude and lessened spike frequency (called \textit{gradually breaking up}, a very similar mode of conclusion which I cannot differentiate from the previous (called \textit{diffuse slowing}), or increased disorganization which collapses into low voltages (called \textit{becoming disorganized}). The final stage is then \textbf{Phase 6}, which neural activity is less than the original baseline observed prior to ECT, called \textit{postictal suppression}. This is generally around 20\% suppression and is quantified by a so-called \textit{postical suppression index}. Okay, and, the final-final stage would be that of returning to baseline, a \textbf{Phase 7}. This can take a couple of minutes to occur. This phase may not be observed, as patients undergoing ECT may be moved to a recovery unit before this can be see on an EEG. \newline
+Electro-convulsive therapy (ECT) aims to induce seizures in patients with psychological disorders, and is done under anesthesia. EEGs are used in ECT to ensure the induced seizure was appropriate for treatment. ECT-induced seizures occur in 7 phases. \textbf{Phase 1} is seen as a large increase in voltage followed by a period of low-voltage, fast activity (i.e., it looks comparable to a hill followed by a bumpy plain). This ``hill" occurs on the order of 1 second. \textbf{Phase 2} is characterized by low-voltage, high frequency spikes in a recurring rhythm, which converts slowly to polyspike, which occurs on the order of 5-10 seconds. \textbf{Phase 3} is marked by polyspikes, where the amplitude rises. This marks the ``early clonic phase" of a seizure. The phase is expected to last less than 30 seconds. Notably, both phases 2 and 3 may be absent, as it depends on the strength and propagation of the electrical simulation. \textbf{Phase 4} is likely to be seen and constitutes the majority of the seizure phase. It is characterized by polyspike waveforms of about 3-7Hz and lasting on the order of 10-20 seconds. This phase ends in four main waves, concluding in suppression of all activity, signifying the termination of the seizure, and or, \textbf{Phase 5}. This may occur via an immediate stop (called \textit{abruptly ending}), slow conlusion marked by decreasing amplitude and lessened spike frequency (called \textit{gradually breaking up}, a very similar mode of conclusion which I cannot differentiate from the previous (called \textit{diffuse slowing}), or increased disorganization which collapses into low voltages (called \textit{becoming disorganized}). The final stage is then \textbf{Phase 6}, which neural activity is less than the original baseline observed prior to ECT, called \textit{postictal suppression}. This is generally around 20\% suppression and is quantified by a so-called \textit{postical suppression index}. Okay, and, the final-final stage would be that of returning to baseline, a \textbf{Phase 7}. This can take a couple of minutes to occur. This phase may not be observed, as patients undergoing ECT may be moved to a recovery unit before this can be see on an EEG. \newline
 
+If sufficient seizure is not induced in such patients, a second round of stimulation will be done, with a 30s - 1min delay, with an $\approx 50 \%$ increase in dose. 
+
+\subsubsection{A Word on Setup.}
+
+Lose leads, or other technical anomalies are persistent and unavoidable. One can ameliorate these by performing two baseline tests: the first is done while the patient is awake, to ensure readings are normal, and no technical issues are present. The second baseline is performed after anesthesia is provided, which helps account for differences in baseline due to the anesthetic.\newline
+
+A loose lead, or a moving patient (particularly movement in facial muscles), may be visualized as rapid, high voltage spikes accompanying shifts in the baseline---giving the appearance of high noise. In the case of ECT, this may be suppressed using muscle relaxants in the facial muscles. 
+
+\subsubsection{Seizure End on an EEG.}
+
+Determining the end of a seizure on an EEG can either be obvious, with an immediate drop off in voltage leading to clear suppression, or non-obvious with gradual petering with no clear stopping point. Having a well-characterized baseline is key to mapping the seizure start and stop. Erring on the side of a longer recording time is also preferred. The minimum amount is considered to be 10 seconds of non-seizure activity on the EEG. Sometimes, artifacts on one lead may lead to the assumption that a seizure is still occurring. Therefore, another strategy is to identify the conclusion of the seizure at the end of recording and work backwards. 
+
+\subsection{Artifacts}
+
+\subsubsection{Of the Body; Eye Movements.}
+
+A common artifact is muscle twitching, which is seen as ultra high frequency with a enveloping structure at baseline. During a seizure, this may be seen as a superposition of high frequency jittering on a slow-wave background. Importantly, tremors of PD patients can be seen a slow wave contractions, particularly when the tremor is in the face (such as jaw tremors). \newline
+
+Movements in the eye are obvious in this mode of EEG, as the two leads are positioned nearby the orbitals. The eyeball is a dipole, with positive at the cornea and negative at the retina---thus, the direction of eye movement can be detected by it's sign on an EEG. An eye blink can be seen as a depolarizing slow wave, which can be distinguished between voluntary and involuntary by duration. Upward movement of the eye shows a positive spike, while downward shows a negative spike, due to repositioning of the dipole. Blinking also causes the eye to be re-positioned (called Bell's phenomena or oculogyric reflex), where closing causes an upward movement (positive) and opening causes a downward movement (negative). This reflex can be suppressed by anesthesia. Interestingly, closing one's eye while furrowing the brows introduces more noise on top of the oculogyric reflex.\newline
+
+The tongue is also a dipole, where the tip is negative and the base is positive. At baseline, when the patient swallows, this dipole can be see (as the tongue moves) and generally has two peaks. Different treatments may require bite blocks, or other modes of stabilizing the tongue, making this less of a concern.\newline
+
+ECG interference sometimes occurs as well, and can be spotted when the signal from the left electrode is stronger and displays peaks around 1Hz. Similarly, if an electrode is placed directly above a pulsing vessel, it may show broader waves around 1Hz in frequency. Finally, slow rythmic activity associated with breathing may also be observed, demonstrated by a longer sinusoidal wave at baseline. Similar effects can be seen if sweating, or other skin phenomena, occur, causing slow baseline changes. 
+
+\subsubsection{Of Technology.}
+
+Artifacts due to technological limitations are also common. The most common is when a single lead becomes disconnected (sometimes referred to as popping). This is seen as fast spikes on a single electrode. Most transients observed on a single electrode are considered artifacts, unless there is good reason to believe otherwise.\newline
+
+Large spikes can occur when electrodes are accidentally touched by other medical professionals, such as anesthsiologists bumping the oxygen mask against mastoid electrodes, generating a quick spike. Detached electrodes can lead to highly variable signal, or loss of signal. Similarly, a detached ground electrode can cause malfunctions in all other electrodes, particularly when high impedance is found in other electrodes, forcing the grounded electrode to start reading a non-zero signal. Though, this type of error is rare, as the ground is typically sufficiently protected internally. 
 
 
 \section{Literature}
@@ -6082,6 +6113,7 @@ One such topic is that of neurodegeneration. Naturally, there are not many direc
 
 
 
+
 \chapter{Neurodegeneration}
 
 This is more of a historical dive into the research, because so much of what we know about neurodegenerative diseases is likely wrong, overstated, or misinterpreted. There are many fascinating theories and little agreement. You will hear some, like Dr. Rothstein at JHU, argue that there is a viral component. You will hear some, like the Wallace lab at Penn, claim that Alzheimer's is due to mitochondrial dysfunction and not amyloid aggregation. So for now, let's call this a historical review of the research up to this point.\newline
@@ -6110,7 +6142,11 @@ To begin investigation, groups had to focus on familial AD (fAD), otherwise find
 
 In their first early onset AD pedigree, Goate and colleagues found family members to exhibit two different alleles, which correlated exactly with AD. However, two unaffected family members exhibit recombinant alleles at different sites. The first individual shares the same allele at the telomeric end of the chromosome to their affected parent. This individual was 15 years over the mean age of diagnosis for AD, giving a high degree of confidence that they do not have the disease. This suggests the AD causing gene is not, in this family, telomeric to the APP gene. The second individual shared the same allele as the affected parent only centromeric to APP, and at the time of the study was unaffected. It's possible this individual would develop AD later in life. Therefore, based on their current pedigree, APP was the clearest possible disease causing gene, but they did not have absolute confidence.\newline
 
-From there, they used PCR to identify the site of mutation and developed primers specifically around the $\beta$APP. This was a natural choice, as A$\beta$ was already identified in AD plaques and, fascinatingly, dysfunction of the $\beta$ unit was implicated in other diseases already. Via direct hand Sanger sequencing, they found a valine to isoleucine polymorphism in the $\beta$APP encoding portion. A common, helpful technique when a polymorphism like this is found is to see if it alters a possible restriction enzyme cut site. For example, perhaps the polymorphism converts an \textit{EcoR}I cut site into a non-cut site. Now, to screen possible patients, instead of sequencing every patient individually, they could use PCR and restriction enzymes and analyze the bands on a Southern blot (two would signify no mutation, one would signify mutation), significantly cutting down the time, effort, and cost of diagnosis. While sequencing may take closer to weeks, such enzyme gels can be done in an afternoon. \newline
+From there, they used PCR to identify the site of mutation and developed primers specifically around the $\beta$APP. This was a natural choice, as A$\beta$ was already identified in AD plaques and, fascinatingly, dysfunction of the $\beta$ unit was implicated in other diseases already. Via direct hand Sanger sequencing, they found a valine to isoleucine polymorphism in the $\beta$APP encoding portion. \newline
+
+\subsubsection*{Digression: Restriction fragment length polymorphism (RFLPs)}
+
+Harnessing the power of restriction fragment length polymorphism (RFLPs) immeasurably advanced genetic testing. The benefits of RFLPs are that mutations cause a restriction enyzme cut site---allowing for very easy screening. Researchers would look for polymorphisms around a disease causing gene, which served as an easy technique for getting a broad sense of the genotypes in a pedigree. In other words, it helps you screen for markers segregating with the disease causing gene. Better yet, when a polymorphism that's thought to be disease causing is found, one can see if it alters a possible restriction enzyme cut site. For example, perhaps the polymorphism converts an \textit{EcoR}I cut site into a non-cut site. Now, to screen possible patients, instead of sequencing every patient individually, they could use PCR and restriction enzymes and analyze the bands on a Southern blot (two would signify no mutation, one would signify mutation), significantly cutting down the time, effort, and cost of diagnosis. While sequencing may take closer to weeks, such enzyme gels can be done in an afternoon.
 
 Indeed, a \textit{Bcl}I restriction site induced by the polymorphism, allowing them to detect the presence of the mutation on a gel. In this case, a non-affected person will have an uncut sequence of DNA of 319 bp in length, while those affected individuals will have a band at 199 bp and 120 bp. They were able to screen other families and find the same mutation. To verify these families were not related, they checked other polymorphic sites and found divergence, suggesting sufficient genetic dissimilarity.\newline
 
@@ -6164,7 +6200,7 @@ Notch protein localization and expression was similar across their PSEN mutants 
 
 Expression of Notch's intracellular domain alone, and accompanying blots, showed that it is unaffected by the PSEN knockdown, suggesting PSEN plays a role specifically in releasing Notch from the membrane. Finally, PSEN knockdown did not affect Delta levels, as quantified by Western blots. Inactive Notch confers proneural clustering in both WT and PSEN mutants. Using only the intracellular Notch domain, no SOP differentiation occurs in both WT and PSEN mutants. Most SOP differentiation was suppressed in a membrane tethered background. It is supposed by the authors that PSEN is not required for membrane trafficking nor nuclear trafficking of Notch. Rather, they supposed PSEN is needed in some activation mechanism that follows ligand binding.\newline
 
-The experiments by both groups led to the conclusion that PSEN was specifically involved in cleavage of Notch, as opposed to acting as a ligand or aiding in it's downstream signaling cascade. It was concluded that PSEN cleaves Notch somewhere in its transmembrane domain. Naturally, the big takeaway was that PSEN may play a similar role in APP processing, and thus produces A$\be$ in the same way.\newline
+The experiments by both groups led to the conclusion that PSEN was specifically involved in cleavage of Notch, as opposed to acting as a ligand or aiding in it's downstream signaling cascade. It was concluded that PSEN cleaves Notch somewhere in its transmembrane domain. Naturally, the big takeaway was that PSEN may play a similar role in APP processing, and thus produces A$\be$ in the same way.
 
 
 \subsection*{Making an AD Mouse Model}
@@ -6175,7 +6211,7 @@ To this point, we have a decent idea of some of ``key players." But, we have lit
 
 Their Northern blots showed 3 different alternatively spliced forms of APP mRNA, and Western blots showed the amount of protein is was increased in the transgenic mice vs. WT mice, and that that A$\be$ was indeed being produced too. Recall that these mice did have endogenous APP of their own, which was not mutated. Therefore, the disease focused on the gain of function associated with APP aggregation.\newline
 
-A$\be$ buildup occurred only at 6-9 months of age and worsened from there. It was primarily local to the hippocampus, corpus callosum, and cerebral cortex. A$\be$ buildup took a variety of forms, including irregularly shaped bundles and other more characteristic, dense plaques. Reactive astrocytes were often found surrounding such plaques via GFAP staining. A$\be$ plaques were associated with synaptophysin, suggesting their localization to sprouting axons\footnote{It is a bit unclear what is meany by sprouting here---I am not sure how definitions of sprouting may differ between groups.}. Staining for MAP-2 in addition to synaptophysin showed plaques disrupting and de-densifying nearby regions. Plaques also seemed to compress the surrounding neurophil (the unmyelinated, cell dense regions of neural tissue). 
+A$\be$ buildup occurred only at 6-9 months of age and worsened from there. It was primarily local to the hippocampus, corpus callosum, and cerebral cortex. A$\be$ buildup took a variety of forms, including irregularly shaped bundles and other more characteristic, dense plaques. Reactive astrocytes were often found surrounding such plaques via GFAP staining. A$\be$ plaques were associated with synaptophysin, suggesting their localization to sprouting axons\footnote{It is a bit unclear what is meant by sprouting here---I am not sure how definitions of sprouting may differ between groups.}. Staining for MAP-2 in addition to synaptophysin showed plaques disrupting and de-densifying nearby regions. Plaques also seemed to compress the surrounding neurophil (the unmyelinated, cell dense regions of neural tissue). 
 
 \subsubsection*{Tangled up in Blue.}
 
@@ -6185,44 +6221,43 @@ The appropriate question to ask is: ``what about tau?" Tau was not found in this
 
  The endogenous function is not fully solved, but we know the gist. Tau binds to microubules and is thought to help stabilize them. When phosphorylated, it unbinds from the microtubules, thought to cause axonal degeneration. Notably, tangle burden progresses with the disease more so than does plaque burden. Tangles appear later on, but correlated more strongly with increased symptoms. This bit of conflict created a rift among scientists on what the root of the disease was---A$\be$ or tau. Some supposed tau was a side effect of the greater disease, induced by A$\be$ aggregation. Others supposed that A$\be$ aggregation was largely benin, and it was when tangles arose that the disease truly began. 
 
- \subsection*{Lewis et al. 2000}
+ \subsection*{What About Tau?}
 
- Initially it was thought that tau tangles were solely a symptom, and or, a result of already dying neurons. In 2000, Lewis et al. helped challenge this idea with a paper that overexpressed mutant tau protein found in frontotemporal dementia and parkinsonism (FTDP)\footnote{\url{https://www.nature.com/articles/ng0800_402}}. The mice exhibited a wide variety of degeneration linked to the tau protein buildup. This included symptoms even in the spinal cord and peripheral nerves. Mutant tau (P301L) was expressed by the mouse prion promoter (MoPrP). They found that hemizygous lines expressed tau at approximately the same level as WT, and mice homozygous for the mutant expressed it at levels $\approx 2\times$WT.  
+ Initially it was thought that tau tangles were solely a symptom, and or, a result of already dying neurons. In 2000, Lewis et al. helped challenge this idea with a paper that overexpressed mutant tau protein found in frontotemporal dementia and parkinsonism (FTDP)\footnote{\url{https://www.nature.com/articles/ng0800_402}}. The mice exhibited a wide variety of degeneration linked to the tau protein buildup. This included symptoms even in the spinal cord and peripheral nerves. Mutant tau (P301L) was expressed by the mouse prion promoter (MoPrP). They found that hemizygous lines expressed tau at approximately the same level as WT, and mice homozygous for the mutant expressed it at levels $\approx 2\times$WT.\newline
 
- \subsubsection*{Figure 1-4}
+ A composite of behavioral assays, including escape responses, motor defects, and the inability to right (flipping over from its back onto its feet again) demonstrated sensorimotor dysfunction. Hemizygous mice had symptom onset at about 6.5 months, while homozygous at around 4.5 months. Eventually, they were unable to walk. \newline
 
- Their Figure 1 was a composite of behavioral assays, including escape responses, motor defects, and the inability to right (flipping over from its back onto its feet again). Hemizygous mice had symptom onset at about 6.5 months, while homozygous at around 4.5 months. Eventually they were unable to walk.\newline
+The spinal cord showed defects, namely fibrillary gliosis, axonal degeneration, and axonal spheroids (bleb). GFAP immunoreaction was found throughout the brain, signifying gliosis. Importantly, degeneration was global, including skeletal muscle and peripheral nerves. Neurofibrillary tangles were found throughout the brain, including in the brainstem and diencephalon. Interestingly, so-called ``pretangles" were found in other regions of the brain, including the hippocampus. The fibrils were irregular in shape and specifically phosphorylated.\newline
 
-Figure 4 showed spinal cord defects, namely fibrillary gliosis, axonal degeneration, and axonal spheroids (bleb). GFAP immunoreaction was found throughout the brain, signifying gliosis. Importantly, degeneration was global, including skeletal muscle and peripheral nerves. In Figure 2, neurofibrillary tangles were found throughout the brain, including in the brainstem and diencephalon. Interestingly, so-called ``pretangles" were found in other regions of the brain, including the hippocampus. In Figure 3, the fibrils were irregular in shape and specifically phosphorylated.
+In the mutant lines, a greater proportion of tau was insoluble and shifted toward a higher molecular weight. This is consistent with being heavily phosphorylated, which was verified by dephosphorylating the protein causing the elimination of such high-weight bands. The authors showed the similarity between AD bands and their model's bands. 
 
- \subsubsection*{Figure 5}
+\subsubsection*{Implications.}
 
-Figure 5 investigated the solubility of tau. In the mutant lines, a greater proportion was insoluble and shifted toward a higher molecular weight. This is consistent with being heavily phosphorylated, of course, which was verified by dephosphorylating the protein causing the elimination of such bands. They seemed proud of the similarity between AD bands and their model's bands. 
-
-\subsubsection*{Follow-Up}
-
-To follow-up, whether or not APP modulates the tau protein buildup became a focus. Indeed crossing this tau mouse with an APP mouse led to increased NFT formation. This suggest tangles are needed for neural lost?  Later, groups tried combining multiple familial AD mutations in APP with PSEN mutants, leading to very early onset and more powerful, clear behavioral defects. After these tau models were verified, tau too was added.\newline
+To follow-up, whether or not APP modulates the tau protein buildup became a focus. Indeed, crossing this tau mouse with an APP mouse led to increased NFT formation. Later, groups tried combining multiple familial AD mutations in APP with PSEN mutants, leading to very early onset and more powerful, clear behavioral defects. After these tau models were verified, tau too was added. It isn't clear what the connection between fAD and sporadic AD is. Is inducing these severe AD symptoms in mice via fAD mutations actually comparable to the very slow progressing, late onset forms of AD? To what degree are the fAD and sporadic AD mechanisms conserved?\newline
 
 In clinical trials, antibodies against A$\be$ showed the ability to decrease plaques. However, no obvious clinical benefit was found. Naturally, this could be because degeneration had already run its course, or it could be that tau is directing progression at this point. Some take this as evidence against the amyloid cascade hypothesis. 
 
- \subsection*{Jonsson et al. 2012}
 
- \subsubsection*{Background}
+\subsection*{Mutations Protecting Against AD}
 
- Iceland keeps quite good genealogy records, and because people are quite related due to population isolation, their genetics are ripe for this sort of testing.\newline
+ In 2012, Jonsson et al. found something totally unexpected\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/22801501/}}. By 2012, gone were the days of hand reading base pairs from an autoradiogram. The intense study of amyloid precursor protein's (APP's) role in Alzheimer's disease (AD) largely began when Goate \textit{et al}. hand sequenced the $\beta$-amyloid coding region of individuals with familial AD and found a causative mutation. Some 20 years later, the $\beta$-amyloid allele of nearly every individual in Iceland became known. Iceland keeps quite good genealogy records, and because people are quite related due to population isolation, their genetics are ripe for this sort of testing.\newline
 
- This paper identifies an APP mutation that protects against AD. Fascinatingly, they claim it also protects against age-related dementia in non-AD patients. This seems very fishy to me, but hey, whatevs. Beginning with a pool of $\approx 2000$ people, they identified SNPs in elderly people compared to AD patients. They identified the A673T mutation to be higher in the non-AD people, suggesting it is protective. They then chip-genotyped more people (i.e., used a probe against this SNP) to increase sample size. They also showed an increased risk in late onset AD vs. early onset, which demonstrated some mechanistic differences. \textcolor{red}{Understand better?} Mutations in APP have not been implicated in early onset AD before. \newline
+Via direct sequencing of around 2,000 Icelanders, Jonsson et al. generated chips for APP alleles, allowing for the genotyping of 70,000 more. The accuracy of their genotyping was verified through direct sequencing, allowing computational approaches to provide predictions for nearly all Icelander's APP allele. Fortunately, an otherwise very rare allele is present at a high frequency in some North European countries, like Iceland. This allele was A673T, the first mutation found to be protective against AD, and its discovery indirectly answered a number of open questions. \newline
 
- \subsubsection*{Table 1}
+The group demonstrated this A673T mutation is protective through comparisons of the allele frequency in AD and non-AD patients. Notably, this allele was 7.52 times more likely to be found in cognitively intact individuals above 85 than in AD patients, suggesting it aids in the prevention of late onset AD. Like many familial AD mutations, A673T is present near the $\beta$-secretase 1 (BACE1) cleavage site. Because the A673T mutation is protective against late onset AD, it indeed showed APP's sequence is relevant to sporadic AD, and that there is some conserved mechanism between early onset and late onset AD. Through Western blot analysis of 293T cells (kidney cells), they sought to gain mechanistic insight. Interestingly, the work showed evidence against the importance of A$\beta$ cleavage product ratios (namely A$\beta_{42}$ to A$\beta_{40}$). The A673T mutation showed an overall decrease in A$\beta$, rather than affecting this A$\beta_{42}$ to A$\beta_{40}$ ratio. The amount of sAPP$\alpha$ was slightly raised, as might be expected if un-cleaved APP is present in higher levels due to weakened BACE1 activity, making more available for cleavage by $\alpha$-secretase. These results suggest AD  can be slowed or stopped via reduction of A$\beta$, particularly through the weakening of BACE1 proteolytic activity. They make the bold claim that the A673T mutation is protective against general cognitive decline, suggesting a function of APP beyond AD. This measure was done by the Cognitive Performance Scale (CPS), but is purely correlative in nature.\newline
 
- Table 1 shows that the odds of having the mutation are significantly higher for those that are 85 and older, and cognitively intact than those with AD.\newline
+The mutations compared by Jonsson  and colleagues were A673T and A673V, with A673V showing a significant rise in A$\beta$. Notably, A673V converts from the mildly hydrophobic residue, alanine, to the markedly more hydrophobic residue valine. Conversely, A673T becomes more hydrophilic. One can postulate that the cleavage of APP, releasing A$\beta$, requires a hydrophobic interface between BACE1 and APP around this residue. Further credence is given to this by a different familial AD mutation, called the Swedish mutation (K670N/M671L), which adjacent to the BACE1 cut site becomes more hydrophobic with leucine.\newline
 
- The genotype is relatively rare, on the order of one per couple hundred people, or rarer depending on the continent. Because the mutation is neuroprotective, carriers have markedly longer life spans. Fascinatingly, they even suggest the genotype is substantially beneficial even compared to those without AD. In cognitive scores they performed much better. Notably, though, the error bars are so insane they go off the screen (like literally, some error bars are cutoff from the graph).\newline
+Mudher and Lovestone stated that proving the amyloid cascade hypothesis requires showing a reduction in plaques results in tau tangle abolishment, and thus functional recovery\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/11801334/}}. A considerable drawback of Jonsson and colleagues' work is that there is no direct insight into the interplay of APP and tau. The study of AD still has long to go before reaching its completion. But, as new tools become available to researchers, progress is continually made. Faster sequencing, computational drug design, and ever-improving mouse models allow for new routes of study. The journey to treating AD is long, but we can be sure that whenever a new roadblock arises, technological advancement will provide the path to new insight. 
+
+\subsubsection*{Digression: Other Means of Protection.}
+
+Interestingly, education proves to be a strong protective factor against AD. If memory problems have already began, using acetylcholine-esterase inhibitors can be helpful to help potentiate this transmitter and improve function (or, delay its decline). However, these forms of treatment tend to be short-lived. Exercise also turns out to be quite helpful in promoting neurogenesis, which may delay progression.
 
 
-\subsection*{Corder et al. 1993}
+\subsection*{There's Still More?: ApoE}
 
-Surprisingly, ApoE protein was found within the A$\beta$ plaques, and only after this was linkage found to Chr19, around the APOE gene. ApoE is a small protein, only 229 amino acids. It is a lipoprotein which helps move cholesterol through the bloodstream. The alleles are: 
+As mentioned in an earlier section, the effect of ApoE on AD had long been known. Surprisingly, ApoE protein was found within the A$\beta$ plaques, and only after this was a linkage found to Chr19, around the APOE gene. ApoE is a small protein, only 229 amino acids. It is a lipoprotein, which helps move cholesterol through the bloodstream---therefore, one possible mode of management is controlling cholesterol levels. Four alleles exist, but the three key APOE alleles we consider here are: 
 
 \begin{enumerate}
     \itemsep 0em
@@ -6231,34 +6266,23 @@ Surprisingly, ApoE protein was found within the A$\beta$ plaques, and only after
     \item APOE-$\epsilon$4 (arg112, arg158)
 \end{enumerate}
 
-The APOE-$\epsilon$3 allele is the most common. Controlling cholesterol levels is a key component of managing APOE. It is thought, now, that ApoE2 may be slightly protective over ApoE3. Presence of the APOE-$\epsilon$4 allele results in a much earlier age of onset. 
+The dosage of the APOE allele which confers risk of disease, as shown by Corder et al. in 1993\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/8346443/}}. The APOE-$\epsilon$3 allele is the most common. It is thought, now, that ApoE2 may be slightly protective over ApoE3. But, the key player is  APOE-$\epsilon$, whose presence results in a much earlier age of onset. The APOE-$\epsilon$4 allele is one of the strongest determinants of AD onset. The risk factor for AD increased by approximately $3\times$ for each additional APOE-$\epsilon$4 allele. Corder and colleagues showed that $\approx 90\%$ of those with 4/4 genotype had the disease, while only 19\% did for a 2/3 genotype. Similarly, the age of onset was much earlier for those with 4/4 than other genotypes. Autopsies of these patients show a much higher degree of amyloid staining, suggesting the APOE-$\epsilon$4 allele increases the plaque burden.\newline 
 
-\subsubsection*{Tables 1, 2, 3 \& Figure 1}
-
-The APOE-$\epsilon$4 allele is one of the strongest determinants of AD onset. The APOE gene has 4 total alleles, and the dosage of the fourth confers AD onset. The risk factor for AD increased by approximately $3\times$ for each additional APOE-$\epsilon$4 allele. Their Table 2 demonstrates that 90\% of those with 4/4 genotype had the disease, while only 19\% did for a 2/3 genotype. Similarly, the age of onset was much earlier for those with 4/4 than other genotypes.\newline
-
-Autopsies of these patients show a much higher degree of amyloid staining, suggesting the APOE-$\epsilon$4 allele increases the plaque burden. 
-
-\subsubsection*{Fall Out}
-
-Then, to now, there was considerable skepticism of the finding. As APOE is not considered disease causing, but rather a risk factor, it was unclear the role it might play. Still, some were unconcerned with the fact that ApoE shows up in plaques, as it is not clear that amyloid is disease causing. Importantly, too, most of these genetic studies were done in European populations---which turned out to be of great relevance. APOE-$\epsilon$4... is not a (big) risk factor in Hispanic populations, like it is in a European background. 
-
-\subsection*{Genome Wide Association Study (GWAS)}
-
-Sporadic AD remains much more common than familial---so how do you go after risk factors involved in sporadic AD? Of course, APOE-$\epsilon$4 is the highest by a significant amount, but rae there more?\newline
-
-A Manhattan plot probes the entire genome for SNPs of individuals and co-segregates significantly with diseases vs. controls. Initially, massive amounts of money were poured into GWASs, but were largely unsuccessful. Now, with much greater sample sizes, they have been more successful. Notably, 90\% of polymorphisms are shared ancestrally. Around 60 de novo point mutations are expected per individuals, with 3 indels, and (on average) less than 1 structural variation. Therefore, much of the original GWAS studies were muddled by the different genetic backgrounds of the patients. That is, someone with the disease from one continent that is compared with an individual of another continent would show a significant, surprising degree of genetic association for factors totally unrelated to the disease. Combining this with the fact that a large portion of the genome is non-coding---GWAS struggled greatly with poor controls in the early days.\newline
-
-Now, suppose you find a peak---what next? You have to understand what is occurring. If the mutation is in an enhance, what gene is it affecting? When tons of genes cluster closely together, and linkage is found, which one is the affected gene? When many nearby SNPs are found, which ones are relevant? \newline
-
-Later, in section \textbf{\ref{sec:HDGWAS}}, we will discuss a hugely successful example of this mode of study. 
-
-\subsection*{So, what do you do?}
-
-What are protective factors against AD? Education proves to be a strong protective factor. If memory problems have already began, using acetylcholine-esterase inhibitors can be helpful to help potentiate this transmitter and improve function (or, delay its decline). Exercise also turns out to be quite helpful in promoting neurogenesis.
+From then to now, there has been considerable skepticism over this finding. As APOE is not considered disease causing, but rather a risk factor, it was unclear the role it might play. Still, some were unconcerned with the fact that ApoE shows up in plaques, as it is not clear that amyloid is disease causing. Importantly, too, most of these genetic studies were done in European populations---which turned out to be of great relevance. APOE-$\epsilon$4 is not a (big) risk factor in Hispanic populations like it is in a European background, further muddling the potential role that it may play. 
 
 
-\subsubsection*{Digression: Holtzman Lecture} This is from a video featuring Holtzman called Sleep \& the Pahophysiology of Alzheimer's Disease\footnote{\url{https://www.youtube.com/watch?v=zCmngDk9VDU}}. To start, dementia is considered a decline in cognitive abilities sufficient to impair daily life. Approximately 50\% of people over the age of 80 have some form of dementia.\newline
+\subsection*{Degeneration \& Genome Wide Association Studies (GWAS)}
+
+Sporadic AD remains much more common than familial---so how do you go after risk factors involved in sporadic AD? Of course, APOE-$\epsilon$4 is the highest risk factor by a significant amount, but are there more\footnote{It is unclear to me if asking this question is a good idea. Perhaps we should focus on understanding the factors we already have identified first. Or perhaps we will find the missing link that connects all the puzzle pieces.}?\newline
+
+One way to investigate this is through a genome wide association study (GWAS). A Manhattan plot is one way to represent this data, and probes the entire genome for SNPs of individuals and co-segregates significantly with diseases vs. controls. Initially, massive amounts of money were poured into GWASs, but were largely unsuccessful. Now, with much greater sample sizes, they have been more successful. Notably, 90\% of polymorphisms are shared ancestrally. Around 60 de novo point mutations are expected per individuals, with 3 indels, and (on average) less than 1 structural variation. Therefore, much of the original GWAS studies were muddled by the different genetic backgrounds of the patients. That is, someone with the disease from one continent that is compared with an individual of another continent would show a significant, surprising degree of genetic association for factors totally unrelated to the disease. Combining this with the fact that a large portion of the genome is non-coding---GWAS struggled greatly with poor controls in the early days.\newline
+
+Now, suppose you find a peak---what next? You have to understand what is occurring. If the mutation is in an enhancer, what gene is it affecting? When tons of genes cluster closely together, and linkage is found, which one is the affected gene? When many nearby SNPs are found, which ones are relevant? In short, GWAS seem like an all-powerful technique, but often the results are difficult to interpret or meaningless. Later, in section \textbf{\ref{sec:HDGWAS}}, we will discuss a hugely successful example of this mode of study. 
+
+
+\subsubsection*{Digression: AD and Sleep} 
+
+This is from a video featuring Holtzman called Sleep \& the Pahophysiology of Alzheimer's Disease\footnote{\url{https://www.youtube.com/watch?v=zCmngDk9VDU}}. To start, dementia is considered a decline in cognitive abilities sufficient to impair daily life. Approximately 50\% of people over the age of 80 have some form of dementia.\newline
 
 The role of glia has been understated for a long time in the progression of AD. It seems that Tau and $\beta$-amyloid buildup activates a glial / autoimmune response. Like most neurodegenerative diseases, symptom onset marks the end stages of it. Pathology beginnings occur far before symptom onset.\newline
 
@@ -6272,88 +6296,49 @@ While A$\beta$ accumulation precedes symptoms by many years, tau buildup seems t
 \section*{Huntington's}
 
 \subsection*{Overview}
-There's 30-40 human diseases due to CAG repeats. For HD, it is within the coding region of an exon, which encodes glutamine---which becomes a polyGlu. Though, notably, there's a bunch of diseases with the same mechanism. These genes normally have CAG repeats, but in disease phenotypes the repeats become elongated. HD is typically characterized as a movement disorder. For very long expansions, one can get juvenile HD. In patients, the caudate and putamen (which make up the striatum) are especially damaged, which causes enlarged central ventricles. \newline
 
-Interestingly, in diseases like spinocerebellar ataxia, another exon CAG repeat disease, many present clinically in the same way. However, their mutations are in different genes and the cell types affected are different. This causes degeneration in slightly different regions of the brain. Ataxic gait is classified by a lack of balance, which causes patients to widen their legs to maintain balance and jerk-like movement with stepping. It is especially clear upon asking patients to close their stance, in which case you'll see them lose balance. HD has less extreme, jerky movements and more stiffness, dis-coordination, and difficulty balancing\footnote{A rude comparison is to someone who is tweaking.}. \newline
+Huntington's disease (HD) is characterized by an autosomal dominant mutation, and symptom onset typically begins between age 30 and 50, and it is completely penetrant. Chorea (large muscle jerks, resulting in dance-like movement) and cognitive decline are two marked symptoms. HD also features genetic anticipation---the diseases get worse, with earlier onset, every generation. While Huntingon's was first recognized in the 1900's, it was largely ignored---researchers didn't know what to make of it, because the ``gene" changing over time seemed confusing and inexplicable. \newline
 
-Huntington's is characterized by an autosomal dominant mutation, and symptom onset begins around age 30 to 50 and is completely penetrant. Chorea (large muscle jerks, resulting in dance-like movement) and cognitive decline are two marked symptoms. Genetic anticipation is a feature where diseases get worse, with earlier onset, every generation. While Huntingon's was first recognized in the 1900's, it was largely ignored---people didn't know what to make of it, because the gene changing over time seemed confusing. Repeat expansion was first identified in DM1 disease, which was a CTG expansion. You cannot precisely predict the age of onset by the length of the CAG repeats, for HD. \newline
+Repeat expansion---an increasingly long pattern of repeated nucleotides induced by instability in replication---was first identified in myotonic dystrophy 1 (DM1), a CTG expansion. This CTG expansion is in the untranslated region of the dystrophia myotonica protein kinase (DMPK) gene. It is marked by genetic instability, is autosomal dominant, and inherited. Presently, there are 30-40 known human diseases due to CAG repeats, HD being one of them. In HD, one cannot precisely predict the age of onset by the length of the CAG repeats, but the length of the repeat does correlate with the severity of the disease---just with considerably variability. The expansion is within the coding region of an exon, which encodes glutamine, becoming a polyGlu (polyQ). Many diseases share this mechanism with HD. These genes normally have endogenous CAG repeats, but in disease these repeats become elongated tens or hundreds of times more than in the wildtype gene.\newline
 
-Nancy Wexler was one of the first to ``set out" to characterize HD. She traveled around the world and met many HD patients, looking for someone who was homozygous. She specifically went to Venezuela because they had a very large HD population. The median repeat length in this population was around 45 repeats. Most fall in the range of 40-50, but some rare outliers exist. Juvenile onset median was closer to 60 repeats.\newline
+HD is typically characterized as a movement disorder, and the most severe cases, marked by very long expansions, can cause juvenile HD. In patients, the caudate and putamen (which make up the striatum) are especially damaged, leading to enlarged central ventricles. \newline
 
-Repeat expansion occurs more commonly in sperm production, so it is more common for an affected father to worsen the disease. Interestingly, as HD most severely affects the striatum, movement is expectedly impacted. However, conversely to Parkinson's, dopamine levels actually increase, while GABA and acetylcholine decrease. Therefore, dopamine inhibitors are a way to treat the symptoms (not the disease progression) of HD. 
+Interestingly, in diseases like spinocerebellar ataxia (SCA), another exon CAG repeat disease, many present clinically in the same way. However, their mutations are in different genes and the cell types affected are different. This causes degeneration in slightly different regions of the brain. Ataxic gait is classified by a lack of balance, which causes patients to widen their legs to maintain balance and jerk-like movement with stepping. It is especially clear upon asking patients to close their stance, in which case you'll see them lose balance. HD has less extreme, jerky movements and more stiffness, dis-coordination, and difficulty balancing\footnote{A rude comparison is to someone who is tweaking.}. \newline
 
-\subsubsection*{RFLPs}
+Nancy Wexler was one of the first to ``set out" to characterize HD. She traveled around the world and met many HD patients, looking for someone who was homozygous. She specifically went to Venezuela because they had a very large HD population. The median repeat length in this population was around 45 repeats. Most fall in the range of 40-50, but some rare outliers existed. Juvenile onset median was closer to 60 repeats.\newline
 
-The benefits of RFLPs are that mutations cause a restriction enyzme cut site. This allows you to get a broad sense of the genotypes of those in a pedigree. Thus, researchers started looking for RFLPs nearby disease causing genes. 
-
+Repeat expansion occurs more commonly in sperm production, so it is more common for an affected father to worsen the disease. Interestingly, as mentioned, HD most severely affects the striatum, impacting movement. However, conversely to Parkinson's, dopamine levels actually increase, while GABA and acetylcholine decrease. Therefore, dopamine inhibitors are a way to treat the symptoms (not the disease progression) of HD. 
 
 
-\subsection*{Gusella et al. 1983}
+\subsection*{Tracking the Gene}
 
-\subsubsection*{Overview}
-Prior to this study, nothing was known about the disease pathology of Huntingon's disease. In fact, the closest that had been achieved before is that 20\% of the chromosome was excluded from the disease-causing locus.\newline
+Prior to this 1983, nothing was known about the disease pathology of Huntingon's disease. In fact, the closest that had been achieved before is that 20\% of the chromosome was excluded from the disease-causing locus. The disease causing gene was solved by Gusella et al.\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/6316146/}}\newline
 
-They generated cell lines from their derived tissues for future use. Picking a high quality of patients was essential, which included using experienced neurologists and people with verified HD over the course of a couple of years. They used 12 DNA probes from genes that already existed, which could not hybridize to multiple places in he genome. Only the G8 marker gave a suggestion of linkage to the HD gene. 
+The group began by generating stable cell lines from patient-derived lymphoblastoid cells. Picking high quality patients was essential, which included using experienced neurologists and well verified HD over the course of a couple of years. Finding large families with well documented Huntingon's disease and available tissue samples was quite hard. Similarly, recall that in 1983, very, very few genes were known. The library of DNA probes could nearly be counted on two hands. The group used They used 12 established DNA probes from the known genes, which hybridized to a single place in the genome. Shockingly, one gave a hit: the G8 marker showed linkage to the HD disease causing gene.\newline
 
-\subsubsection*{Figure 1 \& 2}
+The prime roadblock in investigating HD was the lack of genetic linkage to any known markers. The G8 marker showed the first promising results. It was extremely difficult to extract meaning from blots, in these days.\newline
 
-These figures are simply illustrations of large pedigrees they found. Finding large families with well documented Huntingon's disease and available tissue samples, evidently, was quite hard then. 
+The group characterized nearby restriction cut sites for \textit{Hind}III (H) and \textit{EcoR1} (R). The G8 probe is quite small, and the polymorphic sites are very close to one another. An imporant part of this was differentiating between  affected and non-affected chromosomes in the heteozygous patients. Similarly, it gave indications of the patient's genotypes. The two pedigrees they analyzed had different haplotypes. Haplotype A was associated with HD in the American family, and haplotype C with the Venezuelan family. The haplotypes being different either suggests it's two different genes or that the mutations arose independently in the two families. There are instances in which individuals have haplotype C, but do not have HD. This could be due to different age of onset or that some recombination event separated this polymorphism from the HD gene. Recall that we still have absolutely no information about where G8, or the HD gene is, in the genome. They still may be many kb apart. \newline
 
-\subsubsection*{Figure 3}
+They showed that the G8 probe does not hybridize without Chr4 present. In fusing human-mouse cell hybrids, they essentially generated mouse cells with human chromosomes. Each cell may contain any combination of human chromosomes. They scored which chromosomes each cell had, by eye, and if it hybridized with the G8 marker. Because all cells with Chr4 have the G8 marker, they assumed G8 must be on Chr4. They tried testing recombination events of the HD gene with other Chr4 markers and found no association.\newline
 
-Really, a large roadblock in investigating HD was the lack of genetic linkages. The G8 marker showed the first promising results. Figure 3 (top) shows the cut sites for \textit{Hind}III (H) and \textit{EcoR1} (R) restriction sites. The actual probe that they have is quite small. The G8 polymorphic sites are very close to one another. They want to prove individuals that are heterozygous, so that they can differentiate betwen affected and non-affected chromosomes.\newline
+The G8 probe certainly doesn't hybridize directly to the HD gene, but it is likely close to it! The scientists had narrowed the disease causing gene down to Chr4 and had some indication of surrounding restriction enzyme cut sites, and the haplotyopes of affected and unaffected individuals. This had considerable implications, as you can now test haplotypes of offspring and predict if they'd get HD. Moving forward, more markers and more segregation analysis will be helpful in narrowing down the gene. Then, you have to start sequencing nearby genes.  
 
-Haplotype A is associated with HD in the American family. It is haplotype C in the Venezuelan family. The fact that the haplotypes are different between people either suggests it's two different genes or that the mutations arose independently in the two families. There are a few instances in which individuals have haplotype C, but do not have HD. This could be due to different age of onset or that some recombination event separated this polymorphism from the HD gene.\newline
+\subsection*{Finding \textit{HTT}}
 
+Led by Gusella, the Huntington's Disease Collaborative Research Group (HDCRG) was formed. For many years, they had to make markers and compare recombination of events around this G8 area, until they finally found the gene in 1993\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/8458085/}}. The goal was to narrow down the region more and more before beginning the dreaded hand-sequencing. Through continual investigation of recombination events in HD families, the group was able to rule out different regions of Chr4. They were able to narrow it down to between two markers in a  2.2Mb region. They showed corresponding restriction sites, which were helpful in mapping the haplotype of different HD kindreds, allowing them to narrow down their range of interest further to 500Kb. They look specifically for genes that were expressed by screening with a cDNA library. \newline
 
-\subsubsection*{Table 1}
+They generated exon clones, and therefore cDNAs, IT15A and IT16A. Northern blotting showed hybridization with a similarly sized sequence, suggesting the sequences are derived from the same mRNA. By Northern blotting, they verified the existence of an 11kb RNA strand characteristic of the IT15 gene in both homozygous HD patients and normal samples. This gene, as it turns out, was quite big. They didn't have a single cDNA which covered it, so they pieced together multiple cDNAs. Using the cDNA they had (IT16A and IT15A) they did a walk, where they used overlapping cDNAs to get the entire IT15 sequence. It was, in total, predicted to be 3144 amino acids!\newline
 
-Table 1 shows that G8 does not hybridize without Chr4 present. 
-In fusing human-mouse cell hybrids, they essentially generate mouse cells with human chromosomes. They score which chromosomes each cell has and too if it hybridizes with the G8 marker. Because all cells with Chr4 have the G8 marker, they assumed G8 must be on Chr4. They tried testing recombination events of the HD gene with other Chr4 markers and found no association.\newline
+This gene contained the mysterious CAG repeats. After sequencing, they generated primers for the regions flanking the CAG repeats. Of the 173 chromosomes they sequenced, the vast majority had below 25 repeats, and chromosomes had 80\% heterozygosity. They found that more than some number of repeats (42 in this case) was perfectly correlated with HD. They then tested as many HD families as they could. PCR and southern showed very variable repeat lengths. \newline
 
-G8 is not the HD gene, but it is certainly close to it! 
-
-\subsubsection*{Implications} 
-
-This had considerable implications, as you can now test haplotypes of offspring and predict if they'd get HD. Moving forward, more markers and more segregation analysis will be helpful in narrowing down the gene. Then, you have to start sequencing nearby genes.  
-
-\subsection*{HDRCG 1993}
-
-
-\subsection*{Overview}
-
-For many years, they had to make markers and compare recombination of events around this G8 area. Through continual investigation of recobination events in HD families, they were able to rule out different regions of Chr4. This meant the genome was narrowed down more and more until it became time to sequence. They were able to narrow it down to 2.2Mb. By comparing the haplotypes of HD kindreds, they narrowed it further to 500Kb. They look specifically for genes that become expressed by screening with a cDNA library. \newline
-
-Northern blot showed that the IT15 gene is expressed in HD patients as well as controls. This gene, as it turns out, was quite big. They didn't have a single cDNA which covered it, so they pieced together a couple cDNAs. It was predicted to be 3144 amino acids!\newline
-
-They find CAG repeats and that more than some number of repeats (42 in this case) was perfectly correlated with HD. They then tested as many HD families as they could. PCR and southern showed very variable repeat lengths. 
-
-\subsubsection*{Figure 1}
-
-Figure 1 mapped the HD gene to somewhere between two markers on Chr4 by recombination events. Restriction enzyme cut sites are also shown. These restriction sites were helpful in mapping the haplotype of different HD kindreds, allowing them to narrow down their range of interest. 
-
-\subsubsection*{Figure 2}
-
-They generated exon clones and therefore cDNAs IT15A and IT16A. Northern blotting showed hybridization with a similarly sized sequence, suggesting the sequences are derived from the same mRNA. My understanding of Figure 2 is that they are simply verifying the existence of an 11kb RNA strand characteristic of the IT15 gene in both homozygous HD patients and normal samples. 
-
-\subsubsection*{Figure 3}
-
-Using the cDNA they had (IT16A and IT15A) they did a walk, where they used overlapping cDNAs to get the entire IT15 sequence. 
-
-\subsubsection*{Figure 5}
-
-After sequencing, they generated primers for the regions flanking the CAG repeats. Of the 173 chromosomes they sequenced, the vast majority had below 25 repeats, and chromosomes had 80\% heterozygosity. Figure 5 shows a comparison of normal cosmids and normal cDNA compared to HD cosmids. Recall that a cosmid is made by digesting DNA, implanting into viruses, and then these viruses infect bacteria, while cDNA is from reverse transcription. 
-
-\subsubsection*{Figure 6 \& 7}
-Their Figure 5 showed PCR products of different family members in the kindred, hoping to show that one allele was unaffected and one allele was affected in the HD group. Notably, though, some do not show a HD allele, which they write off as being due to the repeat lengths being too long to amplify. They verified this by southern blot in Figure 7, which showed that the repeat length was 100---and this patient had HD onset at age 2. Some people show more than 2 HD alleles. The hypothesis for why this occurs is that the cell lines, lymphocytes, are likely a bit more mosaic, since they actively divide much more. 
-
-\subsubsection*{Figure 8}
+They showed PCR products of different family members in the kindred, hoping to show that one allele was unaffected and one allele was affected in the HD group. Notably, though, some do not show a HD allele, which they write off as being due to the repeat lengths being too long to amplify. They verified this by southern blot, which showed that the repeat length was 100---and this patient had HD onset at age 2. Some people show more than 2 HD alleles. The hypothesis for why this occurs is that the cell lines (lymphocytes) are likely a bit more mosaic, since they actively divide much more---hence, there's a greater chance for oddities in replication, leading to further repeat expansion.\newline
 
 They were interested in testing sporadic cases of HD to see if this repeat expansion was still the driving cause. Indeed, they found parents with higher-end repeat expansion, and thus the offspring had repeats reaching the stereotypical 44+ range. They identify a similar haplotype in these chromosomes as in 1/3rd of all HD chromosomes, which suggests that this haplotype may predispose individuals for HD. 
 
 \subsubsection*{Takeaways}
 
-The key findings were that there is this correlation between repeats and HD. This could be used as a diagnostic tool, or describe those who are pre-disposed to getting HD. At present, they do not know the mechanism by which HD acts, but they suspect it may be gain of function. They cannot say anything with certainty about this gene's corresponding protein, nor can they say that the repeats are translated at all. If it is translated, the polyQ would have considerable effects, and if it were untranslated, the effects are likely at the mRNA level. The next step that they propose is, indeed, to understand the endogenous function of this protein which they call huntingtin (with gene HTT). 
+The key findings were that there is this correlation between repeats and HD. This could be used as a diagnostic tool, or describe those who are pre-disposed to getting HD. At present, they do not know the mechanism by which HD acts, but they suspect it may be gain-of-function. They cannot say anything with certainty about this gene's corresponding protein, nor can they say that the repeats are translated at all. If it is translated, the polyQ would have considerable effects, and if it were untranslated, the effects are likely at the mRNA level. The next step that they propose is, indeed, to understand the endogenous function of this protein which they call huntingtin (with gene \textit{HTT}). 
 
 
 \subsection*{Mangiarini et al. 1996}
