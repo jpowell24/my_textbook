@@ -3125,7 +3125,11 @@ However, let's say you want to attempt a propagating action potential. Many peop
 
 You'd probably want to divide up the neuron into segments on the order of 1 $\mu$m. This multiplies our 8,000 calculations by an additional 100,000, giving us 800,000,000 to worry about. Still, this is not horrendous. But, this considers a 1D wire. Neurons are 3D dimensional. We are already considering a system that is $4^{\mathrm{th}}$ dimensional with respect to time, and now we desire to consider $3^{\mathrm{rd}}$ dimensional with respect to space. Imagine trying to calculate the flux through a $1000 \times 1000 \times 1000$ resolution box (i.e., perhaps $\mu m^3$ with good resolution). The surface area of this box is thus $6\times 10^6$. Now extend this surface area to include the length of the wire and the area of the soma and dendrites, giving you thousands of millions of points to calculate per time iteration. And, we are still only considering two ion channels. Neurons have dozens and dozens of channels all with different gating kinetics. It does not consider things like lateral inhibition, birufcation, dendritic input, etc. I'll not bother telling you how many calculations we need to perform beyond this point---but it would be large. 
 
-\subsection{How to Reduce} What do we know about the time constants mentioned in the previous section? Roughly speaking, some are fast and some are slow. The upswing of an action potential is on a fast time constant, and the repolarization is on a slow time constant. We also know that the upswing portion is roughly a positive feedback loop, so as voltage increases, so should the derivative of voltage.\newline
+\subsection{How to Reduce} 
+
+\textcolor{blue}{A note from future Jackson: I believe this section was written sometime in early 2023. After taking Mathematical Biology, I realize how stupidly simplified this is! It provides a good bit of conceptual understanding, but the actual path to creating the FHN model was much more complicated and elegant. FHN also provided the basis for many Dynamical Systems, extending far beyond neuroscience. It should be wholly respected.}\newline
+
+What do we know about the time constants mentioned in the previous section? Roughly speaking, some are fast and some are slow. The upswing of an action potential is on a fast time constant, and the repolarization is on a slow time constant. We also know that the upswing portion is roughly a positive feedback loop, so as voltage increases, so should the derivative of voltage.\newline
 
 This helps us arrive at least at the following: 
 
@@ -3140,7 +3144,7 @@ Simply meaning that the derivative should scale with voltage in some way. We als
 
 \begin{equation} \label{fn2}
 \begin{split}
-\dot{V} &= V(V - V_{rest})(V - V_{max})
+\dot{V} &= V(V - V_{rest})(V_{max} - V)
 \end{split}
 \end{equation}
 
@@ -3593,6 +3597,8 @@ Now the question is, how do we scale? First, ask yourself: how many binary searc
 
 
 \chapter{Fluid Mechanics and Cell Motility}
+
+\textcolor{red}{This either needs complete removal or a serious overhaul---I was not as diligent as I hoped I would be with fleshing out this section.}
 
 \section{Introduction}
 
@@ -4385,7 +4391,7 @@ When considering an action potential, likely you'll want to focus on the flux of
 
 The concentration of ions really does not change during an action potential. It is only a negligibly small amount of ions that are required to change the membrane voltage of the neuron. So, for example, $[\mathrm{Na}^+]_e$ really only goes from 120mM to 119.99...mM during an action potential. Therefore, the membrane potentials that you calculate here are roughly true at any point in an action potential. What changes is the membrane voltage of the neuron, causing channels to open and close, which is what leads to the characteristic peaking of an action potential.\newline
 
-This idea is quite important. Many assume that ions flowing in and out substantially impacts their concentrations, and that is what leads to the in and outflowing of ions. It is often said that ion channels always pass ions ``with their concentration gradient." While ``transporters" pass ions or molecules against their gradient. But this is not true! Firstly, you can imagine that if channels are unidirectional, there will always be some stochastic passage against a concentration gradient. But more explicitly, many channels solely exist to passively pass ions against this gradient. For example: there are many ``inward rectifying potassium channels," meaning they pass potassium ions into the cell (a famous example being the Kir family of channels). Importantly, the concentration of K$^+$ outside of the cell will \textit{never} exceed the concentration inside the cell. Therefore, any and all inward pointing K$^+$ channels will inherently be against the chemical concentration gradient.\newline
+This idea is quite important. Many assume that ions flowing in and out substantially impacts their concentrations, and that is what leads to the in and outflowing of ions. It is often said that ion channels always pass ions ``with their concentration gradient." While ``transporters" pass ions or molecules against their gradient. But this is not true! Firstly, you can imagine that if channels are unidirectional, there will always be some stochastic passage against a concentration gradient. But more explicitly, many channels solely exist to passively pass ions against this gradient. For example: there are many ``inward rectifying potassium channels," meaning they pass potassium ions into the cell (a famous example being the Kir family of channels). Importantly, the concentration of K$^+$ outside of the cell will \textit{never} exceed the concentration inside the cell\footnote{Pretend you are not a good physiologist and are unaware of the existence of endolymph.}. Therefore, any and all inward pointing K$^+$ channels will inherently be against the chemical concentration gradient.\newline
 
 You may be slightly puzzled about why such a small concentration of ions is able to generate an action potential. This is because the voltage generated is hyper-localized to the membrane. The lipid composition of the membrane is also very strictly controlled. The hydrophobic heads of the lipids on the outside monolayer of the membrane (thus, those facing the extracellular space) are most often neutral in charge---still polar, though. Those on the inner monolayer (the cytoplasmic side) have a higher proportion of negatively charged heads. This helps create a partial membrane voltage and is incredibly important for ion behavior, as well as how transmembrane proteins orient themselves in the membrane.\newline
 
@@ -5361,7 +5367,7 @@ A proverb in a writing called \textit{Testament} by Dait$\overline{\mathrm{o}}$ 
 \hspace*{1cm} Do not merely pinch off the leaves\newline
 \hspace*{1cm} Or concern yourselves only with the branches.\newline 
 
-The field of neuron regeneration feels novel, as investigating its complexities appears to require new age technology. However, greatness spans time. In the 1930s, one of the most brilliant neuroscientists the world has ever known, Ramón y Cajal, suspected restoration of neural circuits after injury required the emulation of developmental conditions. Using electronics to study neural circuits, too, has a long and storied history. One can think of Hodgkin and Huxley, whose ubiquitous achievements evades a need for citation, using an operational amplifier to clamp the voltage of giant squid axons, they revealed the fundamentals of action potentials in the 50s. Or, one can think of Fitzhugh, whose work inspired Nagumo to devise analog circuits to model excitable systems in the 60s. In the case of solving spinal cord circuits, so too have electronics long been used, with examples dating back to the 40s\footnote{\url{https://journals.physiology.org/doi/epdf/10.1152/jn.1943.6.2.111}}. Similarly, stimulating the spinal cord originates from the theory of central pattern generation, first characterized in the 1980s\footnote{\url{https://nyaspubs.onlinelibrary.wiley.com/doi/full/10.1111/j.1749-6632.1998.tb09062.x?casa_token=squhz5qGCxsAAAAA\%3Al_eFcl105AQAUdyUlZoGqmSoCeMnjfpNpvBrnf5Nezmg-AwmwujHWjO4NNH5lHWlrYRurC3HlTbh8phW}}. A large part of what we must do as modern scientists is to not forget the questions posed by our predecessors. While they were limited by technology in their ability to investigate, the validity of their curiosities can never be lost.\newline
+The field of neuron regeneration feels novel, as investigating its complexities appears to require new age technology. However, greatness spans time. In the 1930s, one of the most brilliant neuroscientists the world has ever known, Ramón y Cajal, suspected restoration of neural circuits after injury required the emulation of developmental conditions. Using electronics to study neural circuits, too, has a long and storied history. One can think of Hodgkin and Huxley, whose ubiquitous achievements evades a need for citation, using an operational amplifier to clamp the voltage of giant squid axons, they revealed the fundamentals of action potentials in the 50s. Or, one can think of Fitzhugh, whose work inspired Nagumo to devise analog circuits to model excitable systems in the 60s. In the case of solving spinal cord circuits, so too have electronics long been used, with examples dating back to the 40s\footnote{\url{https://journals.physiology.org/doi/epdf/10.1152/jn.1943.6.2.111}}. Similarly, stimulating the spinal cord originates from the theory of central pattern generation, first characterized in the 1980s\footnote{\url{https://nyaspubs.onlinelibrary.wiley.com/doi/10.1111/j.1749-6632.1998.tb09062.x}}. A large part of what we must do as modern scientists is to not forget the questions posed by our predecessors. While they were limited by technology in their ability to investigate, the validity of their curiosities can never be lost.\newline
 
 
 
@@ -5648,7 +5654,7 @@ The main takeaway from this paper, in my opinion, is simply the recapitulation t
 \section{Clinical Applications}
 
 \subsubsection{Reduction of Pain.}
-This description comes from Dr. Iahn Cajigas, and this video\footnote{\url{https://www.youtube.com/watch?v=MuLbgftczf8\&ab_channel=CongressofNeurologicalSurgeons}}. In reducing neuropathic pain, the mechanism by which it works is postulated to be Gate-Control Theory\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/5320816/}}. After this publication, spinal cord stimulators became available in 1965. The hypothesis was painful signals can be overridden by other pathways. Namely, fast, large A$\beta$ nerves can override the smaller, pain carrying A$\delta$ and C fibers. It is thought to occur at the level of the dorsal horn through inhibitory interneurons, but this is not known with certainty.\newline
+This description comes from Dr. Iahn Cajigas, and this video\footnote{\url{https://www.youtube.com/watch?v=MuLbgftczf8\&ab_channel=CongressofNeurologicalSurgeons}}. In reducing neuropathic pain, the mechanism by which it works is postulated to be Gate-Control Theory\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/5320816/}}---in other words, stimulation promotes analgesia (the inability to feel pain). After this publication, spinal cord stimulators became available in 1965. The hypothesis was painful signals can be overridden by other pathways. Namely, fast, large A$\beta$ nerves can override the smaller, pain carrying A$\delta$ and C fibers. It is thought to occur at the level of the dorsal horn through inhibitory interneurons, but this is not known with certainty.\newline
 
 \textit{Failed back surgery} is the most common need for spinal stimulation of this kind. Stimulation is a good treatment option if the patient's pain is localized, and no identifiable structural defects are found. That is, if one's spinal cord is still improperly aligned, stimulation should not be considered. It is essential to attain extensive pre-operative imaging, as structural issues can also lead to hardware malfunction. For example, a slipped disc may cause unforeseen warping of hardware. Interestingly, psychiatric symptoms is a common indicator of poor patient outcome. Repeated operations usually indicate less effects as well.\newline
 
@@ -5671,7 +5677,42 @@ The operation requires complete anesthesia, placement of the electrode on the ou
 Absolutely remarkably, the patient was able to regain some motor control the first time the device was turned on. 
 
 
+\subsection{Paresthesia and SCS}
+
+Paresthesia is defined broadly as abnormal sensation in the skin, including tingling or numbness. In both the case of deep brain or spinal cord stimulation, surgeons use the presence of paresthesia to find an upper-limit on stimulation levels. For example, one would increase the stimulation amplitude until some tingling emerges, helping to establish a maximum amplitude. Interestingly, in the case of SCS for chronic neuropathies, sometimes paresthia is actually desired by the patients. Some slight buzzing sensation gives some patients the feeling that treatment is occurring. For some, there is comfort associated with the replacement of pain with a non-adverse buzzing, rather than the absence of any feeling.\newline
+
+This work\footnote{\url{https://www.cell.com/neuron/pdf/S0896-6273(23)00802-4.pdf}} describes how paresthesias are absent at a higher frequency, while they would be present at 40-60Hz when the pulse-width increases enough. On face, this is a surprising finding, as a higher frequency suggests more total charge is delivered. Gate control theory suggests touch afferents are capable of inhibiting pain afferents, providing the basis for electrostimulatory relief. Notably, the low-threshold afferents that convey touch ascend the spinal cord ipsilaterally, but those high-threshold neurons that convey pain cross over and ascend contralaterally---signifying a physical separation in such signals. One, theoretically, can simulate one and not the other.\newline
+
+This work uses the acronym ``kf-SCS" to refer to kilo-hertz frequency SCS\footnote{Do we, as scientists, need acronyms for everything?}. It remained ambiguous how high frequency stimulation was capable of blocking paresthesia, as evidence seemed to imply dorsal column (DC) axons are not activated, yet dorsal horn neurons are depressed by inhibitory neurons---leaving questions of how such inhibitory neurons were becoming active. Paresthesia is lost at the same time evoked compound action potentials (ECAPs) are lost when ramping the frequency. The hypothesis proposed by this work is that DC neurons become de-sychronized when stimulated at a rate faster than their refractory period. Notably, they used the very high amplitude of 9.6mA, which they established by finding the onset of paresthesia for low frequencies (150Hz). This was the first work to observe an increase solely in frequency is sufficient to relieve paresthesia, in part because clinicians typically vary all parameters in order to find the best treatment option. Similarly, previous works rarely extended into the kHz range. The blocking of ECAPs was verified in pigs.\newline
+
+Via single-unit recordings in the DRG, both kf-SCS and conventional SCS were found to activate DC neurons---which contrasts with previous findings. To further verify this, they performed both calcium imaging and immunostaining for pERK, which is said to be a marker of neuron activity. A de-synchronization due to high high frequencies was measured via the interspike interval, i.e. the time between spikes. This interval exactly matched the pulse times in conventional SCS, but were sporadic (typically around 3-6ms) for kf-SCS. They explored this computationally using a time-constant based analysis and an additional Hodgkin-Huxley-esque model. Both models supported their findings, and were then added to a spinal cord model.\newline
+
+Importantly, because they find asynchronous firing to block paresthesia, but not pain relief, it suggests synchronous firing is not necessary for relief. They suggest this is because inhibitory effects by such neurons integrate.
+
+\subsubsection{An Aside.}
+
+As it turns out, Chloride regulation is key to neuropathic pain. A great deal of work has focused on Cl- dysregulation, and how transporters like KCC2 can be manipulated to limit pain. 
+
+
 \chapter{Brain Stimulation}
+
+    \subsection{Recruitment of Neurons During ES}
+
+    An interesting piece of wisdom I got from Dr. Benjamin Arenkiel is that the study of endogenous neural circuits itself, while interesting, may not be as clinically relevant as the study of recruited neural circuits. Having a strong foundation of endogenous circuits, of course, is necessary for understanding what changes occur in the face of deep brain or other electrical stimulation. \newline
+
+    Here we discuss\footnote{\url{https://www.cell.com/neuron/pdf/S0896-6273(23)00927-3.pdf}}.  They primarily use 2-photon imaging with global GCaMP6s labeling, and cell-specific Tdtomato labeling. The high-frequency stimulation used was 250Hz on head-fixed mice, and recording was done in the mouse visual cortex.  This paper claims to be the first to record inhibitory neuron responses during electrical stimulation. While the authors do not go further into the cell-specific responses, it's worth noting their statement that: inhibitory interneurons make up $\approx 10-20\%$ of neurons in the brain and can be broken down into three major classes, parvalbumin (PV)-expressing, somatostatin (SST)-expressing, and vasoactive intestinal peptide (VIP)-expressing. Theoretical extensions of this work could delve in to the type-specific responses after ES, which would provide a stronger understanding of how to manipulate certain neural circuits. 
+    
+    They comment that, in general, low frequency stimulation is typically considered to be excitatory, while high frequency stimulation is inhibitory.\newline
+    
+    They observe a higher degree of neuronal suppression at low stimulation amplitudes. They suspect that this is due to greater inhibitory neuron activation. Because inhibitory neurons have a higher degree of axonal arborization in these cortical layers, they postulate they are more readily activated at such stimulation levels. They show that high frequency stimulation recruited inhibitory and excitatory neurons at the same rate in the mouse cortex. Interestingly, higher amplitude increased density of recruited excitatory neurons, and volume of inhibitory neurons. However, the data for this is not immensely convincing. The sample size is small, and there appears to be a trend in increasing volume of excitatory neurons, that may have been statistically significant with a higher \textit{N}.\newline
+    
+    Prolonged activity inhibited excitatory neuron responses. They found that pre-stimulus activity tended to suppress excitatory neuron activity, but resulted in variable responses from inhibitory neurons. Such pre-stimulus activity-dependence was not seen when the stimulus amplitude was high enough.\newline
+     
+    
+
+    
+
+
 
 \section{Deep Brain Stimulation}
 
@@ -5960,7 +6001,7 @@ Notably, some hospitals are currently attempting clinical trials for spinal cord
 
 \subsection{SCS-DBS Intersection}
 
-Here we discuss\footnote{\url{https://www.nature.com/articles/s41591-023-02584-1}}. Dr. Ramayya, an MD-PhD neurosurgeon I had the pleasure of talking to, commented that after seeing this work his first thought was ``you don't have to be the best at everything." Indeed, this work is so awe inspiring that it makes one question their place in the field.\newline
+Here we discuss\footnote{\url{https://www.nature.com/articles/s41591-023-02584-1}}. Dr. Ashwin Ramayya, an MD-PhD neurosurgeon I had the pleasure of talking to, commented that after seeing this work his first thought was ``you don't have to be the best at everything." Indeed, this work is so awe inspiring that it makes one question their place in the field.\newline
 
 DBS treats a very small subset of symptoms associated with PD. Because of the success of EES in treating SCI, these groups wondered if a similar feat can be accomplished in PD patients. The first bit of this work was done in an NHP model (rhesus macaque). Because of differences in monkey and human mobility, they developed a scoring technique to analyze PD models in NHPs and compare them to human PD symptoms. The preferred PD model for them was administration of MPTP (see section \textbf{\ref{sec:PDDegeneration}}!), a drug able to mimic the death of dopamine producing neurons. They compared spinal circuits before and after MPTP and identified ``hot spots" in the spinal cord. In implanting these devices, they stimulated different electrodes in the array in order to test their ability to cause muscle contraction. \newline
 
