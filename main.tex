@@ -149,6 +149,9 @@ This is plausibly the most impressive work of the decade. When speaking with a n
 The bulk of this information comes from the Lab Electronics course at the University of Pennsylvania, taught to me by Professor Ashmanskas\footnote{\url{https://www.hep.upenn.edu/Classes/Phys364_spring23/}}$^,$\footnote{\url{http://www.hep.upenn.edu/~ashmansk/}}. As a comment on notation: $V$ represents a variable value, while V represents a unit (or at least, that's what it should be; sometimes I forget proper notation). Graphics like this were made using CircuitTikz, whose manual can be found here\footnote{\url{https://texdoc.org/serve/circuitikzmanual.pdf/0}}.\newline
 
 \section{How Electricity Works} 
+
+\label{sec:HowElectricityWorks}
+
 \subsection{The misconception} One often represents electricity with the canonical metaphor of water flowing in a tube, equating the flow of water, which powers a wheel of some sort, as being the equivalent of electrons pushing through a wire. Incidentally, this simplifying schema illustrates a key misconception in the nature of electricity. This is easiest exemplified in the mode with which electricity reaches one's house from a power-plant, which before arriving will be subject to breaks in the circuit (transformers). In the traditional viewing of electricity, that is taught in early education, this is disconcerting as if electrons can not physically go from a power plant to the lights in your home, then how can their kinetic energy be transferred to them and turn them on?\newline
 
 Regarding the flow of \textit{energy}: when a battery sits without wires attached, around it is an electric field. This field does not dissipate because no electrons flow from it. When wires are attached, charge accumulates on the surface of the wires. This causes a small electric field within the wires, but the drift velocity of electrons within the wire is quite slow---nowhere near the speed of light that you might expect electricity to flow. However, the flow of electrons within the wire is sufficient to drive an electric field which exists all around the wires. From this, we can determine the direction that energy will flow by taking the cross product of the electric and magnetic fields. In fact, if an lightbulb is attached, this means that energy flows from the battery to the bulb in all directions, not through the wires itself. This energy flow induces the vibration of electrons within the bulb's filament, thereby causing light. This means that a net flow of electrons is not required to power a bulb---but rather only their vibrations. Thus is illustrated next:\newline 
@@ -2927,7 +2930,9 @@ A CPU's microprocessor is equipped with a few different functions. Memory is acc
 
 \subsubsection{Why FSM?}
 
-There's something very interesting about finite state machines. In a way, a computer is a complicated finite state machine,  neural networks are a complicated finite state machine, your brain is a complicated finite state machine. 
+There's something very interesting about finite state machines. In a way, a computer is a complicated finite state machine,  neural networks are a complicated finite state machine, your brain is a complicated finite state machine.\newline
+
+\textcolor{blue}{Note from future Jackson: I have no idea what I was getting at here. Let us both pretend this comment was, in some way, insightful (it wasn't).}
  
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -3540,7 +3545,7 @@ V_{s2} \\
 \end{bmatrix}
 \end{align}
 
-You may, rightfully, say ``\textit{Uh, who cares?}," since we already know that each row corresponds to a different equation. Well, there are a few reasons. Firstly, doing this algorithmically allows us to avoid accidentally underdetermining our matrix using the ol' eye-balling it technique. More importantly, though, the algorithmic approach allows us to solve this via code. Once I can write a bit more neatly, I'll likely upload some snippets here. 
+You may, rightfully, say ``\textit{Uh, who cares?}," since we already know that each row corresponds to a different equation. Well, there are a few reasons. Firstly, doing this algorithmically allows us to avoid accidentally underdetermining our matrix using the ol' eye-balling it technique. More importantly, though, the algorithmic approach allows us to solve this via code. Once I can write a bit more neatly, I'll likely upload some snippets here. \textcolor{blue}{Note from future Jackson: Lol, I just realized I did not, in fact, ever do that.}
 
 
 \subsection{Error Correction Codes, Hamming}
@@ -3612,6 +3617,8 @@ There have been a number of papers that have gathered the 3D structure of axons 
 
 
 \section{Fluid Mechanics}
+
+\textcolor{red}{This actually might be an important section, in retrospect. For example, similar concepts are used to solve Maxwell's equations, etc., and to understand the current spread through an electric field in neural tissue.}\newline
 
 There are two main open questions in the field of fluid mechanics. First, Newton's equations have been used for centuries and, in large part, model the world very well. However, we still haven't determined if these work completely, in all cases. Another open question is the origin of turbulence. Broadly speaking, we can define fluids as something that can be deformed, are continuous, and have no memory of its previous position. Complex fluids, like toothpaste, exhibit both fluid-like behaviors, but also retain their shape when left alone. \newline
 
@@ -4315,16 +4322,18 @@ To be able to interface with the electrophysiology of neurons, one must fully un
 
 \section{Membranes, Ions, and Potentials}
 
+\label{sec:EPhys}
+
 This will be a general overview of some of the electrophysiology of neurons. This should probably precede the math and models section, but here we are anyway.\newline
 
 Of course, the ion composition of cells varies a bit, but a good enough approximation is as follows:\newline 
 
 
-\hspace*{0.1in} $[\mathrm{Na}^+]_i = 15\mathrm{mM}, [\mathrm{Na}^+]_e = 150\mathrm{mM}$\newline
-\hspace*{0.1in} $[\mathrm{K}^+]_i = 120\mathrm{mM}, [\mathrm{K}^+]_e = 5\mathrm{mM}$ \newline
-\hspace*{0.1in} $[\mathrm{Ca}^{2+}]_i = 100\mathrm{nM}, 
+\hspace*{1cm} $[\mathrm{Na}^+]_i = 15\mathrm{mM}, [\mathrm{Na}^+]_e = 150\mathrm{mM}$\newline
+\hspace*{1cm} $[\mathrm{K}^+]_i = 120\mathrm{mM}, [\mathrm{K}^+]_e = 5\mathrm{mM}$ \newline
+\hspace*{1cm} $[\mathrm{Ca}^{2+}]_i = 100\mathrm{nM}, 
 [\mathrm{Ca}^{2+}]_e = 2.5\mathrm{mM}$\newline
-\hspace*{0.1in} $[\mathrm{Cl}^-]_i = 15\mathrm{mM}, [\mathrm{Cl}^-]_e = 120\mathrm{mM}$ 
+\hspace*{1cm} $[\mathrm{Cl}^-]_i = 15\mathrm{mM}, [\mathrm{Cl}^-]_e = 120\mathrm{mM}$ 
 \newline
 
 Where $[\mathrm{X}^+]_i$ and $[\mathrm{X}^+]_e$ refer to the intracellular and extracellular concentrations respectively. Building up a strong intuition for electrophysiology is quite important to approaching the field. Some of the absolutely key facts to recall include:
@@ -4336,7 +4345,7 @@ Where $[\mathrm{X}^+]_i$ and $[\mathrm{X}^+]_e$ refer to the intracellular and e
 \item \textbf{Intracellular Ca$^{2+}$ is extremely regulated, and its concentration is small (around 100nM).} Ca$^{2+}$ is the ion responsible for most cellular processes, so its tight regulation is essential. In other words, $[\mathrm{Ca}^{2+}]_i << [\mathrm{Ca}^{2+}]_e$. 
 \end{enumerate}
 
-Expanding on the calcium regulation, much of the free $[\mathrm{Ca}^{2+}]_i$ is stored within the endoplasmic reticulum (ER), whose concentration will be many orders of magnitude higher than the cytosol. This is important for cells like myocytes who require a large influx of calcium to contract. Rather than attaining all of this $\mathrm{Ca}^{2+}$ from the extracellular space, the cells can used $\mathrm{Ca}^{2+}$-induced-$\mathrm{Ca}^{2+}$-release in order to drive the opening of the ER.\newline
+Expanding on the calcium regulation, much of the free $[\mathrm{Ca}^{2+}]_i$ is stored within the endoplasmic reticulum (ER), whose concentration will be many orders of magnitude higher than the cytosol. This is important for cells like myocytes who require a large influx of calcium to contract. Rather than attaining all of this $\mathrm{Ca}^{2+}$ from the extracellular space, the cells can used $\mathrm{Ca}^{2+}$-induced-$\mathrm{Ca}^{2+}$-release in order to drive the opening of the ER.
 
 \subsubsection{Ramblings.}
 
@@ -4378,13 +4387,82 @@ E_{Na} &= \frac{(8.314)(310.15)}{(96,485)(1)}\ln\frac{150}{15} \rightarrow 0.062
 \end{split}
 \end{equation}
 
-Because 0.062V (62mV) $>$ the resting -55mV, we can assume Na$^+$ will (on average) flow into the cell if sodium channels open. However, if the cell were to massively depolarize all the way to 100mV, we would actually expect Na$^+$ to leave the cell, despite its gradient seemingly telling you otherwise. This is, of course, because ions will be subject to both their chemical and electrical gradients. 
+Let's assume $E_K$ and $E_{Cl}$ are around -52mV and -85mV respectively. Here is both a quantitative and a conceptual way to think of the direction of flow. Because 0.062V (62mV) $>$ the resting -55mV, we can know Na$^+$ will (on average) flow into the cell if sodium channels open. However, if the cell were to massively depolarize all the way to 100mV, we would actually expect Na$^+$ to leave the cell, despite its gradient seemingly telling you otherwise. This is, of course, because ions will be subject to both their chemical and electrical gradients. To simplify:
+
+
+\begin{equation} \label{court1}
+\begin{split}
+v &> E_K \longrightarrow \mathrm{outward\:current}\\
+v &< E_{Cl} \longrightarrow \mathrm{inward\:current}\\
+v &< E_{Na} \longrightarrow \mathrm{inward\:current}\\
+\end{split}
+\end{equation}
+
+As a definition, recall that current (in electronics / physics) describes the flow of \textit{positive}. Flux describes the actual flow of a molecules---so therefore, for a positively charged molecule, the current and the flux are in the same direction, and opposite for a negatively charged molecule. This means that, as the currents for K$^+$ is outward and Na$^+$ is inward, their fluxes will be the same (since they are positive). Since Cl$^-$ is negative, and the current describes positive charge as flowing inward, it means Cl$^-$ will have an outward flux\footnote{Do you also find this confusing? I find this to be very easy to mess up---which is why I prefer thinking a bit more conceptually. Even when typing this up, I confused myself for a moment :)}.\newline
+
+
+Let us consider now more qualitatively / visually below. Note that this is not to scale, at all. The blue rectangle represents the membrane, which for this example is between $E_K$ and $E_{Cl}$. Note that the right side is the extracellular space (labelled E), and the left side is the intracellular (labeled I) (this makes sense because the membrane voltage is measured as the intracellular with respect to the extracellular). Plotted are the $E_x$ values we have.
+
+\begin{center}
+\begin{tikzpicture}[
+    xscale=0.08,
+  define rgb/.code={\definecolor{mycolor}{RGB}{#1}},
+  rgb color/.style={define rgb={#1},mycolor}
+]
+  % x-axis
+  \draw[<->] (-100,0) -- (100,0);
+
+% 11
+    \fill[black] (-100,0) circle (0.4 mm) node[above=6pt] {\scriptsize\strut $-100$mV};
+
+    \fill[black] (100,0) circle (0.4 mm) node[above=6pt] {\scriptsize\strut $+100$mV};
+
+    \fill[black] (0,0) circle (0.4 mm) node[above=6pt] {\scriptsize\strut $0$};
+    \draw (0,0) -- ++(0,7pt);
+    
+    \fill[black] (50,0) circle (0.4 mm) node[above=6pt] {\scriptsize\strut $+50$mV};
+    \draw (50,0) -- ++(0,7pt);
+
+    \fill[black] (-50,0) circle (0.4 mm) node[above=6pt] {\scriptsize\strut $-50$mV};
+    \draw (-50,0) -- ++(0,7pt);
+
+    \fill[black] (-90,0) circle (0.4 mm) node[above=20pt] {\scriptsize\strut K$^+$};
+    \draw (-90,0) -- ++(0,22pt);
+    \draw [dashed] (-90,0) -- (-90,-0.75);
+
+    \fill[black] (-55,0) circle (0.4 mm) node[above=20pt] {\scriptsize\strut Cl$^-$};
+    \draw (-55,0) -- ++(0,22pt);
+    \draw [dashed] (-55,0) -- (-55,-1);
+
+    \fill[black] (+60,0) circle (0.4 mm) node[above=20pt] {\scriptsize\strut Na$^+$};
+    \draw (+60,0) -- ++(0,22pt);
+    \draw [dashed] (+60,0) -- (+60,-0.5);
+
+    \draw[blue, very thick] (-72,-1) rectangle (-70,1);
+
+    \draw (-74,0.9) node[]{I};
+    \draw (-68,0.9) node[]{E};
+
+    \draw [<-] (-72,-0.5) -- (60,-0.5) node [midway, below] {\scriptsize\strut Na$^+$ in};
+    \draw [->] (-72,-1) -- (-55,-1) node [midway, below] {\scriptsize\strut Cl$^-$ out};
+    \draw [<-] (-72,-0.75) -- (-90,-0.75) node [midway, below] {\scriptsize\strut K$^+$ out};
+
+    ;
+\end{tikzpicture}
+\end{center}
+
+For positive ions, drawn is an arrow from their $E_x$ toward the membrane. That is, the arrow for $E_{Na}$ is going from right to left, signifying sodium wants to go from the extracellular side to the intracellular. For K$^+$, you can see the arrow is going from left to right, meaning K$^+$ wants to go from the intracellular side to extracellular (i.e., out). Chloride ions, being negative, means the arrow will be switched. Thus drawn is an arrow from the membrane to $E_{Cl}$. In this example, Cl$^-$ clearly wants to go out. This isn't meant to exactly replicate physiology, but rather meant more as a procedure to think about ion flux. Another minor benefit of this qualitative approach is you can see the actual magnitude of the potential. That is, in this example the arrows for Cl$^-$ and K$^+$ are much smaller than for Na$^+$. Therefore, we are closer to potassium and chloride's equilibrium potentials (they're happier, so-to-speak). Sodium, on the other hand, wants to rush in very badly---and if sodium ion channels open, it will (hence the start of action potentials is via sodium influx!). \newline
+
+Of course, these values agree with our quantitative assessment. In short, flux  will be outward for $\mathrm{K}^+$ and $\mathrm{Cl}^-$ (again, because current describes the flow of positive charge), but inward for $\mathrm{Na}^+$.\newline
+
+
+
 
 \subsection{Action Potentials}
 
 \subsubsection{Overview.}
 
-When considering an action potential, likely you'll want to focus on the flux of Na$^+$, K$^+$, and Ca$^{2+}$. The standard description is that some kind of stimuli causes an influx of positive ions into the neuron's dendrites or soma, which leads to opening of voltage gated sodium channels in the initial segment of the axon. Sodium flows inward, which causes this segment of the axon to greatly depolarize (causing it to shoot up from $\approx -55$mV to $\approx +20$mV). When the membrane reaches these more positive voltages, voltage gated calcium channels will begin to open and sodium channels will begin to close. More slowly (i.e., delayed in respect to sodium channel opening) in the depolarization process, potassium channels will open which allow for the efflux of potassium ions, causing the membrane to repolarize.  Similarly, the depolarization will cause, the next set of sodium channels further along the axon to open, causing the depolarization to propagate down the axon. After the action potential is complete, active transport can somewhat quickly restore the ionic composition to exactly what it was before.\newline
+When considering an action potential, likely you'll want to focus on the flux of Na$^+$, K$^+$, and Ca$^{2+}$. The standard description is that some kind of stimuli causes an influx of positive ions into the neuron's dendrites or soma, which leads to opening of voltage gated sodium channels in the initial segment of the axon. Sodium flows inward, which causes this segment of the axon to greatly depolarize (shooting up from $\approx -55$mV to $\approx +20$mV). When the membrane reaches these more positive voltages, voltage gated calcium channels will begin to open and sodium channels will begin to close. More slowly (i.e., delayed in respect to sodium channel opening) in the depolarization process, potassium channels will open which allow for the efflux of potassium ions, causing the membrane to repolarize. Similarly, the depolarization will cause the next set of sodium channels further along the axon to open, causing the depolarization to propagate down the axon. After the action potential is complete, active transport can somewhat quickly restore the ionic composition to exactly what it was before. This process is remarkably energy intense, which is touched upon in other sections (\textbf{\ref{sec:MitochondrialMaintenance}}). 
 
 
 \subsubsection{A Common Misconception.}
@@ -4425,6 +4503,7 @@ $3.1 \times 10^{-7} \mathrm{mM}$ is a very small number, many orders of magnitud
 
 \section{Ion Channels}
 
+\textcolor{red}{This section probably should also be deleted, as I ended up not being as successful as I thought in building it out. There is some interesting info in here, but I'm not sure if it justifies a whole section.}\newline
 
 This section will be filled in better throughout the semester, through more Biochem courses. 
 
@@ -4433,7 +4512,7 @@ This section will be filled in better throughout the semester, through more Bioc
 
 
 \subsubsection{Voltage Sensing.}
-You may ask yourself "how does an ion channel know when the voltage is positive or negative?" Structure informs us of almost every puzzle in biology, and this case is no different! Let us consider one potassium channel called KvAP. KvAP is hypothesized to be voltage gated due to the presence arginine side chains (as positively charged amino acid)\footnote{\url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1253646/}}. Because of the positive charge on arginine, you can imagine that if the outer membrane voltage becomes especially negative, it will pull the arginines outward, almost like opening the lid of the channel.
+You may ask yourself ``how does an ion channel know when the voltage is positive or negative?" Structure informs us of almost every puzzle in biology, and this case is no different! Let us consider one potassium channel called KvAP. KvAP is hypothesized to be voltage gated due to the presence arginine side chains (as positively charged amino acid)\footnote{\url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1253646/}}. Because of the positive charge on arginine, you can imagine that if the outer membrane voltage becomes especially negative, it will pull the arginines outward, almost like opening the lid of the channel.
 
 
 
@@ -4847,7 +4926,11 @@ Apoptosis of neurons initiates at around 4 h AI, but peaks at only 8 h AI\footno
 Fascinatingly, it was shown that the ability of neonatal mice to fully recover from SCI was due, in part, to interneurons maintaining excitatory conditions. In adult mice, these interneurons switch to inhibitory after SCI, which dampens signals to motor neurons. A paper investigating this can be found here\footnote{\url{https://www.nature.com/articles/s41593-022-01067-9}}. One must wonder, can you electronically mimic the excitatory interneurons in fully grown mice? Similar approaches have been done therapeutically, such as with potassium-chloride cotransporter-2 (KCC2) agonist CLP290\footnote{\url{https://www.sciencedirect.com/science/article/pii/S009286741830730X}} which seems to dampen the overexcited, inhibitory interneurons. Perhaps one could simply use something like DBS (or in this case, DSS?) on these interneurons.  
 
 \subsubsection{Astrocytes.}
-Astrocytes, being the dominant supportive cell, plays an essential role in SCI. After injury, astrocytes form a physical barrier that is supposedly intended to limit the secondary injury. The old perspective was that astrocytes, like the fibrotic scar, impair recovery as a physical barrier. It is now more accepts that the astrocytic scar (or border) is a necessary mechanism of limiting inflammation. This occurs after astrocytes become activated, and are helpful in the initial stages but later form a glial scar, impairing regeneration. Astrocytes may either be activated by inflammation, causing them to be neurotoxic (called A1 cells) or by ischemia, causing them to be neuroprotective (A2 cells). The first transformation occuring through the NF-$\kappa$B path, and the second through STAT3. Microglia are said to be the greatest contributor to activating astrocytes through release of signaling molecules. Another important factor is type 1 collagen upregulation, which results in astrocytic adhesion through cadherin, causing activation and eventual scar formation.\newline
+Astrocytes, being the dominant supportive cell, plays an essential role in SCI. After injury, astrocytes form a physical barrier that is supposedly intended to limit the secondary injury. The old perspective was that astrocytes, like the fibrotic scar, impair recovery as a physical barrier. It is now more accepts that the astrocytic scar (or border) is a necessary mechanism of limiting inflammation. This occurs after astrocytes become activated, and are helpful in the initial stages but later form a glial scar, impairing regeneration. Astrocytes may either be activated by inflammation, causing them to be neurotoxic (called A1 cells, containing a C3 marker) or by ischemia, causing them to be neuroprotective (A2 cells, lacking a C3 marker). The first transformation occuring through the NF-$\kappa$B path, and the second through STAT3.\newline
+
+As a brief digression, let us discuss this recent work which identified  a molecular switch in astrocyte neurotoxicity\footnote{\url{https://www.nature.com/articles/s41586-023-06935-3}}. The group then asked if one could inhibit the production of neurotoxic or promote neuroprotective astrocytes. The work used a mouse optic nerve crush model and performed single cell RNAseq. Interestingly, after injury the neuroprotective cells were found in a more proliferative state. Because cAMP is a strong regulator of the cell cycle, they tested and found that soluble andenyl cyclase (sAC) is a regulator of the astrocyte cell cycle. Specifically, deletion of sAC increases the proportion of astrocytes escaping the G1 phase. sAC is said to act upstream of p21, which induces cell-cycle arrest. Knockdown of sAC in astrocytes increased retinal ganglion death after injury, suggesting knockdown increased the proportion of neurotoxic astrocytes. \newline
+
+ Microglia are said to be the greatest contributor to activating astrocytes through release of signaling molecules. Another important factor is type 1 collagen upregulation, which results in astrocytic adhesion through cadherin, causing activation and eventual scar formation.\newline
 
 The astrocyte scar is surprisingly thin, only a few layers of cells. Though, its importance is not to be underestimated. When ablated, mice with SCI were worse off by almost every metric. A cornerstone paper on the topic seems to be here\footnote{\url{https://www.nature.com/articles/nature17623}}. While scar tissue is primarily astrocytic in origin, it is worth mentioning that pericyte derived scar tissue (sometimes called the fibrotic scar) too play a role. Their positive roles include boosting tissue integrity, but so too do they seem to block axon regeneration as a physical barrier. 
 
@@ -5041,7 +5124,7 @@ Animal models indicate considerable overlap in traumatic and nontraumatic SCI, b
 
 \subsubsection{Quantifying DTI.}
 
-DTI is devises 3 eigenvectors, let's call them: $\vec{V}_{a}, \vec{V}_{r1}, \vec{V}_{r2}$. You would expect $\vec{V}_{a}$ to be the longest of the three as it runs axially, and or with the axons. Its eigenvalue, let's call it $\lambda_a$, corresponds to the diffusivity in the axial direction (parallel to the myelin tracts). The average of $\lambda_{r1}$ and $\lambda_{r2}$ describes the radial diffusivity, and or that which is perpendicular to the myelin tracts. The average of all 3 eigenvalues is the mean diffusivity. A scenario when $\lambda_a \neq 0$ and $\lambda_{r1} = \lambda_{r2} = 0$ would be described as an \textit{anisotropic} diffusivity, because there is complete directional dependence of diffusion. $\lambda_a = \lambda_{r1} = \lambda_{r2}$ would be \textit{isotropic}, because there is no directional dependence. The idea is that the diffusion of water gives some key insights into the microstructure of the injury, as things like ECM proteins and membrane composition will have some affect on such water diffusion. The axons themselves are naturally the largest contributor to this directional dependence, and you can imagine that in their absence water is much more likely to diffuse in all sorts of directions. The degree of anisotrophy is a strong way to measure degeneration, then. There are some limitations, of course, as diffusion is only a proxy for degeneration. Ulterior factors, like inflammation, may too limit diffusion and obscure the contribution by degeneration or demyelination. Similarly, DTI is not as effective at imaging lower spinal cord segements, and is primarily used in cervical injury models.
+DTI is devised by 3 eigenvectors, let's call them: $\vec{V}_{a}, \vec{V}_{r1}, \vec{V}_{r2}$. You would expect $\vec{V}_{a}$ to be the longest of the three as it runs axially, and or with the axons. Its eigenvalue, let's call it $\lambda_a$, corresponds to the diffusivity in the axial direction (parallel to the myelin tracts). The average of $\lambda_{r1}$ and $\lambda_{r2}$ describes the radial diffusivity, and or that which is perpendicular to the myelin tracts. The average of all 3 eigenvalues is the mean diffusivity. A scenario when $\lambda_a \neq 0$ and $\lambda_{r1} = \lambda_{r2} = 0$ would be described as an \textit{anisotropic} diffusivity, because there is complete directional dependence of diffusion. $\lambda_a = \lambda_{r1} = \lambda_{r2}$ would be \textit{isotropic}, because there is no directional dependence. The idea is that the diffusion of water gives some key insights into the microstructure of the injury, as things like ECM proteins and membrane composition will have some affect on such water diffusion. The axons themselves are naturally the largest contributor to this directional dependence, and you can imagine that in their absence water is much more likely to diffuse in all sorts of directions. The degree of anisotrophy is a strong way to measure degeneration, then. There are some limitations, of course, as diffusion is only a proxy for degeneration. Ulterior factors, like inflammation, may too limit diffusion and obscure the contribution by degeneration or demyelination. Similarly, DTI is not as effective at imaging lower spinal cord segements, and is primarily used in cervical injury models.
 
 \subsubsection{DTI in Degeneration and SCI.}
 
@@ -5366,32 +5449,32 @@ A proverb in a writing called \textit{Testament} by Dait$\overline{\mathrm{o}}$ 
 \hspace*{1cm} Do not merely pinch off the leaves\newline
 \hspace*{1cm} Or concern yourselves only with the branches.\newline 
 
-The field of neuron regeneration feels novel, as investigating its complexities appears to require new age technology. However, greatness spans time. In the 1930s, one of the most brilliant neuroscientists the world has ever known, Ramón y Cajal, suspected restoration of neural circuits after injury required the emulation of developmental conditions. Using electronics to study neural circuits, too, has a long and storied history. One can think of Hodgkin and Huxley, whose ubiquitous achievements evades a need for citation, using an operational amplifier to clamp the voltage of giant squid axons, they revealed the fundamentals of action potentials in the 50s. Or, one can think of Fitzhugh, whose work inspired Nagumo to devise analog circuits to model excitable systems in the 60s. In the case of solving spinal cord circuits, so too have electronics long been used, with examples dating back to the 40s\footnote{\url{https://journals.physiology.org/doi/epdf/10.1152/jn.1943.6.2.111}}. Similarly, stimulating the spinal cord originates from the theory of central pattern generation, first characterized in the 1980s\footnote{\url{https://nyaspubs.onlinelibrary.wiley.com/doi/10.1111/j.1749-6632.1998.tb09062.x}}. A large part of what we must do as modern scientists is to not forget the questions posed by our predecessors. While they were limited by technology in their ability to investigate, the validity of their curiosities can never be lost.\newline
+The field of neural regeneration and neural stimulation feels novel, as investigating its complexities appears to require new age technology. However, greatness spans time. In the 1930s, one of the most brilliant neuroscientists the world has ever known, Ramón y Cajal, suspected restoration of neural circuits after injury required the emulation of developmental conditions. Such predictions continue to hold weight today. Using electronics to study neural circuits, too, has a long and storied history. One can think of Hodgkin and Huxley, whose ubiquitous achievements evades a need for citation. Using an operational amplifier to clamp the voltage of giant squid axons, they revealed the fundamentals of action potentials in the 50s. Or, one can think of Fitzhugh, whose work inspired Nagumo to devise analog circuits to model excitable systems in the 60s. In the case of solving spinal cord circuits, so too have electronics long been used, with examples dating back to the 40s\footnote{\url{https://journals.physiology.org/doi/epdf/10.1152/jn.1943.6.2.111}}. Similarly, stimulating the spinal cord originates from the theory of central pattern generation, first characterized in the 1980s\footnote{\url{https://nyaspubs.onlinelibrary.wiley.com/doi/10.1111/j.1749-6632.1998.tb09062.x}}. Even integration of deep brain and spinal cord stimulation in to the clinic dates back nearly a century. A large part of what we must do as modern scientists is to not forget the questions posed by our predecessors. While they were limited by technology in their ability to investigate, the validity of their curiosities can never be lost.\newline
 
 
 
-\textcolor{red}{Note: These next two paragraphs deserve their own sections. These labs are instrumental. Find the fundamental source!}
+\textcolor{red}{Note: These next two paragraphs deserve their own sections and likely should be in a different section. These labs are instrumental.}
 
-Restoration of the signals which pervade severance in spinal cord injury through therapeutics has been equally explored. For example, drugs such as clonidine, $\alpha_2$ receptor agonist, can promote walking in cats with spinal cord injury\footnote{\url{https://journals.physiology.org/doi/full/10.1152/jn.1998.79.6.2941}}. This effect can be blocked completely by yohimbine, an $\alpha_2$ receptor antagonist\footnote{\url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2278596}}.\newline
+Restoration of the signals eliminated after spinal cord injury through therapeutics has been equally explored. For example, drugs such as clonidine, $\alpha_2$ receptor agonist, can promote walking in cats with spinal cord injury\footnote{\url{https://journals.physiology.org/doi/full/10.1152/jn.1998.79.6.2941}}. This effect can be blocked completely by yohimbine, an $\alpha_2$ receptor antagonist\footnote{\url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2278596}}.\newline
 
 The ability to generate walking-like movements from electrical stimulation of the lower spine, the T10-L1 region, has been long known\footnote{\url{https://www.sciencedirect.com/science/article/pii/B9780444521378000188}}$^,$\footnote{\url{https://journals.sagepub.com/doi/pdf/10.1177/1073858417699790}}. In these instances, ``tonic" stimulation was able to generate step-like movements. Although the term ``tonic" is dubious because other papers by the same lab identified frequency dependence in their stimulation\footnote{\url{https://link.springer.com/article/10.1007/s00422-004-0511-5}}. While one can generate step-like movements at once frequency, continued extension can be generated with another. 
 
 \section{Electrostimulation}
 
 \subsection{Background}
-Stimulating nerves is not straightforward. The amount of current necessary to stimulate a nerve is highly dependent on the location. For electrodes especially close to myelinated fibers, currents as small as 0.1 $\mu A$ have been successful in depolarizing neurons\footnote{\url{https://www.sciencedirect.com/science/article/pii/0006899375903649}}. It seems that as a general trend, the faster conduction velocity of a neuron, the lower amount of current is required to simulate it. Too, throwing off one's measurements is often that you may indirectly stimulate a neuron of interest by depolarizing nearby cells. For direct stimulation, the distance from electrode to the closest Node of Ranvier seems to be essential metric. Figure 3 of the paper footnoted earlier in this paragraph shows a fascinating plot. The current supplied by an electrode resembles something of a double-sided Lenhert-Jones plot. Therefore, for an anode\footnote{Fascinatingly, a quick Google search for `anode' provides two definitions, one stating it is positively charged and one stating it is negative. Regardless, you only need to know that it supplies electrons.}, one would actually expect a core of cells to be depolarized, while those of the periphery would actually be hyperpolarized. The inverse would be true for a cathode. This makes me wonder if oscillating, $\pm$A has been applied, and the outcomes. If one were to use two electrodes (i.e., an anode and a cathode nearby) then one has the option of longitudinal stimulation or transverse stimulation (i.e., either parallel or perpendicular to the axon).\newline
+
+\textcolor{red}{This section is so bad... definitely needs re-writing.}\newline
+
+Stimulating nerves is not straightforward. The amount of current necessary to stimulate a nerve is highly dependent on the location. For electrodes especially close to myelinated fibers, currents as small as 0.1 $\mu A$ have been successful in depolarizing neurons\footnote{\url{https://www.sciencedirect.com/science/article/pii/0006899375903649}}. As a general trend, the faster conduction velocity of a neuron, the lower amount of current is required to simulate it. Too, throwing off one's measurements is often that one may indirectly stimulate a neuron of interest by depolarizing nearby cells, causing one to mis-attribute the stimulation required. For direct stimulation, the distance from electrode to the closest Node of Ranvier seems to be essential metric. The effect of a current supplied by an electrode generates a voltage spread resembling something of a double-sided Lenhert-Jones plot. That is, injecting a positive current may generate depolarize the region nearest to the electrode, while the surrounding regions are actually hyperpolarized. Therefore, for an anode\footnote{Fascinatingly, a quick Google search for `anode' provides two definitions, one stating it is positively charged and one stating it is negative---Google is silly. Regardless, it supplies electrons.}, one would  expect a core of cells to be depolarized, while those of the periphery to be hyperpolarized. The inverse would be true for a cathode. If one were to use two electrodes (i.e., an anode and a cathode nearby) then one has the option of longitudinal stimulation or transverse stimulation (i.e., either parallel or perpendicular to the axon).\newline
 
 \textcolor{red}{Note: Perhaps it would be good to go through the different electrode options? I.e., where one places ground, whether current or voltage is applied, etc. Though, I have had trouble finding information on this.}
 
-\subsubsection{Ramblings.}
-In a strange sense, the human body can be considered the infinite resistor lattice mentioned in the electronics section. 
-
 \subsection{Biomaterials Used}
-A primary focus in finding suitable biomaterials are those that are conducting, flexible, and non-reactive\footnote{\url{https://onlinelibrary.wiley.com/doi/epdf/10.1002/term.383}}. Polypyrrole (PPy) is one such option. PPy alone is quite rigid, but is a good accompaniment with other materials. For example, you may coat some glass or fabric in PPy in order to make it more biocompatable and conducting. Too, PPy seems a good candidate for boosting cell adhesion to your biomaterials. Others have used PPy in a tubular fashion, applied some current, and used it to guide regenerating axons. Another similar product is polyaniline (often called PANI). Polyaniline can be oxidized and reduced, providing an additional usage. PPy and PANI are two of the most studied conducting polymers, but many more exist.\newline
+A primary focus in finding suitable biomaterials are those that are conducting, flexible, and non-reactive\footnote{\url{https://onlinelibrary.wiley.com/doi/epdf/10.1002/term.383}}. Polypyrrole (PPy) is one such option. PPy alone is quite rigid, but is a good accompaniment with other materials. For example, you may coat some glass or fabric in PPy in order to make it more biocompatable and conducting. Too, PPy is a good candidate for boosting cell adhesion to one's biomaterials. Others have used PPy in a tubular fashion, applied some current, and used it to guide regenerating axons. Another similar product is polyaniline (often called PANI). Polyaniline can be oxidized and reduced, providing an additional layer of manipulation. PPy and PANI are two of the most studied conducting polymers, but many more exist.\newline
 
 Carbon nanotubules (CNTs) are another way one can manipulate the direction of growth. Interestingly CNTs appear to be cytotoxic when suspended in media, but strongly promote growth when integrated into a scaffold, keeping them immobilized\footnote{I am a bit confused by this. Who would ever leave the tubes just floating around in the media? What would be the point?}. CNTs frequently have diameters similar to axons themselves.\newline
 
-The use of piezo-electric materials too provides interesting avenues of study. Piezo-electric materials being those that convert mechanical energy to electrical energy. An example is poly(vinylidenefluoride) (PVDF). Generally, piezoelectric materials are considered inferior to standard conducting polymers because external control is limited and activation is often too localized. 
+The use of piezo-electric materials too provides interesting avenues of study. Piezo-electric materials being those that convert mechanical energy to electrical energy. An example is poly-vinylidenefluoride (PVDF). Generally, piezoelectric materials are considered inferior to standard conducting polymers because external control is limited and activation is often too localized. 
 
 \subsubsection{Ramblings.}
 The axon-like size of CNTs seems very interesting to me, as they provide a neat route of usage, i.e., as artificial myelination. Perhaps one can develop a CNT with a membrane permeable enough for extracullar signaling to get through, but conductive enough to function like myelin. I am curious if you could produce a multi-layered scaffold, where certain tracts fit axons, certain tracts fit glia, etc, and it can act like repaired oligodendrocytes after SCI.\newline
@@ -5400,9 +5483,9 @@ Another interesting thought is the deep implantation of Piezoelectric materials 
 
 \subsection{Flexible Brain-Computer Interfaces}
 
-\textcolor{red}{For the moment, I'm not sure where to put this, so I'm adding it here.} We will discuss\footnote{\url{https://www.nature.com/articles/s41928-022-00913-9}}. The key idea of this work is that hard electronics present a geometric mismatch with the body's tissues. An amazing fact mentioned right away is that the dura mater, skull, and scalp function as low-pass filters! Which, now we know about in considerable depth from chapter \textbf{\ref{sec:filters}}. This leads low frequency signals, like alpha and beta waves, to be detected. Another interesting point made right away is that billions of neurons are distributed over volumes on the order of centimeters to meters, while neurons themselves are on the order of tens of microns to hundreds of microns. Similarly, neurons fire on the order of milliseconds, yet brain wave changes and behavioral outcomes take months to manifest.\newline
+\textcolor{red}{For the moment, I'm not sure where to put this, so I'm adding it here.} We will discuss\footnote{\url{https://www.nature.com/articles/s41928-022-00913-9}}. The key idea of this work is that hard electronics present a geometric mismatch with the body's tissues. An amazing fact mentioned right away is that the dura mater, skull, and scalp function as low-pass filters! Which, now we know about in considerable depth from chapter \textbf{\ref{sec:filters}}. This leads low frequency signals, like alpha and beta waves, have biased detection by modes like EEG. Another interesting point made right away is that billions of neurons are distributed over volumes on the order of centimeters to meters, while neurons themselves are on the order of tens of microns to hundreds of microns. Similarly, neurons fire on the order of milliseconds, yet brain wave changes and behavioral outcomes take months to manifest.\newline
 
-Hard electronics are less flexible and adaptable. If BCIs are to improve, it'll mean that they must interface with more neurons and capture more data. Such a request is not feasible with hard electronics. Similarly, hard electronics offer potential harm to neural tissue via mechanical damage. Slight migration in hard electronics on the order of microns is inevitable. Therefore, the tracking of single neurons over long periods is impossible without re-calibrating and accounting for such migration. This work also harps that single unit recordings is not possible over long periods anyway, as gliosis and scarring will eventually worsen the signal-to-noise ratio so that individual neurons become invisible in the static.\newline
+Hard electronics are less flexible and adaptable. If BCIs are to improve, it'll mean that they must interface with more neurons and capture more data. Such a request is not feasible with hard electronics. Similarly, hard electronics offer potential harm to neural tissue via mechanical damage. Slight migration in hard electronics on the order of microns is inevitable. Therefore, the tracking of single neurons over long periods is impossible without re-calibrating and accounting for such migration. This work also harps that single unit recordings are not possible over long periods anyway, as gliosis and scarring will eventually worsen the signal-to-noise ratio so that individual neurons become invisible in the static.\newline
 
 The mismatch between hard electronics and neural tissue is often measured by Young's modulus, which designates the flexibility in response to applied force. Much thinner electronics are required to match the electronic and neural tissue moduli. Indeed, such attempts have been done, which require reducing transistors down to nanometer thicknesses. Tissue-like electronics that have been produced prove to be much better at recording single neuron activity over long periods. A considerable consequence of shrinking and shrinking electronics is that there may be accidental crosstalk between nearby transistors. \newline
 
@@ -5419,7 +5502,7 @@ Peripheral nerve stimulation\footnote{Annoyingly, peripheral nerve stimulation i
 Electrotherapeutic Scaffolds}
 Adaptive, conductive, and electrotherapeutic scaffolds (ACESs) is one implementation of electrical neurorehabilitation after injury\footnote{\url{https://www.sciencedirect.com/science/article/pii/S2666634023001654?via\%3Dihub}}. The primary structure is electrodes embedded in alginate (an anionic polymer, which creates a maleable gel-like structure when combined with water, and is often used for creating molds) and polyacrylamide (a cationic polymer most known for its use in SDS page gels, and can be used to suspend solvents at various stiffnesses)---which can be dissolved, allowing for removal of leads with minimal damage to tissue. Because the electrodes are located within the gel, glial encapsulation is not to occur (or, if it does, it will be at the borders of the gel and not the electrodes themselves)---therefore, stimulation should be un-dampened. Gold particles were used to increase conductivity of the gel.\newline
 
-In rats, in order to test accessible nerves, sciatic nerve transection was performed, and electrodes were used for 6 weeks. Stimulation was delivered every other day for 30 minutes in \textbf{anesthetized} rats. It was delivered to each electrode at 20 hz (every 200 ms), 2 mA\footnote{It is not clear to me why they choose to deliver current rather than voltage.} amplitude, and a 100 $\mu$s pulse width. They used a stainless steal electrode by Plastics One\footnote{Interestingly, I can't seem to find a product that resembles the one found in their supplemental images. Still it is probably comparable: \url{https://www.protechp1.com/search?q=MS303\&type=products}}. Stimulation was powered using the Intan system\footnote{\url{https://intantech.com/RHS_system.html}}. As two electrodes were used, their pulses were offset by 100 ms. The two stimulating electrodes were proximal and distal to the injury site, and a third, ground electrode was located at the tibialis anterior muscle. EMG recordings and response to sensory stimulation were used to validate functional success of regeneration, as well as axon counts. To test percutaneous nerve stimulation, they performed a similar procedure on the vagus nerve of swine.  
+In rats, in order to test accessible nerves, sciatic nerve transection was performed, and electrodes were used for 6 weeks. Stimulation was delivered every other day for 30 minutes in anesthetized rats. It was delivered to each electrode at 20Hz (every 200 ms), 2 mA\footnote{It is not clear to me why they choose to deliver current rather than voltage.} amplitude, and a 100 $\mu$s pulse width. They used a stainless steal electrode by Plastics One\footnote{Interestingly, I can't seem to find a product that resembles the one found in their supplemental images. Still it is probably comparable: \url{https://www.protechp1.com/search?q=MS303\&type=products}}. Stimulation was powered using the Intan system\footnote{\url{https://intantech.com/RHS_system.html}}. As two electrodes were used, their pulses were offset by 100 ms. The two stimulating electrodes were proximal and distal to the injury site, and a third, ground electrode was located at the tibialis anterior muscle. EMG recordings and response to sensory stimulation were used to validate functional success of regeneration, as well as axon counts. To test percutaneous nerve stimulation, they performed a similar procedure on the vagus nerve of swine.  
 
 % \subsubsection{Ramblings.}
 
@@ -5712,23 +5795,6 @@ To conclude, I will share some wisdom from Dr. Iahn Cajigas that I received (whi
 
 \chapter{Brain Stimulation}
 
-    \subsection{Recruitment of Neurons During ES}
-
-    An interesting piece of wisdom I got from Dr. Benjamin Arenkiel is that the study of endogenous neural circuits itself, while interesting, may not be as clinically relevant as the study of recruited neural circuits. Having a strong foundation of endogenous circuits, of course, is necessary for understanding what changes occur in the face of deep brain or other electrical stimulation. \newline
-
-    Here we discuss\footnote{\url{https://www.cell.com/neuron/pdf/S0896-6273(23)00927-3.pdf}}.  They primarily use 2-photon imaging with global GCaMP6s labeling, and cell-specific Tdtomato labeling. The high-frequency stimulation used was 250Hz on head-fixed mice, and recording was done in the mouse visual cortex.  This paper claims to be the first to record inhibitory neuron responses during electrical stimulation. While the authors do not go further into the cell-specific responses, it's worth noting their statement that: inhibitory interneurons make up $\approx 10-20\%$ of neurons in the brain and can be broken down into three major classes, parvalbumin (PV)-expressing, somatostatin (SST)-expressing, and vasoactive intestinal peptide (VIP)-expressing. Theoretical extensions of this work could delve in to the type-specific responses after ES, which would provide a stronger understanding of how to manipulate certain neural circuits. 
-    
-    They comment that, in general, low frequency stimulation is typically considered to be excitatory, while high frequency stimulation is inhibitory.\newline
-    
-    They observe a higher degree of neuronal suppression at low stimulation amplitudes. They suspect that this is due to greater inhibitory neuron activation. Because inhibitory neurons have a higher degree of axonal arborization in these cortical layers, they postulate they are more readily activated at such stimulation levels. They show that high frequency stimulation recruited inhibitory and excitatory neurons at the same rate in the mouse cortex. Interestingly, higher amplitude increased density of recruited excitatory neurons, and volume of inhibitory neurons. However, the data for this is not immensely convincing. The sample size is small, and there appears to be a trend in increasing volume of excitatory neurons, that may have been statistically significant with a higher \textit{N}.\newline
-    
-    Prolonged activity inhibited excitatory neuron responses. They found that pre-stimulus activity tended to suppress excitatory neuron activity, but resulted in variable responses from inhibitory neurons. Such pre-stimulus activity-dependence was not seen when the stimulus amplitude was high enough.\newline
-     
-    
-
-    
-
-
 
 \section{Deep Brain Stimulation}
 
@@ -5788,6 +5854,23 @@ Boston Scientific has most up-to-date rechargable battery, which lasts approxima
 
 
 
+\section{Literature}
+
+    \subsection{Recruitment of Neurons During ES}
+
+    An interesting piece of wisdom I got from Dr. Benjamin Arenkiel is that the study of endogenous neural circuits itself, while interesting, may not be as clinically relevant as the study of recruited neural circuits. Having a strong foundation of endogenous circuits, of course, is necessary for understanding what changes occur in the face of deep brain or other electrical stimulation. \newline
+
+    Here we discuss\footnote{\url{https://www.cell.com/neuron/pdf/S0896-6273(23)00927-3.pdf}}.  They primarily use 2-photon imaging with global GCaMP6s labeling, and cell-specific Tdtomato labeling. The high-frequency stimulation used was 250Hz on head-fixed mice, and recording was done in the mouse visual cortex.  This paper claims to be the first to record inhibitory neuron responses during electrical stimulation. While the authors do not go further into the cell-specific responses, it's worth noting their statement that: inhibitory interneurons make up $\approx 10-20\%$ of neurons in the brain and can be broken down into three major classes, parvalbumin (PV)-expressing, somatostatin (SST)-expressing, and vasoactive intestinal peptide (VIP)-expressing. Theoretical extensions of this work could delve in to the type-specific responses after ES, which would provide a stronger understanding of how to manipulate certain neural circuits. 
+    
+    They comment that, in general, low frequency stimulation is typically considered to be excitatory, while high frequency stimulation is inhibitory.\newline
+    
+    They observe a higher degree of neuronal suppression at low stimulation amplitudes. They suspect that this is due to greater inhibitory neuron activation. Because inhibitory neurons have a higher degree of axonal arborization in these cortical layers, they postulate they are more readily activated at such stimulation levels. They show that high frequency stimulation recruited inhibitory and excitatory neurons at the same rate in the mouse cortex. Interestingly, higher amplitude increased density of recruited excitatory neurons, and volume of inhibitory neurons. However, the data for this is not immensely convincing. The sample size is small, and there appears to be a trend in increasing volume of excitatory neurons, that may have been statistically significant with a higher \textit{N}.\newline
+    
+    Prolonged activity inhibited excitatory neuron responses. They found that pre-stimulus activity tended to suppress excitatory neuron activity, but resulted in variable responses from inhibitory neurons. Such pre-stimulus activity-dependence was not seen when the stimulus amplitude was high enough.\newline
+     
+    
+
+
 \subsection{Living Electrodes}
 
 This is from the work by Dr. K. Cullen, and featuring Dr. I. Chen\footnote{\url{https://www.science.org/doi/full/10.1126/sciadv.aay5347}}. Part of the problem they are trying to solve is the rigidity of standard, mechanical electrodes. To solve it, they developed implantable cortical neurons embedded within a hydrogel tract. This paper mentioned another drawback of standard, inorganic designs causing overheating of surrounding tissues---this is the first time I've seen this mentioned, and I have frequently wondered about it.\newline
@@ -5828,9 +5911,13 @@ Finally, they tested its use in closed-loop rehabilitation for muscle injury. Th
 
 \chapter{Reading Thoughts} 
 
-At present, I am unsure if reading one's thoughts is a requirement at all for overcoming SCI. I am unconvinced that electrical stimulation controlled by one's brain is better than electrical neurorehabilitation---or if it is better by any measurable margin. In investigating this, I believe the limiting factor in bridging from the stimulation applied by Tator and Minassian is a reliable way to read ones objective through their brain waves. The Lorach \textit{et al.} 2023 solved this using the WIMAGINE system\footnote{\url{https://www.frontiersin.org/articles/10.3389/fnins.2019.00847/full}}. But, let's begin by discussing the options and a bit of history.
+In the case of spinal cord injury, plausibly the limiting factor in bridging from the stimulation applied by Tator and Minassian to a clinically relavent, closed-loop brain-computer interface is a reliable way to read ones objective through their brain waves. Similarly, using one's mind to control robotics in patients with neurodegeneration or other is strongly blocked by better reading techniques. Therefore, let us consider the options, a bit of history, and advancements in this field.
 
-\subsection{Different Reading Devices} As you would imagine, there is a tradeoff between the resolution and the damage you will induce on the brain. This is described well by Schwartz in 2006, but notably technology has advanced since then\footnote{\url{https://www.sciencedirect.com/science/article/pii/S0896627306007264}}. The four classes of devices are: 
+\section{An Overview of Reading} 
+
+\subsection{Reading Devices and Methods.}
+
+As is inherent to device implantation, there is a tradeoff between the resolution and the damage you will induce on the brain. This is described well by Schwartz in 2006, but notably technology has advanced since then\footnote{\url{https://www.sciencedirect.com/science/article/pii/S0896627306007264}}. The four classes of ``reading strategies" or ``depths of resolution" are: 
 \begin{enumerate}
     \itemsep 0em
     \item Electroencephalography (EEG)
@@ -5839,12 +5926,42 @@ At present, I am unsure if reading one's thoughts is a requirement at all for ov
     \item Single Unit AP
 \end{enumerate}
 
-EEGs, naturally, are non-invasive and have a reading range on the order of a few centimeters. ECoG is on the tenths of centimeters level, while LPS is millimeters level. Single unit AP is as the name describes, and reads individual action potentials. EEGs sit far above the cortex, outside of the skull, while ECoG comes in contact with the cortex by reading from either above or below the dura. Both LPS and single unit require the electrodes be buried within the cortex itself, thus causing damage to the brain tissue. Therefore, EEG is typically preferable, as it does not require surgery. It is highlighted by Schwartz that many negatives can occur long term from invasive procedures, such as degeneration, volume displacement, or glial encapsulation. Therefore, it is likely that reading thoughts is the limiting factor in progressing the field. \newline
+EEGs, are non-invasive and have a reading range on the order of a few centimeters. The tissue that these signals passes through largely obscures any neuron specific information. A comparable option is that of magnetroencephalograms (MEGs), which use superconducting quantum interference devices (SQUIDs) to measure magnetic fields induced by neural activity. MEGs are less susceptible to the capactive effects of the meninges and skull. ECoG are sub-dural implants with reading potential on the tenths of centimeters level. ECoG typically employ platinum-iridium or steel electrodes, but can be improved with flexible and denser electrode designs. As they come in direct contact with the cortex, safety is a much larger concern. LPS are read on a millimeters level. Single unit AP is as the name describes, and reads individual action potentials. Both LPS and single unit require the electrodes be buried within the cortex itself, thus causing damage to the brain tissue. These leads are typically metal, glass, or silicon. Therefore, EEG is typically preferable, as it does not require surgery. It is highlighted by Schwartz that many negatives can occur long term from invasive procedures, such as degeneration, volume displacement, or glial encapsulation. Therefore, it is likely that reading thoughts is the limiting factor in progressing the field. \newline
 
-For the moment, I will avoid describing individual technologies between the four groups, as it is likely that the tech progresses greatly each year, and it would be pointless to attempt to describe the reading ranges of any without being totally up-to-date. Instead, we will discuss the WIMAGINE in depth here.
+Importantly, all such devices read \textit{scalar} quantities (electrodes read voltage with respect to a ground). The term ``potential" in ``local field potential" is a misnomer, as these devices do not read electric fields (expanded on in a later section, \textbf{\ref{sec:WhatOneReads}}). LFP is also sometimes used as a general term to describe now neurons affect the voltage in a given area. I digress.\newline
 
-\subsubsection{Soft vs. Hard Electronics.}
-The importance of the electronic's physical form has been considered by the Courtine group as well\footnote{\url{https://www.science.org/doi/10.1126/science.1260318}}. In their case, they looked specifically at the electrode paddly inserted into the spinal cord. Notably, they did not use this device in their recent, Lorach \textit{et al}. 2023 paper. One problem I personally find is that in using hard electronics, one immediately resolves to doing massive cranioplasty in order to add their device. If one goes the soft-only electronics route, perhaps you can insert the electronics beneath the skull itself. 
+We will generally avoid discussing individual company's devices, as such devices progress rapidly, and would render this section out of date quickly. However, when instrumental to the work, we will highlight it, such as the WMAGINE ECoG discussed later. Similarly, we will discuss individual lab's work. 
+
+
+
+
+
+    \subsection{What One is Actually Reading}
+
+    \label{sec:WhatOneReads}
+    Before going on, one may want to reread section \textbf{\ref{sec:HowElectricityWorks}}, because there is discussion of ``ionic flow" in the extracellular space, fields, etc. In actuality, it is ambiguous to me what this truly means in a biological context. \newline
+    
+   To begin, devices like EEG or ECG are not directly measuring the transmembrane potential of neurons or the heart---they are measuring the polarity of the extracellular space. This contrasts to something like patch-clamp recordings, which directly measure the voltage or current across the cell membrane. The heart is the largest contributor to the body's extracellular polarity, therefore ECG leads can be places around the body and measured with respect to each other. The quantity being measured is the superposition of many contributing cells, which sum together to read a voltage with respect to a ground. There is a strange thing you'll notice about ECGs if you pay close attention, and recall that an ECG requires 12 leads: the three humps (the P, QRS, and T parts of the wave) correspond to atrial depolarization, ventricular depolarization, and ventricular repolarization respectively. Yet, all three humps have the same ``sign"---despite that some show depolarization and some repolarization. This is because, again, we are not directly reading the transmembrane voltage in the heart. Rather, we are taking a linear projection of the 3-dimensional, extracellular space at each of the leads, onto a single 2D plane. Point being: the measure is slightly indirect. \newline
+   
+   Let us discuss\footnote{\url{https://www.nature.com/articles/nrn3241}}. For this section, voltage is referred to by $V_e$, and is a scalar quantity. The difference in $V_e$ measured at two points is an electric field, and or a vector quantity in volts / distance, and or the negative gradient of the voltage ($-\grad \cdot V_e$). Accompanying an electric field is a magnetic field, which can be read by a magnetoencephalogram (MEG).\newline
+
+    While the read voltage is the composite of all ionic fluxes into all cells, synaptic activity seems to have the strongest effect. This contrasts to something like fast action potentials, induced by sodium currents, which occur on the order of $1-2$ms and are unlikely to be synchronized with other neurons (therefore, when summing them with many other signals, their contribution is minimal). Because synaptic transmission requires a coordinated swing in voltage on a relatively slow timescale, it can be read via electrodes.\newline
+    
+    Positive ion influx through AMPA or NMDA channels at the post-synapse leaves an extracellular \textit{sink} (cations flowing in to the cell). To restore electroneutrality (see section \textbf{\ref{sec:EPhys}}), a \textit{source} (cations flowing out of the cell) is required, which generates a \textit{return current} from the intracellular to the extracellular space. This then generates a temporary pole, depending on the geometry of the space. A monopole contributes to $V_e$ with factor $1/r$, and a dipole contributes to $V_e$ with factor $1/r^2$ (where $r$ is the distance from the electrode). A neurons morphology contributes to how strong of a pole it can produce. For example, pyramidal cells dominate in the cortex and, due to their long, asymmetric dendritic projections, generate a large spatial separation between source and sink. Therefore, this creates a large electric field in the extracellular space. This separation generates an \textit{open field}. This contrasts to a \textit{closed field}, which might be generated when multiple dendrities are stimulated in, for example, thalamocortical neurons that have symmetric, spherical projections. Notably, pyramidal neurons exist in parallel, allowing their dipoles to be compounded. Across different species the number of pyramidal neurons and the projections of neurons running in the opposite direction of them vary---leading to varying degrees of dipole cancellation. Further, the larger scale geometry of the brain, including the folding of gyri, reorient such dipoles. However, geometry alone is not sufficient to predict signals. For example, the cerebellum is highly regular but acts primarily locally, thus does not produce global synchrony.\newline
+    
+    Much like how $V_e$ is a reading of many cells superimposed, an individual cell's transmembrane current is the summation of all of its ion channels. The magnitude of such ion channel's contribution to the overall voltage depends on where the membrane voltage is in reference to each ion's Nernst potential, and the cell's ion channel composition.\newline
+
+    Calcium spikes may be triggered by synaptic activity and contribute strongly to $V_e$, particularly because Ca$^{2+}$ spikes occur over longer timescales and confer large voltage swings. Interestingly, it was commented in this paper that little is known about Ca$^{2+}$ spikes \textit{in vivo}. The resonant properties of a neuron, largely contributed to by $I_h$ (inward hyperpolarization, think HCN channels) and $I_T$ (low-threshold, think T-type VGCCs) currents, can similarly be found when particularly synchronized. That is, many neurons may fluxtuate at particular \textit{resonant} frequencies, and when networks of neurons are synchronized, this may be visible on an EEG. Inhibitory interneurons, for example, may synchronize to gamma ($\gamma$) frequencies in the $30-90$Hz range. After a period of calcium bursting, or in response to certain stimuli, higher calcium levels can lead to the opening of Ca$^{2+}$ activated potassium channels (KCa channels). Such channels lead to afterhyperpolarizations (AHPs) that may be synchronized and are thought to produce long lasting voltage shifts (on the order of $0.5-2$s. Such AHPs mark and modulate state transitions of neurons, such as in sleep.\newline
+
+    Interestingly, the magnitude of local field potential power (the square root of the Fourier amplitude, and or, the energy of the sine frequency) is inversely proportional to the frequency with some scaling. For example, it may scale with $1/f^n$, where $1 < n < 2$. It is thought that this is due to dendrites acting as a low-pass filter (which you should know all about if you've been reading properly, reread chapter \textbf{\ref{sec:filters}} if not). Remarkably, high frequency signals (around 100Hz) sent to dendrites are greatly attenuated once they reach the soma, which is observed to a lesser extent with lower frequency signals (around 1Hz). Such an effect depends on the dendritic morphology and its membrane time constants, and the aforementioned pyramidal neurons act as very strong low-pass filters because of this. Variance in ion channel expression can alter conductance and input resistance of the membrane, thereby allowing a neuron's filtering abilities to change.\newline
+
+    
+
+
+
+
+
+
 
 \section{The Electroencephalogram (EEG)}
 
@@ -5854,7 +5971,7 @@ The importance of the electronic's physical form has been considered by the Cour
 
 We'll begin with the canonical device: an electroencephalogram (EEG). I will begin this section with information learned from Semple's book titled ``Pragmatic guidance for EEG interpretation."\footnote{\url{https://journals.lww.com/ectjournal/fulltext/2019/12000/pragmatic_guidance_for_eeg_interpretation__david.20.aspx}} This book focuses on EEG reading in the context of electroconvulsive therapy---which may not be precisely what we are after, but surely will have considerable overlap. Let us dive in.\newline
 
-EEGs are effectively reading spikes from vertical, pyramidal cells of the cortex. Such readings are on the order of 30-80$\mu\V$ typically, and are a composite of frequencies (the named frequency ranges are $\beta$, $\alpha$, $\theta$, $\delta$), with the most characteristic being called the ``dominant frequency."\newline
+EEGs are effectively reading spikes from vertical, pyramidal cells of the cortex (as discussed in section \textbf{\ref{sec:WhatOneReads}}). Such readings are on the order of 30-80$\mu\V$ typically, and are a composite of frequencies (the named frequency ranges are $\beta$, $\alpha$, $\theta$, $\delta$), with the most characteristic being called the ``dominant frequency."\newline
 
 $\beta$ waves are between 13 and 25Hz and are dominant in normal consciousness. $\alpha$ waves are between 8 and 13Hz, and characterize wakeful relaxation. They are particularly dominant through the occipital lobe and are in sync with the pacemaker cells of the thalamus. Upon opening one's eyes, $\alpha$ waves are suppressed. $\theta$ waves are between 3.5 and 8Hz, and are said to occur when neural networks are being recruited. This can be from a variety of sources. For example, priming of the hippocampus to interpret incoming signal or the combination of sensory and motor information in learning. The slowest are $\delta$ rhythms, in the range of 0.7 to 3.5Hz, observed during non-REM sleep and under anesthesia.\newline
 
@@ -5954,7 +6071,9 @@ Decoding speech from brain waves was done on the basis of predicting the probabi
 The final thing they did was synthesize speech audibly using a speech representation learning model called HuBERT. They similarly rendered a 3D avatar to emit the speech from in order to convey additional emotional complexity. The avatar's movements were driven by articulatory-movement attempts via recordings from the precentral and postcentral gyri---and recordings from the postcentral gyrus were key to decoding. 
 
 
-\subsubsection{Computing via Organoids.}
+\subsection{Computing via Organoids.}
+
+\textcolor{red}{Did I finish this section? I can't remember...}
 
 Here we discuss\footnote{\url{https://www.nature.com/articles/s41928-023-01069-w}}. These authors begin by commenting that driving artificial neural networks (ANNs) is extremely energy intensive. Data and data processing is physically separated, known as the von Neumann bottleneck. There seems to be a strong need for advancements in computing on a hardware level. Some attempts, such as through resistors containing memory (memristors, bad name) to achieve this. This work went in the opposite direction, and instead pushed for more biologically-based networks---they dubbed this Brainoware.\newline
 
@@ -5969,7 +6088,7 @@ The purpose of synthesizing the aforementioned parts together to create a brain-
 
 
 \section{The Flagship Brain-Spine-Muscle Interface} 
-\textcolor{red}{This section needs to be improved greatly. I wrote this about 7 months ago, back when I was much dumber.}
+\textcolor{red}{This section needs to be improved greatly. I wrote this about [10?] months ago, back when I was much dumber.}
 
 
 \subsection{Overview} Here we discuss 2023's quintessential work\footnote{\url{https://www.nature.com/articles/s41586-023-06094-5}}.  The group used surgical implantation into the skull, over the motor cortex, to record patient movements and wirelessly transmit this to the spinal cord. The technology used to capture these electrocorticographic (ECoG) signals is the WIMAGINE. The design features two antennas, and the second of which transmits motor signals that are to be decoded and sent to a pulse generator. The pulse generator is ACTIVA RC, the same that is used in deep brain stimulation (DBS) or pacemakers in the heart. There is no mention of having the patient replace this in future years, but my assumption is that a new battery will require a new surgery in years to come. 
@@ -6601,130 +6720,105 @@ Remarkably, it was shown that there is potential to recover, or improve, if one 
 Without going in to detail for all of the symptoms measured, the mice experience substantial improvement after injecting TM. This was one of the earliest examples showing recovery from a neurodegenerative disorder was possible. 
 
 
-\section{Amyotrophic Lateral Sclerosis}
+\section{Amyotrophic lateral sclerosis}
 
 \subsection*{Overview}
 
-ALS was identified by Jean-Martin Charcot around 1825 in France. His style was innovative at the time, which was to interview, record, and imitate many symptoms in order to demonstrate them to training physicians. This is also around the time photography became possible, so in addition to his drawings, pictures allowed for further diagnostic insight. Amyotrophic refers to the degeneration of muscles, lateral refers to the region in the spinal cord, and sclerosis refers to the glial scarring in the nervous system. Charcot characterized other diseases as well, including multiple sclerosis.\newline
+Amyotrophic lateral sclerosis (ALS) was identified by Jean-Martin Charcot around 1825 in France. His style was innovative at the time, which was to interview, record, and imitate many symptoms in order to demonstrate them to training physicians. This is also around the time photography became possible, so in addition to his drawings, pictures allowed for further diagnostic insight. Amyotrophic refers to the degeneration of muscles, lateral refers to the region in the spinal cord, and sclerosis refers to the glial scarring in the nervous system. Charcot characterized other diseases as well, including multiple sclerosis.\newline
 
-Motor neurons are lost in the motor cortex and throughout the spinal cord. Interestingly, some subsets of neurons, like those in the neck, do not degenerate. This provides a pathway for developing therapeutics, as we can look for what is unique about these neurons. The typical onset is around 45 to 65. Initially, it was thought to be purely motor-related. However, it is now known that dementia can be a symptom as well. There is a genetic correlation between this (i.e., depending on which ALS-causing mutation you have). Specifically, some forms can segregate with fronto-temporal dementia, where one can present with both diseases, or only one. There was some initial support for environmental factors causing ALS, but we now know theres 20 or so genes which can cause it. 
+ALS is a quickly progressing neurodegenerative disorder where motor neurons are lost in the motor cortex and throughout the spinal cord. Interestingly, some subsets of neurons, like those in the neck, do not degenerate. This provides a pathway for developing therapeutics, as we can look for what is unique about these neurons. The typical onset is around 45 to 65. Initially, it was thought to be purely motor-related. However, it is now known that dementia can be a symptom as well---and such symptoms show a genetic correlation (i.e., depending on which ALS-causing mutation one has, they may experience slightly different symptoms). Specifically, some forms of ALS can segregate with fronto-temporal dementia, where one can present with both diseases, or only one. There was some initial, strong support for environmental factors causing ALS, but we now know there are 20 or so genes which can cause it. 
 
-\subsection*{Rosen et al. 1993}
+\subsection*{Identification of SOD1}
 
-ALS can either be inherited as an autosomal dominant disease (about 10\% of cases), or is sporadic. The two manifest clinically in a very similar manner, causing them to become interested in using fALS for insight into sporadic ALS. Linkage studies have shown a correlation between ALS and Chr21. This work furthers this by identifying the gene ALS is caused by to be Cu/Zn-binding superoxide dismutase (SOD1). This was a key, remarkable finding because SOD1 was already known at the time. Very few proteins / genes were understood, but in fact this was one of them! Therefore, many thought ALS would be cured quickly. SOD1 is helpful in clearing reactive oxygen species, and thus the immediate hypothesis was its dysfunction leads to ROS buildup and thus cell death. Interestingly, they comment that this may be counterintuitive because the allele is dominant, and it seems unlikely that a loss of function allele would be dominant. \newline
+The genetic investigation of ALS had a fast and promising start. A key player was found by Rosen et al. in 1993, and remarkably is gene was already known and published in other works\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/8446170/}}.\newline
 
-\subsubsection*{Figure 1}
+ALS can either be inherited as an autosomal dominant disease (about 10\% of cases), or is sporadic. The two manifest similarly in the clinic, causing resarchers to become interested in using fALS for insight into sporadic ALS. Linkage studies showed a correlation between ALS and Chr21. Rosen et al. furthered this by identifying Cu/Zn-binding superoxide dismutase (SOD1) as causative in some fALS cases. This was a key, remarkable finding because SOD1 was already known at the time. Very few proteins and or genes were understood, but in fact this was one of them. Therefore, many thought ALS would be cured in due time. SOD1 is helpful in clearing reactive oxygen species, and thus the immediate hypothesis was its dysfunction leads to ROS buildup and thus cell death. Though, Rosen and colleagues commented that this may be counterintuitive because the allele is dominant, and it seems unlikely that a loss of function allele would be dominant. \newline
 
-Fortunately for them, the sequence of SOD1 was already known and published. This allowed them to easily design primers for SOD1 exons. One metric they used was single-strand conformation polymorphism---which uses the structure of single stranded DNA and looks for differences due to polymorphism. They identified conformational changes in a small group of fALS families, but none in non-affected individuals in the SOD1 gene. This is shown both in Table 2 and Figure 1A. Figure 1A focused on exons 2 and 4, and used an audiogram to show DNA differences. \textcolor{red}{I am confused by what we are looking at here.} Figure 1B shows their Sanger sequencing results and identifies mutation sites. Importantly, these were all heterozygous, as indicated by the multiple base pairs found.\newline
+Fortunately, in 1993 the sequence of SOD1 was already known and published. This allowed for the easy design of primers for SOD1 exons. A metric they used was single-strand conformation polymorphism---which uses the structure of single stranded DNA and looks for differences due to polymorphism. They identified conformational changes in a small group of fALS families, but none in non-affected individuals in the SOD1 gene. They followed this up with Sanger sequencing results and identifies mutation sites. Importantly, these were all heterozygous, as indicated by the multiple base pairs found. Thus, SOD1 was the first known ALS gene, but many more were soon to come.
 
-\subsection*{Gurney et al. 1994}
+\subsection*{A Mouse Model}
 
-\subsubsection*{Figure 1}
-
-This work develops a mouse model for ALS using human WT and mutant SOD1. Their model was verified first through Western and Southern blotting. Figure 1E shows that the G1 mice become impaired between 60 and 150 days and die between 150 and 180 days. Their stride significantly worsens between 150 and 180 days, as shown in Figure 1F. Table 1 also quantified the total amount of SOD1 protein being produced, and found that it is comparable between WT and G1, suggesting that the G1 phenotype is due to the mutation rather than expression alone.  
-
-\subsubsection*{Figure 2 \& 3} 
-Figure 2A-D showed their neuropathological studies. They found decreased ChAT staining in the G1 mice. They also stained for the presence of SOD1 in the spine and found a high degree in the horns. 
-
-Figure 3 showed neurofibrillary tangles in many, but not all, motor neurons. 
+Naturally, with SOD1 known, the immediate follow-up would be to develop a mouse model. That is exactly what Gurney et al. did in 1994\footnote{\url{https://www.science.org/doi/10.1126/science.8209258}}. To do so, they used human WT and mutant SOD1. Their model was verified first through Western and Southern blotting. Their strongest cell line, dubbed G1, became impaired between 60 and 150 days and die between 150 and 180 days. Their stride significantly worsens between 150 and 180 days. They quantified the total amount of SOD1 protein being produced, and found that it was comparable between WT and G1, suggesting that the G1 phenotype is due to the mutation rather than expression alone. Their neuropathological studies found decreased ChAT (choline acetyltransferase, a cholinergic neuron marker) staining in the G1 mice. They also stained for the presence of SOD1 in the spine and found a high degree in the horns. Neurofibrillary tangles were found in many, but not all, motor neurons. 
 
 
-\subsection*{Clement et al. 2003}
+\subsection*{Glia Are Key in ALS}
 
-The key takeaway here is that both glia and neurons must express mutant SOD1. Mutant neurons can be salvaged by many wildtype neurons in the surrounding regions. 
+The autonomous vs. non-autonomous nature of neurodegenerative diseases will become a large topic in the following few sections. A key example of the non-autonomous nature of ALS came from Clement et al. in 2003\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/14526083/}}, where they investigated the role of glia in hastening or slowing disease progression. The key takeaway here is that both glia and neurons must express mutant SOD1. \newline
 
-\subsubsection*{Figure 2A \& 3}
-Chimeras between SOD1 mutants and those expressing low levels of human neurofilament subunits were generated. Loss of motor neurons was found to be symmetric, which was odd considering all motor neurons express mutant SOD1. It was found that the neuronal sparing seemed higher on sides of the spinal cord where the proportion of wildtype, non-neuronal cells was greater. This signified some potential neuroprotection associated with non-neuronal cells.\newline
+Chimeric mouse lines were generated by combining the morula of mice with either WT or mutant non-neuronal cells. Such chimeras contained SOD1 mutants and those expressing low levels of human neurofilament subunits. Loss of motor neurons was found to be asymmetric---which was surprising, given that some of their lines included 100\% mutant neurons. It was found that the neuronal sparing was higher on sides of the spinal cord where the proportion of wildtype, non-neuronal cells was greater. This signified some potential neuroprotection associated with non-neuronal cells. Similarly, it was hypothesized that mutant SOD1 expressing non-neuronal cells could be capable of killing motor neurons as well. \newline
 
-A key finding is that nearly no WT motor cells may still have no phenotype. The hypothesis being that other cell types, namely glia, also require dysfunction before an ALS phenotype can emerge. Interestingly, they actually found asymmetry among the two sides of the spinal cord. Importantly, in heavily degenerating sections of the spinal cord, nearly no WT non-neuronal cells are found, compared to those sections of the spinal cord that survive. Similarly, mutant SOD1 expressing non-neuronal cells seem capable of killing motor neurons as well. 
-
-
-\subsection*{Nagai et al. 2007}
-
-\subsubsection*{Figure 1A, 3G, 4}
-
-Figure 3G shows that transgenic astrocytes caused more cell death in both transgenic and non-transgenic motor neurons. Fascinatingly, media conditioned by transgenic astrocytes kills neurons more than does normal media or media conditions by non-transgenic astrocytes. This suggests mutant astrocytes release toxic elements, causing neurons to die.\newline
-
-This paper also found that non-astrocytes have no effect whatsoever on motor neurons. Similarly, non-spinal motor neurons are not affected at all by transgenic astrocytes. Even other motor neurons derived from other parts of the body are unaffected by these mutants.\newline
-
-Eventually, in 2021, it seems that the toxic product in the media is lipids---specifically non-saturated lipids? Part of the theory may be that non-saturated lipids are preventing membrane fluidity, somehow impacting their membranes globally. 
+Another key finding was that, even in mice where nearly no WT motor neurons existed, there may still be no phenotype (i.e., all motor neurons having the mutation does not necessitate disease). All of this data points to the hypothesis that non-neuronal cells, namely glia, require dysfunction before an ALS phenotype can emerge.\newline
 
 
-\subsection*{Neumann et al. 2006}
+Another remarkable work in a similar vein is Nagai et al. 2007\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/17435755/}}. They showed that mutant astrocytes were directly able to harm neurons. In cell culture, transgenic astrocytes expressing mutant SOD1 caused more cell death than non-transgenic astrocytes, irrespective of if motor neurons harbored the same mutation. Fascinatingly, media conditioned by transgenic astrocytes resulted in greater neuronal death  than did normal media or media conditions by non-transgenic astrocytes. This suggests mutant astrocytes release toxic elements, causing neurons to die.\newline
 
-Some of the background here is that frontotemporal dementia and ALS are two of the most common degenerative diseases for those under 65. They present with similar symptoms, suggesting possible mechanistic crossover. About 30\% of FTDs are familial and many show linkage to chromosome 17. While the inclusions in FTD are hyper-ubiquitinated, FTD does not present with any tauopathies, leaving the protein unknown. The key result of this paper is that both frontotemporal lobar degeneration (FTLD) and ALS have inclusions due to TDP-43. These inclusions are marked by hyperphosphorylated, ubiquitinated TDP-43.\newline
+This paper also found that non-astrocytes (that is microglia, myocytes, etc.) have no effect whatsoever on motor neurons---a very surprising finding. Similarly, non-spinal motor neurons are not affected at all by transgenic astrocytes. Even other motor neurons derived from other parts of the body were unaffected by these mutants.\newline
 
-Interestingly, FTD and ALS are frequently found together in families, so therefore it may be possible that there is some mechanistic or genetic conservation between the two. 
-
-\subsubsection*{Figure 1}
-
-Figure 1 begins by showing that they developed antibodies which specifically bind to patients with either FTLD type 1 or type 2, and that these antibodies mark ubiquitinated inclusions. To develop these they would have had to inject ubiquitinated inclusions into mice and isolate single cells within the spleen. To screen these possible antibodies they tested on slices from human brains. In other words, a robust and large brain bank played a key role in this. On a Western blot, these antibodies show an $\approx 24$kD band and an $\approx 26$kD band for type 1 and type 2 respectively. Using a urea-based purification technique was essential for removing any and all soluble proteins so that only the insoluble aggregates remain. These bands were not found in controls or AD brains, and similarly tau staining was not found in FTLD brains.\newline
-
-To determine what these antibodies might be binding to, they performed, in SFigure 1, a 2D page gel and looked for a bands around 25kD. Because similar spots of $\approx 3.5$pI were found on both type 1 and type 2, they predicted this was correct. They performed mass spectrometry and identified the protein as being TDP-43. Both fragments of TDP-43 are truncated at the C-termini. Notably, this gene is on chromosome 1. 
-
-\subsubsection*{Figure 2}
-
-Figure 2 uses immunostaining to further prove their TDP-43 hypothesis. In type 1 and type 2 FTLD, as many inclusions as were labeled by TDP-43 antibodies were labeled by ubiquitin. Interestingly, type 3 FTLD had inclusions not labeled by these antibodies. Additionally, other degenerative diseases did not show any TDP-43 staining. 
-
-\subsubsection*{Figure 3} 
-
-Figure 3 found TDP-43 only in the urea fraction after Western blotting. Non-aggregate TDP-43 was found in all fractions. Figure 3B showed that the molecular profile of TDP-43 was different in FTLD than it was in other degenerative diseases. Specifically, extra bands around 45kD were found. Figure 3C showed that dephosphorylation of these bands collapsed them into a single band. Figure 3D also demonstrated the higher weight TDP-43 band is ubiquitinated. 
-
-\subsubsection*{Figure 4}
-
-Figure 4 extended this work to ALS by verifying TDP-43 also labels ALS inclusions. Interestingly, they suggest TDP-43 is normally a nuclear protein, but in disease pathologies is cytosolic. Figure 4L shows that the cleaved products seem only present in the frontal cortex. However, phosphorylated TDP-43 can be found throughout other regions of the brain and spinal cord. Additionally, some of the FTLD families were mutant for a different gene called PGRN. The relation between PGRN and TDP-43 is unknown. Regardless, TDP-43 aggregates characterize nearly all diseased ALS brains. 
+Certainly, this work was a landmark in the field. It unquestionably shifted the investigation into ALS, and provided considerable promise. However, in the decades to come, little advancement was made. Many searched, and searched, for what was being released by the media. Endless screens were ran and came up unsuccessful. Today, what is left in this media remains unknown. In 2021, there was some promise when researchers found that the toxic product in the media may be lipids---specifically non-saturated lipids. A working hypothesis, then, is that non-saturated lipids are preventing membrane fluidity, somehow impacting neuronal membranes globally. This is all speculative in nature, though.  
 
 
-\subsection*{Rothstein, 2007}
-
-Soon after the publication of Neumann et al. detailing the potential role of TDP-43 aggregates, this piece from Rothstein was published criticizing it. He comments largely on the over-statements frequently made regarding aggregates. He comments that some nuclear inclusions have been shown to be protective, rather than disease-causing, in some CAG repeat diseases. Rothstein comments that TDP-43 inclusions were found in non-motor cells and in regions clinically unaffected by ALS. Therefore, this calls in to question their relevance in disease progression. Similarly, because these inclusions are not found in fALS mutant for SOD1, there is further questions. This author proposes that, because sALS is a slower progressing disease than fALS, more time is given for aggregates to build up. Therefore, they are not necessary for disease progression, but rather another symptom.\newline
-
-Perhaps the cells with inclusions are the survivors rather than the sick ones. 
-
-\subsubsection*{Follow-Up}
-
-Follow-up work looked to sequence TDP-43, and many mutations were found in the glycine-rich region (near the C-terminus) of TDP-43. Other similarly structued proteins, which had RNA-recognition motifs (RRMs) include proteins like FUS---which was later found to aggregate in ALS as well. Interestingly, FUS did not have many mutations in the glycine-rich region, but rather it was in its C-terminus. Similarly, in FUS' mutation it is trafficked outside of the cell. The C-terminus area, then, was determined to be relevant in nuclear localization. However, TDP-43's mutations are not often in its nuclear localization sequence. Both FUS and TDP-43 have NLS and NES, meaning they can be trafficked back and forth between the cytoplasm and nucleus as needed---but both spend much more time in the nucleus.\newline
-
-Interestingly, both FUS and TDP-43 are localized to stress granules in these diseases. Important insight came from \textit{C. elegans} embryos. In early stages, granules in these worms get trafficked from scattered around the cell and are then trafficked to one side of the cell. Fascinatingly, though, these granules do not get moved, per se, but rather disappear and reappear. Thus, they are not being pulled like you might expect. Rather, they are phase-separated liquid droplets. Stress granules are similar to the nucleolus---they are effectively membrane-less organelles. Both TDP-43 and FUS have ``low complexity domains" which allow for the gel-like formations of these proteins. It's hypothesized that liquid droplets and then transition somehow into being hard, solid aggregates. One of the most fascinating questions, then, is how non-mutant TDP-43 still exhibits these stress granule to aggregate conversions. Somehow, continued stress in the neurons leads to this. What causes this?\newline
-
-So what is TDP-43 anyway? It is  a nucleic acid binding protein which is capable of doing a lot in RNA maintenance and processing, including splicing. TDP-43 is considered a repressor, helping to prevent expression of certain exons. Therefore, both TDP-43 loss of function and gain of function is capable of producing different, new proteins with either extra or less than intended exons. TDP-43 especially represses ``cryptic exons" which are not found in mice. Therefore, we can only use RNAseq from humans to determine how TDP-43 dysfunction alters the transcriptome. Broadly, TDP-43 seems to make transcription more accurate and precise. Thus, it is wise to hypothesize that improper transcription of critical genes may lead to neuron death. One example of this is stathmin-2 (STMN2), which has a cryptic exon and is known to play a role in motor function and motor neuron outgrowth. Again, this is not preserved in mice---so we cannot investigate it properly in a mouse model. As a final comment, TDP-43 is autoregulated, so it is not an ideal therapeutic target. 
+\subsection*{A Link Between Diseases: TDP-43}
 
 
-\subsection*{DeJesus-Hernandez et al. 2011}
+Frontotemporal dementia (FTD) and ALS are two of the most common degenerative diseases for those under 65. They present with similar symptoms, suggesting possible mechanistic crossover. About 30\% of FTDs are familial and many show linkage to chromosome 17. While the inclusions in FTD are hyper-ubiquitinated, FTD does not present with any tauopathies, leaving the protein unknown. Interestingly, FTD and ALS are frequently found together in families, suggesting there may be genetic conservation between the two.\newline
 
-It was shown years prior that ALS and FTD are linked to a gene on Chr9. Yet, finding this gene proved impossible. A large reason for this is the advent of next generation sequencing, which caused researchers to miss the key mutations. All of the exons were sequenced, so the Rademaker group questions if the causative mutations could be in the introns. Via attempts to PCR these introns, one intron failed to amplify. This work identifies this gene as \textit{C9ORF72}, and that the causative mutation is a repeat expansion in a non-coding region. 
+Remkarkably, in 2006 Neumann et al. found that both frontotemporal lobar degeneration (FTLD) and ALS have inclusions due to TDP-43\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/17023659/}}. These inclusions are marked by hyperphosphorylated, ubiquitinated TDP-43.\newline 
 
-\subsubsection*{Figure 1 \& 2, Table 1}
+The group, led by Drs. Virginia Lee and John Trojanowski, began by developing antibodies which specifically bind to patients with either FTLD type 1 or type 2, and these antibodies mark ubiquitinated inclusions---already an immensely impressive feat. To develop these they would have had to inject ubiquitinated inclusions into mice and isolate single cells within the spleen. To screen these possible antibodies they tested on slices from human brains. In other words, a robust and large brain bank played a key role in this. This work is all performed on patient tissues, demonstrating the importance of neuropathologists in the study of neurodegenerative diseases. On a Western blot, these antibodies show an $\approx 24$kD band and an $\approx 26$kD band for type 1 and type 2 FTLD respectively. Before running their blot, they used a urea-based purification technique, which was essential for removing any and all soluble proteins so that only the insoluble aggregates remained. These bands were not found in controls or AD brains, and similarly tau staining was not found in FTLD brains.\newline
 
-Figure 1 shows brain tissue from affected family members showing Chr9 linkage. These stains clearly show TDP-43 inclusions. Figure 2 shows a pedigree that implies a lack of transmission from affected parent to affected offspring. Via PCR amplification, they size different alleles in their suspected gene and find that affected individuals only show one size. This is curious, and suggests affected individuals are homozygous---which cannot be true. This means instead that it cannot be amplified. They then turned to a Southern blot, and by probing this region, they found that diseased individuals had very long alleles. The expansions they found were on the order of thousands of base pairs. Table 1 shows that this mutation is more common than any other ALS or FTD mutation, even more so than SOD1, FUS, and TDP-43, etc. At many clinics around the world, it was on the order of 50\% of cases are due to this repeat expansion. 
+To determine what these antibodies might be binding to, they performed a 2D page gel and looked for a bands around 25kD. Because similar spots of $\approx 3.5$pI were found on both type 1 and type 2, they predicted this was correct. They performed mass spectrometry and identified the protein as being TDP-43. Both fragments of TDP-43 are truncated at the C-termini. Notably, this gene is on chromosome 1. Using immunostaining, they further proved their TDP-43 hypothesis. In type 1 and type 2 FTLD, as many inclusions as were labeled by TDP-43 antibodies were labeled by ubiquitin. Interestingly, type 3 FTLD had inclusions not labeled by these antibodies. Additionally, other degenerative diseases did not show any TDP-43 staining, showing specificity for type 1 and 2 FTLD.\newline
 
-\subsubsection*{Figure 4 \& 5}
+``Aggregated" TDP-43 was found only in the urea fraction after Western blotting. Non-aggregate TDP-43 was found in all fractions. Blots showed that the molecular profile of TDP-43 was different in FTLD than it was in other degenerative diseases. Specifically, extra bands around 45kD were found. We can postulate from previous papers that this may be due to hyper-phosphorylation. Indeed,  dephosphorylation of proteins via a phosphatase collapsed them into a single band. Interestingly, the higher weight TDP-43 band is also ubiquitinated.\newline
 
-Based on a single SNP, the group can tell how the RNA is cut. In variant 2 and variant 3, both alleles are seen. It is not seen in variant 1, which could suggest expanded repeats turn off expression of variant 1. Thus, Figure 4 demonstrates the possibility that these expanded repeats cause alternative splicing. It shows that those with the expanded repeat have a much higher \% of the V2 splice. Figure 5 shows than expanded repeat RNA forms nuclear inclusions. 
-
-\subsection*{Renton et al. 2011}
-
-The Traynor lab used extensive next generation sequencing to look for the changes in the critical region of Chr9. Next generation sequencing specifically creates a shotgun library of genomic DNA, sequences it, and aligns them together. Each fragment is on the order of 50 to 100 base pairs. This is not \textit{de novo} sequencing, but rather comparative sequencing, where one compares and or aligns with a reference sequence from the original human genome project. A read depth describes how often an individual base is read. In affected individuals, they were reading with a depth around 170, meaning each individual nucleotide was read around 170 times---i.e., this is great depth. Part of the computation done is to align uniquely mapped reads, meaning segments of DNA which are conserved in different parts of the genome, it cannot be mapped---hence a struggle with repeat expansions. The Traynor group therefore was able to see a massive gap in the reads done by their sequencing, suggesting some error in computation, which they supposed was due to repeat expansion.\newline
-
-One of the strategies employed was ``repeat primed PCR," where a reverse primer and an anchor primer are used. Part of the reverse primer is homologous to the variable repeat, and the anchor is homolgous to a non-repeat expansion. The reverse primer will then be capable of binding anywhere along the repeat, generating various amplification products. Adding the anchor primer after allows you to amplify all of these fragments. You will then, in short, see a wide variety of products when there are repeats. 
-
-\subsubsection*{Fallout}
-
-One possible implication would be that a long repeat leads to RNA accumulation that soaks up tons and tons of RNA binding proteins, leading to a dual kind of gain of function-loss of function result. Notably, no point mutations have ever been found in this disease. Unlike something like FMR-1, it must be true that repeat expansions alone are causing the disease. Therefore, it may also be that the protein is translated strangely, including translation through introns, leading to aberrant proteins.\newline
-
-This gene is now part of the common disease haplotype that characterizes ALS. Again, note that healthy individuals have 2-23 units of the GGGGCC repeats, while affected individuals have nearly 700-1600. Yet, while this gene is extremely unstable, there is no observed anticipation. It thus remains unknown what the ``minimum" length is required to cause disease, as there is no ``middle" cases. Interestingly, the A haplotype has more repeats seen than does the G haplotype. However, this is still well within the normal range.\newline
-
-Another fascinating thing to note is this mutation can confer both FTD or ALS, or both. Different family trees seem to be biased toward one disease or another, suggesting more genetic factors are involved, or environmental factors. Because of the similarity in this haplotype, and the localization to certain countries, it's thought that this repeat expansion may have originated in Europe from Viking times. I.e., it's possible this repeat expansion occurred only once. 
+They extended this work to ALS by verifying TDP-43 also labels ALS inclusions. Interestingly, they suggest TDP-43 is normally a nuclear protein, but in disease pathologies becomes cytosolic. A cleaved, C-terminal product, marked by a low molecular weight band, was found only in the frontal cortex. However, phosphorylated TDP-43, represented by all other bands, was found throughout other regions of the brain and spinal cord. Additionally, some of the FTLD families were mutant for a different gene called PGRN. The relation between PGRN and TDP-43 is unknown. Regardless, TDP-43 aggregates characterize nearly all diseased ALS brains. 
 
 
-\subsection*{Mori et al. 2013}
+\subsubsection*{Inclusions: What of it?}
 
-The overview of this work is that the aberrant RNA is getting translated into incorrect proteins. Hairpin formation can lead to the incorrect recruitment and initiation of translation. This is called RAN---repeat associated non-AUG translation. The G4C2 repeats found in ALS are capable of forming both hairpins and quadraplexes. Interestingly, it's possible for translation to occur on non-AUG, but on similar codons. This is typically seen under stress or in abnormal conditions.\newline
+Soon after the publication of Neumann et al. detailing the potential role of TDP-43 aggregates, a 2007 piece from Rothstein was published criticizing it\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/17469124/}}. He comments largely on the over-statements frequently made regarding aggregates. He comments that some nuclear inclusions have been shown to be protective, rather than disease-causing, in some CAG repeat diseases. Rothstein points out that TDP-43 inclusions were found in non-motor cells and in regions clinically unaffected by ALS. Therefore, this calls in to question their relevance in disease progression. Similarly, because these inclusions are not found in fALS mutant for SOD1, there are further questions. The author proposes that, because sALS is a slower progressing disease than fALS, more time is given for aggregates to build up. Therefore, they are not necessary for disease progression, but rather another symptom.\newline
+
+An all-important point is that we only look at a brain once the patient is deceased. It gives no insight into how the disease was ``generated." Therefore: perhaps the cells with inclusions are the survivors, rather than the sick ones. The work fits in to the grand wonders about the true role of aggregation in disease. 
+
+\subsubsection*{Follow-Up.}
+
+Follow-up work looked to sequence TDP-43, and many mutations were found in the glycine-rich region (near the C-terminus) of TDP-43. Other similarly structued proteins, which had RNA-recognition motifs (RRMs) include proteins like FUS---which was later found to aggregate in ALS as well. Interestingly, FUS does not typically have many mutations in the glycine-rich region, but rather it was in its C-terminus. Similarly, in FUS mutation, FUS is trafficked outside of the cell. The C-terminus area, then, was determined to be relevant in nuclear localization. However, TDP-43's mutations are not often in its nuclear localization sequence. Both FUS and TDP-43 have NLS and NES, meaning they can be trafficked back and forth between the cytoplasm and nucleus as needed---but both spend much more time in the nucleus.\newline
+
+Interestingly, both FUS and TDP-43 are localized to stress granules in these diseases. Important insight regarding this came from \textit{C. elegans} embryos. Such granules begin scattered about the cell, but can be trafficked to a desired location. Fascinatingly, though, these granules do not get ``moved," per se, but rather disappear and reappear. That is, they are not being dragged along a microtubule, and or, being pulled to the desired location like you might expect. Rather, they are phase-separated liquid droplets, which move out of phase and spontaneously back in to phase with a different localization. Stress granules are similar to the nucleolus---they are effectively membrane-less organelles. Both TDP-43 and FUS have ``low complexity domains" which allow for the gel-like formations of these proteins. It's hypothesized that they are stored in liquid droplets and then transition somehow into being hard, solid aggregates. One of the most fascinating questions, then, is how non-mutant TDP-43 still exhibits these stress granule to aggregate conversions. Somehow, continued stress in the neurons leads to this. What causes this?\newline
+
+I should say, before we continue, what is TDP-43 anyway? It is a nucleic acid binding protein which is capable of doing a lot in RNA maintenance and processing, including splicing. TDP-43 is considered a repressor, helping to prevent expression of certain exons. Therefore, both TDP-43 loss of function and gain of function are capable of producing different, new proteins with either extra or less than intended exons. TDP-43 especially represses ``cryptic exons"---which are not found in mice (what does that mean for mouse models?). Therefore, we can only use RNAseq from humans to determine how TDP-43 dysfunction alters the transcriptome. Broadly, TDP-43 seems to make transcription more accurate and precise. Thus, it is wise to hypothesize that improper transcription of critical genes may lead to neuron death. One example of this is stathmin-2 (STMN2), which has a cryptic exon and is known to play a role in motor function and motor neuron outgrowth (it is a canonical regeneration marker). Again, this is not preserved in mice---so we cannot investigate it properly in a mouse model. As a final comment, TDP-43 is autoregulated, so it is not an ideal therapeutic target. 
 
 
-C9orf72 patients are seen as having additional, non-TDP-43 inclusions. Such inclusions are marked by ubiquitin and p62, suggesting they are targeted for degradation and might additionally induce autophagy. Based on the sequence of C9orf72, it's unclear where the ribosome may be tacking on and initiating translation. Based upon where translation initiates, however, there will obviously be different proteins made, especially if they are in different reading frames (such possible proteins are called GA, GP, and GR). Interestingly, all predicted proteins would be very hydrophobic, suggesting a possible disease mechanism. Regardless, the group raised antibodies to different possible proteins. Using variable length sequences made from well designed PCR primers, they synthesized proteins of different lengths. They found GA expressed over a range of lengths, GP expressed only at the longest lengths, and GR never expressed. Therefore, this mechanism must lead an odd intron to be removed from the nucleus and somehow transcribed differently depending on the length. However, when you use a filter trap to remove aggregated protein, you find GA, GR, and GP. \newline
+\subsection*{Most Common Allele Finally Found: C9ORF72}
+
+This is a very interesting story, which shows how our technological advancements were accompanied by some limitations. First, let's consider DeJesus-Hernandez et al. 2011\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/21944778/}}.\newline
+
+It was shown years prior that ALS and FTD are linked to a gene on Chr9. Yet, finding this gene proved impossible. A large reason for this is the advent of next generation sequencing, which caused researchers to miss the key mutations. All of the exons in this region were sequenced, so the Rademaker group questioned if the causative mutations could be in the introns. Via attempts to PCR these introns, one intron failed to amplify. This work identifies this gene as \textit{C9ORF72}, and that the causative mutation is a repeat expansion in a non-coding region.\newline
+
+The group used brain tissue from patients showing Chr9 linkage, and staining them clearly showed TDP-43 inclusions. They show a pedigree including patient haplotypes that implies a lack of transmission from affected parent to affected offspring. Via PCR amplification, they size different alleles in their suspected gene and find that affected individuals only show one size. This is curious, and suggests affected individuals are homozygous---which cannot be true. This instead implies that the gene cannot be amplified. They then turned to a Southern blot, and by probing this region, they found that diseased individuals had very long alleles. The expansions they found were on the order of thousands of base pairs composed of GGGGCC repeats---on the scale of previously mentioned diseases, this is quite long. After finding the mutation, they showed that it is more common than any other ALS or FTD mutation, even more so than SOD1, FUS, and TDP-43, etc. At many clinics around the world, it was on the order of 50\% of cases included this repeat expansion.\newline
+
+Based on one SNP, the group can tell how the RNA is cut, and demonstrate the possibility that these expanded repeats cause alternative splicing. Patients with the expanded repeats have a much higher proportion of the V2 alternative splice, which perhaps alludes to a role in pathology. Finally, they show that the expanded repeat RNA forms nuclear inclusions, which they identify via a (GGGGCC)$_4$ probe.\newline 
 
 
+A similar, parallel study was done by Renton et al. in 2011\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/21944779/}}. The Traynor lab used extensive next generation sequencing to look for the changes in the critical region of Chr9. Next generation sequencing specifically creates a shotgun library of genomic DNA, sequences it, and aligns them together. Each fragment is on the order of 50 to 100 base pairs. This is not \textit{de novo} sequencing, but rather comparative sequencing---one compares and or aligns with a reference sequence from the original human genome project. In affected individuals, they were reading with a depth around 170 (read depth describes how often an individual base is read, meaning each individual nucleotide was read around 170 times), meaning they had incredible depth. Part of the computation done is to align uniquely mapped reads, meaning segments of DNA which are conserved in different parts of the genome cannot be mapped---hence a struggle with repeat expansions. The Traynor group therefore was able to see a massive gap in the reads done by their sequencing (i.e., a large blank spot in the output), suggesting some error in computation, which they supposed was due to repeat expansion.\newline
+
+To sequence this unknown region, they employed a strategy called ``repeat primed PCR," where a reverse primer and an anchor primer are used. Part of the reverse primer is homologous to the variable repeat, and the anchor is homolgous to a non-repeat expansion. The reverse primer will then be capable of binding anywhere along the repeat, generating various amplification products. Adding the anchor primer after allows you to amplify all of these fragments. You will then, in short, see a wide variety of products when there are repeats. Indeed, they found long strings of GGGGCC repeats. 
+
+\subsubsection*{Implications.}
+
+One possible implication would be that a long repeat leads to RNA accumulation, and soaks up tons and tons of RNA binding proteins, leading to a dual sort of gain-of-function-loss-of-function result. Notably, no point mutations have ever been found in this gene, suggesting loss-of-function alone is not disease causing. Opposed to something like FMR-1, it must be true that repeat expansions alone are causing the disease. Therefore, it may also be that the protein is translated strangely, including translation through introns, leading to aberrant protein production.\newline
+
+This gene is now part of the common disease haplotype that characterizes ALS. Healthy individuals have 2-23 units of the GGGGCC repeats, while affected individuals have nearly 700-1600. Yet, while this gene is extremely unstable, there is no observed genetic anticipation---a confusing finding. It thus remains unknown what the ``minimum" length is required to cause disease, as there are no ``middle" cases (i.e., a patient with mild ALS and 300 repeats does not exist). Interestingly, two non-ALS patient haplotypes exist: A and G. The A haplotype has more repeats seen than does the G haplotype, so some wonder if it be more prone to expansion. However, both haplotypes are still well within the normal range.\newline
+
+Another fascinating thing to note is this mutation can confer FTD or ALS, or both. Different family trees seem to be biased toward one disease or another, suggesting more genetic factors are involved, or environmental factors. Because of the similarity in this haplotype, and the localization to certain countries, it's thought that this repeat expansion may have originated in Europe from Viking times. I.e., it's possible this repeat expansion occurred only once, and has been carried about ever since.
+
+
+\subsection*{The Repeats are Translated}
+
+Insight into the disease mechanism of \textit{c9orf72} came in 2013 from Mori et al.\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/23393093/}} They showed that these repeats are translated via abnormal protein synthesis, resulting in protein aggregation. Hairpin formation can lead to the incorrect recruitment and initiation of translation. This is called RAN---repeat associated non-AUG translation. The G$_4$C$_2$ repeats found in ALS are capable of forming both hairpins and quadraplexes, implying RAN can occur. Interestingly, it's also possible for translation to occur on non-AUG, but on similar codons. This is typically seen under stress or in abnormal conditions.\newline
+
+Based on the sequence of \textit{C9orf72}, it's unclear where the ribosome may be tacking on and initiating translation. Different translation start sites, however, will generate different proteins if they are in different reading frames (such possible proteins are called GA, GP, and GR, where repeats generate Poly-GA, GP, and GR). Interestingly, all predicted proteins would be very hydrophobic, suggesting a possible disease mechanism. The instrumental advancement was their uniquely generated antibodies---which they raised against the three possible proteins.\newline
+
+They demonstrated, in human embryonic kidney (HEK) cells, that different dipeptide repeat proteins are aberrantly translated, depending on the reading frame and in correlation with the length of DNA. They found GA expressed over a range of lengths, GP expressed only at the longest lengths, and GR never expressed. However, upon using a filter trap to remove aggregated protein, they found GA, GR, and GP, still with GA being the most common. Therefore, the disease must somehow lead an odd intron to be removed from the nucleus and somehow transcribed depending on the repeat length. They further verified the presence of such proteins in \textit{c9orf72} patient tissues. The proteins form inclusions that vary in both location and morphology, are distinct from TDP-43 inclusions, and are marked by ubiquitin and p62. It was long known that \textit{C9orf72} patients are seen as having additional, non-TDP-43 inclusions, and their molecular identity was finally known. Due to their ubiquitin and p62 markings, it's plausible that they might induce autophagy.  
 
 \section*{Prion Diseases, and the Prion-like Behavior of Others}
 
