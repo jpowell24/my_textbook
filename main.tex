@@ -4183,7 +4183,7 @@ We can use this for classifications. See below:
 \end{split}
 \end{equation}
 
-This essentially asks: what is the probability of $x$ fitting into some category $C_k$? $P(C_k | x)$ is considered the posterior. $x$ is the feature vector. $P(x | C_k)$ is the likelihood. $P(C_k)$ is the prior. And finally, $P(x)$ is the evidence. 
+This essentially asks: what is the probability of $x$ fitting into some category $C_k$? $P(C_k | x)$ is considered the posterior. $x$ is the feature vector. $P(x | C_k)$ is the likelihood. $P(C_k)$ is the prior. And finally, $P(x)$ is the evidence\footnote{I always forget what the $\Pi$ symbol means. It's obvious from the below equations anyway, but simply because I know future me will go ``\textit{huh?}" I'll add the reminder that it is like summation notation, but with multiplication rather than summing. Thank me later.}. 
 
 \begin{equation}
 \begin{split}
@@ -4608,7 +4608,7 @@ A large part of this information comes from Dee Silverthorn's \textit{Human Phys
 \section{Skeletal Muscle}
 \subsection{A Cellular Level}
 \subsubsection{Structure.}
-Skeletal muscles are composed fasicles, which are composed of muscle fibers, which are composed of myofibrils. An individual muscle fascicle is around $10-100\mu$m in diameter and can range from $1-30$cm in length. Muscles use a silly nomenclature, in which ``sarco" is added to words. For example, the whole structure sits within the sarcoplasm (cytoplasm), fibers are intertwined with the the sarcoplasmic reticulum (equivalent to endoplasmic reticulum) and surrounded by the sarcolemma (equivalent to the cell membrane). An individual myofibril is made up of overlapping actin and myosin segments, held together, to some degree, by titin. The myosin heads are the canonical structure you imagine, which bud off of the end of a chain like leaves on a branch and bind to actin. Undeniably, the most uninteresting part of muscle physiology is as follows: The ``centerline" of the myosin networks is called the M line, while the ``centerline" of the actin network is called a Z disk. On a microscope image, the Z disks can actually be seen as horizontal stripes. Titin branches off from the Z disks to bind to the ends of myosin chains, providing both some elasticity and support for myosin. Actin chains are centered around a line of nebulin, which too provides structural support and organization. The I (isotropic\footnote{Note that the isotropic and anisotropic naming comes from their initial discovery and should not be used to make assumptions about chirality, etc.}) band is considered to be the unbound part of the actin structure, centered around the Z disks. The H zone is the unbound part of the myosin structure, centered around the M line. The A (anisotropic) band is the entire length of the myosin fibers, thereby encapsulating both the bound part of the actin-myosin complex and the H zone, meaning it too is centered around the M line. Therefore, when contraction occurs, the size of the H zone and I band decreases, while the size of the A band stays the same.\newline
+Skeletal muscles are composed fasicles, which are composed of muscle fibers, which are composed of myofibrils. An individual muscle fascicle is around $10-100\mu$m in diameter and can range from $1-30$cm in length. Muscles use a silly nomenclature, in which ``sarco" is added to words. For example, the whole structure sits within the sarcoplasm (cytoplasm), fibers are intertwined with the the sarcoplasmic reticulum (equivalent to endoplasmic reticulum) and surrounded by the sarcolemma (equivalent to the cell membrane). An individual myofibril is made up of overlapping actin and myosin segments, held together, to some degree, by titin. The myosin heads are the canonical structure you imagine, which bud off of the end of a chain like leaves on a branch and bind to actin. Undeniably, the most uninteresting part of muscle physiology is as follows: The ``centerline" of the myosin networks is called the M line, while the ``centerline" of the actin network is called a Z disk. On a microscope image, the Z disks can actually be seen as horizontal stripes. Titin branches off from the Z disks to bind to the ends of myosin chains, providing both some elasticity and support for myosin. Actin chains are centered around a line of nebulin, which too provides structural support and organization. The I (isotropic\footnote{Note that the isotropic and anisotropic naming comes from their initial discovery and should not be used to make assumptions about chirality, etc.}) band is considered to be the unbound part of the actin structure, centered around the Z disks. The H zone is the unbound part of the myosin structure, centered around the M line. The A (anisotropic) band is the entire length of the myosin fibers, thereby encapsulating both the bound part of the actin-myosin complex and the H zone, meaning it too is centered around the M line. Therefore, when contraction occurs, the size of the H zone and I band decreases, while the size of the A band stays the same.
 
 \subsubsection{Contraction-relaxation.}
 Myosin heads desire to bind to actin, but are blocked by tropomyosin. Ca$^{2+}$ can bind to troponin, bound to tropomyosin, to cause conformational changes resulting in the exposure of the actin to the myosin heads. In doing so, binding can occur, followed by myosin's power stroke. The energy for the stroke comes from hydrolyzing ATP, which had already occured by the time myosin attached to the actin. The powerstroke allows the release of the ADP and P$_i$. ATP then can bind to the empty active site of myosin, which causes the release of the head and prepares it for another cycle. Notably, when ATP does not bind to myosin, the muscle will be stuck in the rigor state.\newline
@@ -4618,6 +4618,20 @@ In skeletal muscles, the source of Ca$^{2+}$ is a combination of the extracellul
 A steady supply of ATP is needed to maintain pumping, and it is said that at any given time, there is 8 or so twitches worth of ATP within the muscle fiber. Therefore, frequent production and alternate stores are required for continuous movement. One such storage is phosphocreatine, whose phosphate group can be quickly transferred to ADP through creatine kinase. Muscles therefore contain high levels of this enzyme, and \textbf{testing for it in the bloodstream can be a good proxy for muscle damage}.\newline
 
 Notably, it is very difficult to fully deplete a muscle of its ATP. Other forms of fatigue begin before this can possibly occur, which include CNS or PNS feedback. An example of this may be that acetylcholine is not synthesized fast enough to continually stimulate muscle fibers. Continual simulation of muscle fibers, beyond what is allowable under normal conditions, \textbf{will fully deplete ATP levels and therefore cause damage to muscles}. Another consideration is the continuous use of ATP may result in P$_i$ buildup in the sarcoplasm, making release of ADP $+$ P$_i$ from myosin less likely to occur. Too, this opens the possibility of calcium phosphate forming, which can be quite damaging if it crystallizes further. There are also ion concentration changes to consider, and continued stimulation can result it tetanus.
+
+
+\subsection{Generating Force}
+
+The ratio of motor neurons to muscle fiber dictates the relationship between fine control and force generation. The nervous system is digitized, and signals are frequency encoded (see section \textbf{\ref{sec:FrequencyEncoding}}). This stands to reason for the neuromuscular system as well. You might ask yourself: how can it be that my fingers can delicately hold a pencil in my hand, but also forcefully grip the grocery bags. Twitch experiments have shown that successive stimulation, resulting in muscle twitching, can cause a superposition of muscle contraction (and thus force generated). Thus, the frequency of neuromuscular firing helps answer our question---higher frequency of firing results in stronger contraction. The fastest twitching results in ``fused tetanus" where the force generated by muscles smooths out and becomes constant.\newline
+
+An additional mode of force control is by size. Dictated by their ability to hydrolyze ATP faster, fast-twitch fibers are able to contract faster. Similarly, they're able to undergo contraction cycles more quickly due to their ability to pump Ca$^{2+}$ out of the cytosol (and or into the sarcoplasmic reticulum) faster. ATP is generated in fast twitch fibers primarily through anaerobic glycolysis---which lowers the pH in the process, contributing to fatigue. Slow twitch fibers, which rely more on oxidative phosphorylation, are able to avoid this fast fatigue. Slow twitch fibers harbor more mitochondria and consume more oxygen. This oxygen demand is met by such muscles being smaller (which allows oxygen to diffuse into it more easily) and more myoglobin present in slow twitch muscles, giving them their characteristic red color. Fast twitch muscles, on the other hand, are larger and white. Interestingly, the smaller, slow-twitch fibers are recruited first in muscle movement, and then larger, fast-twitch fibers are recruited. This size-dependent recruitment is called the \textit{size principle}. Aiding in this, smaller fibers have lower activation thresholds than do large ones. \newline
+
+Importantly, external muscle stimulation through external muscle stimulation bypasses this size principle, and rather typically activates larger muscles first. Because these fibers are more prone to fatigue, this can be a poor way to artificially generate muscle movement.\newline
+
+An EMG is one way to estimate muscle force generation. To do this, one would take EMG signal, rectify it, and then perform low-pass filtration or peak detection.\newline
+
+\textcolor{red}{NOTE TO SELF: Add section on building EMG.}
+
 
 \subsubsection{A Power Thought Experiment.}
 
@@ -4672,7 +4686,7 @@ Initiation of cardiac muscle contraction requires extracellular calcium, and gen
 The electrophysiological profile is marked by Na$^+$ entry but maintained by Ca$^{2+}$ in a plateau phase. The fall occurs via K$^+$ entry. The refractory period is long due to this plateau phase, which prevents Na$^+$ channels from resetting. 
 
 \subsubsection{Pacemakers.}
-Hyperpolarization cyclic nucleotide (HCN) gated channels induce an inward hyperpolarization ($I_h$, or $I_f$) current. Within the hyperpolarization range, HCN channels open and cause steady depolarization rhythmically. HCN channels are typically permeably to multiple cations, and in this case Na$^+$ is the biggest player. When the membrane potential is high enough, VGCCs will open and cause depolarization required to propagate the signal between myocytes. At peak, slow opening K$^+$ channels open and repolarize the membrane. Notably, voltage gated Na channels do not play a role in myocyte depolarization. \newline
+Hyperpolarization cyclic nucleotide (HCN) gated channels induce an inward hyperpolarization ($I_h$, or $I_f$) current. Within the hyperpolarization range, HCN channels open and cause steady depolarization rhythmically. HCN channels are typically permeable to multiple cations, and in this case Na$^+$ is the biggest player. When the membrane potential is high enough, VGCCs will open and cause depolarization required to propagate the signal between myocytes. At peak, slow opening K$^+$ channels open and repolarize the membrane. Notably, voltage gated Na channels do not play a role in myocyte depolarization. \newline
 
 Expectedly, as $\beta$-blockers will inhibit a rise in cAMP, HCN channels will be less active. This decreases heart rate, among other things. 
 
@@ -4683,7 +4697,7 @@ Expectedly, as $\beta$-blockers will inhibit a rise in cAMP, HCN channels will b
 
 \chapter{Biomechanics of Movement}
 
-Much of this will come from Dr. Scott Delp's online Biomechanics course\footnote{\url{https://www.youtube.com/@biomechanicsofmovement3388}}. 
+Much of this will come from Dr. Scott Delp's online Biomechanics course\footnote{\url{https://www.youtube.com/@biomechanicsofmovement3388}}. Secondarily, it will come from Dr. Lawrence Rome's Systems Physiology course. 
 
 
 \subsubsection{Introduction.}
@@ -4704,7 +4718,11 @@ The \textit{cadence} is the frequency of steps, the \textit{step length} is the 
 
 \subsubsection{Walking Forces and Energetics.}
 
-The ``ground reaction forces" (GFR) are effectively the normal force of one's walking. That is, you take a step and push down on the ground, and the ground pushes back up on you. The ground reaction forces begin when the heel makes contact with the ground, and increase as your weight is loaded onto the ground. In this loading phase, the ground reaction forces will be slightly backward pointed, as your heel makes contact with the ground at an angle. When the foot is flat on the ground this force will be vertical, called the midstance. At this point, GFR are lower. Then, in moving toward push-off, they begin to ramp again and have a forward trajectory as your toes push off the ground again at an angle. Finally, the GFR scale down again at toe-off, the point at which your toes leave the ground.\newline
+The ``ground reaction forces" (GFR) is the reaction force the ground exerts in response to one's walking. That is, you take a step and push down on the ground, and the ground pushes back up on you. The ground reaction forces begin when the heel makes contact with the ground, and increase as your weight is loaded onto the ground. In this loading phase, the ground reaction forces will be slightly backward pointed, as your heel makes contact with the ground at an angle. When the foot is flat on the ground this force will be vertical, called the midstance, and is lower due to the double support. At this point, GFRs are lower than one's bodyweight. Then, in moving toward push-off, they begin to ramp again and have a forward trajectory as your toes push off the ground again at an angle. Finally, the GFR scale down again at toe-off, the point at which your toes leave the ground. See a sketch below:
+
+\begin{center}
+\includegraphics[width=0.6\textwidth]{images/gaitcycle.png}
+\end{center}
 
 You can take this vector of ground reaction forces and separate it into components. The horizontal component modulates the speed of forward movement, and the vertical component how much one is held up. Plotting these forces individually reveals how loaded our joints are. You find that the vertical component actually exceeds body weight during the loading and push-off phases of walking, but is below body weight in the midstance phase. Similarly, we see that the horizontal component is negative (a deceleration) in the loading phase and positive in the push-off phase (an acceleration).\newline
 
@@ -4737,7 +4755,7 @@ The simplest conceivable model is considering the limbs to be inverted pendulums
 
 \subsubsection{Walking vs. Running.}
 
-Running, unlike walking, has the addition of a \textit{flight phase} where neither foot is on the ground. The ground reaction forces in running do not ride, fall, and then rise again as they do in walking. Instead, they have a single peak, which is much higher than that of walking.\newline
+Running, unlike walking, has the addition of a \textit{flight phase} where neither foot is on the ground. The ground reaction forces in running do not ride, fall, and then rise again as they do in walking. Instead, trend toward a single peak, which is much higher than that of walking. The exact shape of the running GRF curve varies slightly in how one runs, and their terrain. For example, if one strikes with their heel first, the horizontal component of the GRF will begin negative, and cause the total GRF to have a fast rise and then a slight dip (when the horizontal component switches from negative (heel impact) to zero (midstance) to positive (toe-off)). The speed of the rise is modulated similarly, and by how stiff of a surface the impact occurs on. This is discussed further in a bit. \newline
 
 Interestingly, while walking has kinetic and potential energy out of phase, they are actually in phase for running. Rather than ``storing" energy as potential energy, instead it is cyclically stored as elastic energy in our muscles and tendons.\newline
 
@@ -4792,7 +4810,7 @@ We discussed the transition from walking to running, and the ground reaction for
 
 \section{Muscles and Tendons Modeling}
 
-\subsection{Muscles}
+\subsubsection{Muscles.}
 
 An important thing to recall is that muscles pull, not push. The \textit{active} force-length properties can be plotted, and you'll find that maximum force correlates with the amount of crossover between actin and myosin---which occurs at some optimized sarcomere length. There is also a passive contribution, which is due to the structural proteins like titin. When stretched beyond normal limits, proteins like titin act like springs. Therefore, summing the active and passive contributions shows a force-length curve that is almost bimodal (up to a point, where the muscle would simply snap).\newline
 
@@ -4800,9 +4818,270 @@ Muscle also has a force-velocity curve. An elongating muscle (eccentric) has a n
 
 Mechanical power is the product of force and velocity. There is some maximum mechanical power generated, which is where we naturally attempt to operate. For example, when shifting the gears on your bike, you settle to some region that maximizes power\footnote{Example from Dr. Delp.}. 
 
-\subsection{Tendons}
+\subsubsection{Tendons.}
 
-Tendons too have a force-length curve. It is unimodal and nonlinear, where the elongation of a tendon recruits more tendon fibers, eventually reaching maximal extension, at which point some begin to give, and the tendon eventually snaps altogether. 
+Tendons too have a force-length curve. It is unimodal and nonlinear, where the elongation of a tendon recruits more tendon fibers, eventually reaching maximal extension, at which point some begin to give, and the tendon eventually snaps altogether. A tendon's properties are given by: 
+
+\begin{equation}
+\begin{split}
+    \mathrm{Tendon\: stress} &= \sigma^T = \frac{F^T}{A^T}\\
+     \mathrm{Tendon\: strain} &= \epsilon^T = \frac{l^T - l^T_S}{l^T_S} = \frac{\Delta l^T}{l^T_S}
+\end{split}
+\end{equation}
+
+Where the stress in a tendon is the force it experienced over the area, assuming the force is uniform. The strain is the stretch of the tendon over it's slack length (where force begins to develop in the tendon) divided by it's slack length. 
+
+\subsection{Muscle Architecture and Modeling}
+
+Two components of a muscle are its pennation angle and its physiologic cross-sectional area (PCSA). A muscle can either be parallel (where its PCSA is perpendicular to the muscle) or pennate (where its PCSA is ``featered," or angeled relative to the muscle fibers). The section option allows for more muscle fibers to act in conjunction. This degree of pennation varies greatly throughout the body. The deltoid, for example, has multiple pennate groups together (multi-pennate), whereas some muscles in the quad are strictly long, parallel fibers. The length of the tendon also varies greatly. For example, the calves (specifically the gastrocnemius) have short, pennate fibers and long tendons.\newline
+
+We can approximate the force a muscle can generate as: 
+
+\begin{equation}
+\begin{split}
+    F_0^M = {\rm PCSA}\cdot \sigma_0^M \\
+    {\rm PCSA} = \frac{V_M}{l_0^M} \\
+    l_0^M = n\cdot l^S_0
+\end{split}
+\end{equation}
+
+Where $F_0^M$ is the max force a muscle can generate. $\sigma_0^M$ is the peak stress of a muscle (specific tension of a muscle). The PCSA can be determined by the volume of a muscle ($V_M$) divided by its optimal muscle fiber length ($l_0^M$). The optimal fiber length is computed by the number of sarcomeres ($n$) times the optimal sarcomere length ($l^S_0$).\newline
+
+In humans, the optimal sarcomere length is approximately $2.7\mu$m. Therefore, one could simply count the number of sarcomeres---but this would be extremely time consuming. Instead, one can dissect out the muscle fiber and image to find the length of sarcomeres. Using this method, we instead calculate $l_0^M$ as $l^M \cdot l^S_0 / l^S$, where $l^M$ is the fiber length and $l^S$ is the measured sarcomere length.\newline
+
+Therefore, the force-length curve has a strong effect on a muscle's operable range. That is, 20 sarcomeres in series result in a longer muscle fiber with a wider force-length curve. 10 in series results in a shorter force-length curve. They both, however, have the same maximal force---because the number of sarcomeres in parallel did not change. This similarly modulates the shortening velocity of the muscle. More fibers in series can result in faster shortening. Again, though, peak force does not change. Increasing pennation will increase the maximum force that a muscle can generate, due to an increase in PCSA. This will come at the expense of its operable range, which will be shorter. Further, it will have a slower peak velocity. 
+
+
+\subsubsection{A Dimensionless Muscle-Tendon Model.}
+
+The force in muscles, $F^M$, can be computed with parameters $a, \tilde{l}^M, \tilde{v}^M$, and or its activation, normalized length, and normalized velocity respectively. Such values are normalized as $l^M / l_0^M$ and $v^M / v^M_{\rm max}$. Activation is also normalized between 0 and 1, where 1 is a maximally active muscle. 
+
+\begin{equation}
+\begin{split}
+    F^M &= f(a, \tilde{l}^M, \tilde{v}^M) \\
+    &= F_0^M \cdot \pr{a \cdot f^l\pr{\tilde{l}^M} \cdot f^v\pr{\tilde{v}^M} + f^{PE}\pr{\tilde{l}^M}} \\
+\end{split}
+\end{equation}
+
+Where $F_0^M$ is the maximum force for the muscle. The first term is the active term, and the second is the passive (which is independent of activation).\newline
+
+The above equations are dimensionless, and thus can be scaled to different systems. Notably, if simulating an actual muscle contraction, one would also have to consider the dynamic tendon length. In a static case, this is not complex. However, in an orchestra of many muscles working together, with variably compliant tendons, it becomes much more complicated. Generally, we would scale the tendon's properties to the size and strength of a muscle---that is, because a stronger muscle will require a larger tendon. \newline
+
+Modeling the properties of all muscle-tendon interactions in the body therefore requires the: active muscle force-length curve, the passive muscle force-length curve, the active force-velocity curve, and the tendon force-length curve. The complex-specific values we need are the optimal fiber length, the peak isometric force, the pennation angle, and the tendon slack length. 
+
+
+\subsection{The Musculoskeletal System}
+
+The \textit{moment} is the force generated about point $0$. Suppose we take the force $\Vec{F}$ acting from point $e_1$ to $e_2$. The space from point $0$ to $e_1$ transverse by vector $\Vec{R}$. The moment is then defined as the cross product $\Vec{M}_0 = \Vec{R} \cross \Vec{F}$. The \textit{moment arm}, $r$, is the perpendicular distance from the line of action to point 0. For example, the moment arm in the $\hat{z}$ direction is given by: 
+
+\begin{equation}
+\begin{split}
+    r = \frac{M_{0,z}}{|\Vec{F}|} = \frac{\Vec{R} \cross \Vec{F}}{|\Vec{F}|} \cdot \hat{z}
+\end{split}
+\end{equation}
+
+These moment arms can be approximated or imaged via MRI (that is, identifying the point of a joint and it's distance to the tendon).\newline
+
+To take an example: suppose we are statically holding a dumbbell. the location of point $0$ is somewhere in our elbow. We can easily compute the torque generated on our arm as $dW$, where $d$ is the length from $0$ to the dumbbell, and $W$ is its weight. We can know that the muscle must exert some force $F^M$ to support this weight, and the sum of the moments must equal zero in this static case. Thus: 
+
+\begin{equation}
+\begin{split}
+    \sum \mathbf{M}_0 = rF^M - Wd = 0 \\   
+    F^M = \frac{Wd}{r}
+\end{split}
+\end{equation}
+
+Again, where $r$ is a distance. We can also show that: 
+
+\begin{equation}
+\begin{split}
+    r = \frac{\Delta l^{MT}}{\Delta \theta_{\rm rad}}
+\end{split}
+\end{equation}
+
+Where $l^{MT}$ is the muscle tendon length and $\theta_{\rm rad}$ is the joint angle. Intuitively, this implies that muscles with larger moment arms undergo large stretches as the joint angle changes. You can think about the implications of this for the force-length curve of a muscle---a muscle with a short force-length curve should therefore not have an extremely long moment, as it may stretch too much.\newline
+
+Because the moment arm $r$ is likely to be significantly smaller than the distance $d$ (let's say they are a factor of $10\times$ off), we can know that the force generated by the bicep must be $10\times$ the weight of the dumbbell. This signals the mechanical advantage of the muscle, which may be quite low.\newline
+
+To do this calculation requires assuming the muscle acts in 2D and that the joint is effectively frictionless---both of these assumptions are good (joints have extremely low friction). It also requires assuming muscle contraction is from one point $e_1$ to another point $e_2$, which may bring rouble in some instances. For static moments in 3D, we can consider each direction individually. That is, the moment in the $\hat{x}, \hat{y}, \hat{z}$ direction's contributions. 
+
+\subsubsection{Forces in Muscles.}
+
+The forces generated therefore are not constant, and depend on the muscles force-length curve which changes with joint angle. Similar.y, the moment arm changes. Therefore, the peak moment occurs at the product of the peak moment arm and peak force. Thus, you can measure the moment generated my a muscle-tendon-joint complex, but the peak of this measure is not necessarily when the muscle is exerting its maximum force. 
+
+
+\section{Quantifying Movement}
+
+First, to begin, the key reason for quantifying movement is providing a basis or source of data to reverse calculate some of the values noted above.  
+
+
+\subsubsection{Optical motion capture.}
+
+The gist of how one would capture movement is as follows:\newline
+
+A camera exists at some point 0 in the $(\Vec{e}_x, \Vec{e}_y, \Vec{e}_z)$ space. Typically, the $\hat{z}$ component is referred to as the principal axis, and or, the one down the lens of the camera. The object one wants to capture is at some point $e_1$. Notably, the distance from point $e_1$ to the camera is generally quite difficult to calculate, so a second camera is helpful for this. Similarly, some objects in the world should remain fixed for calibrating the cameras.\newline
+
+The cameras will track markers placed on the body, and use this formation to describe how the musculoskeletal system is moving. However, a large source of error is called \textit{soft-tissue error}---the markers sit atop skin (or clothes), which may shift in harsh movement, and thus not give exact measures of the underlying joints. Higher quality data can be achieved by attaching markers directly to the bone (via screwing in or some other form of clamp), but this may not be doable in many cases. 
+
+\subsubsection{Force Plates.}
+
+A force plate quantifies the force generated on a plate in the ground, and is used to track the ground reaction forces of movement. These devices may employ piezoelectrics, where a force is converted into electricity. However, the placement of the reading device will not be exactly aligned with the center of pressure directed by the foot.\newline
+
+We can solve for the center of pressure by finding the location of the normal force ($F_N$, which has only a $\hat{z}$ component). Therefore, if we measure the moment $M$ at location $(0,0,0)$ and center of pressure at point $r$, we can use the following equations: 
+
+\begin{equation}
+\begin{split}
+    M &= r\cross F + F_N \\
+    M_x &= r_yF_z - r_zF_y + F_{N_x} \\
+    M_y &= r_zF_x - r_xF_z + F_{N_y} \\
+    M_z &= r_xF_y - r_yF_x + F_{N_z} 
+\end{split}
+\end{equation}
+
+\begin{equation}
+\begin{split}
+    M_x &= r_yF_z \\
+    M_y &= - r_xF_z \\
+    M_z &= r_xF_y - r_yF_x + F_{N_z} 
+\end{split}
+\end{equation}
+
+\begin{equation}
+\begin{split}
+    r_x &= -\frac{M_y}{F_x} \\
+    r_y &= -\frac{M_x}{F_z} \\
+    F_{N_z} = F_N &= M_Z - r_xF_y - r_yF_x
+\end{split}
+\end{equation}
+
+\subsection{Transformations}
+
+This is basic linear algebra, but I suppose it is worth reviewing regardless.\newline
+
+Suppose we have two reference frames, which are defined by markers on the body. Let us call these reference frames $A_0$ with coordinates $a_x, a_y, a_z$, and $B_0$ with coordinates $b_x, b_y, b_z$. We will want to know what a point in the $A_0$ space is in reference to $B_0$. The vector mapping the origins of $A_0$ and $B_0$ can be called $\Vec{P}^{A\rightarrow B}$, or:
+
+\begin{align}
+\Vec{P}^{A\rightarrow B} =
+\begin{bmatrix}
+    \Vec{P}_x \\
+    \Vec{P}_y \\
+    \Vec{P}_z
+\end{bmatrix}
+{}_A
+\end{align}
+
+To rotate the frame of reference, we use the rotation matrix $R^{A\rightarrow B}$, a $3\times 3$ matrix. 
+
+% \begin{align}
+% \Vec{R}^{A\rightarrow B} =
+% \begin{bmatrix}
+%      & & \\
+%      & & \\
+%      & & 
+% \end{bmatrix}
+% {}_A
+% \end{align}
+
+The complete transformation matrix, then, is: 
+
+\begin{align}
+\Vec{R}^{A\rightarrow B} =
+\begin{bmatrix}
+     & & & \\
+     & R^{A\rightarrow B} & & P^{A\rightarrow B}\\
+     & & & \\
+     0 & 0 & 0 & 1 
+\end{bmatrix}
+{}_A
+\end{align}
+
+\subsection{Computing the Moments}
+
+To compute these moments, we will need ground reaction forces and motion data. Let us begin at the foot.\newline
+
+At the foot, we will consider two points, let us call them $(x_t,y_t)$ and $(x_a,y_a)$ for the toes and ankle respectively. We'll make the simplifying assumption that the foot is massless and does not accelerate, and that the forces on the ground are conveyed only through the toes. We can know at the sum of the forces at point $t_{x,y}$ and point $a_{x,y}$ must be equal, because the foot is not accelerating. Therefore: 
+
+\begin{equation}
+\begin{split}
+    \sum \mathbf{F}_x &= F_{x_t} - F_{x_a} = 0 \\
+    \sum \mathbf{F}_y &= F_{y_t} - F_{y_a} = 0 
+\end{split}
+\end{equation}
+
+We will calculate the moment about the ankle, which has some torque $\tau_a$. If the ankle is at height $h$ above the ground, and the length of the foot is $l$, we can know that the moment:
+
+\begin{equation}
+\begin{split}
+    \sum \mathbf{M} &= F_{x_t}h - F_{y_t}l - \tau_a = 0
+\end{split}
+\end{equation}
+
+The signs are a bit funny and arbitrary---it depends how we define direction. Here, $F_{x_t}$ and $F_{y_t}$ will be known from our measured ground reaction forces. Thus, we can construct the solvable system of equations: 
+
+\begin{align}
+\begin{bmatrix}
+    1 & 0 & 0 \\
+    0 & 1 & 0 \\
+    0 & 0 & 1  
+\end{bmatrix}
+\begin{bmatrix}
+    F_{x_t} \\
+    F_{y_t} \\
+    \tau_a 
+\end{bmatrix}
+= 
+\begin{bmatrix}
+    F_{x_a} \\
+    F_{y_a} \\
+    F_{x_t}h - F_{y_t}l
+\end{bmatrix}
+\end{align}
+
+Now, let us move on to the shank. Again at the ankle we have forces $F_{x_a}$, $F_{y_a}$, $\tau_a$. At the knee we have $F_{x_k}$, $F_{y_k}$, $\tau_k$. The center of mass (COM) of the shank is important, now. We can find the location of it by using the ankle as our reference point, where the length to the center of the shank is $r_s$. Therefore, the angle between the shank and the $x$ plane, $\theta_s$ can be used to find the location in the $x-y$ referential as:
+
+\begin{equation}
+\begin{split}
+    x_{s,\mathrm{COM}} &= r_s\cos{\theta_s} \\
+    y_{s,\mathrm{COM}} &= r_s\sin{\theta_s}
+\end{split}
+\end{equation}
+
+We can easily take the derivative and second derivative to find the velocity and acceleration of each point, giving these equations for the forces: 
+
+\begin{equation}
+\begin{split}
+    \sum \mathbf{F}_{(x,y)} &= m_s (\Ddot{x},\Ddot{y})_a \\
+    F_{x_a} - F_{x_k} &= - m_sr_s\pr{\Ddot{\theta}_s\sin\theta_s + \dot{\theta}_s^2\cos\theta_s} \\
+    F_{y_a} - F_{y_k} - m_sg &= - m_sr_s\pr{\Ddot{\theta}_s\cos\theta_s + \dot{\theta}_s^2\sin\theta_s}
+\end{split}
+\end{equation}
+
+Giving: 
+
+\begin{align}
+\begin{bmatrix}
+    1 & -1 & 0 & \\
+    0 & 0 & 1 & -1
+\end{bmatrix}
+\begin{bmatrix}
+    F_{x_a} \\
+    F_{x_k} \\
+    F_{y_a} \\
+    F_{y_k} 
+\end{bmatrix}
+= 
+\begin{bmatrix}
+    - m_sr_s\pr{\Ddot{\theta}_s\sin\theta_s + \dot{\theta}_s^2\cos\theta_s} \\
+    m_s\pr{r_s\pr{\Ddot{\theta}_s\cos\theta_s + \dot{\theta}_s^2\sin\theta_s} + g}
+\end{bmatrix}
+\end{align}
+
+Blah, blah, you can add a bunch more etc.---will fill in later. 
+
+
+
+
+
 
 
 
@@ -4818,6 +5097,8 @@ Sensory neurons have some range of stimuli that will activate it. The easiest ex
 Lateral inhibition is when a sensory neuron becomes activated (usually a secondary sensory neuron) and inhibits the surrounding neurons from transmitting signals. That is, imagine a pin prick: the neurons at the center of the pin prick inhibits the response of the surrounding neurons, thereby allowing your body to precisely locate this fine stimuli. This helps discriminate between stimuli even better, as well as in precise perception and edge detection of stimuli.\newline
 
 \subsubsection{Adaptation and Frequency Encoding.}
+
+\label{sec:FrequencyEncoding}
 
 Adaptation refers to how a signal alters in response to a stimuli. Tonic and phasic receptors differ in how they response to stimuli. Tonic sensory neurons are those that continually fire in response to some stimuli. Phasic are those that respond when the stimuli changes (a phase change). Phasic receptors are therefore considered fast adapting.\newline
 
