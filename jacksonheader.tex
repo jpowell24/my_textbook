@@ -17,6 +17,13 @@
 \usepackage{amssymb}
 \usepackage{dutchcal}
 
+\usepackage{environ}
+\NewEnviron{eq}{
+\begin{equation}\begin{split}
+  \BODY
+\end{split}\end{equation}
+    }
+
 \usepackage{blkarray}
 
 \newcommand{\be}{\beta}

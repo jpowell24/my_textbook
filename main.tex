@@ -559,7 +559,7 @@ V_{s2}     \\
 \end{align}
 
 
-Now, I realize that one doesn't need to build a system of equations for most problems of small size, and they can be generally solved at a glance. Too, in many cases building a system is more hassle than it's worth. But, this will be important to keep in mind for the upcoming chapter \textbf{Modeling Circuits}. Let's look at some examples that are easier dealt with in the traditional way:
+Now, I realize that one doesn't need to build a system of equations for most problems of small size, and they can be generally solved at a glance. Too, in many cases building a system is more hassle than it's worth. But, this will be important to keep in mind for the upcoming chapter \textbf{\ref{sec:ModelingCircuits}}. Let's look at some examples that are easier dealt with in the traditional way:
 
 
 
@@ -2967,6 +2967,15 @@ Dr. Phillips touched on the Navier-Stokes equations, and new iterations and appl
 
 I mention this all for the purpose of inspiring you to try modeling some phsyical systems. Look for some vectors. Classify behaviors. Run some simulations. See what insight you can get. Best of luck!
 
+\subsection{When, why should you model?}
+
+It's easy sometimes to get caught up in both sides of modeling: that it is a remarkable tool you can use to answer any question, or that it is a useless tool in comparison to actual experiments. Depending on the examples one hears, it's easy to find oneself feeling either of these emotions. So the first question is, when is a model \textit{actually} helpful?\newline
+
+The clearest answer, to me, is when some strong ground truths exist, and some high-level information exists, but the in-between information is unclear. One of the best answers is addressed in the Biomechanics section of this book (section \textbf{\ref{sec:Biomechanics}}). In the case of building mathematical models of muscles, we have very clear ground truths. For example, we know $F = ma$, no matter the system. We can also gather strong top-down information, like how the body moves via motion trackers. However, the orchestra of muscle contractions, tensions put on tendons, torques generated around joints, etc. would all be impossible to directly measure. Therefore, to further understand how coordinated movement occurs---a model is helpful. We can then validate the model through our high-level measures.\newline
+
+Generally, it is best to begin investigation with strong experimental results that one wants to better understand. However, building an exploratory model can also be helpful in delineating the metrics best used to prove or disprove hypotheses. For example, you may postulate in a disease context, the composition of ion channels in some cell changes such that there will be a transition from calcium burst firing to longer calcium waves. Perhaps your simulations indicate that the average calcium within the cell is actually very comparable between the two modes. Therefore, using some calcium proxy like GCaMP may not be a good measure, as your initial intuition may suggest. Perhaps instead you find that the transition results in a comparably lower amount of Ca$^{2+}$ specifically in the ER. This is something you could measure experimentally. In short, sometimes modeling can be used to find strong hypothesis-testing parameters. 
+
+
 
 \chapter{Math Essentials}
 
@@ -3063,54 +3072,148 @@ A gradient, $\nabla$, describes a derivative vector of a corresponding vector. F
 It would certainly be worth reviewing the electrophysiology contained in Part \textbf{\ref{sec:Physiology}} before trying this, unless you already have a strong understanding of biochemistry.  
 
 
-\section{Hodgkin-Huxley} 
+\section{Hodgkin-Huxley Model} 
 
-\subsection{The Main Form} The pair won the nobel prize for this model, which formed the basis of our understanding of action potentials. Beyond neurons, it was used in modeling pacemakers of the heart, and muscle cell depolarizations before better models existed.  The basis is simply KCL: 
+\subsection{The Main Form} The pair won the Nobel Prize for this model, which formed the basis of our understanding of action potentials. They did their work mostly in giant squid axons (primarily because they were easier to work with!). Beyond neurons, it was used in modeling pacemakers of the heart, and muscle cell depolarizations before better models existed.  The basis is simply KCL: 
 
 \bigskip
 
 \begin{equation} \label{hh1}
 \begin{split}
-C\dot{V} = I - I_{Na} - I_{K} - I_{Leak}
+C\dot{V} = I_{injected} - I_{Na} - I_{K} - I_{Leak}
 \end{split}
 \end{equation}
 
 \bigskip
 
-Because the equations can be found in nearly any textbook\footnote{Izhikevich, \textit{Dynamical Systems Neuroscience}} or Wikipedia page, I will focus on some of the conceptual understanding I had issues with at first. The complete equation Hodgkin and Huxley arrived at is as follows: 
+I'll show the main form, and then discuss some of the finer details of kinetics afterwards. Here it is: 
 
 \bigskip
 
 \begin{equation} \label{hh2}
 \begin{split}
-C\dot{V} = I - \bar{g}_{Na}m^3h(V - E_{Na}) - \bar{g}_{K}n^4(V - E_{K}) - \bar{g}_{L}(V - E_{L})
+C\dot{V} = I_{injected} - \bar{g}_{Na}m^3h(V - E_{Na}) - \bar{g}_{K}n^4(V - E_{K}) - \bar{g}_{L}(V - E_{L})
 \end{split}
 \end{equation}
 
 \bigskip 
 
-There are a few main points to make here. Firstly, this model considers only 3 currents. $Na$ and $K$ are self explanatory, but $Leak$ represents the small amount of current that will always occur in cells due to the many routes of charged particles passing through the membrane. It is restorative, in that it pushes the membrane potential back to the resting voltage.\newline
+There are a few key points to make here. Firstly, this model considers only 3 currents. Na$^+$ and K$^+$ are self explanatory, but ``Leak" represents the small amount of current that will always occur in cells due to the many routes of charged particles passing through the membrane. It is restorative, in that it pushes the membrane potential back to the resting voltage.
 
 \subsection{Gating and Conductance} 
 
 \label{sec:GatingandConductance}
 
-The $\bar{g}$ represent the maximal conductance of these ions. Of course, you mak ask, ``\textit{shouldn't conductance be variable, depending on how many channels are open}?" Yes, which is what $m$, $h$, and $n$ are for! These three variables are effectively kinetic fits of the opening and closing dynamics of sodium and potassium channels. Again, I will not mention these equations explicitly as they can be found anywhere. Conceptually, there are three things to know:\newline
+The $\bar{g}$ represent the maximal conductance of these ions. Of course, you mak ask, ``\textit{shouldn't conductance be variable, depending on how many channels are open}?" This is what $m$, $h$, and $n$ are for! These three variables are effectively kinetic fits of the opening and closing dynamics of sodium and potassium channels. The equations have been written in many forms, and here we'll write them as\footnote{From \textit{Dynamical Systems in Neuroscience} by Izhikevich}:
 
-Firstly, $m$ is an activation curve for sodium, and the power to the 3rd represents that there are three activation gates. $h$ is an inactivation gate for sodium. Potassium has 4 activation gates, $n$, and no inactivation gate. Gating can be any number of things, for example, $h$ could be a conformtional change that occurs in the channel after it has been open for $0.1 ms$ that closes it again. Naturally, the gating for every channel will be different. Because the $Leak$ current is an ensemble of many channel types, it will not have "gating" per se.\newline
+\begin{equation}
+\begin{split}
+    \dot{n} & = \pr{n_{\infty}(V) - n} / \tau_n(V) \\
+    \dot{m} & = \pr{m_{\infty}(V) - m} / \tau_m(V) \\
+    \dot{h} & = \pr{h_{\infty}(V) - h} / \tau_h(V) \\
+\end{split}
+\end{equation}
 
-Secondly, $m$, $h$, and $n$ all are between 0 and 1 and represent the \textbf{proportion of channels open}. For instance, if $n = 1$, then 100\% of potassium channels will be open. This is why we multiply by the maximal conductance.\newline
+\begin{multicols}{2}
+
+\begin{equation}
+\begin{split}
+    n_{\infty} & = \alpha_n / \pr{\alpha_n + \beta_n} \\
+    m_{\infty} & = \alpha_m / \pr{\alpha_m + \beta_m} \\
+    h_{\infty} & = \alpha_h / \pr{\alpha_h + \beta_h} \\
+\end{split}
+\end{equation}
+
+\begin{equation}
+\begin{split}
+    \tau_n & = 1 / \pr{\alpha_n + \beta_n} \\
+    \tau_m & = 1 / \pr{\alpha_m + \beta_m} \\
+    \tau_h & = 1 / \pr{\alpha_h + \beta_h} \\
+\end{split}
+\end{equation}
+\end{multicols}
+
+and 
+
+\begin{multicols}{2}
+\begin{equation}
+\begin{split}
+    \alpha_n & = 0.01 \frac{10 - V}{\exp\pr{\frac{10 - V}{10}} - 1} \\
+    \alpha_m & = 0.1 \frac{25 - V}{\exp\pr{\frac{25 - V}{10}} - 1} \\
+    \alpha_h & = 0.07\exp\pr{\frac{-V}{20}} \\
+\end{split}
+\end{equation}
+
+\begin{equation}
+\begin{split}
+    \beta_n & = 0.125 \exp\pr{\frac{-V}{80}} \\
+    \beta_m & = 4 \exp\pr{\frac{-V}{18}} \\
+    \beta_h & = \frac{10 - V}{\exp\pr{\frac{30 - V}{10}} - 1} \\
+\end{split}
+\end{equation}
+\end{multicols}
+
+You may notice right away the sigmoid shape of some of these variables. Conceptually, there are three things to know. Firstly, $m$ is an activation curve for sodium, and the power to the 3rd represents that there are three activation gates. $h$ is an inactivation gate for sodium. Potassium has 4 activation gates, $n$, and no inactivation gate. Gating can be any number of things, for example, $h$ could be a conformtional change that occurs in the channel after it has been open for $0.1$ms that closes it again. Naturally, the gating for every channel will be different. Because the Leak current is an ensemble of many channel types, it will not have ``gating" per se.\newline
+
+Secondly, $m$, $h$, and $n$ all are between 0 and 1 and represent the \textbf{proportion of channels open}. For instance, if $n = 1$, then all potassium channels (of this type) will be open. This is why we multiply by the maximal conductance (giving said max conductance).\newline
 
 Thirdly, $m$, $h$, and $n$ are dependent upon voltage, which affords them a time constant $\tau$. This is the conceptually most difficult part. The experimental explanation may be beneficial in understanding. Hodgkin and Huxley realized that these three gating variables will converge to different values depending on the voltage. This makes sense, because we know potassium channels are voltage gated, we would expect the gating variable $n$ to converge to around 1 as the voltage increases. But, the rate at which channels open and close is different. Therefore, their experiments were done to vary the voltage and determine how long it took the conductance of the channels to converge to some value. Does this make sense? In simplest terms: channels open and close at different rates, and that depends on the voltage.\newline
 
-What is the implication of this? Again, look up the exact equations if you are interested. Otherwise, trust the following: $m$ has a time constant $\tau_m$ which is very small compared to $\tau_h$ and $\tau_n$. Meaning, sodium channels will open the fastest in response to a voltage increase, causing depolarization of the cell. After some delay, sodium channel inactivation ($h$) and potassium channel activation ($n$) will kick in, causing repolarization and then hyperpolarization. 
+What is the implication of this? $m$ has a time constant $\tau_m$ which is very small compared to $\tau_h$ and $\tau_n$. Meaning, sodium channels will open the fastest in response to a voltage increase, causing depolarization of the cell. After some delay, sodium channel inactivation ($h$) and potassium channel activation ($n$) will kick in, causing repolarization and then hyperpolarization. Let us take a look at these variables graphed: 
 
-\subsubsection{These are all derivatives.}
-One of the most difficult conceptual understandings I had was that $\dot{V}$, $m$, $h$, and $n$ are all rates that depend on different time constants, which take voltage as their input. So, the derivative of voltage depends on the derivative of $m$, $h$, and $n$, which depend on voltage. The cyclic nature of this makes it strange, but still doable. Use the general form of derivative, $x_{i+2} = x_{i+1} + (x_{i+1} - x_i)/t$, follow the math, and you will survive.
+\begin{center}
+\includegraphics[width=0.9\textwidth]{images/models/hhconsts.png}
+\end{center}
+
+\subsection{Graphing}
+
+Now that we finally have the background information out of the way, let's look at some plots. Let us begin with a single action potential under the Hodgkin-Huxley model: 
+
+\begin{center}
+\includegraphics[width=0.9\textwidth]{images/models/hh1.png}
+\end{center}
+
+As an side, the Hodgkin-Huxley model alone is scaled to a resting voltage around 0. These plots were re-scaled this to make it slightly more physiological (and or, easier to interpret). Note that these changes are arbitrary shifts in the $y$-axis, though.\newline
+
+The above plot was accomplished by applying a brief injected current at the start of simulation. The three things plotted are the voltage (and or, the action potential), the currents, and finally the ``phase" of the corresponding action potential. Phase-plane analysis will be more helpful in the coming sections, but still remains an interesting tool for visualizing action potentials in this case. Plotted in this phase-plane is the voltage (which is effectively an activating variable) and the \textit{n} (the attenuating potassium channel activation). We see that a bit after the voltage rises from $\approx -50$mV to $\approx 30$mV, $n$ begins to rise and soon after the voltage falls. We can similarly see this in the currents, where the sodium current peaks before the potassium current.\newline
+
+Let us try another plot where a weak, persistent current is applied: 
+
+\begin{center}
+\includegraphics[width=0.9\textwidth]{images/models/hh2.png}
+\end{center}
+
+We can see \textit{instability} in all three plots. I.e., the voltage in the first plot oscillates about the resting point, which is similarly seen in the current plot. In the phase-plane, we see the neuron circling around the resting point. Thus, in this case, the applied current is not strong enough to activate sodium channels and or overcome attenuation buildup, but is sufficient to mildly impact the voltage. 
+
+Let us try with a stronger, persistent current: 
+
+\begin{center}
+\includegraphics[width=0.9\textwidth]{images/models/hh3.png}
+\end{center}
+
+Now, we can clearly see repeated firing, seen in the phase-portrait as the neuron re-entering the firing cycle and not getting stuck at rest. I.e., the applied current is consistently sufficient to reach trigger sodium channel opening that surpasses the attenuation. 
+
+\subsubsection{Anode Break Excitation.}
+
+This is one of my personal favorite topics because it is near and dear to my heart. In conjunction with my lab work, it became apparent to me that inhibiting, and or, hyperpolarizing signal can \textit{increase} neuronal excitability. This was quite surprising to me, and did not make sense for a long time. It was not until I ran these very simulations (albeit much less cleanly at the time) that things began to make sense. Let's look at the two figures below: 
+
+\begin{center}
+\includegraphics[width=0.9\textwidth]{images/models/hhanode1.png}
+\end{center}
+
+Here, a brief hyperpolarizing signal was applied. Afterwards, the neuron moves back towards rest but slightly overshoots it. We can see this in the phase plot as being a small circle around rest. We can also see that, not only does the \textit{voltage} decrease, but so too does the $n$ value (movement in the $-y$ direction on the phase portrait). Can it be that a sufficiently long hyperpolarizing signal is sufficient to trigger enough depolarization to reach the threshold? Let's see: 
+
+\begin{center}
+\includegraphics[width=0.9\textwidth]{images/models/hhanode2.png}
+\end{center}
+
+Indeed! We see that a longer hyperpolarizing signal of the same strength \textit{is} sufficient to depolarize the neuron. We can see this in the phase portrait again. The combination of reduced potassium channel opening $n$ combined with the sodium channels $m$ opening to return the neuron to rest results in overshooting, causing an action potential to fire. Therefore, neuronal inhibition can, indeed, cause excitation---hence, anode break excitation. 
+
+
 
 \section{Fitzhugh-Nagumo Reduction}
 
-\subsection{Why would we simplify this system?} Reduction implies we are reducing the amount of variables. But why would we do this? The system is already incredibly generalized. We only consider two ion channels and are looking at a static neuron. How can we be accurate if we simplify this system any further?\newline
+\subsection{Why would we simplify this system?} Reduction implies we are reducing the amount of variables. But why would we do this? The system is already incredibly generalized. We only consider two ion channels and are looking at a static neuron. More complicated, modern models include dozens of ion channels all with their own time constants---so what purpose is there to go in the opposite direction?How can we be accurate if we simplify this system any further?\newline
 
 Let's start by doing a simple thought experiment regarding the previous model: 
 
@@ -3145,7 +3248,7 @@ This helps us arrive at least at the following:
 \end{equation}
 
 
-Simply meaning that the derivative should scale with voltage in some way. We also know that there are at least two ``equilibrium points" in a neuron. Meaning, when the neuron is at rest, the $\dot{V}$ will be zero. And, when the neuron reaches the peak of the action potential, the same is true. This will allow us to immediately assume something interesting:
+Simply meaning that the derivative should scale with voltage in some way. We also know that there are at least two ``equilibrium points" (fix points) in a neuron. Meaning, when the neuron is at rest, the $\dot{V}$ will be zero. And, when the neuron reaches the peak of the action potential, the same is true. This will allow us to immediately assume something interesting:
 
 \begin{equation} \label{fn2}
 \begin{split}
@@ -3178,11 +3281,76 @@ But, we still want voltage to be affected by an injected current, so we can simp
 
 \begin{equation} \label{fn5}
 \begin{split}
-    \dot{V} &= I_{app} + [V(V - V_{rest})(V - V_{max}) - n] +  D\frac{\partial V^2}{\partial x^2}\\
+    \dot{V} &= I_{injected} + [V(V - V_{rest})(V - V_{max}) - n] +  D\frac{\partial V^2}{\partial x^2}\\
 \end{split}
 \end{equation}
 
-$D$ is our spatial dependence, which represents the diffusion of charge around the neuron membrane. And that's it, for now! 
+$D$ is our spatial dependence, which represents the diffusion of charge around the neuron membrane.\newline
+
+\subsection{Graphing}
+
+Let us look at some plots! First, let us consider the Fitzhugh-Nagumo model with a constant current injection:
+
+\begin{center}
+\includegraphics[width=0.6\textwidth]{images/models/fhn1.png}
+\end{center}
+
+Notably, this model is dimensionless, so these plots have both axes scaled to 1 so as to simplify the plots. Though, this can be easily scaled to any dimension. We can see that the action potentials look... not bad---pretty impressive for a 2-variable system!\newline
+
+Let's see how the firing looks under different injected currents: 
+
+\begin{center}
+\includegraphics[width=0.6\textwidth]{images/models/fhn2.png}
+\end{center}
+
+We can see that the currents may either be insufficient to depolarize the neuron, cause firing at an increased rate, or leave the neuron stuck in a depolarized state. 
+
+Let us get to the fun bit now, nullclines: 
+
+
+\begin{center}
+\includegraphics[width=0.8\textwidth]{images/models/fhnphase1.png}
+\end{center}
+
+Plotted here is a slightly more complex phase-portrait which includes, in addition to the trajectory (red) the streamplot of $(V, n)$. In other words, these plot the derivatives of $V,n$ as vectors and help show where trajectory will go under different conditions. This is accomplishable now because we have just two variables---it would be much harder in the Hodgkin-Huxley model. The point of rest $(0,0)$ is highlighted as a black dot. The two blue plots show the isolines for $\dot{V}$ and $\dot{n}$, when: 
+
+\begin{equation}
+\begin{split}
+    n &= V (V_{thresh} - V)(V_{max} - V) \\
+    n &= \frac{1}{\gamma} V \\
+\end{split}
+\end{equation}
+
+And or, when $\dot{V}, \dot{n} = 0$. Let's see how the plots look for multiple action potentials: 
+
+\begin{center}
+\includegraphics[width=0.8\textwidth]{images/models/fhnphase2.png}
+\end{center}
+
+Similarly to the previous plots, we see that the neuron does not return to rest, and instead re-enters the firing cycle. Let us now check instability: 
+
+\begin{center}
+\includegraphics[width=0.8\textwidth]{images/models/fhnphase3.png}
+\end{center}
+
+We see, again, oscillations offset from the resting point. Finally, let us see if the anode break excitation phenomena is preserved in this simplified model:
+
+\begin{center}
+\includegraphics[width=0.8\textwidth]{images/models/fhnanode1.png}
+\end{center}
+
+
+\begin{center}
+\includegraphics[width=0.8\textwidth]{images/models/fhnanode2.png}
+\end{center}
+
+And indeed, it is!
+
+
+
+
+
+
 
 \subsubsection{Circuits digression.}
 A lot of the original work done by Fitzhugh and Nagumo used circuit equivalents in order to model neurons. One such example is as follows\footnote{This circuit is adapted from {\textit{Mathematical Physiology}}, by James Keener \& James Sneyd (1998).}:
@@ -3349,9 +3517,9 @@ You can see easily, from this, that if $\Delta t$ is too big, you will abandon t
 
 \begin{equation} \label{diff3}
 \begin{split}
-\frac{[f]^{t+1}_{x} - [f]^{t}_{x}}{\Delta t} &= \frac{[f]^{t}_{x+1} - 2[f]^{t}_x + [f]^{t}_{x - 1}}{x^2}\\
-[f]^{t+1}_{x} - [f]^{t}_{x} &= \frac{\Delta t}{x^2} \pr{[f]^{t}_{x+1} - 2[f]^{t}_x + [f]^{t}_{x - 1}} \\
-[f]^{t+1}_{x} &= \frac{\Delta t}{x^2} [f]^{t}_{x+1} + \pr{1 - 2\frac{\Delta t}{x^2}}[f]^{t}_x + \frac{\Delta t}{x^2}[f]^{t}_{x - 1} \\
+\frac{[f]^{t+1}_{x} - [f]^{t}_{x}}{\Delta t} &= \frac{[f]^{t}_{x+1} - 2[f]^{t}_x + [f]^{t}_{x - 1}}{\Delta x^2}\\
+[f]^{t+1}_{x} - [f]^{t}_{x} &= \frac{\Delta t}{\Delta x^2} \pr{[f]^{t}_{x+1} - 2[f]^{t}_x + [f]^{t}_{x - 1}} \\
+[f]^{t+1}_{x} &= \frac{\Delta t}{\Delta x^2} [f]^{t}_{x+1} + \pr{1 - 2\frac{\Delta t}{\Delta x^2}}[f]^{t}_x + \frac{\Delta t}{\Delta x^2}[f]^{t}_{x - 1} \\
 \end{split}
 \end{equation}
 
@@ -3360,7 +3528,7 @@ Therefore, if we want to ensure that the concentration is always positive, we ar
 \begin{equation} \label{diff4}
 \begin{split}
 1 - 2\frac{\Delta t}{x^2} & = 0\\
-\Delta t & < \frac{x^2}{2}\\
+\Delta t & < \frac{\Delta x^2}{2}\\
 \end{split}
 \end{equation}
 
@@ -3381,8 +3549,8 @@ Naturally, there is no longer a concern of the size of $\Delta t$. Though, one i
 
 \begin{equation} \label{diff6}
 \begin{split}
-\frac{[f]^{t+1}_{x} - [f]^{t}_{x}}{\Delta t} &= \frac{[f]^{t+1}_{x+1} - 2[f]^{t+1}_x + [f]^{t+1}_{x - 1}}{x^2}\\
-[f]^{t+1}_{x} - [f]^{t}_{x} &= \frac{\Delta t}{x^2} \pr{[f]^{t+1}_{x+1} - 2[f]^{t}_x + [f]^{t-1}_{x - 1}} \\
+\frac{[f]^{t+1}_{x} - [f]^{t}_{x}}{\Delta t} &= \frac{[f]^{t+1}_{x+1} - 2[f]^{t+1}_x + [f]^{t+1}_{x - 1}}{\Delta x^2}\\
+[f]^{t+1}_{x} - [f]^{t}_{x} &= \frac{\Delta t}{\Delta x^2} \pr{[f]^{t+1}_{x+1} - 2[f]^{t + 1}_x + [f]^{t + 1}_{x - 1}} \\
 \end{split}
 \end{equation}
 
@@ -3406,7 +3574,7 @@ Which simply replaces the previous $[f]^{t}_{x}$ with $[f]^{t+1}_{x}$. This leav
 
 and 
 \begin{align}
-\mathrm{A} = \frac{\Delta t}{x^2}
+\mathrm{A} = \frac{\Delta t}{\Delta x^2}
 \begin{bmatrix} %%%%%%%%%%%%%%
 \dots       &   \dots       & \dots     &   \dots    &   \dots   \\
 1           &   -2          & 1         &            &   \vdots    \\
@@ -3439,7 +3607,7 @@ I have this constant wonder if this method can be used to model the spread of vo
 \chapter{Math in Electronics}
 
 \section{Modeling Circuits}
-\label{Modeling Circuits}
+\label{sec:ModelingCircuits}
 
 The idea of this algorithm comes from\footnote{\url{https://lpsa.swarthmore.edu/Systems/Electrical/mna/MNA3.html}} and is an expansion of what was discussed earlier in section \textbf{\ref{sec:resistorlattice}}. Not by coincidence, both of the examples in the earlier section had symmetric matrices. The general way to extract equations from a circuit is in the following pattern:   
 
@@ -3477,7 +3645,7 @@ to ++(0,0) node[ground]{};
 \end{circuitikz}
 \end{center}
 
-There are 4 nodes, but as mentioned before, Node 4 is grounded, a reference, and thus not included in our calculations. This will mean our matrix G must be $n \times n$, where $n$ is $N - 1$. Node 1 is connected only to $R_1$, resolving the $(0,0)$\footnote{You are a computer scientist in addition to a mathematician, so of course our matricies must be 0 indexed.} position of the matrix to be $G_1$. Node 2 is connected to $R_2$ and $R_3$, giving us $(1,1) = G_2 + G_3$. Node 3 to only $R_3$, giving us $(2,2) = G_3$. Node 2 and Node 3 are connected via $R_2$, meaning the $1,2$ and $2,1$ positions will have a $G_2$, though notably, it will be $-G_2$:
+There are 4 nodes, but as mentioned before, Node 4 is grounded, a reference, and thus not included in our calculations. This will mean our matrix G must be $n \times n$, where $n$ is $N - 1$. Node 1 is connected only to $R_1$, resolving the $(0,0)$\footnote{You are a computer scientist in addition to a mathematician, so of course our matricies must be 0 indexed.} position of the matrix to be $G_1$. Node 2 is connected to $R_2$ and $R_3$, giving us $(1,1) = G_2 + G_3$. Node 3 to only $R_3$, giving us $(2,2) = G_3$. Node 2 and Node 3 are connected via $R_2$, meaning the $1,2$ and $2,1$ positions will have a $G_2$, though notably, it will be $-G_2$ (off-diagonal elements seem to be negative---but it is unclear to me why):
 
 \begin{align}
 \mathrm{G} = 
@@ -4619,6 +4787,41 @@ A steady supply of ATP is needed to maintain pumping, and it is said that at any
 
 Notably, it is very difficult to fully deplete a muscle of its ATP. Other forms of fatigue begin before this can possibly occur, which include CNS or PNS feedback. An example of this may be that acetylcholine is not synthesized fast enough to continually stimulate muscle fibers. Continual simulation of muscle fibers, beyond what is allowable under normal conditions, \textbf{will fully deplete ATP levels and therefore cause damage to muscles}. Another consideration is the continuous use of ATP may result in P$_i$ buildup in the sarcoplasm, making release of ADP $+$ P$_i$ from myosin less likely to occur. Too, this opens the possibility of calcium phosphate forming, which can be quite damaging if it crystallizes further. There are also ion concentration changes to consider, and continued stimulation can result it tetanus.
 
+\subsubsection{Muscle Bioenergetics in Some Depth.}
+
+Energy is a scalar number (measured in Joules), while power is measured per unit time (Joules / second; watts). As an interesting thought experiment: there are 4.18 Joules per calorie, and a calorie is the amount of energy required to raise 1mL of water by 1$^\circ$C. The average metabolic rate is $\approx 100$W, meaning in a 24h period one typically burns $\approx 8.6 \times 10^6$J, and or, $\approx 2,000$ kCal. ATP releases $\approx 34$kJ per mol, meaning one must hydrolyze $\approx 254$ moles of ATP per day---and a mol of ATP weighs 507g, meaning one must burn 283 pounds of ATP per day. Naturally, this means a single molecule of ATP cycles many times between ADP + Pi and ATP \newline 
+
+ATP contains two high energy (the definition of         ``high energy" seems to vary between sources) phosphate bonds, allowing for two successive breakdowns capable of releasing energy (ATP $\rightarrow$ ADP $\rightarrow$ AMP). One can quantify the amount of high energy ATP as the change in the ATP ($\Delta$ATP) plus the change in the creatine phosphase ($\Delta$PCr). I.e.: 
+
+% note: for some reason the leftrightharpoon breaks here
+\begin{equation}
+\begin{split}
+    \mathrm{ATP} &\rightarrow \mathrm{ADP} + \mathrm{P}i \\
+    \mathrm{ADP} + \mathrm{CrP} & \leftrightarrow \mathrm{ATP} + \mathrm{Cr} \\
+\end{split}
+\end{equation}
+
+Yields the net reaction: 
+
+\begin{equation}
+\begin{split}
+    \mathrm{CrP} &\rightarrow \mathrm{Cr} + \mathrm{P}i \\
+\end{split}
+\end{equation}
+
+And: 
+
+\begin{equation}
+\begin{split}
+    \frac{[\mathrm{ATP}]}{[\mathrm{ADP}]} = \mathcal{K} \frac{[\mathrm{CrP}]}{[\mathrm{Cr}]}
+\end{split}
+\end{equation}
+
+
+
+
+
+
 
 \subsection{Generating Force}
 
@@ -4636,6 +4839,13 @@ An EMG is one way to estimate muscle force generation. To do this, one would tak
 \subsubsection{A Power Thought Experiment.}
 
 For some sense of scale: muscle contraction depends on ATP, and a single molecule of ATP generates forces on a pico-newton scale. If a single myosin head's contraction moves the fiber on the order of nanometers, then the work performed by one molecule of ATP is on the order of pN-nm. Consider briefly how many molecules of ATP, and actin-myosin interactions are required to do any basic task. The answer: quite a few. 
+
+
+\subsubsection{Types of Muscle.}
+
+Phasic smooth muscle is important when contraction should be coordinated. Easy examples include peristalsis in the intestines, where the coordinated contraction of the intestinal walls moves food throughout it. Therefore, it makes sense that these muscles would need to be connected in some way to coordinate their contraction---i.e., they are single-unit and connected via gap junctions so that contraction can propagate through them.\newline
+
+Muscles that are continually contracted are said to be tonic, such as sphincters. One example of a tonically active, multi-unit muscle is the iris. We can imagine why the iris would need to be multi-unit, because control of individual muscle fibers allows for more fine control---an important tool for the eye. 
 
 \subsection{Disorders Digression}
 There are many ways one can lose control of their muscles. Nerve damage, for example, will halt the release of acetylcholine onto the motor plate. In a similar manner, botulism is a result of the botulinum toxin blocking release of acetylcholine, resembling the effect of nerve damage. In McArdle's disease, muscles simply cannot convert glycogen to glucose-6-phosphase, causing the energy supply to be limited. 
@@ -4697,6 +4907,8 @@ Expectedly, as $\beta$-blockers will inhibit a rise in cAMP, HCN channels will b
 
 \chapter{Biomechanics of Movement}
 
+\label{sec:Biomechanics}
+
 Much of this will come from Dr. Scott Delp's online Biomechanics course\footnote{\url{https://www.youtube.com/@biomechanicsofmovement3388}}. Secondarily, it will come from Dr. Lawrence Rome's Systems Physiology course. 
 
 
@@ -4724,7 +4936,7 @@ The ``ground reaction forces" (GFR) is the reaction force the ground exerts in r
 \includegraphics[width=0.6\textwidth]{images/gaitcycle.png}
 \end{center}
 
-You can take this vector of ground reaction forces and separate it into components. The horizontal component modulates the speed of forward movement, and the vertical component how much one is held up. Plotting these forces individually reveals how loaded our joints are. You find that the vertical component actually exceeds body weight during the loading and push-off phases of walking, but is below body weight in the midstance phase. Similarly, we see that the horizontal component is negative (a deceleration) in the loading phase and positive in the push-off phase (an acceleration).\newline
+You can take this vector of ground reaction forces and separate it into components. The horizontal component modulates the speed of forward movement, and the vertical component how much one is held up. Plotting these forces individually reveals how loaded our joints are. You find that the vertical component actually exceeds body weight during the loading and push-off phases of walking, but is below body weight in the midstance phase. Similarly, we see that the horizontal component is negative (a deceleration) in the loading phase and positive in the push-off phase (an acceleration). As a final aside not worth considering too much, not all of the GRF are contributed by muscle. There is some contribution from the alignment of the skeletal system as well (for example, imagine a skeletal system without muscle standing straight---of course, there will still be some forces exerted on the ground before the skeleton collapses). Importantly, this is not so in running, where muscles induce all of the GRF.\newline
 
 Walking is extremely energy efficient. Given Newton's equations:
 
@@ -4763,11 +4975,11 @@ We can model running as a simple, one spring system. Such a system would have a 
 
 Consider again the simple inverted pendulum model. In a literal sense, the switch from walking to running occurs when the centripetal force exceeds that of gravity. That is, there is a velocity where the mass atop the pendulum escapes the downward pull of gravity. This occurs at $v^2 / l > g$, where $l$ is the length of the pendulum.\newline
 
-The gait transition from walking to running is driven by energetics. That is, there is some point at which increasing speed via walking has a higher energetic cost than converting to running. The energetic cost per unit distance is called the \textit{cost of locomotion}, and the cost per hour is simply one's metabolism. Walking speed naturally settles to one's minimum cost of locomotion (which happens to be around 1m/s). \newline
+The gait transition from walking to running is driven by energetics. That is, there is some point at which increasing speed via walking has a higher energetic cost than converting to running. The energetic cost per unit distance is called the \textit{cost of locomotion}, and the cost per hour is simply one's metabolism. Walking speed naturally settles to one's minimum cost of locomotion (which happens to be around 1m/s). Fascinatingly, the transition from walking to running actually \textit{slows} the muscles, and the muscles are then able to generate a greater force. This might be quite unintuitive at first, that muscles contract more slowly while running.\newline
 
 \subsubsection{Spring Running Model.}
 
-A large problem in biomechanics is injury prevention. The advent of injury in running is largely due to how much we load our musculoskeletal system. Faster running imposes a higher load. Running speed is simply stride frequency ($\omega$) times stride length ($L$). A slower running speed, say around 2m/s, may maximize the load at $2\times$ body weight. This increases with the faster one runs. Rather than modulating the peak force to prevent injury, it would be better to modulate the slope of the load's rise. That is, if you decreased the maximum force, you would also be slowing down running speed, so this provides a beneficial alternative. The way one's foot lands on the ground affects this rise---landing on the front of the foot gives a shallower load slope than landing on the heel. However, one question to address is how a track can be optimized to minimize injury but maximize running speed.\newline
+A large problem in biomechanics is injury prevention. The advent of injury in running is largely due to how much we load our musculoskeletal system. Faster running imposes a higher load. Running speed is simply stride frequency ($\omega$) times stride length ($L$). As an aside, the transition from running to sprinting is dictated primarily by an increase in stride frequency, which was determined through muscle-driven simulations showing that muscles responsible for swinging the legs increases speed at a sprint. A slower running speed, say around 2m/s, may maximize the load at $2\times$ body weight. This increases with the faster one runs. Rather than modulating the peak force to prevent injury, it would be better to modulate the slope of the load's rise. That is, if you decreased the maximum force, you would also be slowing down running speed, so this provides a beneficial alternative. The way one's foot lands on the ground affects this rise---landing on the front of the foot gives a shallower load slope than landing on the heel. However, one question to address is how a track can be optimized to minimize injury but maximize running speed.\newline
 
 The simplest running model would include a single spring representing the limb. An updated version was proposed by McMahon, which included a spring representing the ground landed on and a spring plus dashpot for the limb (giving 2 degrees of freedom total). It is governed by the equations: 
 
@@ -4997,6 +5209,8 @@ The complete transformation matrix, then, is:
 
 \subsection{Computing the Moments}
 
+\subsubsection{Inverse Kinematics.}
+
 To compute these moments, we will need ground reaction forces and motion data. Let us begin at the foot.\newline
 
 At the foot, we will consider two points, let us call them $(x_t,y_t)$ and $(x_a,y_a)$ for the toes and ankle respectively. We'll make the simplifying assumption that the foot is massless and does not accelerate, and that the forces on the ground are conveyed only through the toes. We can know at the sum of the forces at point $t_{x,y}$ and point $a_{x,y}$ must be equal, because the foot is not accelerating. Therefore: 
@@ -5076,7 +5290,33 @@ Giving:
 \end{bmatrix}
 \end{align}
 
-Blah, blah, you can add a bunch more etc.---will fill in later. 
+And, you can probably see how one would work up the ladder and build similar equations for each successive body part. 
+
+\subsubsection{Forward Kinematics.}
+
+
+In the previous case, we knew only the net forces. Now suppose we know only the individual properties of each muscle, and we want to know how they will sum together to create a net moment. In this case, we have more muscles than we have degrees of freedom. We will take the sum of flexors and the sum of extensors: 
+
+\begin{equation}
+\begin{split}
+    M_j = \sum^n_{f=1} F_fr_f - \sum^n_{e=1} F_er_e
+\end{split}
+\end{equation}
+
+However, we naturally have many more unknowns than we have equations. This requires some assumptions to be made (such as by assuming only the extensors are active), or for us to add new equations (such as by assuming all extensors generate the same force). 
+
+
+
+\section{Muscle Simulation}
+
+The cause and effect of muscle movement is extremely difficult to predict with experimental data or basic modeling alone. The body is dynamically coupled, meaning the movement of one part will have a rippling effect on other parts---movement of the ankle may induce movement at the knee, which may induce movement of the hips. This is likely they key point for budding physicians. If you observe abnormal movement, and you want to describe the muscular causes of this movement disorder, you cannot simply take an EMG and identify a lack of muscle contraction. These assessments must be validated by models, which verify the lack of activity in this muscle indeed leads to the abnormal movement.\newline
+
+The key purpose of muscle driven simulations is to find the ``pattern of excitations that leads to coordinated movement."\footnote{Quoting Dr. Delp.} Designing models for walking is actually extremely complex. That is, one must know how the nervous system will excited different muscles. If one desires to build an exoskeleton to support walking, it is remarkably difficult, as you will need to know when / how muscles will move to support them. 
+
+\subsubsection{Verification and Validation.}
+
+We must verify (determining that a model accurately represents the underlying math) and validate (that the model represents the real world) a model. For the field to progress, more models need to be made available. Similarly, more ground truth data sets, with very stringent and well-tested data must be available. 
+
 
 
 
@@ -5634,11 +5874,35 @@ There are two small criticisms of this work that have been floated around the fi
 
 \section{Neuronal Excitability and Regeneration}
 
-This is quite a difficult topic to cover. There is almost no end to the amount of conflicting information. Presumably, this is because neuronal activity dictates many, many underlying processes. There is a growing hypothesis, put forth largely by the Bradke group, that neuron activity is largely anti-regenerative. The basic principle is that being in "growth mode" or being in "active mode" are somewhat mutually exclusive. Further, other works have found that ablating individual synapses, but maintaining some, limits growth. Conversely, eliminating all synapses evokes a more strong regeneration response. The idea here is that a neuron may attempt to preserve its remaining function by not entering a so-called regeneration mode. The implications of this are not straightforward, as naturally many forms of CNS nerve damage, namely SCI, result in complete axonal severing---yet, of course, such neurons do not regenerate properly. On the other hand, axonal sprouting can and does occur from non-injured neurons. Thus, in my eyes, the whole theory is a bit confusing and may well be subtype-specific.\newline
+The role of neuronal excitability in regeneration is quite a difficult topic to cover. There is almost no end to the amount of ``conflicting" information. Presumably, this is because neuronal activity dictates many, many underlying processes. There is a growing hypothesis, put forth largely by the Bradke group, that neuron activity is anti-regenerative. The basic principle is that being in ``growth mode" or being in ``active mode" are somewhat mutually exclusive. Works by other groups have found that ablating individual synapses, but maintaining some, limits growth. Conversely, eliminating all synapses evokes a more strong regeneration response. The idea here is that a neuron may attempt to preserve its remaining function by not entering a so-called regeneration mode. A finite pool of resources makes this intuitive---both regeneration and firing are extremely energy intense, so one likely cannot have both. However, one could certainly propose the alternative argument that injury response is ``dose-dependent," or thresholded, such that some minimum degree of damage must be met before regenerative machinery is initiated (and thus is decoupled to any kind of preserved synaptic function). The implications of this are not straightforward, as naturally many forms of CNS nerve damage, namely SCI, result in complete axonal severing---yet, of course, such neurons do not regenerate properly. On the other hand, axonal sprouting can and does occur from non-injured neurons. Further, electrical stimulation clearly has pro-regenerative benefits in a variety of contexts (the brain, spinal cord, peripheral nerves, cell culture, etc.), and is effectively forcing neurons to be active (more or less; the nuances are not appropriate to discuss here). Further, one would expect that forming meaningful neural connections requires neural activity, as this is the basis of synaptic plasticity. Thus, in my eyes, the whole theory is a bit confusing and may well be subtype-specific.\newline
 
-Furthermore, inhibition of certain calcium channel components, like the $\alpha2\delta2$ subunit of voltage gated calcium channels, promote axon regeneration. This subunit mediates influx through N and P/Q-type channels. Thus, it's thought that these channels may underlie activity-dependent halted regeneration. One method of inhibiting neuron activity is through pregabalin, which limits spasms. Further evidence by administration of gabapentinoids enhancing regeneration shows promise in using anti-convulsants to treat SCI. This work fits into the larger hypothesis of neuronal activity limiting axon regeneration. Further work demonstrates that active vesicle machinery, like the protein Munc13, limit axon regeneration.\newline
+Let us discuss some of the key works in the topic. First, inhibition of certain calcium channel components, like the $\alpha2\delta2$ subunit of voltage gated calcium channels, promote axon regeneration. This subunit mediates influx through N and P/Q-type channels. Thus, it's thought that these channels may underlie activity-dependent halted regeneration. One method of inhibiting neuron activity is through pregabalin, which limits spasms. Further evidence by administration of gabapentinoids enhancing regeneration shows promise in using anti-convulsants to treat SCI. This work fits into the larger hypothesis of neuronal activity limiting axon regeneration. Further work demonstrates that active vesicle machinery, like the protein Munc13, limit axon regeneration (discussed below).\newline
 
-However, a strange wrinkle arises when considering the Bradke group's work on L-type calcium channels. They found that L-type channels also inhibit axon regeneration in mouse DRG neurons in a work from 2010\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/20579880/}}. Our lab, on the other hand, found that L-type VGCCs are necessary and sufficient for axon regeneration in the \textit{Drosophila} PNS. My hypothesis would be that such channels may be mediating local influx in DRG neurons, whereas it is global in \textit{Drosophila} PNS neurons. There also may be differences in timing and frequency of firing. Unfortunately, the Bradke group did not follow-up on this work, and therefore we have very little to analyze regarding it. The skeptic in me also wonders if they didn't do follow-up work because their results were conflicting, and or, because a phenotype was difficult to nail down. Regardless, the conflict warrants further study. 
+However, a strange wrinkle arises when considering the Bradke group's work on L-type calcium channels. They found that L-type channels also inhibit axon regeneration in mouse DRG neurons in a work from 2010\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/20579880/}}. Both our lab and other groups, on the other hand, found that L-type VGCCs are necessary and sufficient for axon regeneration in the \textit{Drosophila} PNS. My hypothesis would be that such channels may be mediating local influx in DRG neurons, whereas it is global in \textit{Drosophila} PNS neurons. There also may be differences in timing and frequency of firing. It may also simply be that these responses are all highly neuronal type-specific, and or that the \textit{Drosophila} PNS is sufficiently different from mouse DRG that the dynamics are entirely different. Unfortunately, the Bradke group did not follow-up on this work (that I know of), and therefore we have very little to analyze regarding it. Regardless, the conflicting findings warrant further study.
+
+
+\subsection{Vesicle Priming Inhibits Regeneration}
+
+Let's look into further depth on one of the Bradke group's works\footnote{\url{https://www.sciencedirect.com/science/article/pii/S0896627321007753}}. First, they performed transcriptomic analysis and identified that the transition into a regenerative state for sensory neurons is accompanied by a downregulation in vesicle machinery. Pharmacological inhibition of vesicle machinery and neuronal excitability improved regeneration after spinal cord injury. On face, this may be a surprising notion---the whole prospect of synaptic plasticity hinges on neurons \textit{doing things}.\newline
+
+The strategy employed here was to subject DRG neurons to a conditioning peripheral nerve lesion and then culture them. They suppose that plated neurons, which exhibit very extensive growth, harbor the transcriptomic changes needed to convert \textit{in vivo} neurons to being pro-regenerative. They found that, by 36h in culture relative to 6h in culture, a wide range of synaptic-associated genes were downregulated\footnote{\textit{If I were a skeptic}, I would simply say this is because they no longer form meaningful synaptic connections---so they downregulate such machinery. I would be surprised if injured CNS neurons don't show this exact same trend.}. Notably, synpatic genes associated with axonal growth were not downregulated---only those associated with pre-synaptic signaling.\newline
+
+To test this hypothesis, they used hM4Di-DREADD\footnote{This seems to be a well-liked method lately. It isn't immediately clear why, but I'll link a resource discussing it in case you desires to read further. Here: \url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4759656/}}, G-protein that can be activated by the drug clozapine. The G-protein is said to reduce neuronal activity both by activating inward rectifying potassium channels (hyperpolarizing the neuron) and inhibiting synaptic vesicle release. They injected an AAV containing this construct. Three weeks after doing so, they conducted this injury scheme: first, they performed PNL (and sham for controls) and immediately began administering clozapine. Then, after a week, they performed spinal cord injury on T$_{12}$ in the dorsal column. They found that their constructs improved regeneration after SCI, when comparing between \textit{control sham} and \textit{hM4Di sham}. Notably, \textit{hM4Di sham} and \textit{hM4Di PNL} were consistently lower in regeneration than \textit{control PNL}.\newline
+
+To further this, they generated a tetanus toxin light chain (TeNT-LC) which specifically targets and cleaves vescicle-associated membrane proteins 1 and 2 (VAMP1, VAMP2). They administered this by AAV and validated its ability to decrease VAMP. Notably, this did not affect axon regeneration. They then tried Botulinum neurotoxin serotype B (BoNT/B) and found that it again decreased VAMP but did not improve axon regeneration. They then turned their attention to other presynaptic machinery, namely Rab3 interacting molecule 1 and 2 (RIM1, 2). They found that overxpession and knockout decreased and increased axon regeneration and branching in culture respectively. Following this line of reasoning, they wondered if Munc13, a protein key for vesicle docking, played a similar role. Note that both RIM1,2 and Munc13 were downregulated in their earlier transcriptomic analysis in regeneration competent neurons. Mun13 OE and KO phenocopied that of RIM1,2.\newline
+
+They then tried to replicate this result in vivo. Indeed, they found that Munc13 enhanced regeneration after spinal cord injury. Because the Bradke group, and other groups, found Cav2 VGCCs as being anti-regenerative, they wondered if there was interplay between Munc13 and such channels. To test this, they used Cav2 channel agonists, which inhibited regeneration. They then tried this with Munc13$^{KO}$ and found, instead, enhanced regeneration. This suggested to them that VGCC-based inhibition required Munc13\footnote{A skeptic would say that it's still possible the two mechanisms are unlinked, and Munc13's inhibition of regeneration is simply stronger than the VGCCs'.}. They then attempted using a drug, baclofen, that they presumed may stifle VGCC activity and improve regeneration. This was also compared to pregabalin's inhibition of regeneration, which they showed as effective in a previous work. Note that both drugs are anti-convulsants. Both promoted regeneration after spinal cord injury to comparable degrees, with baclofen potentially edging out pregabalin. Note that there doesn't seem to be any functional studies in this whole paper. It is difficult to grasp the clinical relevance of a few $\mu$m more regeneration. I make no comments on if these are viable treatment options to restore function, as I simply do not have the knowledge to do so.\newline
+
+
+\subsubsection{Some Ramblings.}
+
+This is a bold statement, perhaps, but I feel that neuronal excitability is such an astronomically large topic, whose functions and intricacies are so difficult to nail down, that making the claim that ``excitability is pro/anti-regenerative" is a bit uncouth (by me or anyone else). I believe it would be comparable to saying ``protein translation is pro/anti-regenerative", in that both result in an impossibly complex array of downstream affects, so ascribing a single attribute to excitability is not doable. Alternatively, a misconception that has come from Reviewers of our articles in the past is a touch of reverse attribution. A Reviewer once commented to us that, because Ca$^{2+}$ influx was anti-regenerative in the article they were reviewing, it conflicts with one of our previous papers, which showed that it was pro-regenerative---however, the influx was a localized differently, was through different families of ion channels, and resulted in fundamentally different modes of neuron activity. Once again, to me this is like saying ``translation of protein A is anti-regenerative, therefore translation of any protein must be anti-regenerative" or that ``protein A contains a proline, and so does protein B, therefore they must function similarly."\newline
+
+I'm not totally sure what the point of me saying this is. Perhaps it is simply to acknowledge that, as fun as it is to make the simplifying assumption that neurons are binary operators, they are dynamical systems with remarkably complex global activity patterns. The ion channel activity underlying these patterns, too, is remarkably complex. Beyond the direct electrical properties themselves, such channels engage in signaling, osmotic gradient maintenance, local protein recruitment. Some channel's opening even fundamentally alters the structure of the membrane. Point being: ``conflicting" information is not inherently conflicting when, in the complex orchestra of biology, much is possible. 
+
+
+
+
 
 
 
@@ -5844,11 +6108,9 @@ Onto the part that matters most. Animals with the scaffolds exhibited significan
 
 \subsubsection{Papers to Read:}
 
-I am so behind, it's actually insane. 
+I am so behind, it's actually insane.\newline
 
 -- Neuroimaging guidelines: \url{https://www.nature.com/articles/s41393-019-0309-x}\\
--- munc13 \url{https://www.sciencedirect.com/science/article/pii/S0896627321007753}\\
--- courtine in NHP \url{https://www.nature.com/articles/nature20118}\\
 -- Myelin: \url{https://www.nature.com/articles/s41577-023-00907-4} \\
 -- Another scaffold: \url{https://www.science.org/doi/10.1126/science.abh3602}\\
 -- CD8 t cell paper \url{https://www.science.org/doi/full/10.1126/science.abd5926}\\
@@ -5884,7 +6146,7 @@ I find the history of investigation to be quite interesting as a stand alone sub
 
 ---------
 
-Often, ``brain-computer interface" refers to the use of brain-waves controlling some external device. However, this work will largely use it as a catch all term regarding any biology to electronics communication, whether it be from machine to neuron, vice versa, or both. A BCI can be either closed-loop (entirely self contained, with feedback incorporated within the device) or open-loop (requiring some external input). A BCI may be either \textit{assistive}, meaning it intends to replace lost functions in some way (such as using a patient's brain waves to control a speech producing device) or \textit{rehabilitative} (such as using some sensorimotor feedback to restore the patient's speaking ability).\newline
+Often, ``brain-computer interface" refers to the use of brain-waves controlling some external device. However, this work will largely use it as a catch all term regarding any biology to electronics communication, whether it be from machine to neuron, vice versa, or both. A BCI can be either closed-loop (entirely self contained, with feedback incorporated within the device) or open-loop (requiring some external input). A BCI may be either \textit{assistive}, meaning it intends to replace lost functions in some way (such as using a patient's brain waves to control a speech producing device) or \textit{rehabilitative} (such as using some sensorimotor feedback to restore the patient's speaking ability). Sometimes you may be a BCI termed ``passive" which refers to reading cognitive states that arise involuntarily (such as one becoming drowsy), ``active" referring to reading voluntary actions (like movement initiation), or ``reactive" referring to reading responses to external stimuli (like neural responses to visual cues).\newline
 
 
 
@@ -6369,28 +6631,36 @@ As is inherent to device implantation, there is a tradeoff between the resolutio
     \item Single Unit AP
 \end{enumerate}
 
-EEGs, are non-invasive and have a reading range on the order of a few centimeters. The tissue that these signals passes through largely obscures any neuron-level information. A comparable option is that of magnetroencephalograms (MEGs), which use superconducting quantum interference devices (SQUIDs) to measure magnetic fields induced by neural activity. MEGs are less susceptible to the capactive effects of the meninges and skull. ECoG are sub-dural implants with reading potential on the tenths of centimeters level. ECoG typically employ platinum-iridium or steel electrodes, but can be improved with flexible and denser electrode designs. As they come in direct contact with the cortex, safety is a much larger concern. LPS are read on a millimeters level. Single unit AP is as the name describes, and reads individual action potentials (sometimes this is written as ``single unit activity" or ``SUA"). Both LPS and single unit require the electrodes be buried within the cortex itself, thus causing damage to the brain tissue. These leads are typically metal, glass, or silicon. Therefore, EEG is typically preferable, as it does not require surgery. It is highlighted by Schwartz that many negatives can occur long term from invasive procedures, such as degeneration, volume displacement, or glial encapsulation. Therefore, it is likely that reading thoughts is the limiting factor in progressing the field. \newline
+EEGs, are non-invasive and have a reading range on the order of a few centimeters. The tissue that these signals passes through largely obscures any neuron-level information. A comparable option is that of magnetroencephalograms (MEGs), which use superconducting quantum interference devices (SQUIDs) to measure magnetic fields induced by neural activity. MEGs are less susceptible to the capactive effects of the meninges and skull. ECoG are sub-dural implants with reading potential on the tenths of centimeters level. ECoG typically employ platinum-iridium or steel electrodes, but can be improved with flexible and denser electrode designs. As they come in direct contact with the cortex, safety is a much larger concern. LFPs are read on a millimeters level. Single unit AP is as the name describes, and reads individual action potentials (sometimes this is written as ``single unit activity" or ``SUA"). Both LPS and single unit require the electrodes be buried within the cortex itself, thus causing damage to the brain tissue. These leads are typically metal, glass, or silicon. Therefore, EEG is typically preferable, as it does not require surgery. It is highlighted by Schwartz that many negatives can occur long term from invasive procedures, such as degeneration, volume displacement, or glial encapsulation. Therefore, it is likely that reading thoughts is the limiting factor in progressing the field. \newline
 
 Importantly, all such devices read \textit{scalar} quantities (electrodes read voltage with respect to a ground). The term ``potential" in ``local field potential" is a misnomer, as these devices do not read electric fields (expanded on in a later section, \textbf{\ref{sec:WhatOneReads}}). LFP is also sometimes used as a general term to describe now neurons affect the voltage in a given area. I digress.\newline
 
 We will generally avoid discussing individual company's devices, as such devices progress rapidly, and would render this section out of date quickly. However, when instrumental to the work, we will highlight it, such as the WMAGINE ECoG discussed later. Similarly, we will discuss individual lab's work. 
 
 
+\subsection{Electrodes}
+
+Non-invasive electrodes may be polarized or non-polarized\footnote{Note: much of this information comes from \textit{Electromyography/ Electroencephalography (Biophysical Measurement Series)} by Litt and colleagues. However, I have a hard time finding a good link for it.}. Non-polarized seem preferred and don't suffer from the larger potentials that polarized electrodes may have, inducing extra noise. Though, non-polarized electrodes may have a non-negligible high-pass filtering effect. Electrodes may be \textit{cup} (which, as the name suggests, have a bowl-like shape and are on the order of 5-10mm in diameter), \textit{subdural} (which are inserted below the scalp like a needle), or \textit{clip} (which typically clip onto the earlobe to act as a reference) electrodes. Such non-invasive electrodes may be coupled with minimally invasive electrodes that access regions of the brain that surface electrodes cannot. For example, nasopharyngeal electrodes may be inserted through the nose toward one's frontal lobe. Though, they suffer from patient discomfort and noisy oscillations associated with breathing---thus, they are not used for more than brief periods. Tympanic electrodes may be inserted into the ears, but are not common. Sphenoidal electrodes are more commonly used, inserted near the masseters up toward the temporal lobe, and are fairly commonly used for in-patient monitoring. Foramen ovale electrodes are another, more invasive option which requires anesthesia and are implanted through the mouth. \newline
+
+Intracranial electrodes often employ stereotactic placement (using a frame and coordinate system to find their intended location). When one uses this system and drills burr holes for individual wire placement, the technique may be called \textit{depth wires}. Alternatively, \textit{subdural strips or grids} may be used, which are arrays of electrodes placed into the brain. Often, they may be $8\times 8$ grids or otherwise.\newline
+
+Impedance checking is standard. While it varies greatly between devices and applications, for EEG it is often checked using a $0.03\mu$A, 30hz sine wave, and acceptable values are those below $\approx 5,000\Omega$. Again, though, this is highly context-dependent. 
 
 
+\subsection{What One is Actually Reading}
 
-    \subsection{What One is Actually Reading}
-
-    \label{sec:WhatOneReads}
-    Before going on, one may want to reread section \textbf{\ref{sec:HowElectricityWorks}}, because there is discussion of ``ionic flow" in the extracellular space, fields, etc. In actuality, it is ambiguous to me what this truly means in a biological context. \newline
-    
-   To begin, devices like EEG or ECG are not directly measuring the transmembrane potential of neurons or the heart---they are measuring the polarity of the extracellular space. This contrasts to something like patch-clamp recordings, which directly measure the voltage or current across the cell membrane. The heart is the largest contributor to the body's extracellular polarity, therefore ECG leads can be places around the body and measured with respect to each other. The quantity being measured is the superposition of many contributing cells, which sum together to read a voltage with respect to a ground. There is a strange thing you'll notice about ECGs if you pay close attention, and recall that an ECG requires 12 leads: the three humps (the P, QRS, and T parts of the wave) correspond to atrial depolarization, ventricular depolarization, and ventricular repolarization respectively. Yet, all three humps have the same ``sign"---despite that some show depolarization and some repolarization. This is because, again, we are not directly reading the transmembrane voltage in the heart. Rather, we are taking a linear projection of the 3-dimensional, extracellular space at each of the leads, onto a single 2D plane. Point being: the measure is slightly indirect. \newline
+\label{sec:WhatOneReads}
+Before going on, one may want to reread section \textbf{\ref{sec:HowElectricityWorks}}, because there is discussion of ``ionic flow" in the extracellular space, fields, etc. In actuality, it is ambiguous to me what this truly means in a biological context. \newline
    
-   Let us discuss\footnote{\url{https://www.nature.com/articles/nrn3241}}. For this section, voltage is referred to by $V_e$, and is a scalar quantity. The difference in $V_e$ measured at two points is an electric field, and or a vector quantity in volts / distance, and or the negative gradient of the voltage ($-\grad \cdot V_e$). Accompanying an electric field is a magnetic field, which can be read by a magnetoencephalogram (MEG).\newline
+In 2004, Buzsaki published a perspective which touched on some of the neuronal-recording dilemmas, focusing on our ability to resolve individual neural spikes\footnote{\url{https://www.nature.com/articles/nn1233}}. While dated, there are some interesting comments and metaphors made. Buzsaki makes the comparison between an orchestra and the brain, where one can listen to the total orchestral sound without little insight into individual instruments and musicians. Taking insight from individual instruments over many performances may give greater insight into their pattern of play for a prescribed set of pieces, but little insight into the inter-instrument dynamics, particularly in spontaneous contexts like jazz. In a later allusion to his orchestra analogy, he mentions that classifying instruments is an important step in our understanding of the orchestra. However, when we classify neurons, we typically do so \textit{post hoc} by their influence on behavior. In short, in our recording of neurons, their remains some barriers to overcome. But, the question one may still ask is, what is actually being measured?\newline
+
+To begin, devices like EEG or ECG are not directly measuring the transmembrane potential of neurons or the heart---they are measuring the polarity of the extracellular space. This contrasts to something like patch-clamp recordings, which directly measure the voltage or current across the cell membrane. The heart is the largest contributor to the body's extracellular polarity, therefore ECG leads can be placed around the body (typically one would do 6 electrodes across the heart and one at each of the four limbs) and measured with respect to each other. The quantity being measured is the superposition of many contributing cells, which sum together to read a voltage. There is a strange thing you'll notice about ECGs if you pay close attention, and recall that an ECG requires 12 leads (10 electrodes): the three humps (the P, QRS, and T parts of the wave) correspond to atrial depolarization, ventricular depolarization, and ventricular repolarization respectively. Yet, all three humps have the same ``sign"---despite that some show depolarization and some repolarization. This is because, again, we are not directly reading the transmembrane voltage in the heart. Rather, we are taking a linear projection of the 3-dimensional, extracellular space at each of the leads onto a single 2D plane. Point being: the measure is slightly indirect. \newline
+
+To better understand exactly what an electrode picks up, let us discuss a 2012 work by Buzsaki\footnote{\url{https://www.nature.com/articles/nrn3241}}. For this section, voltage is referred to by $V_e$, and is a scalar quantity. The difference in $V_e$ measured at two points is an electric field, and or a vector quantity in volts / distance, and or the negative gradient of the voltage ($-\grad \cdot V_e$). Accompanying an electric field is a magnetic field, which can be read by a magnetoencephalogram (MEG).\newline
 
     While the read voltage is the composite of all ionic fluxes into all cells, synaptic activity seems to have the strongest effect. This contrasts to something like fast action potentials, induced by sodium currents, which occur on the order of $1-2$ms and are unlikely to be synchronized with other neurons (therefore, when summing them with many other signals, their contribution is minimal). Because synaptic transmission requires a coordinated swing in voltage on a relatively slow timescale, it can be read via electrodes.\newline
     
-    Positive ion influx through AMPA or NMDA channels at the post-synapse leaves an extracellular \textit{sink} (cations flowing in to the cell). To restore electroneutrality (see section \textbf{\ref{sec:EPhys}}), a \textit{source} (cations flowing out of the cell) is required, which generates a \textit{return current} from the intracellular to the extracellular space. This then generates a temporary pole, depending on the geometry of the space. A monopole contributes to $V_e$ with factor $1/r$, and a dipole contributes to $V_e$ with factor $1/r^2$ (where $r$ is the distance from the electrode). A neurons morphology contributes to how strong of a pole it can produce. For example, pyramidal cells dominate in the cortex and, due to their long, asymmetric dendritic projections, generate a large spatial separation between source and sink. Therefore, this creates a large electric field in the extracellular space. This separation generates an \textit{open field}. This contrasts to a \textit{closed field}, which might be generated when multiple dendrities are stimulated in, for example, thalamocortical neurons that have symmetric, spherical projections. Notably, pyramidal neurons exist in parallel, allowing their dipoles to be compounded. Across different species the number of pyramidal neurons and the projections of neurons running in the opposite direction of them vary---leading to varying degrees of dipole cancellation. Further, the larger scale geometry of the brain, including the folding of gyri, reorient such dipoles. However, geometry alone is not sufficient to predict signals. For example, the cerebellum is highly regular but acts primarily locally, thus does not produce global synchrony.\newline
+    Positive ion influx through AMPA or NMDA channels at the post-synapse leaves an extracellular \textit{sink} (cations flowing in to the cell). To restore electroneutrality (see section \textbf{\ref{sec:EPhys}}), a \textit{source} (cations flowing out of the cell) is required, which generates a \textit{return current} from the intracellular to the extracellular space. This then generates a temporary pole, depending on the geometry of the space. A monopole contributes to $V_e$ with factor $1/r$, and a dipole contributes to $V_e$ with factor $1/r^2$ (where $r$ is the distance from the electrode). A neurons morphology contributes to how strong of a pole it can produce. For example, pyramidal cells dominate in the cortex and, due to their long, asymmetric dendritic projections, generate a large spatial separation between source and sink. Therefore, this creates a large electric field in the extracellular space. This separation generates an \textit{open field}. This contrasts to a \textit{closed field}, which might be generated when multiple dendrities are stimulated in, for example, thalamocortical neurons that have symmetric, spherical projections. Notably, pyramidal neurons exist in parallel, allowing their dipoles to be compounded. Across different species the number of pyramidal neurons and the projections of neurons running in the opposite direction of them vary---leading to varying degrees of dipole cancellation. Further, the larger scale geometry of the brain, including the folding of gyri, reorient such dipoles. However, geometry alone is not sufficient to predict signals. For example, the cerebellum is highly regular but acts primarily locally, thus does not produce global synchrony. Taking dipole information and attempting to localize it in the brain is called the \textit{reverse problem} and presently has no exact solution---meaning other measures, in addition to this, are required to localize brain activity.\newline
     
     Much like how $V_e$ is a reading of many cells superimposed, an individual cell's transmembrane current is the summation of all of its ion channels. The magnitude of such ion channel's contribution to the overall voltage depends on where the membrane voltage is in reference to each ion's Nernst potential, and the cell's ion channel composition.\newline
 
@@ -6416,7 +6686,7 @@ We will generally avoid discussing individual company's devices, as such devices
 
 We'll begin with the canonical device: an electroencephalogram (EEG).\newline
 
-EEGs are effectively reading spikes from vertical, pyramidal cells of the cortex (as discussed in section \textbf{\ref{sec:WhatOneReads}}). Such readings are on the order of 30-80$\mu\V$ typically, and are a composite of frequencies (the named frequency ranges are $\beta$, $\alpha$, $\theta$, $\delta$), with the most characteristic being called the ``dominant frequency."\newline
+EEGs are effectively reading spikes from vertical, pyramidal cells of the cortex (as discussed in section \textbf{\ref{sec:WhatOneReads}}). Such readings are on the order of 30-80$\mu\V$ and a couple $\mu$A typically (it depends on the source you read---some say closer to 50-200$\mu\V$), and are a composite of frequencies (the named frequency ranges are $\beta$, $\alpha$, $\theta$, $\delta$), with the most characteristic being called the ``dominant frequency."\newline
 
 $\beta$ waves are between 13 and 25Hz and are dominant in normal consciousness. $\alpha$ waves are between 8 and 13Hz, and characterize wakeful relaxation. They are particularly dominant through the occipital lobe and are in sync with the pacemaker cells of the thalamus. Upon opening one's eyes, $\alpha$ waves are suppressed. $\theta$ waves are between 3.5 and 8Hz, and are said to occur when neural networks are being recruited. This can be from a variety of sources. For example, priming of the hippocampus to interpret incoming signal or the combination of sensory and motor information in learning. The slowest are $\delta$ rhythms, in the range of 0.7 to 3.5Hz, observed during non-REM sleep and under anesthesia.\newline
 
@@ -6432,7 +6702,9 @@ The EEG was first developed by Hans Berger in 1929, allowing for the non-invasiv
 
 EEGs can read \textit{slow cortical potentials}, particularly from electrodes places in the fronto-central region of the skull. These potentials are marked by larger shifts in voltage occurring on the order of $1-10$s. One can also read \textit{sensorimotor rhythms} from electrodes above the somatosensory and motor cortex, which occur in the $\alpha$ frequency range. Both of which mark the activity of neurons in the area, and paralyzed patients with EEGs can learn to control basic devices, including moving a computer cursor, via these types of recordings. \newline
 
-Another is called the \textit{P300 event-related potential}, which relies on the strength of positive depolarization after a novel stimulus is presented. Depending on how much a patient focuses on such a stimulus, one can discriminate choices. For example, this is applied to spelling-related activities, where different letters can be presented, and patients can focus on the desired letter to spell words. Similarly is \textit{steady-state visual evoked potentials}, where a readings are done from above the occipital lobe and can be used to select a visually presented signal. Conversely are \textit{error-related negative evoked potentials}, which present $200-250$ms after an incorrectly picked choice and can be used to delineate between correct and incorrectly picked letters. \newline
+Evoked potentials (EPs) are a particularly helpful class of signals one can read in response to some stimuli. They typically require averaging over many inputs, as the signals are small. Another is called the \textit{P300 event-related potential}, which relies on the strength of positive depolarization approximately 300ms after a novel stimulus is presented. Depending on how much a patient focuses on such a stimulus, one can discriminate choices. For example, this is applied to spelling-related activities, where different letters can be presented, and patients can focus on the desired letter to spell words. Similarly is \textit{steady-state visual evoked potentials} (and or \textit{visual evoked potentials} (VEPs)), where a readings are done from above the occipital lobe and can be used to select a visually presented signal. Conversely are \textit{error-related negative evoked potentials}, which present $200-250$ms after an incorrectly picked choice and can be used to delineate between correct and incorrectly picked letters. There are \textit{brain stem auditory evoked potentials} (BAEPs) that can be used to detect signals from the autitory path, and somatosensory evoked potentials (SSEPs). All such paths are helpful in finding errors in one's nervous system.\newline
+
+As a brief aside, non-electric-based readings also exist, including measuring metabolic activity through fMRI. One such application of fMRI is called blood-oxygen level-dependent (BOLD) activity. Presently, I am not very familiar with this technique, but evidently it can be quite helpful when paired with EEG reading. I'll not expand further on this topic right now, but I didn't wait to ignore it altogether. 
 
 \subsection{Electro-convulsive Therapy (ECT).}
 
@@ -6587,7 +6859,7 @@ In order to map their intended motor movements, the group used surgical implanta
 \subsection{WIMAGINE ECoG}
 I'll briefly discuss the ECoG used\footnote{\url{https://www.frontiersin.org/articles/10.3389/fnins.2019.00847/full}}. The device features 64 electrodes, and a patient would need to have two implanted (128 electrodes total) in order to read both sides of their cortex. It is implanted over the dura mater (i.e., it does not make direct contact with the motor cortex).\newline
 
-The device was tested longest in sheep, which was a 10 month trial. Surprisingly, at the end of the 10 month trial, through GFAP staining, they still found a great deal of glial migration and or build-up around the site. They did not quantify this---which is curious. It isn't clear if this residual gliosis is clinically relevant. Secondly, calcification of the skull over the device had begun by thend of the 10 month grial. This is not inherently surprising, and perhaps is a good sign that the bone was not irreversibly damaged. However, as the device is wirelessly charged, and wirelessly transmits brain information, one must wonder how years of calcium buildup may impact the ability to send or receive information. Too, if the technology needs a dust-up, or removal, the surgeons will have to re-destroy these calcified layers. There is quite a lot of fuss made about the fact that the device is wireless, and how it was a decision made to best serve patient comfort. Notably, though, patients are having two large, 50mm arrays placed into their skull, so making the device wireless does not save a great deal of invasive-ness per se. It is interesting to ponder whether an $8\times 8$ array is sufficient to extract all of the signals. Of course, this is the trade-off one must make in choosing between EEG, ECoG, and LPS, and for the purposes of their study, it seems more than sufficient. The WIMAGINE system digitizes information with 12 bits of resolution. Data is processed through pwelch spectral analysis (an implementation of the FFT). 
+The device was tested longest in sheep, which was a 10 month trial. Surprisingly, at the end of the 10 month trial, through GFAP staining, they still found a great deal of glial migration and or build-up around the site. They did not quantify this---which is curious. It isn't clear if this residual gliosis is clinically relevant. Secondly, calcification of the skull over the device had begun by the end of the 10 month trial. This is not inherently surprising, and perhaps is a good sign that the bone was not irreversibly damaged. However, as the device is wirelessly charged, and wirelessly transmits brain information, one must wonder how years of calcium buildup may impact the ability to send or receive information. Too, if the technology needs a dust-up, or removal, the surgeons will have to re-destroy these calcified layers. There is quite a lot of fuss made about the fact that the device is wireless, and how it was a decision made to best serve patient comfort. Notably, though, patients are having two large, 50mm arrays placed into their skull, so making the device wireless does not save a great deal of invasive-ness per se. It is interesting to ponder whether an $8\times 8$ array is sufficient to extract all of the signals. Of course, this is the trade-off one must make in choosing between EEG, ECoG, and LPS, and for the purposes of their study, it seems more than sufficient. The WIMAGINE system digitizes information with 12 bits of resolution. Data is processed through pwelch spectral analysis (an implementation of the FFT). 
 
 \subsection{The Work} In short, they created a  device can be calibrated and programmed quite quickly. Device feedback, in combination with rehabilitation, over the course of months eventually resulted in restoration of ambulation. 
 
@@ -6650,7 +6922,7 @@ DBS treats a very small subset of symptoms associated with PD. Because of the su
 
 After these tests, they then aimed to use a brain-spine-muscle interface as they had in their other foundational works. Microelectrode arrays were inserted into the cortexes of RHPs and were able to regularly decode motor signals. They then furthered this by inserting EMG electrodes into the legs of NHPs\footnote{I am really wondering if some nice code can use this kind of data to iterate and self correct. Need feedback, of course.}. The neuroprosthesis together improved natural movement and posture. Finally, they added DBS to their circuit and found further improvement of movement. \newline
 
-In humans, the ability to decode motor movement may be difficult in people with PD. Therefore, their first step was to recruit participants willing to get electrodes implanted into their cortex for reading their intended movements. They considered this a success and moved forward. They enrolled a patient in their STIMO-PARK clinical trial. The patient already had DBS, but still had some severe symptoms. They used a SCS paddle used in treating pain, connected to an Activa RC IPG, guided in location by CT and MRI. Rather than implanting an ECoG to read the patient's motor cortex, they instead used motion sensors and attempted to read motor intentions and send updated pulses to the stimulator that way. Fascinatingly, DBS and EES seemed to treat different symptoms at times, and act synergistically. That is, DBS${}^{ON}$-EES${}^{OFF}$ showed no improvement in ``fraction of time frozen," while DBS${}^{OFF}$-EES${}^{ON}$ showed total recovery. Their benefits were generally additive, though.\newline
+In humans, the ability to decode motor movement may be difficult in people with PD. Therefore, their first step was to recruit participants willing to get electrodes implanted into their cortex for reading their intended movements. They considered this a success and moved forward. They enrolled a patient in their STIMO-PARK clinical trial. The patient already had DBS, but still had some severe symptoms. They used a SCS paddle used in treating pain, connected to an Activa RC IPG, guided in location by CT and MRI. \textbf{Rather than implanting an ECoG to read the patient's motor cortex, they instead used motion sensors and attempted to read motor intentions and send updated pulses to the stimulator that way.} Fascinatingly, DBS and EES seemed to treat different symptoms at times, and act synergistically. That is, DBS${}^{ON}$-EES${}^{OFF}$ showed no improvement in ``fraction of time frozen," while DBS${}^{OFF}$-EES${}^{ON}$ showed total recovery. Their benefits were generally additive, though.\newline
 
 
 
@@ -6812,7 +7084,7 @@ This is more of a historical dive into the research, because so much of what we 
 
 Alzheimer's disease (AD) is a neurodegenerative disorder found in many elderly patients, and the disease confers memory loss and other forms of cognitive decline. It can be familial or sporadic, and while onset typically begins much later in life, some early onset forms exist. Sporadic Alzheimer's is so ubiquitous that some hypothesize that it borders on the normal aging process. It is this ubiquity that makes it the \textit{holy grail} and or the \textit{white whale} of disease---solving it would help endless people. In the United States, it affects around 6 million people, making is more common than all cancers combined\footnote{\url{https://www.alz.org/alzheimers-dementia/facts-figures}}$^,$\footnote{\url{https://www.cancer.org/research/cancer-facts-statistics/all-cancer-facts-figures/cancer-facts-figures-2022.html}}. It was first characterized by Alois Alzheimer in 1906, who used dyes to stain tissues and reveal their histology. He found strange plaques present outside of neurons, and stringy tangles within them. Alzheimer's disease must be diagnosed after death because of considerable overlap with other disease symptoms---that is, nailing down memory loss to specifically AD is impossible without analyzing brain histology. Such a diagnosis is done on the basis of extracellular amyloid plaques and intracellular tau tangles, discussed later.\newline
 
-While, generally speaking, we are helpless in tracking and managing AD progression in patients, some tools exist. For example, a drug called Aricept blocks acetylcholine degradation, which can slow symptoms for a short time. Measuring amyloid buildup, or other markers, in the CSF is a tool to determine disease progression and or drug efficacy. Congo red is used to stain any amyloid buildup---that is, it stains any $\beta$-pleated sheet and is not specific to the $\beta$-amyloid of AD, but still can be of help. Another method is using thioflavin T (ThT), which also interacts with $\beta$-pleated sheets. This has been used to make a radioactive compound called Pittsburgh compound B (PiB), which can be imaged on a PET scanner, and used to quantify the amount of plaques in a living patient. PiB is presently the best available compound and helps identify AD years before dementia begins. Other attempts have been generate compounds like PiB, but none have reached its standard. Still, though, PiB's predictive accuracy is still quite low.\newline
+While, generally speaking, we are helpless in tracking and managing AD progression in patients, some tools exist. For example, a drug called Aricept blocks acetylcholine degradation, which can slow symptoms for a short time. Measuring amyloid buildup, or other markers, in the CSF is a tool to determine disease progression and or drug efficacy. Congo red is used to stain any amyloid buildup---that is, it stains any $\beta$-pleated sheet and is not specific to the $\beta$-amyloid of AD, but still can be of help. Another method is using thioflavin T (ThT), which also interacts with $\beta$-pleated sheets. This has been used to make a radioactive compound called Pittsburgh compound B (PiB), which can be imaged on a PET scanner, and used to quantify the amount of plaques in a living patient. PiB is presently the best available compound and helps identify AD years before dementia begins. Other attempts have been made to generate compounds like PiB, but none have reached its standard. Still, though, PiB's predictive accuracy is still quite low.\newline
 
 All of our modern understanding of AD comes in just the last few decades. For the purpose of these Neurodegeneration sections, put yourself in the mind of someone in mid-late 1980s: genetic testing was a blooming but still a young field. Sequencing genes was immensely difficult, but worse was finding the correct region to sequence. Linkage studies helped give indications of location, but one still was leagues away from nailing down a couple kb region to sequence. It was completely unknown what genes, if any, cause AD. In fact, only a couple genes and proteins were known at all. We were totally blind to the human genome. But, we did have something: the protein.\newline
 
@@ -7334,7 +7606,7 @@ While they are still some open questions, Cortes et al. present a very profound 
 
 \subsection*{Overview}
 
-Prions are transmissible diseases. They can be ``caught" in that way. Prions confer what's called transmissible spongiform encephalopathy (TSE). Understanding of this disease was kick started with the scrapie epidemic, when farmers attempted to treat sheep with a vaccine. It was noted that the ``scrapie virus," as it was known then, could not be treated via a vaccine. A second historical example was the Kuru epidemic, where women and children started experiencing degeneration, but no obvious genetic pattern or route of transmission was clear. Anthropologists postulated it was due to their consumption of human brain tissue, which only women and children did. Notably, the phenotype of the Kuru people and of sheep with Scrapie was similar in both behavior and neuropathology. Gajdusek then tried to inject the Kuru tissue directly into chimps to see if they'd develop the disease, and indeed they did---winning him the Nobel Prize.\newline
+Prions are transmissible, and confer harsh neurodegenerative diseases. They can be ``caught" in that way. Prions confer what's called transmissible spongiform encephalopathy (TSE). Understanding of this disease was kick started with the scrapie epidemic, when farmers attempted to treat sheep with a vaccine. Prior vaccination attempts against viral infections worked for farmers, simply by transferring some of the viral material from one sheep to another. However, this strange scrapie epidemic began where sheep started acting erratically or aggressively until a hasty death. It was noted that the ``scrapie virus," as it was known then, could not be treated via a vaccine. A second historical example was the Kuru epidemic, where women and children started experiencing neurodegenerative disease symptoms, but no obvious genetic pattern or route of transmission was clear. Anthropologists postulated it was due to their consumption of human brain tissue, which only women and children did. Notably, the phenotypes of the Kuru people and of sheep with Scrapie were similar in both behavior and neuropathology. Noting this, Gajdusek tried to inject the Kuru tissue directly into chimps to see if they'd develop the disease, and indeed they did---winning him the Nobel Prize in 1976.\newline
 
 In humans, Cruetzfeldt-Jakob disease, especially iCJD and vCJD, are the prime types of transmissible prion disease---the first from contaminated medical devices and the second from eating cows. Long ago, it was common to take dura mater from cadavers and transplant it onto individuals without properly formed dura mater, which could transfer prions. Similarly, growth hormone was regularly purified from cadavers, which also induced prion disease. \newline
 
