@@ -1,4 +1,4 @@
-\include{jacksonheader.tex}
+\include{jacksonheader}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -108,7 +108,6 @@ Perhaps one of the most amazing privileges of taking courses with great, experie
 
 \subsubsection{2023.}
 
-
 Lorach, H., ... Courtine, G. Walking naturally after spinal cord injury using a brain–spine interface. \textit{Nature}. May 24, 2023. \url{https://doi.org/10.1038/s41586-023-06094-5}
 
 \begin{adjustwidth}{1cm}{1cm}
@@ -129,6 +128,24 @@ Milekovic, T., ... Courtine, G. A spinal cord neuroprosthesis for locomotor defi
 \begin{adjustwidth}{1cm}{1cm}
 This is plausibly the most impressive work of the decade. When speaking with a neurosurgeon about it, he commented that it made him feel defeated, in a sense, because this work is so far beyond what many can hope to accomplish. The impressiveness is not in the results, per se, but rather in the absolutely incredible ability to pull this off. What we can look forward to is a bright, fascinating future. \newline
 \end{adjustwidth}
+
+
+\subsection{2024}
+
+2024 starts off very strong in the field of neurodegeneration:\newline
+
+Banerjee, G., ..., Collinge, J. Iatrogenic Alzheimer’s disease in recipients of cadaveric pituitary-derived growth hormone. \textit{Nature Medicine}. January 29, 2024. \url{https://doi.org/10.1038/s41591-023-02729-2}
+
+\begin{adjustwidth}{1cm}{1cm}
+The prion-like properties of neurodegenerative diseases are frequently studied. Many years ago, Virginia Lee showed that $\alpha$-syn in Parkinson's Disease spreads. She presented this work at a prion conference, to which prion disease researchers resoundingly stated that PD is not a prion disease because it is not transmissible. One of the prime ways that prions are spread from human to human is through cadavers, such as through dura mater grafting and hormone (particularly growth hormone) replacement therapy. Now, the transmission of Alzheimer's through the same means has been identified. This, no doubt, is a flagship.\newline
+\end{adjustwidth}
+
+Mätlik, K., ..., Heintz, N. Cell-type-specific CAG repeat expansions and toxicity of mutant Huntingtin in human striatum and cerebellum. \textit{Nature Genetics}. January 30, 2024. \url{https://www.nature.com/articles/s41588-024-01653-6}
+
+\begin{adjustwidth}{1cm}{1cm}
+In December of 2023, Dr. Bonini showed us the data from this work and described that it is from a talk she attended in 2019. She mentioned being extremely excited for when the work is finally published---and here it is. In short, CAG repeats exhibit cell-specific instability, leading to selective neuronal death in Huntington's disease.\newline
+\end{adjustwidth}
+
 
 
 
@@ -2969,11 +2986,11 @@ I mention this all for the purpose of inspiring you to try modeling some phsyica
 
 \subsection{When, why should you model?}
 
-It's easy sometimes to get caught up in both sides of modeling: that it is a remarkable tool you can use to answer any question, or that it is a useless tool in comparison to actual experiments. Depending on the examples one hears, it's easy to find oneself feeling either of these emotions. So the first question is, when is a model \textit{actually} helpful?\newline
+It's easy sometimes to get caught up in both sides of modeling: that it is a remarkable tool you can use to answer any question, or that it is a useless tool in comparison to actual experiments. Depending on the examples one hears, it's easy to find oneself feeling either of these emotions. So the first question is: when is a model \textit{actually} helpful?\newline
 
-The clearest answer, to me, is when some strong ground truths exist, and some high-level information exists, but the in-between information is unclear. One of the best answers is addressed in the Biomechanics section of this book (section \textbf{\ref{sec:Biomechanics}}). In the case of building mathematical models of muscles, we have very clear ground truths. For example, we know $F = ma$, no matter the system. We can also gather strong top-down information, like how the body moves via motion trackers. However, the orchestra of muscle contractions, tensions put on tendons, torques generated around joints, etc. would all be impossible to directly measure. Therefore, to further understand how coordinated movement occurs---a model is helpful. We can then validate the model through our high-level measures.\newline
+The clearest answer, to me, is when some strong ground truths exist, and some high-level information exists, but the in-between information is unclear. One of the best answers is addressed in the Biomechanics section of this book (section \textbf{\ref{sec:Biomechanics}}, and as suggested by Dr. Delp). In the case of building mathematical models of muscles, we have very clear ground truths. For example, we know $F = ma$ no matter the system. We can also gather strong top-down information, like how the body moves via motion trackers. However, the orchestra of muscle contractions, tensions put on tendons, torques generated around joints, etc. would all be impossible to directly measure. Therefore, to further understand how coordinated movement occurs---a model is helpful. We can then validate the model through our high-level measures.\newline
 
-Generally, it is best to begin investigation with strong experimental results that one wants to better understand. However, building an exploratory model can also be helpful in delineating the metrics best used to prove or disprove hypotheses. For example, you may postulate in a disease context, the composition of ion channels in some cell changes such that there will be a transition from calcium burst firing to longer calcium waves. Perhaps your simulations indicate that the average calcium within the cell is actually very comparable between the two modes. Therefore, using some calcium proxy like GCaMP may not be a good measure, as your initial intuition may suggest. Perhaps instead you find that the transition results in a comparably lower amount of Ca$^{2+}$ specifically in the ER. This is something you could measure experimentally. In short, sometimes modeling can be used to find strong hypothesis-testing parameters. 
+Generally, it is best to begin investigation with strong experimental results that one wants to better understand. However, building an exploratory model can also be helpful in delineating the metrics best used to prove or disprove hypotheses. For example, you may postulate that in a disease context the composition of ion channels in some cell changes such that there will be a transition from calcium burst firing to longer calcium waves. Perhaps your simulations indicate that the average calcium within the cell is actually very comparable between the two modes. Therefore, using some calcium proxy like GCaMP may not be a good measure, as your initial intuition may suggest. Perhaps instead you find that the transition results in a comparably lower amount of Ca$^{2+}$ specifically in the ER. This is something you could measure experimentally. In short, sometimes modeling can be used to find strong hypothesis-testing parameters. 
 
 
 
@@ -3092,7 +3109,7 @@ I'll show the main form, and then discuss some of the finer details of kinetics 
 
 \begin{equation} \label{hh2}
 \begin{split}
-C\dot{V} = I_{injected} - \bar{g}_{Na}m^3h(V - E_{Na}) - \bar{g}_{K}n^4(V - E_{K}) - \bar{g}_{L}(V - E_{L})
+C\dot{V} = I_{injected} - \overbrace{\bar{g}_{Na}m^3h(V - E_{Na})}^{I_{Na}} - \overbrace{\bar{g}_{K}n^4(V - E_{K})}^{I_{K}} - \overbrace{\bar{g}_{L}(V - E_{L})}^{I_{L}}
 \end{split}
 \end{equation}
 
@@ -3165,6 +3182,8 @@ What is the implication of this? $m$ has a time constant $\tau_m$ which is very 
 \includegraphics[width=0.9\textwidth]{images/models/hhconsts.png}
 \end{center}
 
+Note that the Hodgkin-Huxley model is shifted such that rest is around $V = 0$, rather than around $-60$mV or so that one would see in biology. This is important to keep in mind, as when combining models in literature, individual parts may be scaled and shifted differently. 
+
 \subsection{Graphing}
 
 Now that we finally have the background information out of the way, let's look at some plots. Let us begin with a single action potential under the Hodgkin-Huxley model: 
@@ -3173,7 +3192,7 @@ Now that we finally have the background information out of the way, let's look a
 \includegraphics[width=0.9\textwidth]{images/models/hh1.png}
 \end{center}
 
-As an side, the Hodgkin-Huxley model alone is scaled to a resting voltage around 0. These plots were re-scaled this to make it slightly more physiological (and or, easier to interpret). Note that these changes are arbitrary shifts in the $y$-axis, though.\newline
+Again, recall that the Hodgkin-Huxley model alone is scaled $V_{rest} \approx 0$. These plots were re-scaled to make them more physiological (and or, easier to interpret). Note that these changes are arbitrary shifts in the $y$-axis, though.\newline
 
 The above plot was accomplished by applying a brief injected current at the start of simulation. The three things plotted are the voltage (and or, the action potential), the currents, and finally the ``phase" of the corresponding action potential. Phase-plane analysis will be more helpful in the coming sections, but still remains an interesting tool for visualizing action potentials in this case. Plotted in this phase-plane is the voltage (which is effectively an activating variable) and the \textit{n} (the attenuating potassium channel activation). We see that a bit after the voltage rises from $\approx -50$mV to $\approx 30$mV, $n$ begins to rise and soon after the voltage falls. We can similarly see this in the currents, where the sodium current peaks before the potassium current.\newline
 
@@ -3295,7 +3314,7 @@ Let us look at some plots! First, let us consider the Fitzhugh-Nagumo model with
 \includegraphics[width=0.6\textwidth]{images/models/fhn1.png}
 \end{center}
 
-Notably, this model is dimensionless, so these plots have both axes scaled to 1 so as to simplify the plots. Though, this can be easily scaled to any dimension. We can see that the action potentials look... not bad---pretty impressive for a 2-variable system!\newline
+Notably, this model is dimensionless, so these plots have both axes scaled to 1 so as to simplify a bit. Though, this can be easily scaled to any dimension. We can see that the action potentials look... not bad!---pretty impressive for a 2-variable system.\newline
 
 Let's see how the firing looks under different injected currents: 
 
@@ -4266,7 +4285,14 @@ To verify their model, they compare with actual MRI data from two patients. They
 
 Yeah, whatever. I'll do it myself. I always find the cure to fret is learning.\newline
 
-So what is Machine Learning\footnote{From: \url{https://www.youtube.com/watch?v=i_LwzRVP7bg&t=243s&ab_channel=freeCodeCamp.org}}? ML is a subset of AI which looks to find patterns and make predictions about data. ML has a few types: 
+
+\subsection{Introduction}
+
+While the field of machine learning feels recent, the term was first used in in 1952 by Aurthur Samuel who created a program intended to self-learn the game checkers.\newline
+
+
+So what is Machine Learning\footnote{From: \url{https://www.youtube.com/watch?v=i_LwzRVP7bg&t=243s&ab_channel=freeCodeCamp.org}}? ML is a subset of AI and is based on pattern recognition within a set, which can be \textit{generalized} to new \textit{tests} in which its predictive capabilities can be tested. The data ``inputed" into a machine for it to learn is a set of features. ML has a few types:
+
 
 \begin{enumerate}
     \item Supervised learning, which uses input data which has an associated, given label. 
@@ -4279,8 +4305,54 @@ Ratings in learning can be binary, which is called \textit{one-hot encoding} (i.
 A computer can either predict a class, which is discrete, or can use a regression, to output a continuous value. A model will take a \textit{feature vector} and output a classification. 
 
 
+\section{Feature Extraction}
+
+For this section, we will draw primarily from\footnote{\url{https://link.springer.com/book/10.1007/978-3-540-35488-8}}.\newline
+
+Let us refer to a generic feature vector as $\Vec{v}$ and a transformed version of it as $\mathrm{x}$. Before comparison of objects within a feature vector, it is helpful to standardize or normalize individual components. I.e.:
+
+\begin{equation}
+\begin{split}
+    \Vec{\mathrm{v}} &= \frac{x_i - \mu_i}{\sigma_i},\:\: \Vec{\mathrm{v}} = \frac{x}{||x||}
+\end{split}
+\end{equation}
+
+One may take dimensional reductions (for example by PCA, discussed later) or dimensional expansions. Discretizing continuous data can also help optimize certain algorithms.\newline
+
+All of this can be considered in the umbrella of \textit{feature construction}---taking information and transforming it into a more usable form. The goals of construction may be varied, and include minimizing storage (\textit{general data reduction}) or minimizing computational resources (\textit{feature set reduction}). Though, the most important aspect is to preserve valuable information. Processing data runs the risk of losing information, and a helpful practice can be to preserve some data in its raw form and compare prediction to full-processed data and ensure equivalency.\newline
+
+Without losing information, one can begin \textit{feature selection}---the processing of picking the most informative features for the model. To do so, one may employ \textit{filters} to rank features by their usability, such as through correlation-based statistical tests (i.e., are not performed in conjunction with any learning machine). One may use \textit{wrappers}, a method representing the ML model as a black box and scores the predictive output of features. These may be used in conjunction with one another, where an initial set of ranked features is then utilized in subsets by models which is scored by wrapper methods. One may use \textit{embedded} methods, which undergo feature selection in the training process. 
+
+\subsubsection{Ranking Features.}
+
+Performing a simple, correlation-based ranking method is preferable when the training dataset is small (say, 100s of data points) and the number of features is large (say, thousands of variables)---as this method is computationally easy and straightforward to interpret. Using more complex feature-search methods may over-fit the data and limit the predictive power of the model beyond the training set. Individual ranking methods, though, may limit a model's ability to interpret the interdependence of features (a feature may be meaningless on its own, but when considered with other features is very informative). Conversely, redundant features may not be eliminated. \newline
+
+Correlation can be accomplished as: 
+
+\begin{equation}
+\begin{split}
+    C(j) = \frac{|\sum_{i = 1}^n \pr{x_{i,j} - \bar{x}_{j}} \pr{y_i - \bar{y}} |}{\sqrt{\sum_{i = 1}^n \pr{x_{i,j} - \bar{x}_{j}}^2 \sum_{i = 1}^n\pr{y_i - \bar{y}}^2}}
+\end{split}
+\end{equation}
+
+Where $y$ is the true value of the dataset with dimension $n$, $j$ is the feature we are identifying the correlation of, and the bar denotes the mean over index $i$.\newline
+
+As mentioned, to better understand the interdependence of features, one would sets subsets together. However, some multi-variate correlative tests exist, such as the Relief algorithm, which is based on K-nearest neighbors (KNN), discussed later. Alternatively, one can use a \textit{forward addition} approach, beginning with an empty set of features and add them as some performance metric of the model improves. One could use a \textit{backwards elimination} approach, beginning with all features and scoring a performance metric as they are removed. \newline
+
+An example forward addition employment is the \textit{Gram-Schmidt orthogonalization} algorithm. It begins with the strongest ``correlated" feature, followed by additional features projected into the null space of existing features, after which a new correlation is calculated. Those with higher correlations are kept. Success is computed by decreasing the squared, or L2, loss (discussed later in \textbf{\ref{sec:Loss}}). A more complex model includes \textit{random forests} (RF) where decision trees select features. For backwards methods, one can use \textit{recursive feature elimination} (RFE), where features can be removed and the model retrained. Those with the smallest weights can be removed in a manner similar to \textit{optimal brain damage} (OBD), which prunes minimally impactful connections in a neural net. 
+
+
+
+
+\section{Various Models}
+
+Validating a model can be done in many ways. It is best practice to split a training data set into a \textit{train} and \textit{test} set---which one can optimize via training on the first and testing on the second. Splitting the dataset in multiple ways and averaging over them is most helpful in perfecting the model. 
+
+
 \subsubsection{Calculating Loss.}
-The first way to calculate loss is called L1 loss. It is simply calculated as: 
+\label{sec:Loss}
+
+One can also calculate loss. The first way to calculate loss is called L1 loss. It is simply calculated as: 
 
 \begin{equation}
 \begin{split}
@@ -6099,7 +6171,16 @@ Onto the part that matters most. Animals with the scaffolds exhibited significan
             \end{minipage}
             \end{center}}
 
-\section{Perspective}
+\section{Introduction}
+
+Information from Professor Brian Litt's Brain-Computer Interface (BE 5210) at the University of Pennsylvania will be sprinkled throughout. 
+
+
+
+
+
+
+
 % There is an interesting part of Yoshikawa's Musashi which details how a vagabond had a poor reputation, despite being an incredible swordsman and a generally giving and selfless person. Their reputation came from those who had long-standing, baseless grudges against them, or those that disagreed with their rise to fame, either out of jealousy or other. A monk in the story comments that a vagabond under 30 should almost never have a pure reputation, as they couldn't possibly be established enough to be beyond critique or ridicule. It is implied that for one to accomplish anything great, it is inherent that one must take risks, be bold, and likely ruffle feathers along the way. Irrespective of one's identity, it is certain that there will be those that dislike them or their approach.\newline
 
 % I mention this specifically in this section because it is likely that in advancing technology, you will encounter people who want to belittle your ideas. It is only natural that those who have worked in a field for a long time may be inclined to retain their current way of life, thereby pushing against unseen advancement. The canonical example being those surgeons that resisted the endoscope. I add this to say that it is not unlikely that you will do all the right things, but still find those who disapprove.\newline
@@ -6160,11 +6241,17 @@ Often, ``brain-computer interface" refers to the use of brain-waves controlling 
 
 \textcolor{red}{This section is so bad... definitely needs re-writing.}\newline
 
-Stimulating nerves is not straightforward. The amount of current necessary to stimulate a nerve is highly dependent on the location. For electrodes especially close to myelinated fibers, currents as small as 0.1 $\mu A$ have been successful in depolarizing neurons\footnote{\url{https://www.sciencedirect.com/science/article/pii/0006899375903649}}. As a general trend, the faster conduction velocity of a neuron, the lower amount of current is required to simulate it (presumably due to low capacitance of the membrane). However, these sorts of measurements are often thrown off by indirectly stimulating a neuron of interest by depolarizing nearby cells, causing one to mis-attribute the source stimulation required. For direct stimulation of myelinated axons, the distance from electrode to the nearest Node of Ranvier is the key metric.\newline
+Stimulating nerves is not straightforward. The amount of current necessary to stimulate a nerve is highly dependent on the location. Common terms you may encounter are: \textit{rheobase}, the minimum required to depolarize a tissue at an infinite duration (usually on the order of 300ms);  \textit{chronaxie}, the time required to depolarize a neuron at a current of $2\times$ the rheobase. For electrodes especially close to myelinated fibers, currents as small as 0.1 $\mu A$ have been successful in depolarizing neurons\footnote{\url{https://www.sciencedirect.com/science/article/pii/0006899375903649}}. As a general trend, the faster conduction velocity of a neuron, the lower amount of current is required to simulate it (presumably due to low capacitance of the membrane). However, these sorts of measurements are often thrown off by indirectly stimulating a neuron of interest by depolarizing nearby cells, causing one to mis-attribute the source stimulation required. For direct stimulation of myelinated axons, the distance from electrode to the nearest Node of Ranvier is the key metric. Typically, spacing between nodes is $\approx 6 \times $ the neuronal diameter apart. Theoretically, one can tune stimulation to hit fibers of a certain size. This is helpful in tuning stimulation \textit{against} smaller, pain-carrying nerves, for example. \newline
 
-The effect of a current supplied by an electrode generates a voltage spread resembling something of a double-sided Lenhert-Jones plot. That is, injecting a positive current may generate depolarize the region nearest to the electrode, while the surrounding regions are actually hyperpolarized. Therefore, for an anode, one would  expect a core of cells to be depolarized, while those of the periphery to be hyperpolarized. The inverse would be true for a cathode. If one were to use two electrodes (i.e., an anode and a cathode nearby) then one has the option of longitudinal stimulation or transverse stimulation (i.e., either parallel or perpendicular to the axon).\newline
+The effect of a current supplied by an electrode generates a voltage spread resembling something of a double-sided Lenhert-Jones plot. That is, injecting a positive current may generate depolarize the region nearest to the electrode, while the surrounding regions are actually hyperpolarized. Therefore, for an anode, one would  expect a core of cells to be depolarized, while those of the periphery to be hyperpolarized. The inverse would be true for a cathode. If one were to use two electrodes (i.e., an anode and a cathode nearby) then one has the option of longitudinal stimulation or transverse stimulation (i.e., either parallel or perpendicular to the axon). To clarify terminology slightly: a cathodic current refers to depositing electrons and an anodic current to pulling electrons. \newline
 
-\textcolor{red}{Note: Perhaps it would be good to go through the different electrode options? I.e., where one places ground, whether current or voltage is applied, etc. Though, I have had trouble finding information on this.}
+Electrodes used to stimulate will undergo oxidation-reduction (redox) reactions, meaning stimulation must be tuned such that these redox reactions are reversible---lest charged metals will be deposited in the brain. Similarly, a current can cause water electrolysis (hydrolysis), resulting in H$_2$ and O$_2$ gas buildup. Choosing the proper waveform is key to preventing this. Too quick successive positive currents can lead to damaging redox reactions---therefore, one must apply both positive and negative stimulation such that the area under the curve is the same, leading to the same net charge pushing and pulling. A charge imbalanced biphasic stimulation pattern is one of the more common modes of accomplishing this. One can see if their stimulation is not charged balanced by a slow increase in the baseline voltage.\newline
+
+Passive recording is comparatively easy, as one does not have all these considerations. Stimulation is the rate limiting step in bringing new devices to market. The complexities of this are partly why bringing a device to market is so difficult. Naturally, the FDA knows what they're doing. One must first probe the parameter space of an electrode to know the allowable, reversible range. Another safety parameter includes the amount of charge delivered per unit area (coulombs / cm$^2$). Cerebellar stimulators used to literally explode in the brain before the FDA existed.\newline
+
+One must further consider the material. There are immune response and carcinogenic considerations. Gold, while safe, is not a great charge deliverer due to low surface area. Platinum coated with iridium allows for a larger surface area and thus stimulatory ability, but is very expensive to mine and use. Silver / silver-chloride is by far the best and most efficient at delivering charge, but causes a vicious immune response.
+
+
 
 \subsubsection{Biomaterials Used.}
 Building electrodes or bio-compatible devices requires a combination of factors. A primary focus in finding suitable biomaterials are those that are conducting, flexible, and non-reactive\footnote{\url{https://onlinelibrary.wiley.com/doi/epdf/10.1002/term.383}}. Polypyrrole (PPy) is one such option. PPy alone is quite rigid, but is a good accompaniment with other materials. For example, you may coat some glass or fabric in PPy in order to make it more biocompatable and conducting. Too, PPy is a good candidate for boosting cell adhesion to one's biomaterials. Others have used PPy in a tubular fashion, applied some current, and used it to guide regenerating axons. Another similar product is polyaniline (often called PANI). Polyaniline can be oxidized and reduced, providing an additional layer of manipulation. PPy and PANI are two of the most studied conducting polymers, but many more exist.\newline
@@ -6500,10 +6587,29 @@ To conclude, I will share some wisdom from Dr. Iahn Cajigas that I received (whi
 
 \chapter{Brain Stimulation}
 
+Brain stimulation most often conjures up thoughts of deep brain stimulation---an ever expanding treatment with remarkable results for treating Parkinson's disease. Though, brain stimulation has many applications. In the case of nerve injury, noninvasive methods like transcranial direct current stimulation and transcranial magnetic stimulation have been done with some success, especially when combined with rehabilitation, particularly in recovery of hand dexterity after injury. It is thought that recovery occurs through growth of descending corticospinal tract neurons. After stroke, injection of stem cells combined with stimulation has been shown to improve neurogenesis. Further, stimulation to the occipital lobe provides a route to vision-generation in blind patients. Needless to say, brain stimulation is an expanding field with many routes of exploration. 
+
+\subsection{Transcranial Magnetic Stimulation (TMS)}
+
+Remarkably, TMS requires 15,000A of current to generate a magnetic field strong enough to stimulate neurons. This is on the order of current used in electric chairs. Typically, current is ran through a figure-8 like form which concentrates the magnetic field at it's intersecting center. 
+
+\section{Non-Deep Stimulation}
+
+\subsection{Stimulating the Visual Cortex}
+
+Let us review\footnote{\url{https://www.annualreviews.org/doi/abs/10.1146/annurev-vision-111815-114525}}. Like all topics in this book, stimulation of the visual cortex seems like a novel idea---yet, it began in the 1940s by neurosurgeon Wilder Penfield. He determined that such stimulation can produce phosphenes---the basic subunits of vision. Since, tests in human patients primarily come from (1) implantation of a visual cortical prosthetic (VCP), a BCI which interfaces with the visual cortex, in blind patients (which the hopes of restoring meaningful vision), (2) patients monitored in a clinical setting (epilepsy patients, for example, have been extremely helpful in this regard), or (3) during neurosurgery. Once again, one would expect VCP production to begin only recently, but in fact the first prototype was employed for the blind in 1958 by John Button. Further studies through the years have demonstrated the electrodes placed $\approx 500\mu$m apart generated different phosphenes, and varied patterns of electrode activation could increase phosphene complexity. \newline
+
+A large part of direct current simulation to visual cortices has been done to map visual circuits. The entire primary visual cortex (V1) has been mapped to the retina due to its ordered organization. Importantly, it's best to couple electrical stimulation with other metrics. For example, early stimulation tests predicted the area activated by stimulation to be dictated solely by passive current diffusion---but later fMRI tests showed this not to be true (perhaps through synaptic spread). Mapping is not equally distributed, as more cortical area is reserved for regions like the fovea, and lesser for peripheral regions of vision. Some quantify this space to unit vision as a \textit{linear cortical magnification factor}. Different cells respond more strongly to what is found in their receptive field---primary visual cortex cells respond strongly to edge discrimination tests. One can generate a feature map by the visual features that induce cell responses more strongly.\newline
+
+Higher in the ``visual hierarchy" (visual area 2 (V2), middle temporal (MT) area, inferotemporal (IT) area, etc.) has regions with larger, more disorganized receptive fields and greater object-specific activation (rather than feature specific). As for the ventral temporal cortex (VTC), spatial structure governed by ``low-level" responses; facial, object, and place-based responses; and animate vs. inanimate responses. Some believe that the greater complexity of these regions may be responsible for their lesser ability to generate phosphenes when stimulated. Rather, they seem more involved in some of the unconscious components of visual appraisal. Patients who've had these areas stimulated do not notice lesser seeing ability, but still perform worse on visual discrimination tests. Further experiments to discriminate these properties come from direct current simulation in NHP, particularly rhesus macaque. One would stimulate a particular part in the visual cortex during some behavior and find that it results in disruption of said behavior, such as in discriminating between moving objects (on the low end, such stimulation may be 10-20$\mu$A, and 40-80$\mu$A on the high end).\newline
+
+Interestingly, NHPs had an easier time learning to detect stimulation applied to earlier visual areas, like V1 and V2, as opposed to later (at higher current levels, around 50$\mu$A). Smaller currents in 5-10$\mu$A required thousands of trials before NHP could reliably detect them. Naturally, because NHPs cannot describe what they see, one cannot know the complexity of the evoked response. Because of comparable results in limited human trials, we can hypothesize NHPs see simple phosphenes in V1 stimulation. Training monkeys to delineate true visual cues allowed researchers to approximate evoked response characteristics.\newline
+
+Back in human patients, Yoshor and colleages tested what areas of the brain were more or less active when a phosphene was or was not detected. One such region was the temporal parietal junction (TPJ), a ``gatekeeper" if a visual cue reaches conscious perception, which was more active when a phosphene was detected. It may be that some cognitive appraisal, or conscious processing, is required for phosphene detection. 
 
 \section{Deep Brain Stimulation}
 
-Deep brain stimulation is an ever increasing field of study. First popularized for treatment of tremors, it is not becoming generalized for many more disorders, including OCD. In the case of nerve injury, noninvasive methods like transcranial direct current stimulation and transcranial magnetic stimulation have been done with some success, especially when combined with rehabilitation, particularly in recovery of hand dexterity after injury. It is thought that recovery occurs through growth of descending corticospinal tract neurons. Needless to say, brain stimulation is an expanding field with many routes of exploration. 
+Deep brain stimulation is an ever increasing field of study. It was first approved by the FDA for treating tremor in 2001, and for Parkinson's in 2004. It is now becoming generalized for many more disorders, including OCD. 
 
 \subsection{Technology Overview}
 
@@ -6631,7 +6737,9 @@ As is inherent to device implantation, there is a tradeoff between the resolutio
     \item Single Unit AP
 \end{enumerate}
 
-EEGs, are non-invasive and have a reading range on the order of a few centimeters. The tissue that these signals passes through largely obscures any neuron-level information. A comparable option is that of magnetroencephalograms (MEGs), which use superconducting quantum interference devices (SQUIDs) to measure magnetic fields induced by neural activity. MEGs are less susceptible to the capactive effects of the meninges and skull. ECoG are sub-dural implants with reading potential on the tenths of centimeters level. ECoG typically employ platinum-iridium or steel electrodes, but can be improved with flexible and denser electrode designs. As they come in direct contact with the cortex, safety is a much larger concern. LFPs are read on a millimeters level. Single unit AP is as the name describes, and reads individual action potentials (sometimes this is written as ``single unit activity" or ``SUA"). Both LPS and single unit require the electrodes be buried within the cortex itself, thus causing damage to the brain tissue. These leads are typically metal, glass, or silicon. Therefore, EEG is typically preferable, as it does not require surgery. It is highlighted by Schwartz that many negatives can occur long term from invasive procedures, such as degeneration, volume displacement, or glial encapsulation. Therefore, it is likely that reading thoughts is the limiting factor in progressing the field. \newline
+EEGs, are non-invasive and have a reading range on the order of a few centimeters. The tissue that these signals passes through largely obscures any neuron-level information. A comparable option is that of magnetroencephalograms (MEGs), which use superconducting quantum interference devices (SQUIDs) to measure magnetic fields induced by neural activity. MEGs are less susceptible to the capactive effects of the meninges and skull. MEG are quite expensive, though, and often require complex conditions like liquid helium cooling. It is often that an institution will have at most one MEG if any at all.\newline
+
+ECoG are sub-dural implants with reading potential on the tenths of centimeters level. ECoG typically employ platinum-iridium or steel electrodes, but can be improved with flexible and denser electrode designs. As they come in direct contact with the cortex, safety is a much larger concern. LFPs are read on a millimeters level. Single unit AP is as the name describes, and reads individual action potentials (sometimes this is written as ``single unit activity" or ``SUA"). Both LPS and single unit require the electrodes be buried within the cortex itself, thus causing damage to the brain tissue. These leads are typically metal, glass, or silicon. Therefore, EEG is typically preferable, as it does not require surgery. It is highlighted by Schwartz that many negatives can occur long term from invasive procedures, such as degeneration, volume displacement, or glial encapsulation. Therefore, it is likely that reading thoughts is the limiting factor in progressing the field. \newline
 
 Importantly, all such devices read \textit{scalar} quantities (electrodes read voltage with respect to a ground). The term ``potential" in ``local field potential" is a misnomer, as these devices do not read electric fields (expanded on in a later section, \textbf{\ref{sec:WhatOneReads}}). LFP is also sometimes used as a general term to describe now neurons affect the voltage in a given area. I digress.\newline
 
@@ -6656,13 +6764,17 @@ In 2004, Buzsaki published a perspective which touched on some of the neuronal-r
 
 To begin, devices like EEG or ECG are not directly measuring the transmembrane potential of neurons or the heart---they are measuring the polarity of the extracellular space. This contrasts to something like patch-clamp recordings, which directly measure the voltage or current across the cell membrane. The heart is the largest contributor to the body's extracellular polarity, therefore ECG leads can be placed around the body (typically one would do 6 electrodes across the heart and one at each of the four limbs) and measured with respect to each other. The quantity being measured is the superposition of many contributing cells, which sum together to read a voltage. There is a strange thing you'll notice about ECGs if you pay close attention, and recall that an ECG requires 12 leads (10 electrodes): the three humps (the P, QRS, and T parts of the wave) correspond to atrial depolarization, ventricular depolarization, and ventricular repolarization respectively. Yet, all three humps have the same ``sign"---despite that some show depolarization and some repolarization. This is because, again, we are not directly reading the transmembrane voltage in the heart. Rather, we are taking a linear projection of the 3-dimensional, extracellular space at each of the leads onto a single 2D plane. Point being: the measure is slightly indirect. \newline
 
-To better understand exactly what an electrode picks up, let us discuss a 2012 work by Buzsaki\footnote{\url{https://www.nature.com/articles/nrn3241}}. For this section, voltage is referred to by $V_e$, and is a scalar quantity. The difference in $V_e$ measured at two points is an electric field, and or a vector quantity in volts / distance, and or the negative gradient of the voltage ($-\grad \cdot V_e$). Accompanying an electric field is a magnetic field, which can be read by a magnetoencephalogram (MEG).\newline
+To better understand exactly what an electrode picks up, let us discuss a 2012 work by Buzsaki\footnote{\url{https://www.nature.com/articles/nrn3241}}. For this section, voltage is referred to by $V_e$, and is a scalar quantity. The difference in $V_e$ measured at two points is an electric field, and or a vector quantity in volts / distance, and or the negative gradient of the voltage ($-\grad \cdot V_e$). Accompanying an electric field is a magnetic field, which can be read by a magnetoencephalogram, MEG.  \newline
 
-    While the read voltage is the composite of all ionic fluxes into all cells, synaptic activity seems to have the strongest effect. This contrasts to something like fast action potentials, induced by sodium currents, which occur on the order of $1-2$ms and are unlikely to be synchronized with other neurons (therefore, when summing them with many other signals, their contribution is minimal). Because synaptic transmission requires a coordinated swing in voltage on a relatively slow timescale, it can be read via electrodes.\newline
+While the read voltage is the composite of all ionic fluxes into all cells, synaptic activity seems to have the strongest effect. This contrasts to something like fast action potentials, induced by sodium currents, which occur on the order of $1-2$ms and are unlikely to be synchronized with other neurons (therefore, when summing them with many other signals, their contribution is minimal). Because synaptic transmission requires a coordinated swing in voltage on a relatively slow timescale, it can be read via electrodes.\newline
     
-    Positive ion influx through AMPA or NMDA channels at the post-synapse leaves an extracellular \textit{sink} (cations flowing in to the cell). To restore electroneutrality (see section \textbf{\ref{sec:EPhys}}), a \textit{source} (cations flowing out of the cell) is required, which generates a \textit{return current} from the intracellular to the extracellular space. This then generates a temporary pole, depending on the geometry of the space. A monopole contributes to $V_e$ with factor $1/r$, and a dipole contributes to $V_e$ with factor $1/r^2$ (where $r$ is the distance from the electrode). A neurons morphology contributes to how strong of a pole it can produce. For example, pyramidal cells dominate in the cortex and, due to their long, asymmetric dendritic projections, generate a large spatial separation between source and sink. Therefore, this creates a large electric field in the extracellular space. This separation generates an \textit{open field}. This contrasts to a \textit{closed field}, which might be generated when multiple dendrities are stimulated in, for example, thalamocortical neurons that have symmetric, spherical projections. Notably, pyramidal neurons exist in parallel, allowing their dipoles to be compounded. Across different species the number of pyramidal neurons and the projections of neurons running in the opposite direction of them vary---leading to varying degrees of dipole cancellation. Further, the larger scale geometry of the brain, including the folding of gyri, reorient such dipoles. However, geometry alone is not sufficient to predict signals. For example, the cerebellum is highly regular but acts primarily locally, thus does not produce global synchrony. Taking dipole information and attempting to localize it in the brain is called the \textit{reverse problem} and presently has no exact solution---meaning other measures, in addition to this, are required to localize brain activity.\newline
+Positive ion influx through AMPA or NMDA channels at the post-synapse leaves an extracellular \textit{sink} (cations flowing in to the cell). To restore electroneutrality (see section \textbf{\ref{sec:EPhys}}), a \textit{source} (cations flowing out of the cell) is required, which generates a \textit{return current} from the intracellular to the extracellular space. This then generates a temporary pole, depending on the geometry of the space. That is, the synapse (and or, excitatory potential) occurs is the negative end of the dipole. If a synapse is active in the axon initial segment, then the cell body and AIS will be $\delta^-$, and the terminal the $\delta^+$. If the stimulating synapse were at the axon terminal, then the reverse would be true.\newline
+
+A monopole contributes to $V_e$ with factor $1/r$, and a dipole contributes to $V_e$ with factor $1/r^2$ (where $r$ is the distance from the electrode). A neurons morphology contributes to how strong of a pole it can produce. For example, pyramidal cells dominate in the cortex and, due to their long, asymmetric dendritic projections, generate a large spatial separation between source and sink. Therefore, this creates a large electric field in the extracellular space. This separation generates an \textit{open field}. This contrasts to a \textit{closed field}, which might be generated when multiple dendrities are stimulated in, for example, thalamocortical neurons that have symmetric, spherical projections. Notably, pyramidal neurons exist in parallel, allowing their dipoles to be compounded and vertical. Across different species the number of pyramidal neurons and the projections of neurons running in the opposite direction of them vary---leading to varying degrees of dipole cancellation. Further, the larger scale geometry of the brain, including the folding of gyri, reorient such dipoles. This is important, as since the strength of such dipoles fall of at approximately $1/r^2$, only strong dipoles close to the surface can be read. EEG require $\approx$ 6cm$^3$ of tissue to read a signal, and or, on the order of $10^5$ neuron's activity to be readable. Gyri, which have parallel pyramidal cells close to the surface, make up $\approx 1/3^{\rm rd}$ of brain surface---an EEG is missing $\approx 2/3^{\rm rds}$ of the cortical surface activity. As within the sulci these neurons will now be horizontally oriented, such horizontal electric field will generate magnetic fields---meaning they can be read via MEG. Readings like this on the order of femto ($10^{-15}$) teslas, requiring remarkable precision.\newline
+
+Notably, the geometry of dipoles alone is not sufficient to predict signals. For example, the cerebellum is highly regular but acts primarily locally, thus does not produce global synchrony. Taking dipole information and attempting to localize it in the brain is called the \textit{reverse problem} and presently has no exact solution---meaning other measures, in addition to this, are required to localize brain activity.\newline
     
-    Much like how $V_e$ is a reading of many cells superimposed, an individual cell's transmembrane current is the summation of all of its ion channels. The magnitude of such ion channel's contribution to the overall voltage depends on where the membrane voltage is in reference to each ion's Nernst potential, and the cell's ion channel composition.\newline
+Much like how $V_e$ is a reading of many cells superimposed, an individual cell's transmembrane current is the summation of all of its ion channels. The magnitude of such ion channel's contribution to the overall voltage depends on where the membrane voltage is in reference to each ion's Nernst potential, and the cell's ion channel composition.\newline
 
     Calcium spikes may be triggered by synaptic activity and contribute strongly to $V_e$, particularly because Ca$^{2+}$ spikes occur over longer timescales and confer large voltage swings. Interestingly, it was commented in this paper that little is known about Ca$^{2+}$ spikes \textit{in vivo}. The resonant properties of a neuron, largely contributed to by $I_h$ (inward hyperpolarization, think HCN channels) and $I_T$ (low-threshold, think T-type VGCCs) currents, can similarly be found when particularly synchronized. That is, many neurons may fluxtuate at particular \textit{resonant} frequencies, and when networks of neurons are synchronized, this may be visible on an EEG. Inhibitory interneurons, for example, may synchronize to gamma ($\gamma$) frequencies in the $30-90$Hz range. After a period of calcium bursting, or in response to certain stimuli, higher calcium levels can lead to the opening of Ca$^{2+}$ activated potassium channels (KCa channels). Such channels lead to afterhyperpolarizations (AHPs) that may be synchronized and are thought to produce long lasting voltage shifts (on the order of $0.5-2$s. Such AHPs mark and modulate state transitions of neurons, such as in sleep.\newline
 
@@ -6686,6 +6798,8 @@ To better understand exactly what an electrode picks up, let us discuss a 2012 w
 
 We'll begin with the canonical device: an electroencephalogram (EEG).\newline
 
+The earliest EEGs were non-digital. They read out brain activity via drawing it on a rolling sheet with ink and a needle. These devices sampled at around 70-90hz (depending on the source). Interestingly, when digital EEGs were made, they preserved this sampling rate---as many doctors assumed this was a well optimized figure. However, this was actually only because ink splattered when ran faster.\newline
+
 EEGs are effectively reading spikes from vertical, pyramidal cells of the cortex (as discussed in section \textbf{\ref{sec:WhatOneReads}}). Such readings are on the order of 30-80$\mu\V$ and a couple $\mu$A typically (it depends on the source you read---some say closer to 50-200$\mu\V$), and are a composite of frequencies (the named frequency ranges are $\beta$, $\alpha$, $\theta$, $\delta$), with the most characteristic being called the ``dominant frequency."\newline
 
 $\beta$ waves are between 13 and 25Hz and are dominant in normal consciousness. $\alpha$ waves are between 8 and 13Hz, and characterize wakeful relaxation. They are particularly dominant through the occipital lobe and are in sync with the pacemaker cells of the thalamus. Upon opening one's eyes, $\alpha$ waves are suppressed. $\theta$ waves are between 3.5 and 8Hz, and are said to occur when neural networks are being recruited. This can be from a variety of sources. For example, priming of the hippocampus to interpret incoming signal or the combination of sensory and motor information in learning. The slowest are $\delta$ rhythms, in the range of 0.7 to 3.5Hz, observed during non-REM sleep and under anesthesia.\newline
@@ -6693,6 +6807,11 @@ $\beta$ waves are between 13 and 25Hz and are dominant in normal consciousness. 
 Lesser discussed brain waves include $\mu$ waves, within 8 and 13Hz like $\alpha$ waves, and observed over the motor cortex but are suppressed when motor movements are performed or imagined. There are also $\gamma$ waves, which occur between 25 and 100Hz, and are associated with problem solving and may coordinate different regions of the brain.\newline
 
 In a waveform, \textit{spikes} are the fast, $<\approx100$ms peaks that stand out above the background noise. \textit{Polyspikes} are successive spikes. \textit{Spike \& wave} refers to a fast spike followed by a distinctive, slow wave form which is quite prominent. Spike and waves can be overlaid and or compounded, which one would refer to as \textit{Spike \& wave (theta)} if polyspikes were seen over theta waves. A \textit{sharp wave} complex is one which occurs $\approx 100-200$ms, which may again occur in conjunction with slow waves. 
+
+\subsection{Device Setup}
+
+\textcolor{red}{To fill in later---just want to describe electrode locations. 10,20\% rule, etc. }
+
 
 \subsection{Therapeutic Applications}
 
@@ -6823,6 +6942,17 @@ Long term investigation and optimization of eye tracking will be helpful for a v
 Here we discuss\footnote{\url{https://www.nature.com/articles/s41928-023-01069-w}}. These authors begin by commenting that driving artificial neural networks (ANNs) is extremely energy intensive. Data and data processing is physically separated, known as the von Neumann bottleneck. There seems to be a strong need for advancements in computing on a hardware level. Some attempts, such as through resistors containing memory (memristors, bad name) to achieve this. This work went in the opposite direction, and instead pushed for more biologically-based networks---they dubbed this Brainoware.\newline
 
 Via culturing a variety of early stage neurons of different identifies on a multi-electrode array (MEA) they were able to build a ``computational reservoir" capable of unsupervised learning. They found success in tasks such as voice recognition, which improved through multiple epochs. That is, electrical stimulation delivered to the organoid was capable of discriminating between different voices. Notably, the training process takes multiple days. Similarly, producing organoids takes months, and maintaining them is difficult. Naturally, ``harnessing their computation" requires keeping them alive, and an organoid's typical necrotic core would present problems in this regard. 
+
+
+\subsection{NeuraLink}
+
+\textcolor{red}{I don't really know anything about NeuraLink, but I'll try to fill out this section as time goes on. }\newline
+
+Initial NeuraLink trials are aimed at quadriplegia and ALS patients. These trials are called PRIME, and the first device is called Telepathy. The key difference is NeuraLink is a private company---much of the technology is similar to what already exists. However, NeuraLink is thought to be tolerated for longer due to smaller electrodes able to record from single neurons easier. \newline
+
+New cycles mentioned NeuraLink's failing in NHP models. However, these stories seemed to be overblown---negative results publicized about NHPs were largely overstated, and NeuraLink did indeed pass FDA approval.\newline
+
+Notably, multi-unit electrodes are not great for stimulation. Thus, NeuraLink is not equipped for bi-directional devices (yet). 
 
 
 %%%%%%%%%%%%%%%
@@ -7074,7 +7204,7 @@ One such topic is that of neurodegeneration. Naturally, there are not many direc
 
 \chapter{Neurodegeneration}
 
-Much of this comes from Dr. Nancy Bonini's Molecular Genetics of Neurological Disease course.\newline
+Much of this comes from Dr. Nancy Bonini's Molecular Genetics of Neurological Disease (BIOL 4266) course at the University of Pennsylvania.\newline
 
 This is more of a historical dive into the research, because so much of what we know about neurodegenerative diseases is likely wrong, overstated, or misinterpreted. There are many fascinating theories and little agreement. You will hear some, like Dr. Rothstein at JHU, argue that there is a viral component. You will hear some, like the Wallace lab at Penn, claim that Alzheimer's is due to mitochondrial dysfunction and not amyloid aggregation. So for now, let's call this a historical review of the research up to this point.\newline
 
