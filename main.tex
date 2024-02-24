@@ -904,7 +904,7 @@ At $t=0$, the capacitor is fully charged, so no current flows at all, and $\Vo =
 
 \section{Filtration Conceptually}
 
-Firstly, what is filtration? Filtration refers to our filtering out of background signal, or any undesired signal, in order to isolate our signal of interest. For example, perhaps you are interested in a sine wave whose period is 1 ms, but this is superimposed on a bunch of other sine waves of variable periods. You can extract the 1ms sine wave with some clever circuits, and build your downstream circuit fragments based on it. It's like an analog version of the Fourier Transform!\newline 
+Firstly, what is filtration\footnote{A paper showing signals before and after filtration: \url{https://pubmed.ncbi.nlm.nih.gov/38301001/}.}? Filtration refers to our filtering out of background signal, or any undesired signal, in order to isolate our signal of interest. For example, perhaps you are interested in a sine wave whose period is 1 ms, but this is superimposed on a bunch of other sine waves of variable periods. You can extract the 1ms sine wave with some clever circuits, and build your downstream circuit fragments based on it. It's like an analog version of the Fourier Transform!\newline 
 
 Let's consider a specific example given by Professor Ashmanskas: imagine you are building a sensor that tests the water level in a pool. You don't want the pool to overflow when it rains, or get too low when the Summer comes and water evaporates---so you devise an automatic system to add or take out water as needed. One could simply add a sensor to the side of the pool, but it will be subject to the constant waves formed by people swimming, and its readings will be horribly variable and uninterpretable, as they do not reflect the so-called \textit{steady-state} value of the water level. Each time someone cannon-balls in and splashes it, the sensor will think that the pool is greatly overflowing. Thus, one can devise a circuit that filters out all of these little fluctuations (this would be called a \textit{low-pass filter}, for passing variations that occur on a long time-scale---low frequency).
 
@@ -3300,11 +3300,11 @@ But, we still want voltage to be affected by an injected current, so we can simp
 
 \begin{equation} \label{fn5}
 \begin{split}
-    \dot{V} &= I_{injected} + [V(V - V_{rest})(V - V_{max}) - n] +  D\frac{\partial V^2}{\partial x^2}\\
+    \dot{V} &= I_{injected} + [V(V - V_{rest})(V - V_{max}) - n] +  D_c\frac{\partial V^2}{\partial x^2}\\
 \end{split}
 \end{equation}
 
-$D$ is our spatial dependence, which represents the diffusion of charge around the neuron membrane.\newline
+$D_c$ is a diffusion coefficient that can be used to represent anything---in this case, the diffusion of ``voltage" on the neuronal membrane. This term can be added to the Hodgkin-Huxley model as well if one wants to model propagation of voltage down an axon. For the moment, we'll not discuss why diffusion comes in this second partial derivative form, but it is covered thoroughly in the upcoming section (\textbf{\ref{sec:Diffusion}}.\newline
 
 \subsection{Graphing}
 
@@ -3410,6 +3410,8 @@ The rightward opamp functions as a Schmitt Trigger, and the entire thing is effe
 
 
 \section{Diffusion}
+
+\label{sec:Diffusion}
 
  Note that in the coming sections, $[f]$ is used to describe the concentration of some molecule $f$. But, this principal can be applied to anything, including the spreading of voltage across some surface. 
 
@@ -4346,7 +4348,9 @@ An example forward addition employment is the \textit{Gram-Schmidt orthogonaliza
 
 \section{Various Models}
 
-Validating a model can be done in many ways. It is best practice to split a training data set into a \textit{train} and \textit{test} set---which one can optimize via training on the first and testing on the second. Splitting the dataset in multiple ways and averaging over them is most helpful in perfecting the model. 
+Validating a model can be done in many ways. It is best practice to split a training data set into a \textit{train} and \textit{test} set---which one can optimize via training on the first and testing on the second. Splitting the dataset in multiple ways and averaging over them is most helpful in perfecting the model. \newline
+
+Testing accuracy is not always informative, as if an event occurs very rarely, a model may predict that it never occurs and therefore be extremely accurate. Therefore, other metric include \textit{sensitivity} and \textit{specificity}. Sensitivity is the percentage of positive events detected, specificity is the percentage of non-events that were correctly detected. 
 
 
 \subsubsection{Calculating Loss.}
@@ -4465,11 +4469,18 @@ This is a sigmoid function, clearly, where the switch between 0 and 1 occurs bet
 
 \subsubsection{SVM.}
 
-\textcolor{red}{Try to learn how to find a good hyper plane later.}\newline
-
 Support vector machines (SVM) looks to find a line (in 2D) that best separates data. In multi-dimensions we would be looking for a hyperplane that best separates our data. Broadly, how this works is by finding a plane which separates the data and maximizes the distance between points and the plane. This is the margins of our plane---we want to maximize margins. The vectors which mark the distance between our plane and nearby points are called \textit{support vectors}. A key source of error with SVM is outliers. That is, outliers will greatly change how our plane is drawn.\newline
 
-This method is also immediately off when considering clumps of data interspersed between each other---i.e., data which is not distinctly separable. This can be aided by projecting data onto a different reference plane. For example, one dimensional data, where some class of data is clumped around 0, and another class is clumped in two groups around 10 and -10, clearly cannot have a single line separating them. However, you can transform the data, perhaps by squaring it, and therefore easily find a line separating the two. This is called the \textit{kernel trick}. 
+This method is also immediately off when considering clumps of data interspersed between each other---i.e., data which is not distinctly separable. This can be aided by projecting data onto a different reference plane. For example, one dimensional data, where some class of data is clumped around 0, and another class is clumped in two groups around 10 and -10, clearly cannot have a single line separating them. However, you can transform the data, perhaps by squaring it, and therefore easily find a line separating the two. This is called the \textit{kernel trick}. \newline
+
+If a dataset is not linearly separable at all, instead of using \textit{hard margins}, one can use \textit{soft margins}. Rather than calculating a fully separable hyperplane, one can calculate it based upon a maximally separating plane. 
+
+
+\subsection{Decision Trees}
+
+A decision tree is as it sounds, where one can prescribe a binary set of classifiers to work toward a conclusion. To construct a tree, one maximizes the \textit{information gain} at each decision. In other words, one minimizes the \textit{entropy}, or uncertainty, after each branch. A drawback of this method is one can easily overfit via the addition of redundant or uninformative features. One would implement a random forest to sample a series of shallow trees, usually on the order of thousands. One would then use the majority vote of all random trees made. Similarly, it's most helpful to minimize unhelpful features, for example by reducing 1,000 redundant features to 20 useful features. 
+
+
 
 \subsection{Neural Networks}
 
@@ -4853,17 +4864,19 @@ Skeletal muscles are composed fasicles, which are composed of muscle fibers, whi
 \subsubsection{Contraction-relaxation.}
 Myosin heads desire to bind to actin, but are blocked by tropomyosin. Ca$^{2+}$ can bind to troponin, bound to tropomyosin, to cause conformational changes resulting in the exposure of the actin to the myosin heads. In doing so, binding can occur, followed by myosin's power stroke. The energy for the stroke comes from hydrolyzing ATP, which had already occured by the time myosin attached to the actin. The powerstroke allows the release of the ADP and P$_i$. ATP then can bind to the empty active site of myosin, which causes the release of the head and prepares it for another cycle. Notably, when ATP does not bind to myosin, the muscle will be stuck in the rigor state.\newline
 
-In skeletal muscles, the source of Ca$^{2+}$ is a combination of the extracellular Ca$^{2+}$ flowing inward, and further release from the sarcoplasmic reticulum. The story goes as follows: a motor neuron releases acetylcholine onto the motor end plate (an area which a high density of sodium channels). This causes a depolarization, which propagates down the muscle fiber. Structures called T-tubulues sink lower into the tissue, allowing for more direct access to the inner processes (visually, these look similar to gyri in the brain or the crypts of the intestinal wall). The T-tubules are lined with dihyropyridine (DHP) channels, an L-type VGCC (specifically Ca$_v$1.1). DHP and ryanodine receptors (RyR) can be mechanically coupled, where influx of Ca$^{2+}$ in through DHP mechanically opens RyR channels of the sarcoplasmic reticulum (a large store of Ca$^{2+}$). The free calcium is lowered through things like active pumping out of the sarcoplasm.\newline
+In skeletal muscles, the source of Ca$^{2+}$ is a combination of the extracellular Ca$^{2+}$ flowing inward, and further release from the sarcoplasmic reticulum. The story goes as follows: a motor neuron releases acetylcholine onto the motor end plate (an area which a high density of sodium channels). This causes a depolarization, which propagates down the muscle fiber. Structures called T-tubulues sink lower into the tissue, allowing for more direct access to the inner processes (visually, these look similar to gyri in the brain or the crypts of the intestinal wall). The T-tubules are lined with dihyropyridine (DHP) channels, an L-type VGCC (specifically Ca$_v$1.1). DHP and ryanodine receptors (RyR) can be mechanically coupled, where influx of Ca$^{2+}$ in through DHP mechanically opens RyR channels of the sarcoplasmic reticulum (a large store of Ca$^{2+}$). The free calcium is lowered through things like active pumping out of the sarcoplasm. \newline
 
-A steady supply of ATP is needed to maintain pumping, and it is said that at any given time, there is 8 or so twitches worth of ATP within the muscle fiber. Therefore, frequent production and alternate stores are required for continuous movement. One such storage is phosphocreatine, whose phosphate group can be quickly transferred to ADP through creatine kinase. Muscles therefore contain high levels of this enzyme, and \textbf{testing for it in the bloodstream can be a good proxy for muscle damage}.\newline
+A steady supply of ATP is needed to maintain pumping, and it is said that at any given time, there is 8 or so twitches worth of ATP within the muscle fiber. Therefore, frequent production and alternate stores are required for continuous movement. One such storage is phosphocreatine, whose phosphate group can be quickly transferred to ADP through creatine kinase, or creatine phosphokinase (CPK). Muscles therefore contain high levels of this enzyme, and \textbf{testing for it in the bloodstream can be a good proxy for muscle damage}.\newline
 
-Notably, it is very difficult to fully deplete a muscle of its ATP. Other forms of fatigue begin before this can possibly occur, which include CNS or PNS feedback. An example of this may be that acetylcholine is not synthesized fast enough to continually stimulate muscle fibers. Continual simulation of muscle fibers, beyond what is allowable under normal conditions, \textbf{will fully deplete ATP levels and therefore cause damage to muscles}. Another consideration is the continuous use of ATP may result in P$_i$ buildup in the sarcoplasm, making release of ADP $+$ P$_i$ from myosin less likely to occur. Too, this opens the possibility of calcium phosphate forming, which can be quite damaging if it crystallizes further. There are also ion concentration changes to consider, and continued stimulation can result it tetanus.
+Notably, it is very difficult to fully deplete a muscle of its ATP. Other forms of fatigue begin before this can possibly occur, which include CNS or PNS feedback. An example of this may be that acetylcholine is not synthesized fast enough to continually stimulate muscle fibers. Continual simulation of muscle fibers, beyond what is allowable under normal conditions, \textbf{will fully deplete ATP levels and therefore cause damage to muscles}. Another consideration is the continuous use of ATP may result in P$_i$ buildup in the sarcoplasm, making release of ADP $+$ P$_i$ from myosin less likely to occur. Too, this opens the possibility of calcium phosphate forming, which can be quite damaging if it crystallizes further. There are also ion concentration changes to consider, and continued stimulation can result it tetanus.\newline
+
+An unrelated aside: the ability to remove calcium quickly is necessary for repeat muscle firing. In some organisms, like the toadfish, they exhibit remarkably fast muscle contraction to produce a mating call. Somehow, Ca$^{2+}$ must be removed from the sarcoplasm to allow for muscle relaxation---but pumping back in to the SR would take too long. How they accomplish this, then, is with an extra set of buffers like parvalbumin. Parvalbumin binds Ca$^{2+}$ and can rapidly associate and dissociate it, allowing for a higher frequency of contraction and relaxation. At the end of the contraction cycle, Ca$^{2+}$ is unbound and then pumped back into the SR. 
 
 \subsubsection{Muscle Bioenergetics in Some Depth.}
 
-Energy is a scalar number (measured in Joules), while power is measured per unit time (Joules / second; watts). As an interesting thought experiment: there are 4.18 Joules per calorie, and a calorie is the amount of energy required to raise 1mL of water by 1$^\circ$C. The average metabolic rate is $\approx 100$W, meaning in a 24h period one typically burns $\approx 8.6 \times 10^6$J, and or, $\approx 2,000$ kCal. ATP releases $\approx 34$kJ per mol, meaning one must hydrolyze $\approx 254$ moles of ATP per day---and a mol of ATP weighs 507g, meaning one must burn 283 pounds of ATP per day. Naturally, this means a single molecule of ATP cycles many times between ADP + Pi and ATP \newline 
+Energy is a scalar number (measured in Joules), while power is measured per unit time (Joules / second; watts). As an interesting thought experiment: there are 4.18 Joules per calorie, and a calorie is the amount of energy required to raise 1mL of water by 1$^\circ$C. The average metabolic rate is $\approx 100$W, meaning in a 24h period one typically burns $\approx 8.6 \times 10^6$J, and or, $\approx 2,000$ kCal. ATP releases $\approx 34$kJ per mol, meaning one must hydrolyze $\approx 254$ moles of ATP per day---and a mol of ATP weighs 507g, meaning one must burn 283 pounds of ATP per day. Naturally, this means a single molecule of ATP cycles many times between ADP + Pi and ATP. \newline 
 
-ATP contains two high energy (the definition of         ``high energy" seems to vary between sources) phosphate bonds, allowing for two successive breakdowns capable of releasing energy (ATP $\rightarrow$ ADP $\rightarrow$ AMP). One can quantify the amount of high energy ATP as the change in the ATP ($\Delta$ATP) plus the change in the creatine phosphase ($\Delta$PCr). I.e.: 
+ATP contains two high energy (the definition of         ``high energy" seems to vary between sources) phosphate bonds, allowing for two successive breakdowns capable of releasing energy (ATP $\rightarrow$ ADP $\rightarrow$ AMP). One can quantify the amount of high energy ATP as the change in the ATP ($\Delta$ATP) plus the change in the creatine phosphate ($\Delta$PCr). I.e.: 
 
 % note: for some reason the leftrightharpoon breaks here
 \begin{equation}
@@ -4873,7 +4886,7 @@ ATP contains two high energy (the definition of         ``high energy" seems to 
 \end{split}
 \end{equation}
 
-Yields the net reaction: 
+A reaction which is mediated by CPK. Yields the net reaction: 
 
 \begin{equation}
 \begin{split}
@@ -4890,9 +4903,25 @@ And:
 \end{equation}
 
 
+Note that $\mathcal{K}$ can have the same ratio but different forward and reverse rates. Therefore, the shift of phosphate from CrP to ATP can be mediated both by the rate (due to CPK primarily) and or the equilibrium concentration. Such can be tuned differently for muscles depending on if they are fast or slow twitch muscles.\newline
 
+In very unhealthy conditions, where ATP is becoming scarce but the demand on the muscle for contraction stays strong, the adenylate kinase (or, myokinase) enzyme can convert ADP back to ATP in the following way: 
 
+\begin{equation}
+\begin{split}
+    2\mathrm{ADP} &\rightarrow \mathrm{ATP} + \mathrm{AMP} \\
+\end{split}
+\end{equation}
 
+Note, again, that this reaction is rare and is expected only to occur when the muscle is unable to undergo typical ATP regenerative processes (like when one experimentally blocks the CPK reaction, in addition to glycolysis and oxidative phosphorylation). It is also possible for AMP to be converted to IMP in the following way: 
+
+\begin{equation}
+\begin{split}
+    \mathrm{AMP} + \mathrm{H}_2\mathrm{O} &\rightarrow \mathrm{IMP} + \mathrm{NH}_4^+ + \mathrm{OH}^- \\
+\end{split}
+\end{equation}
+
+Which can be helpful in shifting the myokinase reaction to the right. 
 
 
 \subsection{Generating Force}
@@ -5460,11 +5489,13 @@ Many years ago, NASA sought out deaf employees for their early space programs---
 
 \subsection{Vision}
 
+\label{sec:Eye}
+
 The cornea is the outermost layer, the pupil changes in size to let in more or less light, the iris is the muscle which opens and closes the pupil, the lens is adjusted in order to focus light onto the back of the eye, the retina is at the back of the eye and where light rays hit, the macula / fovea is where the highest density of cones are. The aqueous humor is a fluid surrounding the lens, and which provides nutrients to the lens (because the lens does not have any blood vessels).\newline
 
-The right visual field of both eyes going to the left visual cortex, and the opposite for the left visual field. This information is transmitted down the optic nerves, intersects at the optic chiasm, continues down the optic tracts, is trafficked through the lateral geniculate nucleus [probably don't need to know that] of the thalamus, and onto the visual cortex in the occipital lobe.\newline
+The right visual field of both eyes going to the left visual cortex, and the opposite for the left visual field. This information is transmitted down the optic nerves, intersects at the optic chiasm, continues down the optic tracts, is trafficked through the lateral geniculate nucleus of the thalamus, and onto the visual cortex in the occipital lobe.\newline
 
-As briefly mentioned earlier, the macula is the central region where cones are, and at the center of that is the fovea. Rods are more densely populated in the outer regions of the retina. Where the optic nerve leaves the retina, there is a blind spot. This is intuitive, because there cannot be rods / cones right at the ``exit" of the eye (recall that the photoreceptors are technically beneath the nerves). At the kind of ``base" of the retina, i.e., the innermost layer, is the pigment epithelium. This is useful in absorbing light to prevent scattering and in providing nutrients to the photoreceptors. The next layer is the photoreceptors, i.e., the rods and cones (which differ in both structure and function---rods literally look like rods, and cones literally look like cones). Photoreceptors transmit to interneurons (bipolar cells), which then transmit to retinal ganglion cells. Such transmission is under considerable control by horizontal cells (which are at the synaptic junction between photoreceptors and bipolar cells) and amacrine cells (at the junction between bipolar and retinal ganglia). Such cells are helpful in lateral inhibition. \newline
+As briefly mentioned earlier, the macula is the central region where cones are, and at the center of that is the fovea. On average, there are between 150,000 and 200,000 cones per mm$^2$ at the fovea, and their diameters are quite small (between 3 and 5 $\mu$m). Rods are more densely populated in the outer regions of the retina. Where the optic nerve leaves the retina, there is a blind spot. This is intuitive, because there cannot be rods / cones right at the ``exit" of the eye (recall that the photoreceptors are technically beneath the nerves). At the kind of ``base" of the retina, i.e., the innermost layer, is the pigment epithelium. This is useful in absorbing light to prevent scattering and in providing nutrients to the photoreceptors. The next layer is the photoreceptors, i.e., the rods and cones (which differ in both structure and function---rods literally look like rods, and cones literally look like cones). Photoreceptors transmit to interneurons (bipolar cells), which then transmit to retinal ganglion cells. Such transmission is under considerable control by horizontal cells (which are at the synaptic junction between photoreceptors and bipolar cells) and amacrine cells (at the junction between bipolar and retinal ganglia). Such cells are helpful in lateral inhibition. \newline
 
 To understand how photoreceptors operate, first consider rods at rest: cyclic guanine monophosphate (cGMP) levels are high. cGMP binds to cyclic-nucleotide gated (CNG) channels, allowing for influx of positive ions, maintaining a relatively high membrane potential. This leads to the tonic release of neurotransmitters. The structure used to sense light is called rhodopsin, a GPCR in the photoreceptor membrane. It is composed of opsin, a protein, and retinal, a compound derived from Vitamin A. Retinal is able to change conformations (from \textit{cis} to \textit{trans}) upon being hit by light, which alters opsin's structure too. When ``activated by light," opsin decreases production of cGMP through the g-protein transducin. The key oddity here is that neurotransmitters are released in the absence of light, but not when light is present. The difference between rods and cones, in this regard, is that cones express different proteins (pigments) other than rhodopsin that respond preferentially to different wavelengths of light.\newline
 
@@ -6568,23 +6599,6 @@ Importantly, because they find asynchronous firing to block paresthesia, but not
 As it turns out, Chloride regulation is key to neuropathic pain. A great deal of work has focused on Cl- dysregulation, and how transporters like KCC2 can be manipulated to limit pain. 
 
 
-\subsection{Restoring Feedback in Phantom Limb}
-
-Broadly, restoring somatosensory feedback is key to BCI advancement. As mentioned in other sections, restoration of walking in BCIs can feel ``unnatural" to patients when no sensory feedback is felt. Phantom limb is one of those neuroscience marvels. One who has an amputation can perceive sensation from the now missing limb. On occasion, this can result in the feeling of pain the missing limb, called phantom limb pain (PLP). BCIs employed in these patients may reduce pain, and have added benefits like improving balance and preventing falls. Indeed, that is what this work achieved\footnote{\url{https://www.nature.com/articles/s41551-023-01153-8}}.\newline
-
-The article first comments that $\approx 150,000$ people each year undergo lower limb amputation. Previous works have attempted complex surgeries to implant devices for peripheral nerve stimulation. While perhaps successful, this work sought out a spinal cord stimulation technique, which would greatly reduce the surgical variability. Interestingly, these authors previously showed that cervical SCS can be used to restore somatosensation in upper-limb amputee patients, and this work focuses on the lumbosacral spinal cord for 3 patients with below-knee amputations.\newline
-
-The work began by applying 1s of stimulation in the spinal cord and having each patient describe the locations they perceived sensation. Sensations perceived in the missing foot were variable over the first 2 weeks, but stabilized after. In general, higher amplitude of stimulation was required to get sensation in the missing limb. Frequency, surprisingly, did not have a noticeable effect in the missing limb---though they do not describe the domains they probed. The amplitude range of detectability was $\approx 0.6 - 4.0$mA. Interestingly, the group calculated the just noticable difference in stimulation amplitude, which turned out to be in the range of $\approx 0.05 - 0.3$mA---seemingly quite small. They also found an approximately linear relationship between stimulation amplitude and sensation. The group compared using monopoles vs. multipoles, and found comparable results for such metrics.\newline
-
-To provide sensation when walking, they chose a single electrode which consistently provided perceived sensation in the phantom foot. For whatever reason, they only did this for two of the three pariticpants in the study. Upon stepping with the prosthetic foot, and under varying pressure, stimulation would be delivered. To test improvements in gait and balance, they used a Sensory Organization Test (SOT). The SOT test seemed to be designed to throw the participants off balance by moving the field of vision and or swaying a platform. Both participants tested showed improvements on this metric. Similarly, they used the Functional Gait Assessment (FGA), which assesses one's ability to walk in various conditions, such as with one's eyes closed. Here, only one of the participants showed improvement.\newline
-
-Finally, their reduction in pain tests were variable. Depending on the metric, different participants reported different degrees of relief, some of which were ``sub-clinical", and or, not clinically meaningful.\newline
-
-Notably, there was considerable heterogeneity among the patients. Different patients used different devices and had amputations due to different reasons (either traumatic or from diabetic neuropathy). This work was rudimentary, in that their stimulation surgery and techniques were all built upon those used for neuropathic pain. Plausibly, more specialized systems could be helpful. Interestingly, they note that the bilateral sensation felt by these patients during stimulation was not preserved for their other work focusing on upper-limb amputees. They postulate this may be because nerves entering the lower levels of the spinal cord do so in a denser manner, are more tightly packed, and thus are more susceptible to crossover in the face of the large stimulation device. The fact that it took multiple weeks to get sensation in the phantom limb is also an important point.\newline
-
-To conclude, I will share some wisdom from Dr. Iahn Cajigas that I received (which I might comment on elsewhere as well---this document is getting long!). Typically, things like deep brain stimulation or spinal cord stimulation that focus on one's perception (such as psychological disorders or pain disorders) are not the ideal routes of perfecting technology. This is because quantification relies on subjective information. Conversely, if one perfects the technology using, for example, reduction of tremors in PD or recovery of ambulation in SCI, it can be faithfully quantified. Point being: a barrier to advancing this sort of treatment will always be the lack of perfect quantification. 
-
-
 \chapter{Brain Stimulation}
 
 Brain stimulation most often conjures up thoughts of deep brain stimulation---an ever expanding treatment with remarkable results for treating Parkinson's disease. Though, brain stimulation has many applications. In the case of nerve injury, noninvasive methods like transcranial direct current stimulation and transcranial magnetic stimulation have been done with some success, especially when combined with rehabilitation, particularly in recovery of hand dexterity after injury. It is thought that recovery occurs through growth of descending corticospinal tract neurons. After stroke, injection of stem cells combined with stimulation has been shown to improve neurogenesis. Further, stimulation to the occipital lobe provides a route to vision-generation in blind patients. Needless to say, brain stimulation is an expanding field with many routes of exploration. 
@@ -6595,17 +6609,59 @@ Remarkably, TMS requires 15,000A of current to generate a magnetic field strong 
 
 \section{Non-Deep Stimulation}
 
-\subsection{Stimulating the Visual Cortex}
+\subsection{BCIs in Vision}
 
-Let us review\footnote{\url{https://www.annualreviews.org/doi/abs/10.1146/annurev-vision-111815-114525}}. Like all topics in this book, stimulation of the visual cortex seems like a novel idea---yet, it began in the 1940s by neurosurgeon Wilder Penfield. He determined that such stimulation can produce phosphenes---the basic subunits of vision. Since, tests in human patients primarily come from (1) implantation of a visual cortical prosthetic (VCP), a BCI which interfaces with the visual cortex, in blind patients (which the hopes of restoring meaningful vision), (2) patients monitored in a clinical setting (epilepsy patients, for example, have been extremely helpful in this regard), or (3) during neurosurgery. Once again, one would expect VCP production to begin only recently, but in fact the first prototype was employed for the blind in 1958 by John Button. Further studies through the years have demonstrated the electrodes placed $\approx 500\mu$m apart generated different phosphenes, and varied patterns of electrode activation could increase phosphene complexity. \newline
+
+One may want to review section \textbf{\ref{sec:Eye}}. Let us review\footnote{\url{https://www.annualreviews.org/doi/abs/10.1146/annurev-vision-111815-114525}} and\footnote{\url{https://www.frontiersin.org/journals/neuroscience/articles/10.3389/fnins.2020.00036/full}}. To begin, the number of blind or severely visually impaired individuals globally is in the hundreds of millions, and this number is set to rise as life expectancy increases. Blindness is, according to one study, the most feared ailment---even more than Alzheimer's. Therefore, the problem is large. \newline
+
+Blindness can come in many forms. One can have a stroke to the eye, losing vision in half of their eye based on where the arteries and retinas enter the eye---there is a vessel on the top and bottom, such that vision loss will be horizontal. If vision loss is vertical, it's more likely that the it is a stroke in either the left or right side of the visual cortex. If loss is beyond the optic chiasm, vision does not go black, but rather one does not perceive that they have this part of their visual cortex at all. That is, the part that controls visual perception is gone, and therefore, one's perceptive field decreases. If there is complete occipital lobe death, one will not know that they cannot see. \newline
+
+ In developing visual prosthesis, one can aim to implant early in the visual pathway (at the retina) or toward the end (at the cortex). Implantation of devices further along can help prevent signal degradation and or noise, but require more powerful processing. Conversely, implantation at the retina may use the body's natural processing ability and generate more perceptible vision. 
+
+\subsubsection{Stimulating the Visual Cortex, Visual Cortical Prosthesis.}
+
+ Like all topics in this book, stimulation of the visual cortex seems like a novel idea---yet, it began in the 1940s by neurosurgeon Wilder Penfield. He determined that such stimulation can produce phosphenes---the basic subunits of vision. Since, tests in human patients have primarily come from (1) implantation of a visual cortical prosthetic (VCP), a BCI which interfaces with the visual cortex, in blind patients (which the hopes of restoring meaningful vision), (2) patients monitored in a clinical setting (epilepsy patients, for example, have been extremely helpful in this regard), or (3) during neurosurgery. Once again, one would expect VCP production to begin only recently, but in fact the first prototype was employed for the blind in 1958 by John Button. Further studies through the years have demonstrated the electrodes placed $\approx 500\mu$m apart generated different phosphenes, and varied patterns of electrode activation could increase phosphene complexity.\newline
+
+ As for their therapeutic potential, the cortex is the furthest along in the visual pathway and most likely to remain functional. That is, even if some degeneration in the visual cortex occurs, recruitment of nearby afferents could compensate and help visual processing. Conversely, retinal degeneration, for example, is expected only to worsen. \newline
 
 A large part of direct current simulation to visual cortices has been done to map visual circuits. The entire primary visual cortex (V1) has been mapped to the retina due to its ordered organization. Importantly, it's best to couple electrical stimulation with other metrics. For example, early stimulation tests predicted the area activated by stimulation to be dictated solely by passive current diffusion---but later fMRI tests showed this not to be true (perhaps through synaptic spread). Mapping is not equally distributed, as more cortical area is reserved for regions like the fovea, and lesser for peripheral regions of vision. Some quantify this space to unit vision as a \textit{linear cortical magnification factor}. Different cells respond more strongly to what is found in their receptive field---primary visual cortex cells respond strongly to edge discrimination tests. One can generate a feature map by the visual features that induce cell responses more strongly.\newline
 
-Higher in the ``visual hierarchy" (visual area 2 (V2), middle temporal (MT) area, inferotemporal (IT) area, etc.) has regions with larger, more disorganized receptive fields and greater object-specific activation (rather than feature specific). As for the ventral temporal cortex (VTC), spatial structure governed by ``low-level" responses; facial, object, and place-based responses; and animate vs. inanimate responses. Some believe that the greater complexity of these regions may be responsible for their lesser ability to generate phosphenes when stimulated. Rather, they seem more involved in some of the unconscious components of visual appraisal. Patients who've had these areas stimulated do not notice lesser seeing ability, but still perform worse on visual discrimination tests. Further experiments to discriminate these properties come from direct current simulation in NHP, particularly rhesus macaque. One would stimulate a particular part in the visual cortex during some behavior and find that it results in disruption of said behavior, such as in discriminating between moving objects (on the low end, such stimulation may be 10-20$\mu$A, and 40-80$\mu$A on the high end).\newline
+Higher in the ``visual hierarchy" (visual area 2 (V2), middle temporal (MT) area, inferotemporal (IT) area, etc.) has regions with larger, more disorganized receptive fields and greater object-specific activation (rather than feature specific). However, though, these replicated spatial organizations suggests that multiple electrode arrays could be implanted at different levels in the hierarchy to match stimulation effects if one area of stimulation fails. As for the ventral temporal cortex (VTC), spatial structure governed by ``low-level" responses; facial, object, and place-based responses; and animate vs. inanimate responses. Some believe that the greater complexity of these regions may be responsible for their lesser ability to generate phosphenes when stimulated. Rather, they seem more involved in some of the unconscious components of visual appraisal. Patients who've had these areas stimulated do not notice lesser seeing ability, but still perform worse on visual discrimination tests. Further experiments to discriminate these properties come from direct current simulation in NHP, particularly rhesus macaque. One would stimulate a particular part in the visual cortex during some behavior and find that it results in disruption of said behavior, such as in discriminating between moving objects (on the low end, such stimulation may be 10-20$\mu$A, and 40-80$\mu$A on the high end).\newline
 
 Interestingly, NHPs had an easier time learning to detect stimulation applied to earlier visual areas, like V1 and V2, as opposed to later (at higher current levels, around 50$\mu$A). Smaller currents in 5-10$\mu$A required thousands of trials before NHP could reliably detect them. Naturally, because NHPs cannot describe what they see, one cannot know the complexity of the evoked response. Because of comparable results in limited human trials, we can hypothesize NHPs see simple phosphenes in V1 stimulation. Training monkeys to delineate true visual cues allowed researchers to approximate evoked response characteristics.\newline
 
 Back in human patients, Yoshor and colleages tested what areas of the brain were more or less active when a phosphene was or was not detected. One such region was the temporal parietal junction (TPJ), a ``gatekeeper" if a visual cue reaches conscious perception, which was more active when a phosphene was detected. It may be that some cognitive appraisal, or conscious processing, is required for phosphene detection. 
+
+\subsubsection{Stimulating the Optic Nerve and LGN.}
+
+Patients with sufficient retinal damage or detachment may require interfacing with the optic nerve. The technology is similar to that which would be used in peripheral nerves---cuffs surrounding the nerve. This mode generates difficult to distinguish phosphenes, but patients have been successful in differentiating between and picking up objects using these devices. It is nearly impossible to optimize stimulation in a way that can predictably stimulate different part of the visual cortex. Though, they are less invasive, and may be the best option if more harsh surgery is risky for the patient.\newline
+
+If, further, the optic nerve is damaged, then one can consider a lateral geniculate nucleus (LGN) BCI. The LGN has a stereotyped row structure where each row alternates between different parts of the left and right eye, and thus placing electrodes spatially is viable. These devices have not yet been tried in humans, but show promise in animal models. 
+
+
+\subsubsection{Stimulating the Retina, Retinal Prosthesis.}
+
+
+Stimulating the retina dates back to 1755 (yes, 1755) with experiments by Charles LeRoy who appled stimulation to the eyes of blind patients. Later, in 1800, Alessandro Volta performed similar experiments. Both rounds found that stimulating the eye could lead to perception of phosphenes. The first implantable retinal prosthesis was used in 1956 by Tassicker. Today, retinal prosthesis are the most common type of visual prosthesis due to their ease of implantation and minimal invasive-ness. Similarly, the retina is regularly organized, making it easier to know what the downstream effects will be.\newline
+
+Such devices may be either subretinal or epiretinal. Subretinal devices are meant to solve patients with retinal cell death, and interface directly with neuronal bipolar cells. They are implanted within the retina itself, in that they act as a replacement for lost photoreceptors and thus sit behind the bipolar cells themselves. Because of this, signal processing that occurs within the retina may be preserved. Microphotodiode arrays (MPDAs), which do not require an external camera, are perhaps the most natural devices and rely on light entering the eye. These devices allow one's own eye movements to control vision, whereas an external camera-based approach requires unnatural head movements. Such devices have been so successful that patients can differentiate shapes and even large letters. Naturally, if a patient had cataracts, or other modes preventing light's entrance, these devices would not work. Epiretinal prosthesis interact with retinal ganglion cells and thus are further along in the visual pathway. They sit within the fluid of the eye atop the ganglia, and therefore must be held in place via some kind of pinning. 
+
+\subsubsection{Realities.}
+
+Restoring of vision is important both for safety and quality of live. There was an interesting story of a blind climber who used a camera which would deliver stimulation to their tongue to help them localize where different holds were on a rock wall. This sort of prosthetic has been successful in a variety of contexts and relies on neuroplasticity. These stories are beautiful and demonstrate the unquestionable role that BCI research can have in directly improving how people live.\newline
+
+The Argus II was the first FDA approved retinal prosthetic in 2013 and was invented at UCLA by SecondSight. The results were remarkable. Blind patients were literally able to see in a manner that allowed them to move about and interact with the world. A patient cited being able to attend a concert and see the rough outline of the performer on stage. Generated vision was in black and white, and quite hazy, but was enough to get amazing results. This was remarkably promising to many.\newline
+
+SecondSight soon went bankrupt, and all of the devices are now unsupported and obsolete---meaning all those with restored vision lost it once again. Patients cited the moment they lost vision, realizing that their Argus II powered down, and were back in darkness. Why? Well, we mentioned a bit ago that millions and millions around the world are without vision. However, much of this vision loss is due to cataracts and parasites. Both of these problems are solvable by different means. Devices like the Argus II cost hundreds of thousands of dollars per patient. Those in the blind community, presumably, already are not vastly wealthy, so the pool of people who can afford this operation is small. Surgery of this manner is also very intimidating, so it's unsurprising that someone who has lived for decades without vision may not want to take the risk. Furthermore, cataract surgery and anti-parasite initiatives (such as cleaner drinking water) can be accomplished with a fraction of the cost. Vision can be restored to dozens and dozens of people for the same cost that it could be for one with the Argus II. Thus, SecondSight couldn't sustain itself, despite producing very interesting technology. Why does this matter? One should always consider the economics of this research, and include equity in their thinking. Was the development of the Argus II a waste? It's difficult to say. If all the money that was sunk into it went toward funding cataract surgery in third world countries, the number of aided patients would be greatly increased, likely in the hundreds or thousands. But, this goes for all research, including my own. The technological advancements made in producing the Argus II surely had some broader societal benefit, even if it is not yet realized or remains obscure. I know nothing of economics or policy, so I leave it to the reader to decide how they'd like to run their lab or clinic, and what mores and values matter to them most. 
+
+\subsection{Cochlear Implants}
+
+Before we begin this discussion, I would like to make the following statements: I have been fortunate enough to meet many people in the deaf community. In general, the deaf community is, rightfully, against the bolstering of the cochlear implant. It is common to see videos when one's cochlear implant turns on and they smile or cry at their new perception of sound. However, importantly, this is not always the reality. Cochlear implants do not work perfectly, nor do they restore natural sound perception. For example, a 10 electrode cochlear implant means all sounds will be quantized into 10 frequencies. Conceptualize that for a moment. Further, implants are extremely expensive and not economically viable for many. Beyond this, many in the deaf community are living happy, enjoyable lives. Imagine that, right now, someone were to come to you and pressure you to get an expensive surgery that will give you an entirely new sense. Perhaps you'd be willing to do so, but many would say that they are satisfied in their current state, and would not want to put themselves in either a financial or medical state of jeopardy. Therefore, rather than us hearing people putting the expectation on the deaf to ``get fixed," the expectation should be on us to build a society that is more accommodating for them as they currently are. Then, if one chooses to get the implant, that option is available. If not, they are still a welcome member of our hearing-centric world.\newline 
+
+A great lecture by Dr. Ian Shipsey showed the realities of the cochlear implant\footnote{\url{https://www.youtube.com/watch?v=aecxK2gFBRY&ab_channel=OxfordUniversityPhysicsSociety}}. \newline
+
+All that being said, let's discuss\footnote{\url{https://pubmed.ncbi.nlm.nih.gov/18816421/}}. Volta, once again, was one of the first to attempt to stimulate the auditory pathway (his own) some centuries ago. Early works were generally unsuccessful due to the in-appreciation for direct vs. alternating current. 
+
 
 \section{Deep Brain Stimulation}
 
@@ -6701,7 +6757,7 @@ What is fascinating about reading papers like this is I go into them every time 
 
 
 
-\chapter{Muscle Stimulation}
+\chapter{Musculoskeletal Interfaces}
 
 We have neglected the \textit{muscle} part of brain-spine-muscle interfaces... until now! 
 
@@ -6714,6 +6770,44 @@ To test the biocompatability, they treated neuronal cell lines with ``hydrogel r
 Again on the sciatic nerve, hydrogel was implanted in a spherical manner so that a conventional wire could be attached directly to it. Different mechanical movements were tested to see if mechoreceptor relay information could be read from the hydrogels. Indeed, it was. Conversely, stimulation was applied and resulted in corresponding muscle contraction. Both EMG recordings and stimulation was provided for both a notched sciatic nerve and a severed muscle, demonstrating success of the IT-IC@4 in both conditions.\newline
 
 Finally, they tested its use in closed-loop rehabilitation for muscle injury. They used a closed-loop robot-assisted rehabilitation (C-RAR) with IT-IC around the sciatic nerve and a corresponding wire meant to deliver electrical stimulation. A similar setup was used on the muscle. The robot helps the mouse walk on the basis of the EMG's recording---when the EMG reading reaches some threshold, the robot helps the leg lift. Without added nerve stimulation, this threshold could not be met, leading to loss of ambulation. Point being: it was a success.
+
+
+\section{Bionic Limbs}
+
+I'm not entirely sure where to put this yet, so I'll throw it in this section. 
+
+
+\subsection{Overview of Bionic Limbs}
+
+Broadly, limb prostheses that are discussed here are used to restore some function to patients\footnote{\url{https://www.nature.com/articles/s41551-021-00732-x}}. Lower limb prosthesis generally are used for cyclic motions like walking. Users typically find forward walking to be achievable with such prostheses, but may struggle more with balance and walking over uneven terrain. Common reasons for prosthetic abandonment include discomfort due to skin problems in the socket or otherwise. Upper limb extremities demand greater control. Much upper limb technology has not changed in decades and is severely limited in degrees of freedom. Possible advancements exist, such as through nerve re-innervation and osseointegration, but such clinical integration would be costly and present a wide range of therapeutic outcomes gated primarily by the patient's financial situation.\newline
+
+Integration of prosthetics directly into remaining skeletal structures is one way to improve stability and reduce pressure placed on soft tissue in socket-based prosthetics. Though, metal sticking through the skin into the bones could provide an additional route for infection. Additionally, sockets can integrate a greater degree of load cushioning. Further, I could personally see scenarios in which one knocks their prosthetic on a surface (as the prosthetic does not have feeling), which could send a shattering wave into the already damaged bone. \newline
+
+Neuromuscular integration is also an option. A strategy for doing so is using EMG recordings of un-damaged muscle in order to intuit the movements of the prosthetic. For example, flexion of the wrist can be used to close a prosthetic hand, and extension open it. These methods, however, are limited by the consistency of EMG electrodes. Similar options exist with nerve innervation, but are limited by low signal-to-noise ratios and the potential to damage the nerve upon implantation.
+
+\subsubsection{Embodiment.}
+
+Finally, prosthetic control from the brain is an option. Such devices are strongest for \textit{embodiment}---the perception that the prosthetic is a part of the body, rather than a disjoint addition. An additional way to accomplish this is by using biomechanical models which match prosthetic movement with computed muscle moments.\newline
+
+The greatest hurdle in embodiment, however, is the creation of proper sensory feedback. The simplest ways to do this are through sensors or motion trackers on the prosthetic which deliver stimulation to the surviving body portions, such as the skin. This has been done in phantom-limb sensations by stimulating points on the skin that have been surgically re-innervated. An issue with these approaches is their long-term stability. Another option is EES of the spinal cord corresponding to sensors on the prosthetic (discussed in depth later). In animal models, direct cortical stimulation or optogenetic stimulation have been tried. Notably, it's unclear if such sensory feedback improves prosthetic usage. While they may feel better to patients, if they do not provably improve patient's ability to use the prosthetic, justifying the extra costs are not clear. 
+
+
+\subsection{Restoring Feedback in Phantom Limb}
+
+Broadly, restoring somatosensory feedback is key to BCI advancement. As mentioned in other sections, restoration of walking in BCIs can feel ``unnatural" to patients when no sensory feedback is felt. Phantom limb is one of those neuroscience marvels. One who has an amputation can perceive sensation from the now missing limb. On occasion, this can result in the feeling of pain the missing limb, called phantom limb pain (PLP). BCIs employed in these patients may reduce pain, and have added benefits like improving balance and preventing falls. Indeed, that is what this work achieved\footnote{\url{https://www.nature.com/articles/s41551-023-01153-8}}.\newline
+
+The article first comments that $\approx 150,000$ people each year undergo lower limb amputation. Previous works have attempted complex surgeries to implant devices for peripheral nerve stimulation. While perhaps successful, this work sought out a spinal cord stimulation technique, which would greatly reduce the surgical variability. Interestingly, these authors previously showed that cervical SCS can be used to restore somatosensation in upper-limb amputee patients, and this work focuses on the lumbosacral spinal cord for 3 patients with below-knee amputations.\newline
+
+The work began by applying 1s of stimulation in the spinal cord and having each patient describe the locations they perceived sensation. Sensations perceived in the missing foot were variable over the first 2 weeks, but stabilized after. In general, higher amplitude of stimulation was required to get sensation in the missing limb. Frequency, surprisingly, did not have a noticeable effect in the missing limb---though they do not describe the domains they probed. The amplitude range of detectability was $\approx 0.6 - 4.0$mA. Interestingly, the group calculated the just noticable difference in stimulation amplitude, which turned out to be in the range of $\approx 0.05 - 0.3$mA---seemingly quite small. They also found an approximately linear relationship between stimulation amplitude and sensation. The group compared using monopoles vs. multipoles, and found comparable results for such metrics.\newline
+
+To provide sensation when walking, they chose a single electrode which consistently provided perceived sensation in the phantom foot. For whatever reason, they only did this for two of the three pariticpants in the study. Upon stepping with the prosthetic foot, and under varying pressure, stimulation would be delivered. To test improvements in gait and balance, they used a Sensory Organization Test (SOT). The SOT test seemed to be designed to throw the participants off balance by moving the field of vision and or swaying a platform. Both participants tested showed improvements on this metric. Similarly, they used the Functional Gait Assessment (FGA), which assesses one's ability to walk in various conditions, such as with one's eyes closed. Here, only one of the participants showed improvement.\newline
+
+Finally, their reduction in pain tests were variable. Depending on the metric, different participants reported different degrees of relief, some of which were ``sub-clinical", and or, not clinically meaningful.\newline
+
+Notably, there was considerable heterogeneity among the patients. Different patients used different devices and had amputations due to different reasons (either traumatic or from diabetic neuropathy). This work was rudimentary, in that their stimulation surgery and techniques were all built upon those used for neuropathic pain. Plausibly, more specialized systems could be helpful. Interestingly, they note that the bilateral sensation felt by these patients during stimulation was not preserved for their other work focusing on upper-limb amputees. They postulate this may be because nerves entering the lower levels of the spinal cord do so in a denser manner, are more tightly packed, and thus are more susceptible to crossover in the face of the large stimulation device. The fact that it took multiple weeks to get sensation in the phantom limb is also an important point.\newline
+
+To conclude, I will share some wisdom from Dr. Iahn Cajigas that I received (which I might comment on elsewhere as well---this document is getting long!). Typically, things like deep brain stimulation or spinal cord stimulation that focus on one's perception (such as psychological disorders or pain disorders) are not the ideal routes of perfecting technology. This is because quantification relies on subjective information. Conversely, if one perfects the technology using, for example, reduction of tremors in PD or recovery of ambulation in SCI, it can be faithfully quantified. Point being: a barrier to advancing this sort of treatment will always be the lack of perfect quantification. 
+
 
 
 
@@ -6863,19 +6957,27 @@ Large spikes can occur when electrodes are accidentally touched by other medical
 
 \section{The Flagship in Reading Thoughts}
 
-\subsubsection{Background}
+Here we'll discuss both Stanford\footnote{\url{https://www.nature.com/articles/s41586-023-06377-x}} and USCF's\footnote{\url{https://www.nature.com/articles/s41586-023-06443-4}} amazing work. The senior authors on the first work is Stanford neurosurgeon Dr. Jaimie Henderson and Dr. Krishna Shenoy, and UCSF neurosurgery chair Dr. Edward Chang on the second. Before doing so, let us look backward. 
 
-Patients with ALS are of particular interest in assistive BCIs (you may review ALS in section \textbf{\ref{sec:ALS}} as needed), but extend to all patients with limited motor control. One such class is augmentative and alternative communication (AAC) devices. Such devices are complicated for locked-in or completely locked-in patients. An early, remarkable example of this was done in 1998 by Kennedy and Bakay, who implanted a device including neurotrophic factors to promote growth. The activity of neurons which grew into the device's electrodes were used to control a computer cursor.\newline
+\subsubsection{Background.}
 
-Work from the Donoghue group came in 2012, allowing for control of a robotic hand in 3-dimensions for ALS patients. In 2015, the Henderson lab showed that an implanted neural prosthesis could be used to generate speech in an ALS patient. 
+Patients with ALS are of particular interest in assistive BCIs (you may review ALS in section \textbf{\ref{sec:ALS}} as needed), but extend to all patients with limited motor control. One such class is augmentative and alternative communication (AAC) devices. Such devices are complicated for locked-in or completely locked-in patients. An early, remarkable example of this was done in 1998 by Kennedy and Bakay, who implanted a device including neurotrophic factors to promote growth. The activity of neurons which grew into the device's electrodes were used to control a computer cursor. However, generating speech via a cursor allows for very few works per minute, usually on the order of 10-20, while normal conversation occurs between 100-150. Therefore, patients were still greatly limited conversationally. \newline
+
+Work from the Donoghue group came in 2012, allowing for control of a robotic hand in 3-dimensions for ALS patients. In 2015, the Henderson Lab showed that an implanted neural prosthesis could be used to generate speech in an ALS patient. 
+
+\subsubsection{Founding Works.}
+
+In 2019, the Chang Lab published a paper focusing on biomimetic speech generation\footnote{\url{https://www.nature.com/articles/s41586-019-1119-1}}. That is, they attempted to decode speech via brain waves and their corresponding vocal tract movements \textit{directly} into speech. That is, the group decided to directly predict intended acoustics---that is, words were not predicted then generated by a computer, but rather the frequencies of speech that mimicked words. They believed this held advantages over traditional methods, as it provides clearly greater scalability over a model that selects words from an increasingly large vocabulary. Further, if this reaches its full potential, it could also included aspects of speech a word-selection based model couldn't, like pitch and tone changes. Finally, this method would be much more intuitive to use. Other approaches require patients to train and learn how to use their devices, whereas this should directly mimic one's natural abilities. \newline
+
+To begin interpreting speech, they performed intracranial recordings via ECoG on 5 epilepsy patients undergoing continuous cortical monitoring. These patients orated hundreds of sentences, and the corresponding neural signals recorded from the ventral sensorimotor cortex, superior temporal gyrus, and inferior frontal gyrus were used in a recurrent neural network to decode speech. Importantly, this study did not directly record orofacial kinematics (i.e., how one's mouth moves during speech) but rather inferred it based on acoustics. This proved to be an important step, as estimating the kinematics improved speech prediction. Though, speech production is very complex and requires the movement of over 100 muscles, which do not map directly to words or sounds. \newline
+
+Sentence transcription by listeners was, in earnest, mediocre. Of 101 synthesized sentences, listeners were only able to correctly understand 82 sentences in a 25 word pool, and 60 sentences in a 50 word pool. As word pool increased, the perceptibility decreased. As this was done with only 5 patients, one must wonder, too, if the models were particularly overfit, and not generalizable. Part of their analysis included attempts to determine how much data was necessary to get this sort of performance---getting adequate training data would be very difficult on paralyzed or locked-in patients. They determined that the intermediate, predictive kinematics step (rather than decoding acoustics directly from brain signals) was helpful in maximizing available data. They also tested their approach on silently mimed speech and showed similar results, which is important as many stroke or ALS patients are incapable of any auditory speech production. 
 
 \subsection{The Works}
 
-Here we'll discuss both Stanford\footnote{\url{https://www.nature.com/articles/s41586-023-06377-x}} and USCF's\footnote{\url{https://www.nature.com/articles/s41586-023-06443-4}} amazing work. The senior author on the first work is Stanford neurosurgeon Dr. Jaimie Henderson, and UCSF neurosurgery chair, Dr. Edward Chang, on the second. 
+\subsubsection{Henderson and Shenoy.}
 
-\subsubsection{Henderson.}
-
-To begin, the problem: those with ALS lose much more than just their ability to walk. In many instances, they lose their ability to speak and interact with the world. The patient in this study was unable to vocalize intelligibly, but retained some ability to move their face and produce noise\footnote{Somehow this patient is involved in BrainGate2, but it isn't clear to me how.}. Microelectrode arrays, $3.2 \times 3.2 \mathrm{mm}^2$, were placed into their area 6v (ventral premotor cortex) and their area 44 (a section of Broca's area). Neural activity in area 6v corresponded with different facial movements, which they characterized using naive Bayes (see section \textbf{\ref{sec:naivebayes}}). They used approx. 30 orofacial movements (92\% accuracy), and 40 phonemes (62\% accuracy), and 50 words (94\% accuracy). Area 44 was less helpful in discriminating words, and therefore was not used in further study\footnote{I include this only to say that this is very interesting! It is surprising that they could go so far as to implant the electrode array, and it end up not being very helpful.}. The two arrays placed into area 6v gave different, but both helpful information regarding movement and speech production.\newline
+To begin, the problem: those with ALS lose much more than just their ability to walk. In many instances, they lose their ability to speak and interact with the world. The patient in this study was unable to vocalize intelligibly, but retained some ability to move their face and produce noise\footnote{Somehow this patient is involved in BrainGate2, but it isn't clear to me how---I really don't understand the politics of these cross institutional studies.}. Microelectrode arrays, $3.2 \times 3.2 \mathrm{mm}^2$, were placed into their area 6v (ventral premotor cortex) and their area 44 (a section of Broca's area). Neural activity in area 6v corresponded with different facial movements, which they characterized using Naive Bayes (see section \textbf{\ref{sec:naivebayes}}). They used approx. 30 orofacial movements (92\% accuracy), and 40 phonemes (62\% accuracy), and 50 words (94\% accuracy). Area 44 was less helpful in discriminating words, and therefore was not used in further study\footnote{I include this only to say that this is very interesting! It is surprising that they could go so far as to implant the electrode array, and it end up not being very helpful.}. The two arrays placed into area 6v gave different, but both helpful information regarding movement and speech production.\newline
 
 Their Neural Net outputs a probability once every 80ms\footnote{I still think this will be a problem in the future. In this case, it is likely fine, but for the BSIs, it seems insufficient as it is bordering on slower than the average human reaction time.}. Notably, it must be retrained regularly, as neural changes occur even on an intra-day level. After a training period of approximately a week, the model could predict, in a 50-word vocabulary, with a 9.1\% error rate. On a 125,000 word vocabulary, it was 23.8\% error rate---thus, there remains room for improvement. Such error rates were slightly worse when the patient was silent (vs. when attempting to vocalize) and at a rate of approximately 60 words per minute. Offline testing showed significant improvement in decoding, with errors reaching closer to 10\%---thus, thus suggests room for optimization. They also make the claim that doubling the number of electrodes will half the error rate. \newline
 
@@ -6893,7 +6995,7 @@ The final thing they did was synthesize speech audibly using a speech representa
 
 \subsubsection{Takeaways.}
 
-Importantly, no aforementioned patients had complete locked-in syndrome. A brainstem stroke, too, is capable of causing locked-in syndrome, but not in this example. Prior attempts to train patients on implanted or superficial devices in CLIS patients have been unsuccessful. Some speculate that these sorts of devices will never be possible for CLIS patients, as it's plausible that their neural architecture is sufficiently altered by late stage disease that reading it is untenable. However, some works have shown error-related potentials are still intact in such patients, suggesting there is hope. Some speculate that in spite of this, an almost complete disconnect between stimulus, response, and intention will make it impossible for training with devices to occur. Further, because ALS patients may have degeneration in the basal ganglia and other crucial areas for reinforcement learning, it seems plausible that this skill is lost in far along patients. Theoretically, one could circumvent this using classical conditioning, rather than instrumental learning, as this requires no cognitive appraisal. Indeed, this was successful in some trials, where a year of training under classical conditioning enabled CLIS patients to answer simple yes-no questions. \newline
+Importantly, no aforementioned patients had complete locked-in syndrome. Both ALS and a brainstem stroke are capable of causing complete locked-in syndrome, but not did not in these two patients. Prior attempts to train patients on implanted or superficial devices in CLIS patients have been unsuccessful. Some speculate that these sorts of devices will never be possible for CLIS patients, as it's plausible that their neural architecture is sufficiently altered by late stage disease that reading it is untenable. However, some works have shown error-related potentials are still intact in such patients, suggesting there is hope. Some speculate that in spite of this, an almost complete disconnect between stimulus, response, and intention will make it impossible for training with devices to occur. Further, because ALS patients may have degeneration in the basal ganglia and other crucial areas for reinforcement learning, it seems plausible that this skill is lost in far along patients. Theoretically, one could circumvent this using classical conditioning, rather than instrumental learning, as this requires no cognitive appraisal. Indeed, this was successful in some trials, where a year of training under classical conditioning enabled CLIS patients to answer simple yes-no questions. \newline
 
 Regardless of what the skeptics say, I, a self-diagnosed chronic cynic, still think it's silly to suggest this is a hopeless adventure. What we know of the brain, and our development of BCIs, improves so remarkably each day. It's hard to say with certainty that anything is truly unachievable.  
 
@@ -7078,116 +7180,125 @@ In humans, the ability to decode motor movement may be difficult in people with 
 
 {\large \textcolor{red}{This section will largely be messy---likely for the coming years. It is for me to jot down ideas I have through reading.}}\newline
 
-\section{Idealized World}
 
-\subsubsection{Regarding ECoGs.}
-Better ECoGs are really the path to incredible options. Of course, we have the mechanics already. Theoretically, one could simply build a mech-suit to accomplish any task---the trouble is getting it to respond. Somehow, it seems certain groups are able to resolve speech patterns and handwriting from brain data---so certainly it is within the realm of possibility. In this same way, ECoGs must become less invasive. The route to accomplishing this is likely through extremely intelligently made soft electronics. The resolution must be greatly improved by the inclusion of many, many more electrodes. In this way, powerful machine learning will be needed to process this data\footnote{I should really start teaching myself ML.}.\newline
+\subsection{Optogenetics}
 
-There are a few things to consider. First, glial encapsulation will probably destroy you if you try to use too small of electrodes. Second, hard electronics seem to have many drawbacks. If you are using ultra-micro electronics, they are still limited by their ability to read within the gyri, given that the electronics will be hard. Similarly, you simply cannot afford to do massive cranioplasties on a regular basis. It'll need to be improved. Accompanying this issue is the ability to test on humans. One must first test on mice, which parallelly means that the device must be scalable. 
+For quite a while I've had the idea / desire to build a screening platform for different stimulation parameters in, say, a 96 well plate. While likely doable, there are some issues with how electricity would spread through a well like that, and designing a palpable circuit would be annoying. Optogenetics may just be the answer I've been looking for! This would be useful for four main reasons: (1) first, the raw amount of differentiation and neuronal growth is likely to vary under different stimulation parameters, and can be optimized, (2) second, organoid growth is highly variable, but it's conceivable that one could temp cell fate through stimualtion (which is easily testable through bulk sequencing after), (3) third, in an injury model, axon regeneration can be prompted and optimized through stimulation, and (4) fourth, in co-culturing neurons and glia, one could 
 
 
-\subsubsection{Some Experiments.}
+% \subsubsection{Regarding ECoGs.}
+% Better ECoGs are really the path to incredible options. Of course, we have the mechanics already. Theoretically, one could simply build a mech-suit to accomplish any task---the trouble is getting it to respond. Somehow, it seems certain groups are able to resolve speech patterns and handwriting from brain data---so certainly it is within the realm of possibility. In this same way, ECoGs must become less invasive. The route to accomplishing this is likely through extremely intelligently made soft electronics. The resolution must be greatly improved by the inclusion of many, many more electrodes. In this way, powerful machine learning will be needed to process this data\footnote{I should really start teaching myself ML.}.\newline
+
+% There are a few things to consider. First, glial encapsulation will probably destroy you if you try to use too small of electrodes. Second, hard electronics seem to have many drawbacks. If you are using ultra-micro electronics, they are still limited by their ability to read within the gyri, given that the electronics will be hard. Similarly, you simply cannot afford to do massive cranioplasties on a regular basis. It'll need to be improved. Accompanying this issue is the ability to test on humans. One must first test on mice, which parallelly means that the device must be scalable. 
 
 
-\begin{enumerate}
-    \item Inhibit L-type VGCCs---likely need to use some kind of hydrogel with antagonists built in. 
-    \item Optimize stiffness of paddles---or hydrogel, if we use the ACES system. 
-    \item Optimize ECoG---that is, take up less space, maintain resolution, etc. to minimize invasiveness of surgery. 
-\end{enumerate}
-
-\subsubsection{Inhibit L-type VGCCs.}
-It is well known by now that electrical stimulation combined with rehabilitation improves patient's ability to walk after SCI. 
-
-\subsubsection{ACES Method.}
-
-I like the ACES method as a starting point. It seems easy enough to implement, and can be built upon to arrive at some SCI method. Of course, I like that it is already integrated into a hydrogel setup. Some mild concerns are the 2 mA applied. It seems like quite a bit. 
-
-\subsubsection{Biomaterials.}
-
-The biomaterials possibilities are quite cool too. 
-
-\subsubsection{CSF-cNs.}
-
-A great, easy experiment is CSF-cNs ablation with EES, compare vs. WT, and see if recovery is similar.  
+% \subsubsection{Some Experiments.}
 
 
-\subsubsection{Waveforms for Neuropathic Pain.}
-Perhaps one can use a feedback mechanism, where the frequency of stimulation can be altered in order to dampen neural signals. You'd need to both read and write, essentially. Surely you can record brain waves responsible for feeling pain, and have a circuit edit itself to minimize them? $-->$ actually, dampening neural signals is a great example of a time to use the peak detection method, because you're only interested in magnitude. 
+% \begin{enumerate}
+%     \item Inhibit L-type VGCCs---likely need to use some kind of hydrogel with antagonists built in. 
+%     \item Optimize stiffness of paddles---or hydrogel, if we use the ACES system. 
+%     \item Optimize ECoG---that is, take up less space, maintain resolution, etc. to minimize invasiveness of surgery. 
+% \end{enumerate}
 
-\section{Device Idea}
+% \subsubsection{Inhibit L-type VGCCs.}
+% It is well known by now that electrical stimulation combined with rehabilitation improves patient's ability to walk after SCI. 
 
-Another idea: frequency encoding of stimuli. Start by using EMG signal, digitizing it, using FSM to select a frequency output. In the distant future, this could be used to restore sensory perception after SCI or other injury. 
+% \subsubsection{ACES Method.}
+
+% I like the ACES method as a starting point. It seems easy enough to implement, and can be built upon to arrive at some SCI method. Of course, I like that it is already integrated into a hydrogel setup. Some mild concerns are the 2 mA applied. It seems like quite a bit. 
+
+% \subsubsection{Biomaterials.}
+
+% The biomaterials possibilities are quite cool too. 
+
+% \subsubsection{CSF-cNs.}
+
+% A great, easy experiment is CSF-cNs ablation with EES, compare vs. WT, and see if recovery is similar.  
 
 
+% \subsubsection{Waveforms for Neuropathic Pain.}
+% Perhaps one can use a feedback mechanism, where the frequency of stimulation can be altered in order to dampen neural signals. You'd need to both read and write, essentially. Surely you can record brain waves responsible for feeling pain, and have a circuit edit itself to minimize them? $-->$ actually, dampening neural signals is a great example of a time to use the peak detection method, because you're only interested in magnitude. 
 
+% \section{Device Idea}
 
-
-
-\subsection{Motivation}
-Much is made of the frequency and amplitude of neuropathic pain stimulators. Dr. Ben-Haim even called the search for such as being the ``waveform revolution." Perhaps one can avoid this investigation altogether by simply connecting the entire pain pathway to the feedback loop of an opamp. That is, an opamps $v_+$ is grounded, the $\Vo$ is tied to a electrode in the spine, and the $v_-$ is connected to some form of ECoG in the brain. Theoretically, the opamp's $\Vo$ will do whatever it can to cause the signal read at the brain to go to 0. Of course, you cannot assume the opamp's feedback will be predictive, nor can you assume it will fix sharp pains. But, it may be able to fix chronic pain. Let's think of an overall build. 
-
-\subsection{Framework}
-
-\subsubsection{Processing Brain Waves.}
-To process the brain waves we will likely:
-
-\begin{enumerate}
-    \item Filter out background from individual electrodes. 
-    \item Subtract and amplify from some reference.
-    \item Do some summing amplification from each of our electrodes.
-    \item Rectify our signal.
-    \item Convert via peak detection.
-\end{enumerate}
-
-\subsubsection{Feedback.}
-To implement, we will then: 
-
-\begin{enumerate}
-    \item Feed processed signal to a PID controller of some sort.
-\end{enumerate}
-
-The only thing I am not sure about is if we will need a separate PID controller for each electrode in the spinal cord. I am not sure if we can just take all of the brain signals and combine them together, but I would assume that is fine. Another question is how much current we will need. If too low, we can add a push-pull to boost, but I doubt we will need a high current. 
+% Another idea: frequency encoding of stimuli. Start by using EMG signal, digitizing it, using FSM to select a frequency output. In the distant future, this could be used to restore sensory perception after SCI or other injury. 
 
 
 
 
 
 
+% \subsection{Motivation}
+% Much is made of the frequency and amplitude of neuropathic pain stimulators. Dr. Ben-Haim even called the search for such as being the ``waveform revolution." Perhaps one can avoid this investigation altogether by simply connecting the entire pain pathway to the feedback loop of an opamp. That is, an opamps $v_+$ is grounded, the $\Vo$ is tied to a electrode in the spine, and the $v_-$ is connected to some form of ECoG in the brain. Theoretically, the opamp's $\Vo$ will do whatever it can to cause the signal read at the brain to go to 0. Of course, you cannot assume the opamp's feedback will be predictive, nor can you assume it will fix sharp pains. But, it may be able to fix chronic pain. Let's think of an overall build. 
+
+% \subsection{Framework}
+
+% \subsubsection{Processing Brain Waves.}
+% To process the brain waves we will likely:
+
+% \begin{enumerate}
+%     \item Filter out background from individual electrodes. 
+%     \item Subtract and amplify from some reference.
+%     \item Do some summing amplification from each of our electrodes.
+%     \item Rectify our signal.
+%     \item Convert via peak detection.
+% \end{enumerate}
+
+% \subsubsection{Feedback.}
+% To implement, we will then: 
+
+% \begin{enumerate}
+%     \item Feed processed signal to a PID controller of some sort.
+% \end{enumerate}
+
+% The only thing I am not sure about is if we will need a separate PID controller for each electrode in the spinal cord. I am not sure if we can just take all of the brain signals and combine them together, but I would assume that is fine. Another question is how much current we will need. If too low, we can add a push-pull to boost, but I doubt we will need a high current. 
 
 
 
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\vfill\pagebreak
 
 
 
-\pagecolor{black}\afterpage{\nopagecolor}
 
 
-       \vspace*{1in}
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \vfill\pagebreak
+
+
+
+% \pagecolor{black}\afterpage{\nopagecolor}
+
+
+%        \vspace*{1in}
        
-\begin{adjustbox}{minipage=10cm,scale={2}{3}}
+% \begin{adjustbox}{minipage=10cm,scale={2}{3}}
 
-       \textbf{\fontsize{30}{30}\selectfont \textcolor{white}{THANK YOU.}}\newline
-\\
+%        \textbf{\fontsize{30}{30}\selectfont \textcolor{white}{THANK YOU.}}\newline
+% \\
 
-\end{adjustbox}
+% \end{adjustbox}
 
-       \smallskip 
+%        \smallskip 
 
-       \vspace{0.5in}
+%        \vspace{0.5in}
 
-       {\fontfamily{phv}\selectfont \textbf{\Large \textcolor{white}{A FINAL NOTE: }}}
+%        {\fontfamily{phv}\selectfont \textbf{\Large \textcolor{white}{A FINAL NOTE: }}}
 
-    \vspace{2cm}
+%     \vspace{2cm}
 
-        {\fontfamily{phv}\selectfont\textbf{\large \textcolor{white}{The world is always full of the sound of waves.\\ \\ The little fishes, abandoning themselves to the waves, dance and sing and play, but who knows the \textcolor{red}{heart} of the sea, a hundred feet down? Who knows its depth? \\ \\ -- Musashi by Eiji Yoshikawa}}}
+%         {\fontfamily{phv}\selectfont\textbf{\large \textcolor{white}{The world is always full of the sound of waves.\\ \\ The little fishes, abandoning themselves to the waves, dance and sing and play, but who knows the \textcolor{red}{heart} of the sea, a hundred feet down? Who knows its depth? \\ \\ -- Musashi by Eiji Yoshikawa}}}
 
-    \vfill\pagebreak
+%     \vfill\pagebreak
+
+
+
+
+
 
 \part{Addendum}
 
