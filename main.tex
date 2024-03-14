@@ -5969,6 +5969,23 @@ Fascinatingly, constitutive STAT3 activation is insufficient to promote regenera
 Minorly related is the discovery of the dual leucine zipper-bearing kinase (DLK). DLK is necessary for retrograde transport of STAT3, suggesting it is used in injury signaling. Interestingly, evidence for the DLK pathway's injury response in glia has emerged. In this case, DLK knockout worsens the injury site as astrocytes do not properly respond. The same can be said for SOCS3-STAT3 and PTEN-mTOR, demonstrating a correlation between the intrinsic factors dictating neuronal and glial injury responses. 
 
 
+\subsection{Formin-2 Inhibits Regeneration}
+
+Here we discuss\footnote{\url{https://www.cell.com/neuron/pdf/S0896-6273(23)00885-1.pdf}}. This group focused on peripheral nerve regeneration---which regenerate naturally, but often in a way that lacks full functional recovery. For example, brachial plexus injury, which constitutes the nerve roots exiting the cervical spinal cord which downstream innervate muscles of the arm, often has incomplete to non-existent functional recovery. This is due, in part, to the speed of regeneration and the long distances the axons must transverse.\newline
+
+Epigenetic modifications are commonly studied in regards to regeneration, with DNA methylation and histone deacetylation at the peak of study. Importantly, histone deacetylases (HDACs) not only deacetylate histones, but microtubule proteins like $\alpha$-tubulin as well. At the growth cone, tubulins are deacetylated, allowing for their polymerization and growth. \newline
+
+Via whole-body low-dose ionizing radiation (LDIR), this group found enhanced axonal regeneration after sciatic nerve crush. Interestingly, LDIR has beneficial effects in many contexts, attributed primarily to altered methylation and transcription patterns in affected cells. LDIR increased the total axonal regeneration seen 3 days after sciatic nerve crush. The affected mice showed \textit{earlier} sensory and motor recovery, however, mice in both treatment groups made full recoveries by around 3 weeks after injury. Axonal lengths at this time point are not quantified, so one is left to wonder if both extents of axonal regeneration end up the same. \newline
+
+
+Through bisulfite sequencing purified DRG neurons after sciatic nerve crush, they sought to understand the genome level changes occuring. They did not find an increase in total methylation, suggesting expression of genes controlling methylation did not change. They identified formin-2 (fmn2) as being hypermethylated in these conditions, which correlated with the decrease in fmn2 mRNA and protein. They determined whole-body knockout of \textit{fmn2} accelerates axonal regeneration and functional recovery similar to LDIR, and further verified this using AAV-based RNAi knockdown localized to the DRG. To begin accessing the underlying mechanism, they used time-lapse imaging of end-binding protein 3 (EB3) comets, which effectively mark microtubule polymerization), and found that the velocity and length of comets (i.e., how far EB3 travels, or how much microtubules are polymerized was increased. However, the density of comets was not changed. In short, this means fmn2 knockdown enhanced the speed and length of microtubule polymerization. Based on previous literature, they assume this occurs through tubulin de-acetylation (because fmn2 acetylates tubulin). They provide some support for this by inhibiting HDACs and showing that it blocks axon regeneration. \newline
+
+Finally, they perform whole transcriptome RNA-sequencing to identify which genes were altered in fmn2 knockout. They then performed a screen of four molecules with similar predicted effects and saw that metaxalone resulted in earlier axon regeneration. Metaxalone increased HDAC expression, recapitulating the predicted tubulin deacetylation hypothesis. Importantly, they also assess metaxalone's enhancement of regeneration 3 days after injury, where they see it is still capable of accelerating regeneration. 
+
+
+
+
+
 \section{Extrinsic Factors}
 
 \subsubsection{Growth Factors.}
@@ -5998,7 +6015,7 @@ Follow-up from Anderson and Courtine labs was successful\footnote{\url{https://w
 
 First, to better characterize neurons projecting to the lumbar spinal cord, they injected an AAV containing GFP into the lumbar region, which was then expressed in neurons projecting there. They identified cells they call SC$^{Vsx2::Hoxa7::Zfhx3\rightarrow lumbar}$. The first part describes their transcriptional profile, and the arrow to lumbar means they project to the lumbar spinal cord. Mice that exhibited recovery after spinal cord injury showed marked transcriptional changes in such cells, including upregulation of genes involved in dendritic connections and synaptic growth.\newline
 
-To ``ablate" these cells, they used Vsx2$^{Cre}$, which blocked differentiation into this cell type. They found that there was a marked decrease in projections to the lumbar spinal cord, taking this to mean these neuron make up a significant portion of the axonal density there. They also found that Vsx2 expressing cells connect to many places in the spinal cord, including forming short and long projections. Those that project specificallt to the lumbar region are marked by expression of Zfhx3. They used similar methods to identify cells of the ventral gigantocellular nucleus (vGi) as projecting to these SC$^{Vsx2::Hoxa7::Zfhx3\rightarrow lumbar}$ neurons.\newline
+To ``ablate" these cells, they used Vsx2$^{Cre}$, which blocked differentiation into this cell type. They found that there was a marked decrease in projections to the lumbar spinal cord, taking this to mean these neuron make up a significant portion of the axonal density there. They also found that Vsx2 expressing cells connect to many places in the spinal cord, including forming short and long projections. Those that project specifically to the lumbar region are marked by expression of Zfhx3. They used similar methods to identify cells of the ventral gigantocellular nucleus (vGi) as projecting to these SC$^{Vsx2::Hoxa7::Zfhx3\rightarrow lumbar}$ neurons.\newline
 
 With this better understanding of the neurons, they employed the following plan: 
 \begin{enumerate}
@@ -6874,6 +6891,8 @@ In the case of spinal cord injury, plausibly the limiting factor in bridging fro
 
 \section{An Overview of Reading} 
 
+Hardware is the rate limiting step for brain-computer interfaces. Reading is theoretically not rate limiting, but rather the ability to process and store readings. At present, we understand more of the neuroscience than we are able to do with. 
+
 \subsection{Reading Devices and Methods.}
 
 As is inherent to device implantation, there is a tradeoff between the resolution and the damage you will induce on the brain. This is described well by Schwartz in 2006, but notably technology has advanced since then\footnote{\url{https://www.sciencedirect.com/science/article/pii/S0896627306007264}}. The four classes of ``reading strategies" or ``depths of resolution" are: 
@@ -7011,6 +7030,8 @@ Large spikes can occur when electrodes are accidentally touched by other medical
 
 \section{Speech and Language}
 
+\textcolor{red}{NOTE: this might be a good read:} \url{https://www.science.org/doi/10.1126/science.adi8081}
+
 Here we'll lead up to both Stanford\footnote{\url{https://www.nature.com/articles/s41586-023-06377-x}} and USCF's\footnote{\url{https://www.nature.com/articles/s41586-023-06443-4}} amazing work. The senior authors on the first work is Stanford neurosurgeon Dr. Jaimie Henderson and Dr. Krishna Shenoy, and UCSF neurosurgery chair Dr. Edward Chang on the second. Dr. Chang and the Chang Lab affiliates are likely the world leaders in this, and have made greater strides than anyone else. Before doing so, let us look backward. 
 
 \subsubsection{Background.}
@@ -7128,13 +7149,19 @@ Via culturing a variety of early stage neurons of different identifies on a mult
 
 \subsection{NeuraLink}
 
-\textcolor{red}{I don't really know anything about NeuraLink, but I'll try to fill out this section as time goes on. }\newline
+I would like to preface this with a personal note. I, an outsider to brain-computer interfaces only a couple years ago, thought NeuraLink was a pseudo-science fiction company. I'd heard of Elon trying to put chips in people's brains, and non-human primate models that went poorly and resulted in death. As it turns out, much of this was misinformation. News cycles mentioned NeuraLink's failing in NHP models. However, these stories seemed to be overblown---negative results publicized about NHPs were largely overstated, and NeuraLink did indeed pass FDA approval for a trial. Here are the facts:\newline
 
-Initial NeuraLink trials are aimed at quadriplegia and ALS patients. These trials are called PRIME, and the first device is called Telepathy. The key difference is NeuraLink is a private company---much of the technology is similar to what already exists. However, NeuraLink is thought to be tolerated for longer due to smaller electrodes able to record from single neurons easier. \newline
+Elon Musk is the first author of this work, interestingly\footnote{\url{https://www.jmir.org/2019/10/e16194/}}. To begin: broadly, what? NeuraLink is a system of electrodes that can be woven into the brain by a robot, which inserts them like a thread. The robot's precision allows for micron level placement. \newline
 
-New cycles mentioned NeuraLink's failing in NHP models. However, these stories seemed to be overblown---negative results publicized about NHPs were largely overstated, and NeuraLink did indeed pass FDA approval.\newline
+Now: why? First, micro-electrode arrays encounter a number of problems. A rigid design, such as with the Utah Array, smushed into the brain without any precision. In doing so, it will naturally plunge through blood vessels and cause small-scale hemorrhages. NeuraLink's threading can identify and avoid such vessels now. Another common dilemma with scaling the electrode count is the mode one actually reads them. For example, if you had a thousand electrode array, you'd need a thousand wires coming from it to reach each channel. The hardware for this is therefore difficult, and NeuraLink helps to solve that by packaging many channels into a single wire. \newline
 
-Notably, multi-unit electrodes are not great for stimulation. Thus, NeuraLink is not equipped for bi-directional devices (yet). 
+Individual threads are made from polymidine surrounding a thin gold film. They are able to make some variations of the threads, including 1-3 layers of insulation, and 2 layers of conductor. The diameter is then 4-6$\mu$m, depending on the design. To maintain structural integrity before implantation, they're coated in parlyene-c, which is removed when woven into neural tissue. Thread impedance is quite high due to their small size. Thus, they treat with PEDOT and iridium oxide. The measured impedance was around 37k$\Omega$ for PEDOT and 56k$\Omega$. \newline
+
+An individual thread contains 32 electrodes, and threads are combined into 48 or 96 unit arrays. These arrays are together on a chip, which total 3,072 electrodes. Minimizing electrode size is helpful in minimizing tissue displacement, and this was accomplished using microfabrication techniques. Interestingly, thread insertion by the robot had an $\approx$87\% success rate. \newline
+
+Initial NeuraLink trials are aimed at quadriplegia and ALS patients. These trials are called PRIME, and the first device is called Telepathy. The key difference is NeuraLink is a private company---much of the technology is similar to what already exists. However, NeuraLink is thought to be tolerated for longer due to smaller electrodes able to record from single neurons easier. Notably, multi-unit electrodes are not great for stimulation. Thus, NeuraLink is not equipped for bi-directional devices (yet). 
+
+
 
 
 %%%%%%%%%%%%%%%
@@ -7265,6 +7292,8 @@ In humans, the ability to decode motor movement may be difficult in people with 
 
 For quite a while I've had the idea / desire to build a screening platform for different stimulation parameters in, say, a 96 well plate. While likely doable, there are some issues with how electricity would spread through a well like that, and designing a palpable circuit would be annoying. Optogenetics may just be the answer I've been looking for! This would be useful for four main reasons: (1) first, the raw amount of differentiation and neuronal growth is likely to vary under different stimulation parameters, and can be optimized, (2) second, organoid growth is highly variable, but it's conceivable that one could temp cell fate through stimualtion (which is easily testable through bulk sequencing after), (3) third, in an injury model, axon regeneration can be prompted and optimized through stimulation, and (4) fourth, in co-culturing neurons and glia, one could analyzing integration of these cells together. 
 
+A key benefit is that charge balance is no longer an issue.
+
 
 \subsection{Noisy Stimulation}
 Stochasticity or noise in DBS could help neurons ``un-learn," and cause further desychronization. This sort of experiment could be done and analyzed via symptoms, and then followed-up with RNAseq of tissues to identify changes in plasticity, learning, and potentiation of neurons under these conditions. \newline
@@ -7272,6 +7301,8 @@ Stochasticity or noise in DBS could help neurons ``un-learn," and cause further 
 This also might be interesting from an optogenetics standpoint---i.e., forcing some aberrant firing that's nonsensical. \newline
 
 The Scott Owen lab might be interested in this. 
+
+Optogenetics to enforce concomitant muscle and neuron firing? I.e., in motor neuron organoid, do optogenetics with channels in both the muscle and neuron? Essentially, force learning? 
 
 
 
